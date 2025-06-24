@@ -1,0 +1,284 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header.Bienvenido {
+    background-color: #327c28;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+header.Bienvenido h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+header.Bienvenido p {
+    margin: 5px 0 0;
+    font-size: 1.2rem;
+}
+
+/* Panel Container */
+.panel-container {
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 200px;
+    background-color: #34495e;
+    color: #ffffff;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h3 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #3b5998;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    background-color: #1abc9c;
+}
+
+/* Main Content */
+.panel-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.panel-content h2 {
+    margin-top: 0;
+    font-size: 2rem;
+    color: #2c3e50;
+}
+
+.panel-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .panel-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        box-shadow: none;
+        text-align: center;
+    }
+
+    .panel-content {
+        box-shadow: none;
+    }
+
+    .sidebar ul li {
+        margin: 10px 0;
+    }
+}
+
+/* css todas las tablas */
+
+tabla {
+    width: 100%;
+    max-width: 1000px;
+    border-collapse: collapse;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.2);
+}
+
+table th, table td {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #dddddd;
+}
+
+table th {
+    background-color: #23A026;
+    color: white;
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+/*buenas practicas*/
+
+main {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.image-info-section {
+    display: flex;
+    gap: 35px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.image-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.image-container img {
+    max-width: 300px;
+    min-width: 300px;
+    max-height: 300px;
+    max-height: 300px;
+    border-radius: 8px;
+}
+
+.textimagen{
+    position: relative;
+    bottom: 10px;
+    margin-top: 5%;
+    left: 5px;
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 100%;
+}
+
+/* pagina ofertar productos.php*/
+
+.panel-control{
+    top: -50px;
+}
+
+.ofertar-container h2{
+    color: #f7f7f7;
+    align-items: center;
+    padding: 18px 20px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #28a745;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.ofertar-container{
+    align-items: center;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-ofertar h2 {
+    text-align: center;
+    color: #fff;
+    font-size: 28px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #28a745;  
+    border-radius: 12px;  
+}
+
+.ofertar-form {
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ofertar-form label {
+    font-size: 16px;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.ofertar-form input,
+.ofertar-form select,
+.ofertar-form textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+.ofertar-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.confirmar-oferta-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 80px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5% auto;
+    transition: transform 0.3s ease;
+    display: block;
+    text-align: center;
+}
+
+.confirmar-oferta-btn:hover {
+    background-color: #45a049;
+}
+
+/* Mensajes de validación Bootstrap */
+.invalid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: .875em;
+    color: var(--bs-form-invalid-color);
+}
+.is-invalid~.invalid-feedback, .is-invalid~.invalid-tooltip, .was-validated :invalid~.invalid-feedback, .was-validated :invalid~.invalid-tooltip {
+    display: block;
+
+}

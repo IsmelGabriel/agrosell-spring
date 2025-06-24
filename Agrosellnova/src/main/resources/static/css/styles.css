@@ -1,0 +1,1698 @@
+/* pagina general */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Comfortaa', Sans-serif;
+    font-weight: 200%;
+}
+
+
+body {
+    margin-top: 85px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+/* top bars */
+
+.menu-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.3em; 
+    color: white;
+    font-weight: 700;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    width: 65px;
+    height: auto;
+    margin-right: 5px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.2em;
+    margin-right: 30px;
+}
+
+.panel-option {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+.panel-option button {
+    font-size: larger;
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    border-radius: 50px;
+    background-color: #327c28;
+    color: white;
+    cursor: pointer;
+}
+
+.notification {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+}
+.notification button{
+    font-size: larger;
+    background-color: transparent;
+    border: none;
+    padding: 5px;
+    border-radius: 50px;
+    background-color: #327c28;
+    color: white;
+    cursor: pointer;
+}
+
+.username a{
+    margin-right: 15px;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white !important;
+    text-decoration: none !important; /* Asegura que no se subraye */
+    border-radius: 25px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.username:hover a{
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    background-color: #327c28;
+    color: white;
+    padding: 2.4px 0;
+    display: flex;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.menu-bar {
+    position: fixed;
+    top: 53px;
+    left: 0;
+    z-index: 999;
+    width: 100%;
+    background-color: #22525D;
+    color: white;
+    text-align: center;
+    padding: 10px 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.scrolled {
+    background-color: rgba(34, 82, 93, 0.9);
+    transition: background-color 0.3s;
+}
+
+.menu-bar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-bar ul li {
+    margin: 0 15px;
+}
+
+.menu-bar ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.menu-bar ul li a:hover {
+    color: white;
+}
+
+main {
+    flex-grow: 1;
+    background-color: #ffffff;
+}
+
+.menu-icon{
+    font-size: 24px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* pie de pagina*/
+
+.footer-column {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.footer-column:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.footer-column a{
+    text-decoration: none;
+    color: white;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.footer-container {
+    flex: 1;
+    min-width: 300px;
+    margin: 20px;
+}
+
+.footer-container h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #4fbb53;
+}
+
+.social-icons a {
+    text-decoration: none;
+    color: white;
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.social-icons a:hover {
+    color: #80cbc4;
+}
+
+.footer-buttom {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    border-top: 1px solid #80cbc4;
+    padding-top: 10px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 100px;
+    padding: 20px;
+    background-color: #22525D;
+    color: white;
+    width: 100%;
+}
+
+
+/* pagina inicio */
+
+.presentacion-inicio {
+    height: 400px;
+    padding: 0;
+    margin: 0;
+    justify-content: space-around;
+    background-image: url("../img/inicio_titulo.jpg"); 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    display: flex; 
+    align-items: center; 
+    color: white; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.presentacion-cuadro-inicio{
+    background-color: #ffffff;
+    color: #327c28;
+    border-radius: 25px;
+    text-align: center;
+    padding: 25px 10px;
+    width: 25%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.presentacion-cuadro-inicio a {
+    font-family: arial;
+    font-weight:bolder;
+    text-decoration: none;
+    color: #327c28;
+}
+
+.presentacion-cuadro-inicio:hover{
+    transform: translateY(-5px);
+}
+
+.presentacion-cuadro-inicio i {
+    font-size: 25px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.presentacion-cuadro-inicio a{
+    font-size: 16px;
+}
+
+.presentacion-titulo-inicio {
+    align-items: center;
+    padding: 0;
+    background-color: #327c28;
+    text-align: center;
+    font-size: 2em;
+    padding: 10px;
+    margin: 0;
+    color: #ffffff;
+    box-shadow: 2px 4px 8px;
+}
+
+.destacados-inicio {
+    padding: 40px;
+    background-color: #ffffff;
+    text-align: center;
+    margin: 0;
+}
+
+.destacados-inicio-titulo {
+    font-size: 21px;
+    color: #ffffff;
+    background-color: #28a745;
+    text-align: center;
+    margin-bottom: 30px;
+    border-radius: 15px;
+    padding: 18px;
+    box-shadow: 2px, 4px 8px;
+}
+
+.productos-destacados-inicio {
+    display: flex; 
+    justify-content: center; 
+
+}
+
+.productos-destacados {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    max-width: 300px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    margin: 40px;
+}
+
+.productos-destacados:hover {
+    transform: scale(1.02);
+}
+
+.productos-destacados img {
+    width: 100%; 
+    border-radius: 8px;
+    height: auto;
+}
+
+.productos-destacados h3 {
+    font-size: 22px;
+    margin-top: 15px;
+}
+
+.productos-destacados p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.practicas-seccion {
+    display: flex;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 50px;
+}
+
+.practicas-info {
+    margin: 40px;
+    align-items: center;
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.practicas-titulo {
+    font-weight: bold; 
+    font-size: 2.4em;
+    background-color:#28a745; 
+    border: 2px solid #28a745; 
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center; 
+    color: #f7f7f7;
+    font-family: Arial, sans-serif;
+}
+
+.practicas-img img {
+    margin-top: 90px;
+    position: center;
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+}
+
+.btn-productos-inicio {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #23A026;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.btn-productos-inicio:hover {
+    background-color: #1e8122;
+}
+
+/* pagina productos */
+
+.producto-titulo {
+    align-items: center;
+    padding: 10px 30px;
+    background-color: #327c28;
+    text-align: center;
+    font-size: 2em;
+    margin: 10px;
+    color: #ffffff;
+    border-radius: 50px;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filtra-productos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+.filtra-productos select {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.filtra-productos button, .filtra-productos input{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.filtra-productos button{
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filtra-productos button:hover {
+    background-color: #45a049;
+}
+
+.productos-section {
+    margin-top: 50px;
+    display: flex;
+    gap: 35px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.productos-imagenes {
+    margin: 15px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.productos-imagenes img {
+    max-height: 200px;
+    max-width: 200px;
+    min-width: 200px;
+    min-height: 200px;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.productos-imagenes:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.productos-imagenes img:hover {
+    transform: scale(1.1);
+}
+
+.productos-texto h3 {
+    color: #327c28;
+    margin-top: 15px;
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.productos-texto p {
+    font-size: 15px;
+    color: #666;
+    margin: 10px 0;
+}
+
+.btn-añadir-carrito {
+    margin-bottom: 15px;
+    background-color: #28a745;
+    padding: 10px;
+    border-radius: 10px;
+    color: #f7f7f7;
+    text-decoration: none;
+}
+
+/* seccion carrito de compras */
+
+.carrito-compra{
+    margin-top: 100px;
+}
+
+.seccion-carrito {
+    background-color: white;
+    text-align: center;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.carrito-titulo h2 {
+    color: #212529;
+    font-family: 'Times New Roman', Times, serif;
+    font-style:normal;
+    font-size: 2.3rem;
+    padding: 15px;
+}
+
+.total-carrito {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.boton-pago {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.boton-pago:hover {
+    background-color: #45a049;
+}
+
+.boton-eliminar-carrito {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.boton-eliminar-carrito:hover {
+    background-color: #c0392b;
+}
+
+.producto-carrito {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.producto-carrito img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.producto-imagen-carrito {
+    max-width: 100px;
+    max-height: 100px;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 8px;
+    margin-bottom: 10px; 
+}
+
+.info-producto-carrito {
+    flex-grow: 1;
+    margin-left: 15px;
+}
+
+.info-producto-carrito p {
+    display:block;
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+
+
+/* seccion  index.html - registrarse.html */
+
+.login-section {
+    align-items: center;
+    margin: 100px auto;
+    max-width: 400px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-info-form {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 40px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    width: 100%;
+    text-align: start;
+}
+
+.login-info {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 310px;
+    max-height: 700px;
+    width: 100%;
+    text-align: center;
+}
+
+.login-info h2 {
+    background-color: #28a745;
+    text-align: center;
+    padding: 15px;
+    border-radius: 24px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #f7f7f7;
+}
+
+.login-info label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.login-section input[type="text"],
+.login-section input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.rol-select-form {
+    border-radius: 8px; 
+    padding: 10px; 
+    width: 100%;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+}
+
+.invalid-feedback {
+    display: block;
+    font-size: 0.875em; 
+    color: #dc3545; 
+}
+
+
+.login-section button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-section button:hover {
+    background-color: #218838;
+}
+
+.login-section a {
+    padding: 10px;
+    display: block;
+    margin-top: 10px;
+    color: #28a745;
+    text-decoration: none;
+}
+
+.login-section a:hover {
+    text-decoration: underline;
+}
+
+/*  SECCION DE REGISTRARSE */
+
+
+.registro-section {
+    align-items: center;
+    margin: 10% auto;
+    max-width: 650px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.registro-info {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 650px;
+    width: 100%;
+    text-align: center;
+}
+
+.registro-info-form {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 40px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 630px;
+    width: 100%;
+    text-align: start;
+}
+
+.registro-info h1 {
+    font-weight: bolder;
+    text-align: center;
+    padding: 15px;
+    border-radius: 24px;
+    margin-bottom: 20px;
+    font-size: 35px;
+    background-color: #28a745;
+    color: #f7f7f7;
+}
+
+.registro-section button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.registro-section button:hover {
+    background-color: #218838;
+}
+
+.registro-text {
+    font-weight: bold;
+    color: black;
+    display: flex;
+    padding: 5px;
+    justify-content: center;
+
+}
+
+.registro-section input[type="text"],
+.registro-section input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* registro exitoso - fallido */
+
+.page-exitoso {
+    background-color: #f4f4f4;
+    margin: 15px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.exito-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.btn-exitoso {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #327c28;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 15px auto;
+}
+
+.msj-exitoso {
+    font-size: 1.9em;
+    margin-bottom: 20px;
+}
+
+/* seccion categorias.html */
+
+.categorias-titulo {
+    align-items: center;
+    padding: 10px 30px;
+    background-color: #327c28;
+    text-align: center;
+    font-size: 2.5em;
+    margin: 10px;
+    color: #ffffff;
+    border-radius: 50px;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.categorias-section {
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    display: flex;
+    gap: 35px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.categoria-item {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.categoria-item:hover {
+    transform: translateY(-5px);
+}
+
+.categoria-item img {
+    max-height: 180px;
+    max-width: 180px;
+    min-width: 180px;
+    max-height: 180px;
+    border-radius: 8px;
+}
+
+.categoria-item h3 {
+    color: #327c28;
+    margin-top: 15px;
+}
+
+.categoria-item p {
+    font-size: 15px;
+    color: #666;
+    margin: 10px 0;
+}
+
+.btn-categoria {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #23A026;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.btn-categoria:hover {
+    background-color: #1e8122;
+}
+
+/* seccion reservas.html */
+
+.titulo-reservas {
+    align-items: center;
+    padding: 10px 30px;
+    background-color: #327c28;
+    text-align: center;
+    font-size: 2em;
+    margin: 10px;
+    color: #ffffff;
+    border-radius: 50px;
+    box-shadow: 2px 4px 8px;
+}
+
+.producto-reserva {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.producto-imagen-reserva {
+    max-width: 150px;
+    max-height: 150px;
+    min-width: 150px;
+    min-height: 150px;
+    border-radius: 8px;
+    margin-bottom: 10px; 
+}
+
+.btn-reserva {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #23A026;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.btn-reserva:hover {
+    background-color: #1e8122;
+}
+
+.reserva-info-section {
+    margin-top: 50px;
+    display: flex;
+    gap: 35px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.producto-reserva h3 {
+    font-size: 22px;
+    margin-top: 15px;
+}
+
+.producto-reserva p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* seccion about_us.html */
+
+.about-section {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 20px;
+    max-width: 100%;
+    margin: auto; 
+}
+
+.about-us-info {
+    width: 60%; 
+    text-align: left; 
+    color: #333;
+    padding-right: 100px; 
+}
+
+.about-us-info h2 {
+    color: #f7f7f7;
+    align-items: center;
+    padding: 18px 30px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #28a745;
+    font-size: 32px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.about-us-info p {
+    width: 700px;
+    text-align: justify;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    line-height: 1.8;
+}
+
+.about-us-boton {
+    background-color: #00695c; 
+    color: white; 
+    padding: 10px 20px; 
+    border: none;
+    border-radius: 5px; 
+    cursor: pointer;
+    font-size: 1em;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.btn-aboutUs {
+    font-weight: bold;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #23A026;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.btn-aboutUs:hover {
+    background-color: #1e8122;
+}
+
+.about-imagen img {
+    width: 100%; 
+    height: auto; 
+    border-radius: 15px;
+}
+
+/* seccion contactanos.html */
+
+.contactanos-titulo h2 {
+    color: #f7f7f7;
+    align-items: center;
+    padding: 18px 20px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #28a745;
+    font-size: 30px;
+    margin: 120px 100px;
+}
+
+.contactanos-descripcion h1 {
+    margin: 25px 130px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: lighter;
+}
+
+.contactanos-formulario {
+    align-items: center;
+    margin: 50px auto;
+    max-width: 600px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contactanos-form-info {
+    text-align: center;
+    margin-top: 10px;
+
+}
+
+.contactanos-form-info label {
+    text-align: center;
+    display: block;
+    font-weight: bold;
+}
+
+.contactanos-form-info input, .contactanos-form-info textarea {
+    text-align: center;
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.contactanos-form-enviar {
+    margin-top: 30px;
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-items: center;
+    width: 100%;
+}
+
+.contactanos-form-enviar:hover {
+    background-color: #45a049;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.contactanos-info {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.contactanos-info h3 {
+    font-weight: bold;
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+
+.contactanos-info p {
+    text-align: center;
+    font-size: 1em;
+}
+
+.contactanos-mapa {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.contactanos-mapa iframe {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+    border: none;
+}
+
+/* seccion ayuda.html */
+
+.ayuda-section {
+    margin: 120px auto;
+    display: flex;
+    align-items: center;
+    max-width: 750px;
+}
+
+.ayuda-info {
+    align-items: center;
+}
+
+.ayuda-form {
+    max-width: 500px;
+    align-items: center;
+    margin: auto;
+    box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.ayuda-form-enviar {
+    margin-top: 30px;
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    align-items: center;
+    width: 100%;
+}
+
+.ayuda-form-enviar:hover {
+    background-color: #45a049;
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* SECCION DASHBOARD.html */
+
+.dashboard-content {
+    padding: 0px;
+    background-color: #ffffff;
+    margin: 0px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    background-color: #e3fde4;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    flex: 1;
+    margin: 50px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item i {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #327c28;
+}
+
+.stat-info h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.stat-info p {
+    margin: 5px 0 0;
+    font-size: 1.5em;
+    color: #327c28;
+}
+
+.charts {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.chart {
+    background-color: #fdfdfd;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    margin: 0 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 45%; /* Reduce the width of the charts */
+}
+
+.chart h3 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #333333;
+}
+
+.recent-orders {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(32, 51, 68, 0.1);
+    background-color: #e3fde4;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.recent-orders h3 {
+    
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.recent-orders table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    border: 1px solid #223c52; /* Added border to the table */
+}
+
+.recent-orders th, .recent-orders td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #223c52;
+}
+
+.recent-orders th {
+    background-color: #f4f4f4;
+}
+
+/* SECCION FORMULARIO_RESERVA.HTML */
+
+.reserva-producto-container {
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    margin: 8% auto;
+}
+
+.form-reserva h2{
+    color: #f7f7f7;
+    align-items: center;
+    padding: 18px 20px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #28a745;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.reservar-form {
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reserva-producto-container button {
+    background-color: #28a745;
+    display: flex;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5% auto;
+    transition: transform 0.3s ease;
+}
+
+.reserva-producto-container button:hover {
+    transform: scale(1.1);
+    text-decoration: none;
+    color: white;
+}
+
+/* SECCION FORMULARIO_PAGO.HTML */
+
+.formulario-pago-container {
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    margin: 8% auto;
+}
+
+.cuadro-pago h2 {
+    color: #f7f7f7;
+    align-items: center;
+    padding: 18px 20px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #28a745;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.formulario-pago {
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-pago-container button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 80px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5% auto;
+    transition: transform 0.3s ease;
+    display: block;
+    text-align: center;
+}
+
+.formulario-pago-container button:hover {
+    transform: scale(1.1);
+    text-decoration: none;
+    color: white;
+}
+
+/* SECCION FORMULARIO_RESEÑA.HTML */
+
+.reseña-producto-container {
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    margin: 8% auto;
+}
+
+.reseña-container h2 {
+    color: #f7f7f7;
+    align-items: center;
+    padding: 18px 20px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #28a745;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.formulario-reseña {
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-reseña select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.reseña-producto-container button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 80px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5% auto;
+    transition: transform 0.3s ease;
+    display: block;
+    text-align: center;
+}
+
+.reseña-producto-container button:hover {
+    transform: scale(1.1);
+    text-decoration: none;
+    color: white;
+}
+
+/* SECCION RECUPERAR_CONTRASEÑA.HTML */
+
+.recuperar-contraseña-container {
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    margin: 10% auto;
+}
+
+.recuperar-contraseña-form h2 {
+    color: #f7f7f7;
+    align-items: center;
+    padding: 18px 20px;
+    border-radius: 15px;
+    text-align: center;
+    background-color: #28a745;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.recuperar-contraseña-formulario {
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recuperar-contraseña-container button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 80px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5% auto;
+    transition: transform 0.3s ease;
+    display: block;
+    text-align: center;
+}
+
+.recuperar-contraseña-container button:hover {
+    transform: scale(1.1);
+    text-decoration: none;
+    color: white;
+}
+
+/* SECCION DE MAPA_SITIO.HTML */
+
+.body-mapa{
+    margin-top: 0;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.mapa-header {
+    background-color: #006400;
+    color: #fff;
+    text-align: center;
+    padding: 16px;
+}
+
+.mapa-titulo {
+    margin: 0;
+    font-size: 32px;
+}
+
+.mapa-contenedor {
+    padding: 32px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.mapa-lista {
+    list-style: none;
+    padding: 0;
+}
+
+.mapa-item {
+    margin: 16px 0;
+    padding: 8px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.mapa-item li {
+    margin: 16px 0;
+    padding: 8px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.mapa-enlace {
+    text-decoration: none;
+    color: #006400;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.mapa-enlace:hover {
+    color: #228B22;
+}
+
+.mapa-sublista {
+    list-style: none;
+    margin-top: 8px;
+    margin-left: 16px;
+}
+
+.mapa-subitem {
+    margin: 8px 0;
+}
+
+.mapa-icono {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.mapa-footer {
+    background-color: #006400;
+    color: #fff;
+    text-align: center;
+    padding: 16px;
+    margin-top: 32px;
+}
+
+.mapa-pie {
+    margin: 0;
+    font-size: 15px;
+}
+
+/* SECCION PERFIL.PHP */
+
+.perfil-container {
+    width: 85%;
+    display: block;
+    margin: 130px auto;
+}
+
+/* SECCION ACTUALIZAR_PERFIL.HTML */
+
+.actualizar-perfil-container {
+    margin: 120px auto;
+    width: 60%;
+    display: block;
+}
+
+.actualizar-perfil-container h2 {
+    background-color: #28a745;
+    padding: 15px;
+    border-radius: 18px;
+    color: #ffffff;
+    text-align: center;
+    margin: 20px;
+}
+
+.form-actualizar-perfil {
+    width: 70%;
+    background-color: #f7f7f7;
+    margin: 0 auto;
+    padding: 10px;    
+    font-weight: bold;
+    text-align: center;
+    flex-direction: column;
+    margin: 15px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    
+}
+
+.actualizar-perfil-btn {
+    margin: 30px auto;
+    display: flex;
+}
+
+.actualizar-perfil-btn a {
+    background-color: #333;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px auto;
+    transition: transform 0.3s ease;
+    text-align: center;
+    flex-direction: row;
+}
+
+.actualizar-perfil-btn a:hover {
+    transform: scale(1.1);
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.actualizar-perfil-formulario button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 5px auto;
+    transition: transform 0.3s ease;
+    text-align: center;
+    flex-direction: row;
+}
+
+.actualizar-perfil-formulario button:hover {
+    transform: scale(1.1);
+    text-decoration: none;
+    color: #ffffff;
+}
+

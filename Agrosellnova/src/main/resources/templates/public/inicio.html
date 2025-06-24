@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrosell nova</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <script src="../js/mostrarNombre.js"></script>
+</head>
+<body>
+<header class="top-bar">
+    <div class="header-content">
+        <img src="../img/logo.png" alt="Agrosell Nova" class="logo">
+        <h1 class="menu-title">AGROSELL NOVA</h1>
+        <div class="panel-option">
+            <button id="panelControl">
+                <a href="panel/panel_control.php" class="menu-icon"><i class="fa fa-cog"></i></a>
+            </button>
+        </div>
+        <a href="carrito.html" class="menu-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </a>
+        <span class="notification">
+                <button id="notificationButton">
+                    <i class="fas fa-bell" class="menu-icon"></i>
+                </button>
+            </span>
+        <span class="username"><a href="../php/cerrarSesion.php" class="username" id="usuario">Iniciar sesión/Registrarse</a></span>
+        <a href="panel/perfil.php" class="menu-icon">
+            <i class="bi bi-person-circle" style="font-size: 30px;"></i>
+        </a>
+    </div>
+</header>
+
+<!-- Segunda barra -->
+<nav class="menu-bar">
+    <ul>
+        <li><a href="inicio.html"><i class="fas fa-home"></i> Inicio</a></li>
+        <li><a href="productos.php"><i class="fas fa-box icon"></i> Productos</a></li>
+        <li><a href="categorias.html"><i class="fas fa-list"></i> Categorías</a></li>
+        <li><a href="reservas.html"><i class="fas fa-bookmark"></i> Reservas</a></li>
+        <li><a href="about_us.html"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
+        <li><a href="contactanos.html"><i class="fas fa-envelope"></i> Contáctanos</a></li>
+        <li><a href="ayuda.html"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+    </ul>
+</nav>
+
+<main>
+    <section class="presentacion-inicio">
+        <div class="presentacion-cuadro-inicio"><i class="fas fa-leaf"></i>
+            <p><a href="about_us.html"> ¡Conoce mas sobre nosotros! </a> </p>
+        </div>
+        <div class="presentacion-cuadro-inicio"><i class="fas fa-user-plus"></i>
+            <p><a href="registrarse.html">¡Bienvenido, registrate aquí! </a> </p>
+        </div>
+        <div class="presentacion-cuadro-inicio"><i class="fas fa-phone-alt"></i>
+            <p> <a href="contactanos.html"> ¡Contactate con nosotros para ser parte de nuestra familia! </a> </p>
+        </div>
+    </section>
+
+    <section class="presentacion-titulo-inicio">
+        <h1>¡BIENVENIDO!</h1>
+    </section>
+
+    <section id="inicio" class="main-inicio">
+        <section class="destacados-inicio">
+            <div class="destacados-inicio-titulo">
+                <h2>Productos más destacados</h2>
+            </div>
+            <div class="productos-destacados-inicio">
+                <div class="productos-destacados">
+                    <img src="../img/tomates.jpg" alt="IMAGEN NO ENCONTRADA" class="producto-imagen">
+                    <h3>Tomates</h3>
+                    <p>Tomates frescos</p>
+                    <a href="productos.php" class="btn-productos-inicio">Ver más</a>
+                </div>
+                <div class="productos-destacados">
+                    <img src="../img/zanahoria.jpg" alt="IMAGEN NO ENCONTRADA" class="producto-imagen">
+                    <h3>Zanahoria</h3>
+                    <p>Zanahorias frescas</p>
+                    <a href="productos.php" class="btn-productos-inicio">Ver más</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="practicas-seccion">
+            <!-- Texto en la izquierda -->
+            <div class="practicas-info">
+                <h2 class="practicas-titulo">Buenas Prácticas</h2>
+                <p class="practicas-info">
+                    Aplicar buenas prácticas en los procesos agrícolas garantiza la sostenibilidad,
+                    calidad de los productos y respeto por el medio ambiente. Estas prácticas incluyen
+                    el uso adecuado de recursos, manejo responsable de residuos y mejora continua en
+                    los procesos de producción.
+                </p>
+                <p>
+                    Asegúrate de implementar métodos seguros y sostenibles en tus cultivos, contribuyendo
+                    así al bienestar de todos.
+                </p>
+            </div>
+            <!-- Imagen en la derecha -->
+            <div class="practicas-img">
+                <img src="../img/inicio_buenas_practicas.jpg" alt="IMAGEN NO ENCONTRADA" class="img-practicas">
+            </div>
+        </div>
+    </section>
+</main>
+
+
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>Enlaces rápidos</h3>
+            <ul>
+                <li><a href="inicio.html">Inicio</a></li>
+                <li><a href="categorias.html">Categorías</a></li>
+                <li><a href="contacto.html">Contáctanos</a></li>
+                <li><a href="about_us.html">Sobre nosotros</a></li>
+                <li><a href="mapa.html">Mapa del sitio</a></li>
+                <li><a href="404.html">Error 404</a></li>
+                <li><a href="500.html">Error 500</a></li>
+                <li><a href="Dashboard.html">Dashboard</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Contacto</h3>
+            <p>📍 Dirección: Calle Principal #123</p>
+            <p>📞 Teléfono: +57 123 456 789</p>
+            <p>📧 Email: <a href="mailto:info@agrosellnova.com">info@agrosellnova.com</a></p>
+        </div>
+
+        <div class="footer-column">
+            <h3>Síguenos</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a href="terminos.html">Términos y condiciones</a></p>
+    </div>
+</footer>
+
+<script>
+
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        alert("No tienes notificaciones pendientes");
+    });
+
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func.apply(this, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    window.addEventListener("scroll", debounce(function () {
+        const menuBar = document.querySelector(".menu-bar");
+        if (window.scrollY > 50) {
+            menuBar.classList.add("scrolled");
+        } else {
+            menuBar.classList.remove("scrolled");
+        }
+    }, 100));
+</script>
+
+
+</body>
+</html>
