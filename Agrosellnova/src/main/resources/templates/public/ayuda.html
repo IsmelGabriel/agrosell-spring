@@ -35,10 +35,10 @@
 
     <span class="username">
             <th:block th:if="${usuario != null}">
-                <a th:text="${usuario}" th:href="@{/cerrar-sesion}"></a>
+                <a th:text="${usuario}" th:href="@{/cerrar_sesion}"></a>
             </th:block>
             <th:block th:unless="${usuario != null}">
-                <a th:href="@{/login}">Iniciar sesión / Registrarse</a>
+                <a th:href="@{/index}">Iniciar sesión / Registrarse</a>
             </th:block>
         </span>
 
