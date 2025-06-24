@@ -18,11 +18,11 @@
 
     <div class="panel-option">
       <button id="panelControl">
-        <a th:href="@{/panel-control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+        <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
       </button>
     </div>
 
-    <a th:href="@{/carrito}" class="menu-icon">
+    <a th:href="@{/public/carrito}" class="menu-icon">
       <i class="fas fa-shopping-cart"></i>
     </a>
 
@@ -33,20 +33,14 @@
         </span>
 
     <span class="username">
-            <th:block th:if="${usuario != null}">
-                <a th:text="${usuario}" th:href="@{/cerrar_sesion}"></a>
-            </th:block>
-            <th:block th:unless="${usuario != null}">
-                <a th:href="@{/registrarse}">Registrarse</a>
-            </th:block>
+            <a th:href="@{/public/registrarse}">Registrarse</a>
         </span>
 
-    <a th:href="@{/perfil}" class="menu-icon">
+    <a th:href="@{/private/perfil}" class="menu-icon">
       <i class="bi bi-person-circle" style="font-size: 30px;"></i>
     </a>
   </div>
 </header>
-
 
 <nav class="menu-bar">
   <ul>
@@ -58,7 +52,7 @@
   <section class="login-section">
     <div class="login-info">
       <h2>Iniciar Sesión</h2>
-      <form id="loginForm" class="needs-validation" th:action="@{/login}" method="post" novalidate>
+      <form id="loginForm" class="needs-validation" th:action="@{/public/index}" method="post" novalidate>
         <div class="login-info-form">
           <label for="usuario" class="index-text">Usuario</label>
           <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Nombre de usuario" required>

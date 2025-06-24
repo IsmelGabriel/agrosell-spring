@@ -19,11 +19,11 @@
 
         <div class="panel-option">
             <button id="panelControl">
-                <a th:href="@{/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+                <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
             </button>
         </div>
 
-        <a th:href="@{/carrito}" class="menu-icon">
+        <a th:href="@{/public/carrito}" class="menu-icon">
             <i class="fas fa-shopping-cart"></i>
         </a>
 
@@ -35,14 +35,14 @@
 
         <span class="username">
             <th:block th:if="${usuario != null}">
-                <a th:text="${usuario}" th:href="@{/cerrar_sesion}"></a>
+                <a th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
             </th:block>
             <th:block th:unless="${usuario != null}">
-                <a th:href="@{/index}">Iniciar sesión / Registrarse</a>
+                <a th:href="@{/public/index}">Iniciar sesión / Registrarse</a>
             </th:block>
         </span>
 
-        <a th:href="@{/perfil}" class="menu-icon">
+        <a th:href="@{/private/perfil}" class="menu-icon">
             <i class="bi bi-person-circle" style="font-size: 30px;"></i>
         </a>
     </div>

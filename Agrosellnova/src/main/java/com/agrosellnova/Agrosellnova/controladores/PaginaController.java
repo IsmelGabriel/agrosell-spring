@@ -10,7 +10,7 @@ import java.util.List;
 @Controller
 public class PaginaController {
 
-    private final List<String> paginasRestringidas = List.of("cerrar_sesion", "index", "api");
+    private final List<String> paginasRestringidas = List.of("cerrar_sesion", "api");
 
     @GetMapping("/public/{pagina}")
     public String mostrarPaginaPublica(@PathVariable("pagina") String pagina, HttpSession session, Model model) {
@@ -42,7 +42,7 @@ public class PaginaController {
         model.addAttribute("usuario", usuario);
 
         if (usuario == null) {
-            return "redirect:/login";
+            return "redirect:/public/index";
         }
 
         if (paginasRestringidas.contains(pagina)) {
