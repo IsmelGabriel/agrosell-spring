@@ -39,11 +39,11 @@
                 <a th:text="${usuario}" th:href="@{/cerrar_sesion}"></a>
             </th:block>
             <th:block th:unless="${usuario != null}">
-                <a th:href="@{/index}">Iniciar sesión</a>
+                <a th:href="@{/public/index}">Iniciar sesión</a>
             </th:block>
         </span>
 
-        <a th:href="@{/perfil}" class="menu-icon">
+        <a th:href="@{/private/perfil}" class="menu-icon">
             <i class="bi bi-person-circle" style="font-size: 30px;"></i>
         </a>
     </div>
@@ -59,7 +59,7 @@
     <section class="registro-section">
         <div class="registro-info">
             <h1 class="registro-titulo">Crear Cuenta</h1>
-            <form th:action="@{/registrarse}" method="post" class="needs-validation" novalidate>
+            <form th:action="@{registrarse}" method="post" class="needs-validation" novalidate>
                 <div class="registro-info-form">
                     <label for="nombre" class="registro-text">Nombre completo</label>
                     <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Ingresa tu nombre" required>
@@ -85,7 +85,7 @@
                     <label class="form-check-label" for="terminos">Acepto los términos y condiciones</label>
                     <div class="invalid-feedback">Debes aceptar los términos y condiciones.</div>
                 </div>
-                <a th:href="@{/login}" class="btn btn-link text-success">¿Ya tienes cuenta? Inicia sesión</a>
+                <a th:href="@{/public/index}" class="btn btn-link text-success">¿Ya tienes cuenta? Inicia sesión</a>
                 <div class="registro-button">
                     <button class="btn btn-primary w-100" type="submit">Registrarse</button>
                 </div>

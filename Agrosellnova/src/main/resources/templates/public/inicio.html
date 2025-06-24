@@ -18,11 +18,11 @@
 
         <div class="panel-option">
             <button id="panelControl">
-                <a th:href="@{/panel-control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+                <a th:href="@{/private/panel-control}" class="menu-icon"><i class="fa fa-cog"></i></a>
             </button>
         </div>
 
-        <a th:href="@{/carrito}" class="menu-icon">
+        <a th:href="@{/public/carrito}" class="menu-icon">
             <i class="fas fa-shopping-cart"></i>
         </a>
 
@@ -34,14 +34,14 @@
 
         <span class="username">
             <th:block th:if="${usuario != null}">
-                <a th:text="${usuario}" th:href="@{/cerrar_sesion}"></a>
+                <a th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
             </th:block>
             <th:block th:unless="${usuario != null}">
-                <a th:href="@{/index}">Iniciar sesión / Registrarse</a>
+                <a th:href="@{/public/index}">Iniciar sesión / Registrarse</a>
             </th:block>
         </span>
 
-        <a th:href="@{/perfil}" class="menu-icon">
+        <a th:href="@{/private/perfil}" class="menu-icon">
             <i class="bi bi-person-circle" style="font-size: 30px;"></i>
         </a>
     </div>
@@ -49,26 +49,26 @@
 
 <nav class="menu-bar">
     <ul>
-        <li><a th:href="@{/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
-        <li><a th:href="@{/productos}"><i class="fas fa-box icon"></i> Productos</a></li>
-        <li><a th:href="@{/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
-        <li><a th:href="@{/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
-        <li><a th:href="@{/about_us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
-        <li><a th:href="@{/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
-        <li><a th:href="@{/ayuda}"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+        <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+        <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
+        <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
+        <li><a th:href="@{/public/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
+        <li><a th:href="@{/public/about_us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
+        <li><a th:href="@{/public/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
+        <li><a th:href="@{/public/ayuda}"><i class="fas fa-question-circle"></i> Ayuda</a></li>
     </ul>
 </nav>
 
 <main>
     <section class="presentacion-inicio">
         <div class="presentacion-cuadro-inicio"><i class="fas fa-leaf"></i>
-            <p><a th:href="@{/about_us}"> ¡Conoce más sobre nosotros! </a></p>
+            <p><a th:href="@{/public/about_us}"> ¡Conoce más sobre nosotros! </a></p>
         </div>
         <div class="presentacion-cuadro-inicio"><i class="fas fa-user-plus"></i>
-            <p><a th:href="@{/registro}">¡Bienvenido, regístrate aquí!</a></p>
+            <p><a th:href="@{/public/registro}">¡Bienvenido, regístrate aquí!</a></p>
         </div>
         <div class="presentacion-cuadro-inicio"><i class="fas fa-phone-alt"></i>
-            <p><a th:href="@{/contactanos}">¡Contáctate con nosotros!</a></p>
+            <p><a th:href="@{/public/contactanos}">¡Contáctate con nosotros!</a></p>
         </div>
     </section>
 
@@ -86,13 +86,13 @@
                     <img src="/img/tomates.jpg" alt="Tomates" class="producto-imagen">
                     <h3>Tomates</h3>
                     <p>Tomates frescos</p>
-                    <a th:href="@{/productos}" class="btn-productos-inicio">Ver más</a>
+                    <a th:href="@{/public/productos}" class="btn-productos-inicio">Ver más</a>
                 </div>
                 <div class="productos-destacados">
                     <img src="/img/zanahoria.jpg" alt="Zanahoria" class="producto-imagen">
                     <h3>Zanahoria</h3>
                     <p>Zanahorias frescas</p>
-                    <a th:href="@{/productos}" class="btn-productos-inicio">Ver más</a>
+                    <a th:href="@{/public/productos}" class="btn-productos-inicio">Ver más</a>
                 </div>
             </div>
         </section>
@@ -123,14 +123,14 @@
         <div class="footer-column">
             <h3>Enlaces rápidos</h3>
             <ul>
-                <li><a th:href="@{/inicio}">Inicio</a></li>
-                <li><a th:href="@{/categorias}">Categorías</a></li>
-                <li><a th:href="@{/contactanos}">Contáctanos</a></li>
-                <li><a th:href="@{/about_us}">Sobre nosotros</a></li>
-                <li><a th:href="@{/mapa}">Mapa del sitio</a></li>
-                <li><a th:href="@{/404}">Error 404</a></li>
-                <li><a th:href="@{/500}">Error 500</a></li>
-                <li><a th:href="@{/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/public/inicio}">Inicio</a></li>
+                <li><a th:href="@{/public/categorias}">Categorías</a></li>
+                <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
+                <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
+                <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
+                <li><a th:href="@{/public/404}">Error 404</a></li>
+                <li><a th:href="@{/public/500}">Error 500</a></li>
+                <li><a th:href="@{/public/dashboard}">Dashboard</a></li>
             </ul>
         </div>
 
