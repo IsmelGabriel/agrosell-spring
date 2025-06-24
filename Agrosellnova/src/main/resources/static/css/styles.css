@@ -1142,9 +1142,9 @@ footer {
 
 .ayuda-section {
     margin: 120px auto;
-    display: flex;
     align-items: center;
-    max-width: 750px;
+    max-width: 500px;
+    min-width: 500px;
 }
 
 .ayuda-info {

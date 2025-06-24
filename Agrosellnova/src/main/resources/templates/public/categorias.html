@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categorías - Agrosell Nova</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+  <script th:src="@{/js/mostrarNombre.js}"></script>
+</head>
+<body>
+<header class="top-bar">
+  <div class="header-content">
+    <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
+    <h1 class="menu-title">AGROSELL NOVA</h1>
+
+    <div class="panel-option">
+      <button id="panelControl">
+        <a th:href="@{/panel-control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+      </button>
+    </div>
+
+    <a th:href="@{/carrito}" class="menu-icon">
+      <i class="fas fa-shopping-cart"></i>
+    </a>
+
+    <span class="notification">
+            <button id="notificationButton">
+                <i class="fas fa-bell menu-icon"></i>
+            </button>
+        </span>
+
+    <span class="username">
+            <th:block th:if="${usuario != null}">
+                <a th:text="${usuario}" th:href="@{/cerrar_sesion}"></a>
+            </th:block>
+            <th:block th:unless="${usuario != null}">
+                <a th:href="@{/index}">Iniciar sesión / Registrarse</a>
+            </th:block>
+        </span>
+
+    <a th:href="@{/perfil}" class="menu-icon">
+      <i class="bi bi-person-circle" style="font-size: 30px;"></i>
+    </a>
+  </div>
+</header>
+
+<nav class="menu-bar">
+  <ul>
+    <li><a th:href="@{/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+    <li><a th:href="@{/productos}"><i class="fas fa-box icon"></i> Productos</a></li>
+    <li><a th:href="@{/}"><i class="fas fa-list"></i> Categorías</a></li>
+    <li><a th:href="@{/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
+    <li><a th:href="@{/about_us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
+    <li><a th:href="@{/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
+    <li><a th:href="@{/ayuda}"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h1 class="categorias-titulo">Explora nuestras categorías</h1>
+  <section class="categorias-section">
+    <div class="categoria-item">
+      <img th:src="@{/img/productos/imgfrutas.jpg}" alt="Frutas frescas">
+      <h3>Frutas</h3>
+      <p>Explora nuestras frutas frescas y orgánicas.</p>
+      <a th:href="@{/productos}" class="btn-categoria">Ver más</a>
+    </div>
+    <div class="categoria-item">
+      <img th:src="@{/img/Verduras.jpg}" alt="Verduras frescas">
+      <h3>Verduras</h3>
+      <p>Descubre las mejores verduras recién cosechadas.</p>
+      <a th:href="@{/productos}" class="btn-categoria">Ver más</a>
+    </div>
+    <div class="categoria-item">
+      <img th:src="@{/img/granos.jpg}" alt="Granos naturales">
+      <h3>Granos</h3>
+      <p>Gran variedad de granos para tus necesidades.</p>
+      <a th:href="@{/productos}" class="btn-categoria">Ver más</a>
+    </div>
+    <div class="categoria-item">
+      <img th:src="@{/img/lacteos.jpg}" alt="Lácteos frescos">
+      <h3>Lácteos</h3>
+      <p>Lácteos frescos y de calidad para tu hogar.</p>
+      <a th:href="@{/productos}" class="btn-categoria">Ver más</a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-column">
+      <h3>Enlaces rápidos</h3>
+      <ul>
+        <li><a th:href="@{/}">Inicio</a></li>
+        <li><a th:href="@{/categorias}">Categorías</a></li>
+        <li><a th:href="@{/contactanos}">Contáctanos</a></li>
+        <li><a th:href="@{/about_us}">Sobre nosotros</a></li>
+        <li><a th:href="@{/mapa}">Mapa del sitio</a></li>
+        <li><a th:href="@{/404}">Error 404</a></li>
+        <li><a th:href="@{/500}">Error 500</a></li>
+        <li><a th:href="@{/dashboard}">Dashboard</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Contacto</h3>
+      <p>📍 Dirección: Calle Principal #123</p>
+      <p>📞 Teléfono: +57 123 456 789</p>
+      <p>📧 Email: <a href="mailto:info@agrosellnova.com">info@agrosellnova.com</a></p>
+    </div>
+
+    <div class="footer-column">
+      <h3>Síguenos</h3>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y condiciones</a></p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('notificationButton').addEventListener('click', function () {
+    alert("No tienes notificaciones pendientes");
+  });
+
+  function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func.apply(this, args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  window.addEventListener("scroll", debounce(function () {
+    const menuBar = document.querySelector(".menu-bar");
+    if (window.scrollY > 50) {
+      menuBar.classList.add("scrolled");
+    } else {
+      menuBar.classList.remove("scrolled");
+    }
+  }, 100));
+</script>
+</body>
+</html>
