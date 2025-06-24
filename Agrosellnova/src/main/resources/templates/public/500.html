@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 500</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        h1 {
+            font-size: 5em;
+            margin: 0;
+        }
+        p {
+            font-size: 1.2em;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        img{
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+<img src="https://i.ibb.co/cvj3qCk/agrosell-logo-removebg-preview-1.png" alt="logo">
+<h1>ERROR 500 HTTP</h1>
+<p>Parece que algo salio mal.</p>
+<button onclick="goBack()">Volver atras</button>
+
+<script>
+    function goBack(){
+        window.history.back()
+    }
+</script>
+
+</body>
+</html>

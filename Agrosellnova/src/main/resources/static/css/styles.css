@@ -237,10 +237,10 @@ footer {
     padding: 0;
     margin: 0;
     justify-content: space-around;
-    background-image: url("../img/inicio_titulo.jpg"); 
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    background-position: center; 
+    background-image: url('/img/inicio_titulo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     display: flex; 
     align-items: center; 
     color: white; 
@@ -363,13 +363,13 @@ footer {
 }
 
 .practicas-titulo {
-    font-weight: bold; 
+    font-weight: bold;
     font-size: 2.4em;
-    background-color:#28a745; 
-    border: 2px solid #28a745; 
+    background-color:#28a745;
+    border: 2px solid #28a745;
     border-radius: 15px;
     padding: 15px;
-    text-align: center; 
+    text-align: center;
     color: #f7f7f7;
     font-family: Arial, sans-serif;
 }
