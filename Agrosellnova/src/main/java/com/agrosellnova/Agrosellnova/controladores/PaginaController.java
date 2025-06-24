@@ -24,7 +24,7 @@ public class PaginaController {
         return "public/" + pagina;
     }
 
-    @GetMapping("/form/{pagina}")
+    @GetMapping("/forms/{pagina}")
     public String mostrarPaginaForms(@PathVariable("pagina") String pagina, HttpSession session, Model model) {
         String usuario = (String) session.getAttribute("usuario");
         model.addAttribute("usuario", usuario);
@@ -33,7 +33,7 @@ public class PaginaController {
             return "redirect:/error";
         }
 
-        return "form/" + pagina;
+        return "forms/" + pagina;
     }
 
     @GetMapping("/private/{pagina}")

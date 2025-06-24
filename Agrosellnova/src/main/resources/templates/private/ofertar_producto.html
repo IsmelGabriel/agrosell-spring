@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de control</title>
+    <link rel="stylesheet" href="../../css/panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+
+<body class="panel-control">
+<header class="Bienvenido">
+    <h1>Bienvenido, <span th:text="${#strings.capitalize(usuario)}"></span></h1>
+    <p>Rol: <span th:text="${#strings.capitalize(rol)}"></span></p>
+</header>
+
+<div class="panel-container">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+        <div class="lateral-content">
+            <ul>
+                <li th:if="${rol == 'productor'}"><a href="../inicio.html">Inicio</a></li>
+                <li th:if="${rol == 'productor'}"><a href="ofertar_producto">Ofertar Producto</a></li>
+                <li th:if="${rol == 'productor'}"><a href="gestionar_productos">Gestionar productos</a></li>
+                <li><a href="/cerrarSesion">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="ofertar-container">
+        <h2 class="ofertar-titulo">Ofertar Producto</h2>
+        <form th:action="@{/guardar_producto}" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+            <!-- Usuario oculto -->
+            <input type="hidden" name="usuario" id="usuario" th:value="${usuario}" />
+
+            <!-- Imagen -->
+            <div class="ofertar-form">
+                <label for="productoImagen" class="form-label">Foto del Producto</label>
+                <input type="file" name="productoImagen" id="productoImagen" class="form-control" accept="image/*" required>
+                <div class="invalid-feedback">Por favor, selecciona una foto.</div>
+            </div>
+
+            <!-- Nombre producto -->
+            <div class="ofertar-form">
+                <label for="nombreProducto" class="form-label">Nombre producto</label>
+                <input type="text" name="nombreProducto" id="nombreProducto" class="form-control" placeholder="Nombre del producto" required>
+                <div class="invalid-feedback">Por favor, escribe un nombre.</div>
+            </div>
+
+            <!-- Precio -->
+            <div class="ofertar-form">
+                <label for="precio" class="form-label">Precio del producto - POR Kg</label>
+                <input type="number" name="precio" id="precio" class="form-control" placeholder="Ingrese el precio del producto" required>
+                <div class="invalid-feedback">Por favor, ingrese un precio.</div>
+            </div>
+
+            <!-- Descripción -->
+            <div class="ofertar-form">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea name="descripcion" id="descripcion" class="form-control" placeholder="Describa la oferta" required></textarea>
+                <div class="invalid-feedback">Por favor, ingrese una descripción.</div>
+            </div>
+
+            <!-- Peso -->
+            <div class="ofertar-form">
+                <label for="pesoKg" class="form-label">Peso en KG</label>
+                <input type="number" name="pesoKg" id="pesoKg" class="form-control" placeholder="Ingrese el peso en KG" required>
+                <div class="invalid-feedback">Por favor, ingrese un peso.</div>
+            </div>
+
+            <!-- Stock -->
+            <div class="ofertar-form">
+                <label for="stock" class="form-label">Stock</label>
+                <input type="number" name="stock" id="stock" class="form-control" placeholder="Ingrese el Stock del producto" required>
+                <div class="invalid-feedback">Por favor, ingrese el Stock.</div>
+            </div>
+
+            <!-- Botón -->
+            <button type="submit" class="confirmar-oferta-btn">Guardar Oferta</button>
+        </form>
+    </main>
+</div>
+
+<script>
+    // Validación Bootstrap
+    (function () {
+        'use strict';
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.from(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+</body>
+</html>

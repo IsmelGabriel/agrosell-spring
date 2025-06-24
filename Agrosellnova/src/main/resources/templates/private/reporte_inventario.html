@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de control</title>
+    <link rel="stylesheet" href="../../css/panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="panel-control">
+<header class="Bienvenido">
+    <h1>Bienvenido, <span th:text="${#strings.capitalize(usuario)}">Usuario</span></h1>
+    <p>Rol: <span th:text="${#strings.capitalize(rol)}">Rol</span></p>
+</header>
+
+<div class="panel-container">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+        <div class="lateral-content">
+            <ul>
+                <li th:if="${rol == 'administrador'}"><a href="../inicio.html">Inicio</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="reporte_ventas">Reporte de Ventas</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="reporte_reservas">Reporte de Reservas</a></li>
+                <!-- <li><a href="reporte_inventario">Reporte de Inventario</a></li> -->
+                <li th:if="${rol == 'administrador'}"><a href="reporte_pqrs">Reporte de PQRS</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="actualizar_roles">Actualizar Roles</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="usuarios_registrados">Reporte usuarios</a></li>
+                <li><a th:href="@{/cerrarSesion}">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="panel-content">
+        <h1>Productos Publicados</h1>
+        <table border="1">
+            <tr>
+                <th>ID inventario</th>
+                <th>ID Producto</th>
+                <th>Producto</th>
+                <th>Nombre productor</th>
+                <th>Precio</th>
+                <th>Fecha de cosecha</th>
+                <th>Peso kg</th>
+                <th>Stock</th>
+                <th>Descripcion</th>
+                <th>Numero de referencia</th>
+            </tr>
+            <tr th:each="item : ${inventario}">
+                <td th:text="${item.ID_inventario}">1</td>
+                <td th:text="${item.ID_producto}">2</td>
+                <td th:text="${item.Nombre_producto}">Nombre</td>
+                <td th:text="${item.productor}">Productor</td>
+                <td th:text="${item.Precio}">Precio</td>
+                <td th:text="${item.Fecha_cosecha}">2024-01-01</td>
+                <td th:text="${item.Peso_kg}">10</td>
+                <td th:text="${item.stock}">100</td>
+                <td th:text="${item.Descripcion}">Descripción</td>
+                <td th:text="${item.Numero_referencia}">ABC123</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(inventario)}">
+                <td colspan="10">No hay productos registrados</td>
+            </tr>
+        </table>
+    </main>
+</div>
+</body>
+</html>

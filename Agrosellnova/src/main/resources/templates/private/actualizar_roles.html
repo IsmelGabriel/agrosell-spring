@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de control</title>
+    <link rel="stylesheet" href="../../css/panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="panel-control">
+<header class="Bienvenido">
+    <h1>Bienvenido, <span th:text="${#strings.capitalize(usuario)}"></span></h1>
+    <p>Rol: <span th:text="${#strings.capitalize(rol)}"></span></p>
+</header>
+
+<div class="panel-container">
+
+    <aside class="sidebar">
+        <div class="lateral-content">
+            <ul>
+                <li th:if="${rol == 'administrador'}"><a href="../inicio.html">Inicio</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="reporte_ventas">Reporte de Ventas</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="reporte_reservas">Reporte de Reservas</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="reporte_pqrs">Reporte de PQRS</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="actualizar_roles">Actualizar Roles</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="usuarios_registrados">Reporte usuarios</a></li>
+                <!-- Puedes agregar más condiciones para "productor" o "cliente" si es necesario -->
+                <li><a href="/cerrarSesion">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </aside>
+
+
+    <main class="panel-content">
+        <h1>Actualizar Datos de Usuarios</h1>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>ID Usuario</th>
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Correo</th>
+                <th>Documento</th>
+                <th>Dirección</th>
+                <th>Rol</th>
+                <th>Actualizar Rol</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="usuario : ${listaUsuarios}">
+                <td th:text="${usuario.id}"></td>
+                <td th:text="${usuario.nombre}"></td>
+                <td th:text="${usuario.usuario}"></td>
+                <td th:text="${usuario.correo}"></td>
+                <td th:text="${usuario.documento}"></td>
+                <td th:text="${usuario.direccion}"></td>
+                <td th:text="${usuario.rol}"></td>
+                <td>
+                    <form method="post" th:action="@{/actualizarRol}">
+                        <input type="hidden" name="id_usuario" th:value="${usuario.id}" />
+                        <select name="nuevo_rol" class="form-control">
+                            <option value="cliente">Cliente</option>
+                            <option value="productor">Productor</option>
+                            <option value="administrador">Administrador</option>
+                        </select>
+                        <input type="submit" value="Actualizar" />
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(listaUsuarios)}">
+                <td colspan="8">No hay usuarios registrados</td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+</body>
+</html>
