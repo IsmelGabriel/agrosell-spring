@@ -62,19 +62,19 @@
             <form th:action="@{/registrarse}" method="post" class="needs-validation" novalidate>
                 <div class="registro-info-form">
                     <label for="nombre" class="registro-text">Nombre completo</label>
-                    <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Ingresa tu nombre" required>
+                    <input type="text" th:field="*{nombre}" class="form-control" id="nombre" placeholder="Ingresa tu nombre" required>
                     <div class="invalid-feedback">Por favor, ingresa tu nombre.</div>
 
                     <label for="usuario" class="registro-text">Nombre de usuario</label>
-                    <input type="text" name="usuario" class="form-control" id="usuario" placeholder="Nombre de usuario" required>
+                    <input type="text" th:field="*{usuario}" class="form-control" id="usuario" placeholder="Nombre de usuario" required>
                     <div class="invalid-feedback">Por favor, ingresa un nombre de usuario.</div>
 
                     <label for="correo" class="registro-text">Correo Electrónico</label>
-                    <input type="email" name="correo" class="form-control" id="correo" placeholder="ejemplo@correo.com" required>
+                    <input type="email" th:field="*{correo}" class="form-control" id="correo" placeholder="ejemplo@correo.com" required>
                     <div class="invalid-feedback">Por favor, ingresa un correo válido.</div>
 
                     <label for="password" class="registro-text">Contraseña</label>
-                    <input type="password" name="password" class="form-control" id="password" placeholder="Crea una contraseña" minlength="8" required>
+                    <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Crea una contraseña" minlength="8" required>
                     <div class="invalid-feedback">La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, un número y un carácter especial.</div>
 
                     <label for="confirmPassword" class="registro-text">Repite la contraseña</label>

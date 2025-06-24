@@ -5,21 +5,50 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class PaginaController {
 
-    @GetMapping("/{pagina}")
+    private final List<String> paginasRestringidas = List.of("cerrar_sesion", "index", "api");
+
+    @GetMapping("/public/{pagina}")
     public String mostrarPaginaPublica(@PathVariable("pagina") String pagina, HttpSession session, Model model) {
-        // Obtener nombre del usuario de la sesión
         String usuario = (String) session.getAttribute("usuario");
         model.addAttribute("usuario", usuario);
 
-        // Puedes restringir algunas páginas si es necesario
-        if (pagina.equals("cerrar-sesion") || pagina.equals("login") || pagina.equals("api")) {
+        if (paginasRestringidas.contains(pagina)) {
             return "redirect:/error";
         }
 
-        // Retorna la vista desde templates/public/pagina.html
         return "public/" + pagina;
+    }
+
+    @GetMapping("/form/{pagina}")
+    public String mostrarPaginaForms(@PathVariable("pagina") String pagina, HttpSession session, Model model) {
+        String usuario = (String) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
+
+        if (paginasRestringidas.contains(pagina)) {
+            return "redirect:/error";
+        }
+
+        return "form/" + pagina;
+    }
+
+    @GetMapping("/private/{pagina}")
+    public String mostrarPaginaPrivada(@PathVariable("pagina") String pagina, HttpSession session, Model model) {
+        String usuario = (String) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        if (paginasRestringidas.contains(pagina)) {
+            return "redirect:/error";
+        }
+
+        return "private/" + pagina;
     }
 }
