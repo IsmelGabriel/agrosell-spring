@@ -67,7 +67,7 @@
 
     <section class="filtra-productos">
         <form action="" method="get">
-            <label for="producto">Producto:</label>
+            <label for="nombre_producto">Producto:</label>
             <input type="text" name="producto" id="nombre_producto" placeholder="Ej: Manzanas" />
 
             <label for="orden">Ordenar por:</label>
@@ -83,16 +83,22 @@
     </section>
 
     <section id="productos" class="productos-section">
-        <!-- Datos simulados por ahora -->
-        <div class="productos-imagenes">
-            <img src="/img/producto1.jpg" alt="Producto">
+        <div th:each="producto : ${productos}" class="productos-imagenes">
+            <img th:src="${producto.imagen}" alt="Producto">
             <div class="productos-texto">
-                <h3>Manzanas</h3>
-                <p>$2500 Kg<br>Stock: 10</p>
-                <a href="#" class="btn-añadir-carrito" onclick="agregarAlCarrito('Manzanas', 2500, '/img/producto1.jpg')">Añadir al carrito</a>
+                <h3 th:text="${producto.nombre}">Nombre producto</h3>
+                <p th:text="'$' + ${producto.precio} + ' Kg'">Precio</p>
+                <p th:text="'Stock: ' + ${producto.stock}">Stock</p>
+                <a href="#" class="btn-añadir-carrito"
+                   th:onclick="|agregarAlCarrito('${producto.nombre}', ${producto.precio}, '{producto.imagen}')|">
+                    Añadir al carrito
+                </a>
             </div>
         </div>
     </section>
+
+
+
 </main>
 
 <footer class="footer">
