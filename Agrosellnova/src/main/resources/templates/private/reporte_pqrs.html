@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de control</title>
+    <link rel="stylesheet" href="../../css/panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="panel-control">
+<header class="Bienvenido">
+    <h1>Bienvenido, <span th:text="${#strings.capitalize(usuario)}">Usuario</span></h1>
+    <p>Rol: <span th:text="${#strings.capitalize(rol)}">Rol</span></p>
+</header>
+
+<div class="panel-container">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+        <div class="lateral-content">
+            <ul>
+                <li th:if="${rol == 'administrador'}"><a href="../inicio.html">Inicio</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="reporte_ventas">Reporte de Ventas</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="reporte_reservas">Reporte de Reservas</a></li>
+                <!-- <li><a href="reporte_inventario">Reporte de Inventario</a></li> -->
+                <li th:if="${rol == 'administrador'}"><a href="reporte_pqrs">Reporte de PQRS</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="actualizar_roles">Actualizar Roles</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="usuarios_registrados">Reporte usuarios</a></li>
+                <li><a th:href="@{/cerrarSesion}">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="panel-content">
+        <h1>Registro de PQRS</h1>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>USUARIO</th>
+                <th>CORREO</th>
+                <th>MENSAJE</th>
+            </tr>
+            <tr th:each="pqrs : ${pqrsList}">
+                <td th:text="${pqrs.ID_PQRS}">1</td>
+                <td th:text="${pqrs.NOMBRE}">Nombre</td>
+                <td th:text="${pqrs.CORREO}">correo@correo.com</td>
+                <td th:text="${pqrs.MENSAJE}">Mensaje</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(pqrsList)}">
+                <td colspan="4">No hay PQRS's registradas</td>
+            </tr>
+        </table>
+    </main>
+</div>
+</body>
+</html>

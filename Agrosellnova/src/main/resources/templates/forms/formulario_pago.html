@@ -14,31 +14,49 @@
 <body>
 <header class="top-bar">
     <div class="header-content">
-        <img src="https://i.ibb.co/cvj3qCk/agrosell-logo-removebg-preview-1.png" alt="Agrosell Nova" class="logo">
+        <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
         <h1 class="menu-title">AGROSELL NOVA</h1>
+
         <div class="panel-option">
             <button id="panelControl">
-                <a th:href="@{/panel/control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+                <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
             </button>
         </div>
-        <a th:href="@{/carrito}" class="menu-icon"><i class="fas fa-shopping-cart"></i></a>
+
+        <a th:href="@{/public/carrito}" class="menu-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </a>
+
         <span class="notification">
-            <button id="notificationButton"><i class="fas fa-bell menu-icon"></i></button>
+            <button id="notificationButton">
+                <i class="fas fa-bell menu-icon"></i>
+            </button>
         </span>
-        <span><a th:href="@{/logout}" class="username" id="usuario">Iniciar sesión/Registrarse</a></span>
-        <a th:href="@{/panel/perfil}" class="menu-icon"><i class="bi bi-person-circle" style="font-size: 30px;"></i></a>
+
+        <span class="username">
+            <th:block th:if="${usuario != null}">
+                <a th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
+            </th:block>
+            <th:block th:unless="${usuario != null}">
+                <a th:href="@{/public/index}">Iniciar sesión / Registrarse</a>
+            </th:block>
+        </span>
+
+        <a th:href="@{/private/perfil}" class="menu-icon">
+            <i class="bi bi-person-circle" style="font-size: 30px;"></i>
+        </a>
     </div>
 </header>
 
 <nav class="menu-bar">
     <ul>
-        <li><a th:href="@{/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
-        <li><a th:href="@{/productos}"><i class="fas fa-box icon"></i> Productos</a></li>
-        <li><a th:href="@{/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
-        <li><a th:href="@{/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
-        <li><a th:href="@{/about-us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
-        <li><a th:href="@{/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
-        <li><a th:href="@{/ayuda}"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+        <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+        <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
+        <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
+        <li><a th:href="@{/public/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
+        <li><a th:href="@{/public/about_us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
+        <li><a th:href="@{/public/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
+        <li><a th:href="@{/public/ayuda}"><i class="fas fa-question-circle"></i> Ayuda</a></li>
     </ul>
 </nav>
 
@@ -104,14 +122,14 @@
         <div class="footer-column">
             <h3>Enlaces rápidos</h3>
             <ul>
-                <li><a th:href="@{/inicio}">Inicio</a></li>
-                <li><a th:href="@{/categorias}">Categorías</a></li>
-                <li><a th:href="@{/contactanos}">Contáctanos</a></li>
-                <li><a th:href="@{/about-us}">Sobre nosotros</a></li>
-                <li><a th:href="@{/mapa}">Mapa del sitio</a></li>
-                <li><a th:href="@{/404}">Error 404</a></li>
-                <li><a th:href="@{/500}">Error 500</a></li>
-                <li><a th:href="@{/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/public/inicio}">Inicio</a></li>
+                <li><a th:href="@{/public/categorias}">Categorías</a></li>
+                <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
+                <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
+                <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
+                <li><a th:href="@{/public/404}">Error 404</a></li>
+                <li><a th:href="@{/public/500}">Error 500</a></li>
+                <li><a th:href="@{/public/dashboard}">Dashboard</a></li>
             </ul>
         </div>
 
@@ -136,7 +154,6 @@
         <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y condiciones</a></p>
     </div>
 </footer>
-
 <script>
     document.getElementById('notificationButton').addEventListener('click', () => alert("No tienes notificaciones pendientes"));
     window.addEventListener("scroll", () => {

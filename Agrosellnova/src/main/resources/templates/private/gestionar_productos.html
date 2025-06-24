@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de control</title>
+    <link rel="stylesheet" href="../../css/panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="panel-control">
+<header class="Bienvenido">
+    <h1>Bienvenido, <span th:text="${#strings.capitalize(usuario)}"></span></h1>
+    <p>Rol: <span th:text="${#strings.capitalize(rol)}"></span></p>
+</header>
+
+<div class="panel-container">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+        <div class="lateral-content">
+            <ul>
+                <li th:if="${rol == 'productor'}"><a href="../inicio.html">Inicio</a></li>
+                <li th:if="${rol == 'productor'}"><a href="ofertar_producto">Ofertar Producto</a></li>
+                <li th:if="${rol == 'productor'}"><a href="gestionar_productos">Gestionar productos</a></li>
+                <li><a href="/cerrarSesion">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="panel-content">
+        <h1>Productos registrados en el sistema: <span th:text="${usuario}"></span></h1>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>ID PRODUCTO</th>
+                <th>IMAGEN</th>
+                <th>PRODUCTO</th>
+                <th>DESCRIPCIÓN</th>
+                <th>PRECIO</th>
+                <th>PESO Kg</th>
+                <th>Stock</th>
+                <th>Fecha de cosecha</th>
+                <th colspan="2">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="producto : ${listaProductos}">
+                <td th:text="${producto.id}"></td>
+                <td>
+                    <img th:src="@{'/imagenes/' + ${producto.imagen}}" alt="Imagen del producto" width="100">
+                </td>
+                <td th:text="${producto.nombre}"></td>
+                <td th:text="${producto.descripcion}"></td>
+                <td th:text="${producto.precio}"></td>
+                <td th:text="${producto.pesoKg}"></td>
+                <td th:text="${producto.stock}"></td>
+                <td th:text="${producto.fechaCosecha}"></td>
+                <td><a th:href="@{'/editar_producto?id=' + ${producto.id}}">Editar</a></td>
+                <td><a th:href="@{'/eliminar_producto?id=' + ${producto.id}}">Eliminar</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(listaProductos)}">
+                <td colspan="10">No tienes productos registrados.</td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+</body>
+</html>
