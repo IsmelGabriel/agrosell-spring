@@ -5,38 +5,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Productos - Agrosell nova</title>
-    <link rel="stylesheet" href="/css/styles.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
     <script src="/js/mostrarNombre.js"></script>
 </head>
 
 <body>
 <header class="top-bar">
     <div class="header-content">
-        <img src="/img/logo.png" alt="Agrosell Nova" class="logo" />
+        <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
         <h1 class="menu-title">AGROSELL NOVA</h1>
+
         <div class="panel-option">
-            <a href="/panel/panel_control.html" class="menu-icon"><i class="fa fa-cog"></i></a>
+            <button id="panelControl">
+                <a th:href="@{/panel-control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+            </button>
         </div>
-        <a href="/carrito.html" class="menu-icon"><i class="fas fa-shopping-cart"></i></a>
+
+        <a th:href="@{/carrito}" class="menu-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </a>
+
         <span class="notification">
-        <button id="notificationButton"><i class="fas fa-bell"></i></button>
-      </span>
-        <span><a href="/login.html" class="username" id="usuario">Iniciar sesión/Registrarse</a></span>
-        <a href="/panel/perfil.html" class="menu-icon"><i class="bi bi-person-circle" style="font-size: 30px;"></i></a>
+            <button id="notificationButton">
+                <i class="fas fa-bell menu-icon"></i>
+            </button>
+        </span>
+
+        <span class="username">
+            <th:block th:if="${usuario != null}">
+                <a th:text="${usuario}" th:href="@{/cerrar_sesion}"></a>
+            </th:block>
+            <th:block th:unless="${usuario != null}">
+                <a th:href="@{/index}">Iniciar sesión / Registrarse</a>
+            </th:block>
+        </span>
+
+        <a th:href="@{/perfil}" class="menu-icon">
+            <i class="bi bi-person-circle" style="font-size: 30px;"></i>
+        </a>
     </div>
 </header>
 
 <nav class="menu-bar">
     <ul>
-        <li><a href="/inicio.html"><i class="fas fa-home"></i> Inicio</a></li>
-        <li><a href="/productos.html"><i class="fas fa-box icon"></i> Productos</a></li>
-        <li><a href="/categorias.html"><i class="fas fa-list"></i> Categorías</a></li>
-        <li><a href="/reservas.html"><i class="fas fa-bookmark"></i> Reservas</a></li>
-        <li><a href="/about_us.html"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
-        <li><a href="/contactanos.html"><i class="fas fa-envelope"></i> Contáctanos</a></li>
-        <li><a href="/ayuda.html"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+        <li><a th:href="@{/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+        <li><a th:href="@{/productos}"><i class="fas fa-box icon"></i> Productos</a></li>
+        <li><a th:href="@{/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
+        <li><a th:href="@{/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
+        <li><a th:href="@{/about_us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
+        <li><a th:href="@{/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
+        <li><a th:href="@{/ayuda}"><i class="fas fa-question-circle"></i> Ayuda</a></li>
     </ul>
 </nav>
 
