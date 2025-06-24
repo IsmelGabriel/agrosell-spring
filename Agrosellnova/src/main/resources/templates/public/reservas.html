@@ -11,23 +11,35 @@
 <body>
 <header class="top-bar">
     <div class="header-content">
-        <img th:src="@{/img/logo.png}" alt="Agrosell Nova" class="logo">
+        <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
         <h1 class="menu-title">AGROSELL NOVA</h1>
+
         <div class="panel-option">
             <button id="panelControl">
-                <a th:href="@{/panel/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+                <a th:href="@{/panel-control}" class="menu-icon"><i class="fa fa-cog"></i></a>
             </button>
         </div>
+
         <a th:href="@{/carrito}" class="menu-icon">
             <i class="fas fa-shopping-cart"></i>
         </a>
+
         <span class="notification">
-                <button id="notificationButton">
-                    <i class="fas fa-bell menu-icon"></i>
-                </button>
-            </span>
-        <span><a th:href="@{/logout}" class="username" id="usuario">Iniciar sesión/Registrarse</a></span>
-        <a th:href="@{/panel/perfil}" class="menu-icon">
+            <button id="notificationButton">
+                <i class="fas fa-bell menu-icon"></i>
+            </button>
+        </span>
+
+        <span class="username">
+            <th:block th:if="${usuario != null}">
+                <a th:text="${usuario}" th:href="@{/cerrar_sesion}"></a>
+            </th:block>
+            <th:block th:unless="${usuario != null}">
+                <a th:href="@{/index}">Iniciar sesión / Registrarse</a>
+            </th:block>
+        </span>
+
+        <a th:href="@{/perfil}" class="menu-icon">
             <i class="bi bi-person-circle" style="font-size: 30px;"></i>
         </a>
     </div>
@@ -116,7 +128,7 @@
             <ul>
                 <li><a th:href="@{/inicio}">Inicio</a></li>
                 <li><a th:href="@{/categorias}">Categorías</a></li>
-                <li><a th:href="@{/contacto}">Contáctanos</a></li>
+                <li><a th:href="@{/contactanos}">Contáctanos</a></li>
                 <li><a th:href="@{/about_us}">Sobre nosotros</a></li>
                 <li><a th:href="@{/mapa}">Mapa del sitio</a></li>
                 <li><a th:href="@{/404}">Error 404</a></li>

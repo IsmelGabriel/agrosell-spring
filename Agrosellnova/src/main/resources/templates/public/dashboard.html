@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contáctanos - Agrosell Nova</title>
+    <title>Dashboard - Agrosell Nova</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-
 <header class="top-bar">
     <div class="header-content">
         <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
@@ -19,7 +16,7 @@
 
         <div class="panel-option">
             <button id="panelControl">
-                <a th:href="@{/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+                <a th:href="@{/panel-control}" class="menu-icon"><i class="fa fa-cog"></i></a>
             </button>
         </div>
 
@@ -60,48 +57,83 @@
     </ul>
 </nav>
 
-<main>
-    <section id="contactactanos-section">
-        <div class="contactanos-titulo">
-            <h2>Contáctanos</h2>
+<main class="dashboard-content">
+    <section class="stats">
+        <div class="stat-item">
+            <i class="fas fa-dollar-sign"></i>
+            <div class="stat-info">
+                <h3>Ventas Totales</h3>
+                <p>$75,450.000</p>
+            </div>
         </div>
-        <div class="contactanos-descripcion">
-            <h1>Si tienes alguna pregunta o inquietud, no dudes en ponerte en contacto con nosotros. Estaremos encantados de ayudarte.</h1>
+        <div class="stat-item">
+            <i class="fas fa-box"></i>
+            <div class="stat-info">
+                <h3>Productos Vendidos</h3>
+                <p>500</p>
+            </div>
         </div>
-        <div class="contactanos-formulario">
-            <form th:action="@{/guardar_pqrs}" method="post" class="contact-form needs-validation" novalidate>
-                <div class="contactanos-form-info">
-                    <label for="NOMBRE">Nombre</label>
-                    <input type="text" id="nombre" name="NOMBRE" class="form-control" required>
-                    <div class="invalid-feedback">Por favor, ingrese su nombre.</div>
-                </div>
-                <div class="contactanos-form-info">
-                    <label for="CORREO">Correo Electrónico</label>
-                    <input type="email" id="email" name="CORREO" class="form-control" required>
-                    <div class="invalid-feedback">Por favor, ingrese un correo electrónico válido.</div>
-                </div>
-                <div class="contactanos-form-info">
-                    <label for="MENSAJE">Mensaje</label>
-                    <textarea id="mensaje" name="MENSAJE" class="form-control" rows="4" required></textarea>
-                    <div class="invalid-feedback">Por favor, ingrese un mensaje.</div>
-                </div>
-                <button type="submit" class="contactanos-form-enviar">Enviar</button>
-            </form>
-        </div>
-
-        <div class="contactanos-mapa">
-            <h3>Visítanos</h3>
-            <iframe src="https://www.google.com/maps/embed?pb=..." width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-
-        <div class="contactanos-info">
-            <h3>Información de contacto</h3>
-            <p>Dirección: Calle Ficticia 123, Ciudad, País</p>
-            <p>Teléfono: +123 456 789</p>
-            <p>Correo electrónico: contacto@agrosellnova.com</p>
+        <div class="stat-item">
+            <i class="fas fa-users"></i>
+            <div class="stat-info">
+                <h3>Clientes</h3>
+                <p>200</p>
+            </div>
         </div>
     </section>
+
+    <section class="charts">
+        <div class="chart">
+            <h3>Ventas Mensuales</h3>
+            <canvas id="monthlySalesChart"></canvas>
+        </div>
+        <div class="chart">
+            <h3>Productos Más Vendidos</h3>
+            <canvas id="topProductsChart"></canvas>
+        </div>
+    </section>
+
+    <section class="recent-orders">
+        <h3>Órdenes Recientes</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>ID Orden</th>
+                <th>Cliente</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>#001</td>
+                <td>Juan Pérez</td>
+                <td>Tomates</td>
+                <td>10</td>
+                <td>$50</td>
+            </tr>
+            <tr>
+                <td>#002</td>
+                <td>Maria López</td>
+                <td>Lechuga</td>
+                <td>5</td>
+                <td>$25</td>
+            </tr>
+            <tr>
+                <td>#003</td>
+                <td>Carlos García</td>
+                <td>Zanahorias</td>
+                <td>8</td>
+                <td>$40</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script th:src="@{/js/dashboard-charts.js}"></script>
 
 <footer class="footer">
     <div class="footer-container">
@@ -140,44 +172,5 @@
         <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y condiciones</a></p>
     </div>
 </footer>
-
-<script>
-    // Validación del formulario
-    (function () {
-        'use strict';
-        var forms = document.querySelectorAll('.needs-validation');
-        Array.prototype.slice.call(forms).forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
-        });
-    })();
-
-    document.getElementById('notificationButton').addEventListener('click', function () {
-        alert("No tienes notificaciones pendientes");
-    });
-
-    function debounce(func, wait) {
-        let timeout;
-        return function (...args) {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
-        };
-    }
-
-    window.addEventListener("scroll", debounce(function () {
-        const menuBar = document.querySelector(".menu-bar");
-        if (window.scrollY > 50) {
-            menuBar.classList.add("scrolled");
-        } else {
-            menuBar.classList.remove("scrolled");
-        }
-    }, 100));
-</script>
-
 </body>
 </html>
