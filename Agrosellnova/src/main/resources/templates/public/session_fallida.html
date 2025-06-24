@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión Fallida</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="page-exitoso">
+<div class="exito-container">
+    <h1 class="msj-exitoso">¡Parece que algo ha salido mal!</h1>
+    <p>Por favor crea una cuenta o inicia sesión antes de realizar una reserva.</p>
+    <a th:href="@{/login}" class="btn-exitoso">Iniciar sesión</a>
+    <a th:href="@{/registrarse}" class="btn-exitoso">Crear cuenta</a>
+</div>
+</body>
+</html>
