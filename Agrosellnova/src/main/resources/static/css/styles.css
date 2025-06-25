@@ -1,3 +1,122 @@
+@media (max-width: 768px) {
+    /* Encabezado */
+    .top-bar {
+        padding: 0;
+        background-color: #2e7d32;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .top-bar .header-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        text-align: center;
+        gap: 0;
+    }
+
+    .top-bar .logo {
+        max-width: 80px;
+        height: auto;
+    }
+
+    .top-bar .menu-title {
+        font-size: 1.2em;
+        margin: 0;
+    }
+
+    .top-bar .menu-icon,
+    .top-bar .username,
+    .top-bar .panel-option {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .top-bar a,
+    .top-bar button {
+        font-size: 1.2em;
+        padding: 5px;
+    }
+
+    /* Menú */
+    .menu-bar ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu-bar ul li {
+        margin: 8px 0;
+    }
+
+    /* Pie de página */
+    .footer-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 15px;
+        padding: 20px 10px;
+    }
+
+    .footer-column {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .footer-bottom {
+        padding: 10px;
+        font-size: 0.85em;
+        text-align: center;
+    }
+
+    /* Inicio */
+    .presentacion-inicio {
+        display: flex;
+    }
+
+    .presentacion-cuadro-inicio {
+        display: inline-table;
+        font-size: medium;
+        height: 155px;
+    }
+
+    .practicas-seccion {
+        margin: 3px;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    /* Productos */
+    .productos-imagenes {
+        width: 90%;
+        margin: 10px auto;
+        text-align: center;
+    }
+
+    .productos-imagenes img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .filtra-productos form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .filtra-productos input,
+    .filtra-productos select,
+    .filtra-productos button {
+        width: 90%;
+        max-width: 300px;
+    }
+}
 
 
 /* pagina general */
@@ -361,7 +480,11 @@ footer {
     align-items: center;
     text-align: center;
     font-size: 1.1rem;
-    line-height: 1.7;
+    line-height: 1.5;
+}
+.practicas-info p {
+    margin: 20px;
+
 }
 
 .practicas-titulo {

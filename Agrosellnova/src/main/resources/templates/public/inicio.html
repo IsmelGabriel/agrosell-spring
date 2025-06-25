@@ -37,7 +37,7 @@
                 <a th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
             </th:block>
             <th:block th:unless="${usuario != null}">
-                <a th:href="@{/public/index}">Iniciar sesión / Registrarse</a>
+                <a th:href="@{/public/index}">Iniciar sesión</a>
             </th:block>
         </span>
 
@@ -65,7 +65,7 @@
             <p><a th:href="@{/public/about_us}"> ¡Conoce más sobre nosotros! </a></p>
         </div>
         <div class="presentacion-cuadro-inicio"><i class="fas fa-user-plus"></i>
-            <p><a th:href="@{/public/registro}">¡Bienvenido, regístrate aquí!</a></p>
+            <p><a th:href="@{/public/registrarse}">¡Bienvenido, regístrate aquí!</a></p>
         </div>
         <div class="presentacion-cuadro-inicio"><i class="fas fa-phone-alt"></i>
             <p><a th:href="@{/public/contactanos}">¡Contáctate con nosotros!</a></p>

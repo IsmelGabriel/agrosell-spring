@@ -3,7 +3,6 @@ package com.agrosellnova.Agrosellnova.servicio;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ public class UsuarioService {
     private PasswordEncoder passwordEncoder;
 
     /**
-     * Intenta registrar un nuevo usuario.
+     * Registra un nuevo usuario en el sistema.
      * @param usuario objeto con los datos del formulario.
      * @return null si el registro fue exitoso; de lo contrario, mensaje de error.
      */
