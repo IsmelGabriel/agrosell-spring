@@ -25,24 +25,18 @@
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}">Reporte de PQRS</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}">Actualizar Roles</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}">Reporte usuarios</a></li>
-
                 <!-- PRODUCTOR -->
                 <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}">Inicio</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}">Ofertar Producto</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}">Gestionar productos</a></li>
-
                 <!-- CLIENTE -->
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}">Inicio</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}">Gestionar Reservas</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}">Ver Productos</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}">Realizar Reserva</a></li>
-
-<<<<<<< HEAD
                 <li><a href="/public/cerrar_sesion">Cerrar Sesión</a></li>
-=======
                 <!-- Todos los roles -->
                 <li><a th:href="@{/public/cerrar_sesion}">Cerrar Sesión</a></li>
->>>>>>> a0ee9703cd0126fe0e2026fb196fb638144641ea
             </ul>
         </div>
     </aside>
