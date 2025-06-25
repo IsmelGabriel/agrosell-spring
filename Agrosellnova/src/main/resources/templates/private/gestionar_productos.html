@@ -18,10 +18,10 @@
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
-                <li th:if="${rol == 'productor'}"><a href="../inicio.html">Inicio</a></li>
-                <li th:if="${rol == 'productor'}"><a href="ofertar_producto">Ofertar Producto</a></li>
-                <li th:if="${rol == 'productor'}"><a href="gestionar_productos">Gestionar productos</a></li>
-                <li><a href="/cerrarSesion">Cerrar Sesión</a></li>
+                <li th:if="${rol == 'productor'}"><a href="/public/inicio">Inicio</a></li>
+                <li th:if="${rol == 'productor'}"><a href="/private/ofertar_producto">Ofertar Producto</a></li>
+                <li th:if="${rol == 'productor'}"><a href="/private/gestionar_productos">Gestionar productos</a></li>
+                <li><a href="/public/cerrar_sesion">Cerrar Sesión</a></li>
             </ul>
         </div>
     </aside>

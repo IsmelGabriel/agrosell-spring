@@ -18,14 +18,14 @@
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
-                <li th:if="${rol == 'administrador'}"><a href="../inicio.html">Inicio</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="reporte_ventas">Reporte de Ventas</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="reporte_reservas">Reporte de Reservas</a></li>
-                <!-- <li><a href="reporte_inventario">Reporte de Inventario</a></li> -->
-                <li th:if="${rol == 'administrador'}"><a href="reporte_pqrs">Reporte de PQRS</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="actualizar_roles">Actualizar Roles</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="usuarios_registrados">Reporte usuarios</a></li>
-                <li><a th:href="@{/cerrarSesion}">Cerrar Sesión</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="/public/inicio.html">Inicio</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="/private/reporte_ventas">Reporte de Ventas</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="/private/reporte_reservas">Reporte de Reservas</a></li>
+                <-- <li><a href="reporte_inventario">Reporte de Inventario</a></li> -->
+                <li th:if="${rol == 'administrador'}"><a href="/private/reporte_pqrs">Reporte de PQRS</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="/private/actualizar_roles">Actualizar Roles</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="/private/usuarios_registrados">Reporte usuarios</a></li>
+                <li><a th:href="@{/public/cerrar_sesion}">Cerrar Sesión</a></li>
             </ul>
         </div>
     </aside>
