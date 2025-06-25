@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de control</title>
-    <link rel="stylesheet" href="../../css/panel.css">
+    <title>Panel de control - Reporte de Ventas</title>
+    <link rel="stylesheet" th:href="@{/css/panel.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="panel-control">
+
 <header class="Bienvenido">
     <h1>Bienvenido, <span th:text="${#strings.capitalize(usuario)}">Usuario</span></h1>
     <p>Rol: <span th:text="${#strings.capitalize(rol)}">Rol</span></p>
@@ -18,22 +19,22 @@
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
-                <li th:if="${rol == 'administrador'}"><a href="/public/inicio">Inicio</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="reporte_ventas">Reporte de Ventas</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="reporte_reservas">Reporte de Reservas</a></li>
-                <!-- <li><a href="reporte_inventario">Reporte de Inventario</a></li> -->
-                <li th:if="${rol == 'administrador'}"><a href="reporte_pqrs">Reporte de PQRS</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="actualizar_roles">Actualizar Roles</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="usuarios_registrados">Reporte usuarios</a></li>
-                <li><a th:href="@{/cerrarSesion}">Cerrar Sesión</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/public/inicio}">Inicio</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_ventas}">Reporte de Ventas</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}">Reporte de Reservas</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}">Reporte de PQRS</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}">Actualizar Roles</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}">Reporte usuarios</a></li>
+                <li><a th:href="@{/public/cerrar_sesion}">Cerrar Sesión</a></li>
             </ul>
         </div>
     </aside>
 
     <!-- Contenido Principal -->
     <main class="panel-content">
-        <h1>Reporte de VENTAS</h1>
+        <h1>Reporte de Ventas</h1>
         <table border="1">
+            <thead>
             <tr>
                 <th>ID Venta</th>
                 <th>Cliente</th>
@@ -43,18 +44,21 @@
                 <th>Total</th>
                 <th>Fecha</th>
             </tr>
+            </thead>
+            <tbody>
             <tr th:each="venta : ${ventas}">
-                <td th:text="${venta.id_venta}">1</td>
+                <td th:text="${venta.idVenta}">1</td>
                 <td th:text="${venta.cliente}">cliente123</td>
                 <td th:text="${venta.vendedor}">vendedor456</td>
                 <td th:text="${venta.producto}">Papa</td>
-                <td th:text="${venta.cantidad_kg}">10</td>
-                <td th:text="${venta.total_venta}">50000</td>
-                <td th:text="${venta.fecha_venta}">2024-06-01</td>
+                <td th:text="${venta.cantidadKg}">10</td>
+                <td th:text="${venta.totalVenta}">50000</td>
+                <td th:text="${venta.fechaVenta}">2024-06-01</td>
             </tr>
             <tr th:if="${#lists.isEmpty(ventas)}">
                 <td colspan="7">No hay ventas registradas</td>
             </tr>
+            </tbody>
         </table>
     </main>
 </div>
