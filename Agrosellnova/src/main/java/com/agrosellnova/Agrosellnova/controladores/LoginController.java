@@ -34,7 +34,6 @@ public class LoginController {
             System.out.println("Nombre de usuario en sesión: " + session.getAttribute("usuario"));
             System.out.println("Rol en sesión: " + session.getAttribute("rol"));
             return "redirect:/public/inicio";
-
         }
 
         model.addAttribute("error", "Usuario o contraseña incorrectos.");
