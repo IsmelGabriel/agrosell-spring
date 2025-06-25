@@ -1,26 +1,22 @@
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Productos - Agrosell nova</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
-    <script src="/js/mostrarNombre.js"></script>
+    <title>Productos - Agrosell Nova</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" />
 </head>
 
 <body>
 <header class="top-bar">
     <div class="header-content">
-        <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
+        <img src="/img/logo.png" alt="Agrosell Nova" class="logo" />
         <h1 class="menu-title">AGROSELL NOVA</h1>
 
         <div class="panel-option">
-            <button id="panelControl">
-                <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
-            </button>
+            <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
         </div>
 
         <a th:href="@{/public/carrito}" class="menu-icon">
@@ -66,8 +62,8 @@
     </section>
 
     <section class="filtra-productos">
-        <form action="" method="get">
-            <label for="producto">Producto:</label>
+        <form action="#" method="get">
+            <label for="nombre_producto">Producto:</label>
             <input type="text" name="producto" id="nombre_producto" placeholder="Ej: Manzanas" />
 
             <label for="orden">Ordenar por:</label>
@@ -83,13 +79,16 @@
     </section>
 
     <section id="productos" class="productos-section">
-        <!-- Datos simulados por ahora -->
-        <div class="productos-imagenes">
-            <img src="/img/producto1.jpg" alt="Producto">
+        <div th:each="producto : ${productos}" class="productos-imagenes">
+            <img th:src="${producto.imagen}" alt="Imagen producto" />
             <div class="productos-texto">
-                <h3>Manzanas</h3>
-                <p>$2500 Kg<br>Stock: 10</p>
-                <a href="#" class="btn-añadir-carrito" onclick="agregarAlCarrito('Manzanas', 2500, '/img/producto1.jpg')">Añadir al carrito</a>
+                <h3 th:text="${producto.nombre}">Nombre producto</h3>
+                <p th:text="'$' + ${producto.precio} + ' / Kg'">Precio</p>
+                <p th:text="'Stock: ' + ${producto.stock}">Stock</p>
+                <a href="#" class="btn-añadir-carrito"
+                   th:onclick="|agregarAlCarrito('${producto.nombre}', ${producto.precio}, '${producto.imagen}')|">
+                    Añadir al carrito
+                </a>
             </div>
         </div>
     </section>
@@ -129,7 +128,7 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a href="/terminos.html">Términos y condiciones</a></p>
+        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/public/terminos}">Términos y condiciones</a></p>
     </div>
 </footer>
 
@@ -153,6 +152,6 @@
         alert(`${nombre} (${cantidad}) se ha añadido al carrito.`);
     }
 </script>
-</body>
 
+</body>
 </html>

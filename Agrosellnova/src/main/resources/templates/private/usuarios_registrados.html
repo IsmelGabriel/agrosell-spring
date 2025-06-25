@@ -18,6 +18,7 @@
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
+<<<<<<< HEAD
                 <li th:if="${rol == 'administrador'}"><a href="/public/inicio.html">Inicio</a></li>
                 <li th:if="${rol == 'administrador'}"><a href="/private/reporte_ventas">Reporte de Ventas</a></li>
                 <li th:if="${rol == 'administrador'}"><a href="/private/reporte_reservas">Reporte de Reservas</a></li>
@@ -25,6 +26,15 @@
                 <li th:if="${rol == 'administrador'}"><a href="/private/actualizar_roles">Actualizar Roles</a></li>
                 <li th:if="${rol == 'administrador'}"><a href="/private/usuarios_registrados">Reporte usuarios</a></li>
                 <li><a th:href="@{/public/cerrar_sesion}">Cerrar Sesión</a></li>
+=======
+                <li th:if="${rol == 'administrador'}"><a href="/public/inicio">Inicio</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="reporte_ventas">Reporte de Ventas</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="reporte_reservas">Reporte de Reservas</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="reporte_pqrs">Reporte de PQRS</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="actualizar_roles">Actualizar Roles</a></li>
+                <li th:if="${rol == 'administrador'}"><a href="usuarios_registrados">Reporte usuarios</a></li>
+                <li><a th:href="@{/cerrarSesion}">Cerrar Sesión</a></li>
+>>>>>>> a0ee9703cd0126fe0e2026fb196fb638144641ea
             </ul>
         </div>
     </aside>

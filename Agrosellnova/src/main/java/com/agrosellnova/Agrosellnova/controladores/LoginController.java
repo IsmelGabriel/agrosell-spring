@@ -30,11 +30,15 @@ public class LoginController {
         if (usuarioAutenticado != null) {
             session.setAttribute("usuario", usuarioAutenticado.getNombreUsuario());
             session.setAttribute("rol", usuarioAutenticado.getRol());
+            System.out.println("Inicio de sesión exitoso:");
+            System.out.println("Nombre de usuario en sesión: " + session.getAttribute("usuario"));
+            System.out.println("Rol en sesión: " + session.getAttribute("rol"));
             return "redirect:/public/inicio";
         }
 
         model.addAttribute("error", "Usuario o contraseña incorrectos.");
         return "public/session_fallida";
+
     }
 
     @GetMapping("/public/cerrar_sesion")
