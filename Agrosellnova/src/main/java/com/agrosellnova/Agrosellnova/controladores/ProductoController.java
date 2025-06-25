@@ -18,14 +18,13 @@ public class ProductoController {
 
     @GetMapping("/public/productos")
     public String mostrarProductos(Model model, HttpSession session) {
-        // Obtener usuario en sesión (si está autenticado)
-        String nombreUsuario = (String) session.getAttribute("usuario");
-        model.addAttribute("usuario", nombreUsuario);
+        String usuario = (String) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
 
-        // Obtener lista de productos desde la base de datos
         List<Producto> productos = productoService.obtenerTodosLosProductos();
         model.addAttribute("productos", productos);
 
-        return "public/productos"; // src/main/resources/templates/public/productos.html
+        return "public/productos";
     }
 }
+

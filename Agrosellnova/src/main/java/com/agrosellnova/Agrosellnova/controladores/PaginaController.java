@@ -21,6 +21,10 @@ public class PaginaController {
 
     @GetMapping("/public/{pagina}")
     public String mostrarPaginaPublica(@PathVariable("pagina") String pagina, HttpSession session, Model model) {
+        if ("productos".equals(pagina)) {
+            return "redirect:/public/productos";
+        }
+
         String usuario = (String) session.getAttribute("usuario");
         model.addAttribute("usuario", usuario);
 

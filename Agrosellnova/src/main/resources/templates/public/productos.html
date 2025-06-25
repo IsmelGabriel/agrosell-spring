@@ -12,11 +12,13 @@
 <body>
 <header class="top-bar">
     <div class="header-content">
-        <img src="/img/logo.png" alt="Agrosell Nova" class="logo" />
+        <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
         <h1 class="menu-title">AGROSELL NOVA</h1>
 
         <div class="panel-option">
-            <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+            <button id="panelControl">
+                <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+            </button>
         </div>
 
         <a th:href="@{/public/carrito}" class="menu-icon">
@@ -55,7 +57,6 @@
         <li><a th:href="@{/public/ayuda}"><i class="fas fa-question-circle"></i> Ayuda</a></li>
     </ul>
 </nav>
-
 <main>
     <section class="producto-titulo">
         <h1>¡Todos los productos que buscas están aquí!</h1>
@@ -80,13 +81,13 @@
 
     <section id="productos" class="productos-section">
         <div th:each="producto : ${productos}" class="productos-imagenes">
-            <img th:src="${producto.imagen}" alt="Imagen producto" />
+            <img th:src="${producto.imagen}" alt="Producto">
             <div class="productos-texto">
                 <h3 th:text="${producto.nombre}">Nombre producto</h3>
-                <p th:text="'$' + ${producto.precio} + ' / Kg'">Precio</p>
+                <p th:text="'$' + ${producto.precio} + ' Kg'">Precio</p>
                 <p th:text="'Stock: ' + ${producto.stock}">Stock</p>
                 <a href="#" class="btn-añadir-carrito"
-                   th:onclick="|agregarAlCarrito('${producto.nombre}', ${producto.precio}, '${producto.imagen}')|">
+                   th:attr="onclick=|agregarAlCarrito('${producto.nombre}', ${producto.precio}, '${producto.imagen}')|">
                     Añadir al carrito
                 </a>
             </div>
