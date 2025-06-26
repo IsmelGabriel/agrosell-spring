@@ -40,6 +40,7 @@
                 <th>ID</th>
                 <th>Usuario</th>
                 <th>Correo</th>
+                <th>Telefono</th>
                 <th>Mensaje</th>
             </tr>
             </thead>
@@ -48,8 +49,10 @@
                 <td th:text="${pqrs.idPqrs}">1</td>
                 <td th:text="${pqrs.nombre}">Nombre</td>
                 <td th:text="${pqrs.correo}">correo@correo.com</td>
+                <td th:text="${pqrs.telefono}">3001234567</td>
                 <td th:text="${pqrs.mensaje}">Mensaje</td>
             </tr>
+
             <tr th:if="${#lists.isEmpty(pqrsList)}">
                 <td colspan="4">No hay PQRS registradas.</td>
             </tr>
