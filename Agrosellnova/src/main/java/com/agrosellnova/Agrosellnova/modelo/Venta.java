@@ -36,11 +36,9 @@ public class Venta {
     @Column(name = "facturas_ID_factura")
     private Long idFactura;
 
-    // Getters y Setters
     public Long getIdVenta() {
         return idVenta;
     }
-
     public void setIdVenta(Long idVenta) {
         this.idVenta = idVenta;
     }
@@ -48,7 +46,6 @@ public class Venta {
     public Usuario getComprador() {
         return comprador;
     }
-
     public void setComprador(Usuario comprador) {
         this.comprador = comprador;
     }
@@ -56,7 +53,6 @@ public class Venta {
     public Usuario getVendedor() {
         return vendedor;
     }
-
     public void setVendedor(Usuario vendedor) {
         this.vendedor = vendedor;
     }
@@ -64,7 +60,6 @@ public class Venta {
     public Producto getProducto() {
         return producto;
     }
-
     public void setProducto(Producto producto) {
         this.producto = producto;
     }
@@ -72,7 +67,6 @@ public class Venta {
     public Double getCantidadKg() {
         return cantidadKg;
     }
-
     public void setCantidadKg(Double cantidadKg) {
         this.cantidadKg = cantidadKg;
     }
@@ -80,7 +74,6 @@ public class Venta {
     public Double getTotalVenta() {
         return totalVenta;
     }
-
     public void setTotalVenta(Double totalVenta) {
         this.totalVenta = totalVenta;
     }
@@ -88,7 +81,6 @@ public class Venta {
     public LocalDate getFechaVenta() {
         return fechaVenta;
     }
-
     public void setFechaVenta(LocalDate fechaVenta) {
         this.fechaVenta = fechaVenta;
     }
@@ -96,7 +88,6 @@ public class Venta {
     public Long getIdFactura() {
         return idFactura;
     }
-
     public void setIdFactura(Long idFactura) {
         this.idFactura = idFactura;
     }

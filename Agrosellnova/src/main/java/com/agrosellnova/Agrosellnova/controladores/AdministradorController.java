@@ -5,6 +5,7 @@ import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.servicio.PqrsService;
 import com.agrosellnova.Agrosellnova.servicio.ReservaService;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
+import com.agrosellnova.Agrosellnova.servicio.VentaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -82,5 +83,16 @@ public class AdministradorController {
         model.addAttribute("rol", session.getAttribute("rol"));
 
         return "private/reporte_reservas";
+    }
+
+    @Autowired
+    private VentaService ventaService;
+
+    @GetMapping("/private/reportes_ventas")
+    public String mostrarVentas(Model model, HttpSession session) {
+        model.addAttribute("usuario", session.getAttribute("usuario"));
+        model.addAttribute("rol", session.getAttribute("rol"));
+        model.addAttribute("ventas", ventaService.obtenerTodasLasVentas());
+        return "private/reportes_ventas";
     }
 }
