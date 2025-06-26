@@ -14,34 +14,34 @@
 </header>
 
 <div class="panel-container">
-    <!-- Barra lateral -->
+
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
-                <!-- ADMINISTRADOR -->
+
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/public/inicio}">Inicio</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_ventas}">Reporte de Ventas</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}">Reporte de Reservas</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}">Reporte de PQRS</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}">Actualizar Roles</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}">Reporte usuarios</a></li>
-                <!-- PRODUCTOR -->
+
                 <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}">Inicio</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}">Ofertar Producto</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}">Gestionar productos</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}">Gestionar ventas</a> </li>
-                <!-- CLIENTE -->
+
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}">Inicio</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}">Gestionar Reservas</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}">Ver Productos</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}">Realizar Reserva</a></li>
-                <!-- Todos los roles -->
+
                 <li><a th:href="@{/public/cerrar_sesion}">Cerrar Sesión</a></li>
             </ul>
         </div>
     </aside>
 
-    <!-- Contenido principal -->
+
     <main class="panel-content">
         <h2>Panel de Control</h2>
         <p>Información del usuario:</p>

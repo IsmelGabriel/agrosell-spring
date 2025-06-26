@@ -24,12 +24,12 @@ header.Bienvenido p {
     font-size: 1.2rem;
 }
 
-/* Panel Container */
+
 .panel-container {
     display: flex;
 }
 
-/* Sidebar */
+
 .sidebar {
     width: 200px;
     background-color: #34495e;

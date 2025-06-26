@@ -71,7 +71,12 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<version>3.5.3</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.agrosellnova</groupId>
+            <artifactId>Agrosellnova</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 
 

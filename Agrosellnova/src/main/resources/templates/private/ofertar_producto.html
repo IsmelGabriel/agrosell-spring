@@ -15,7 +15,7 @@
 </header>
 
 <div class="panel-container">
-    <!-- Barra lateral -->
+
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
@@ -31,59 +31,58 @@
     <main class="ofertar-container">
         <h2 class="ofertar-titulo">Ofertar Producto</h2>
         <form th:action="@{/guardar_producto}" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
-            <!-- Usuario oculto -->
+
             <input type="hidden" name="usuario" id="usuario" th:value="${usuario}" />
 
-            <!-- Imagen -->
+
             <div class="ofertar-form">
                 <label for="productoImagen" class="form-label">Foto del Producto</label>
                 <input type="file" name="productoImagen" id="productoImagen" class="form-control" accept="image/*" required>
                 <div class="invalid-feedback">Por favor, selecciona una foto.</div>
             </div>
 
-            <!-- Nombre producto -->
+
             <div class="ofertar-form">
                 <label for="nombreProducto" class="form-label">Nombre producto</label>
                 <input type="text" name="nombreProducto" id="nombreProducto" class="form-control" placeholder="Nombre del producto" required>
                 <div class="invalid-feedback">Por favor, escribe un nombre.</div>
             </div>
 
-            <!-- Precio -->
+
             <div class="ofertar-form">
                 <label for="precio" class="form-label">Precio del producto - POR Kg</label>
                 <input type="number" name="precio" id="precio" class="form-control" placeholder="Ingrese el precio del producto" required>
                 <div class="invalid-feedback">Por favor, ingrese un precio.</div>
             </div>
 
-            <!-- Descripción -->
+
             <div class="ofertar-form">
                 <label for="descripcion" class="form-label">Descripción</label>
                 <textarea name="descripcion" id="descripcion" class="form-control" placeholder="Describa la oferta" required></textarea>
                 <div class="invalid-feedback">Por favor, ingrese una descripción.</div>
             </div>
 
-            <!-- Peso -->
+
             <div class="ofertar-form">
                 <label for="pesoKg" class="form-label">Peso en KG</label>
                 <input type="number" name="pesoKg" id="pesoKg" class="form-control" placeholder="Ingrese el peso en KG" required>
                 <div class="invalid-feedback">Por favor, ingrese un peso.</div>
             </div>
 
-            <!-- Stock -->
+
             <div class="ofertar-form">
                 <label for="stock" class="form-label">Stock</label>
                 <input type="number" name="stock" id="stock" class="form-control" placeholder="Ingrese el Stock del producto" required>
                 <div class="invalid-feedback">Por favor, ingrese el Stock.</div>
             </div>
 
-            <!-- Botón -->
             <button type="submit" class="confirmar-oferta-btn">Guardar Oferta</button>
         </form>
     </main>
 </div>
 
 <script>
-    // Validación Bootstrap
+
     (function () {
         'use strict';
         const forms = document.querySelectorAll('.needs-validation');

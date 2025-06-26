@@ -14,6 +14,16 @@ public class ProductoServiceImpl implements ProductoService {
     private ProductoRepository productoRepository;
 
     @Override
+    public void guardarProducto(Producto producto) {
+        productoRepository.save(producto);
+    }
+
+    @Override
+    public List<Producto> listarProductosPorUsuario(String usuario) {
+        return productoRepository.findByUsuarioCampesino(usuario);
+    }
+
+    @Override
     public List<Producto> obtenerTodosLosProductos() {
         return productoRepository.findAllByOrderByIdDesc();
     }

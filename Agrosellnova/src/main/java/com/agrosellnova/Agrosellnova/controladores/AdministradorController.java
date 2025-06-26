@@ -32,6 +32,7 @@ public class AdministradorController {
         List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
         model.addAttribute("usuarios", usuarios);
 
+
         model.addAttribute("usuario", session.getAttribute("usuario"));
         model.addAttribute("rol", session.getAttribute("rol"));
         return "private/usuarios_registrados";
@@ -42,6 +43,12 @@ public class AdministradorController {
         if (session.getAttribute("usuario") == null) {
             return "redirect:/public/index";
         }
+
+
+
+        usuarioService.eliminarUsuarioPorId(idUsuario);
+
+
 
         usuarioService.eliminarUsuarioPorId(idUsuario);
 
