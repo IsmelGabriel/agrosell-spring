@@ -13,10 +13,6 @@ import java.util.List;
 @Controller
 public class PaginaController {
 
-<<<<<<< HEAD
-=======
-
->>>>>>> efad3fe52e599d8ae6a9bc02452d86d0cdfe2d10
     @Autowired
     private UsuarioService usuarioService;
 
@@ -59,10 +55,6 @@ public class PaginaController {
             return "redirect:/public/index";
         }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> efad3fe52e599d8ae6a9bc02452d86d0cdfe2d10
         Usuario user = usuarioService.buscarPorNombreUsuario(nombreUsuario);
 
         model.addAttribute("usuario", nombreUsuario);
