@@ -22,7 +22,7 @@ public class VentaController {
         String rol = (String) session.getAttribute("rol");
 
         if (usuario == null || !rol.equals("productor")) {
-            return "redirect:/public/index";
+            return "redirect:/public/login";
         }
 
         List<Venta> ventas = ventaService.obtenerVentasPorVendedor(usuario);
@@ -32,4 +32,5 @@ public class VentaController {
 
         return "private/gestionar_ventas";
     }
+
 }

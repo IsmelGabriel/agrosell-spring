@@ -43,5 +43,7 @@ public class ProductoServiceImpl implements ProductoService {
                 return productoRepository.findByNombreContainingIgnoreCaseOrderByIdDesc(nombre);
         }
     }
-
+    public List<Producto> obtenerProductosPorUsuario(String usuarioCampesino) {
+        return productoRepository.findByUsuarioCampesino(usuarioCampesino);
+    }
 }
