@@ -19,13 +19,13 @@
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
-                <li th:if="${rol == 'administrador'}"><a href="/public/inicio.html">Inicio</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="/private/reporte_ventas">Reporte de Ventas</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="/private/reporte_reservas">Reporte de Reservas</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="/private/reporte_pqrs">Reporte de PQRS</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="/private/actualizar_roles">Actualizar Roles</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="/private/usuarios_registrados">Reporte usuarios</a></li>
-                <li><a th:href="@{/public/cerrar_sesion}">Cerrar Sesión</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/public/inicio}">Inicio</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_ventas}">Reporte de Ventas</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}">Reporte de Reservas</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}">Reporte de PQRS</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}">Actualizar Roles</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}">Reporte usuarios</a></li>
+                <li><a href="/public/cerrar_sesion">Cerrar Sesión</a></li>
             </ul>
         </div>
     </aside>
@@ -40,20 +40,20 @@
                 <th>Cliente</th>
                 <th>Vendedor</th>
                 <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Total</th>
+                <th>Cantidad (Kg)</th>
+                <th>Total ($)</th>
                 <th>Fecha</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="venta : ${ventas}">
                 <td th:text="${venta.idVenta}">1</td>
-                <td th:text="${venta.cliente}">cliente123</td>
-                <td th:text="${venta.vendedor}">vendedor456</td>
-                <td th:text="${venta.producto}">Papa</td>
+                <td th:text="${venta.comprador.nombreUsuario}">cliente123</td>
+                <td th:text="${venta.vendedor.nombreUsuario}">vendedor456</td>
+                <td th:text="${venta.producto.nombre}">Papa</td>
                 <td th:text="${venta.cantidadKg}">10</td>
                 <td th:text="${venta.totalVenta}">50000</td>
-                <td th:text="${venta.fechaVenta}">2024-06-01</td>
+                <td th:text="${#temporals.format(venta.fechaVenta, 'yyyy-MM-dd')}">2024-06-01</td>
             </tr>
             <tr th:if="${#lists.isEmpty(ventas)}">
                 <td colspan="7">No hay ventas registradas</td>

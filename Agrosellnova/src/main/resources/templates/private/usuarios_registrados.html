@@ -1,52 +1,56 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de control</title>
-    <link rel="stylesheet" th:href="@{/css/panel.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Panel de control - Usuarios Registrados</title>
+    <link rel="stylesheet" th:href="@{/css/panel.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body class="panel-control">
+
 <header class="Bienvenido">
     <h1>Bienvenido, <span th:text="${#strings.capitalize(usuario)}">Usuario</span></h1>
     <p>Rol: <span th:text="${#strings.capitalize(rol)}">Rol</span></p>
 </header>
 
 <div class="panel-container">
-
+    <!-- Barra lateral -->
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
-                <li th:if="${rol == 'administrador'}"><a href="/public/inicio.html">Inicio</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="/private/reporte_ventas">Reporte de Ventas</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="/private/reporte_reservas">Reporte de Reservas</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="/private/reporte_pqrs">Reporte de PQRS</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="/private/actualizar_roles">Actualizar Roles</a></li>
-                <li th:if="${rol == 'administrador'}"><a href="/private/usuarios_registrados">Reporte usuarios</a></li>
+                <li><a th:href="@{/public/inicio}">Inicio</a></li>
+                <li><a th:href="@{/private/reporte_ventas}">Reporte de Ventas</a></li>
+                <li><a th:href="@{/private/reporte_reservas}">Reporte de Reservas</a></li>
+                <li><a th:href="@{/private/reporte_pqrs}">Reporte de PQRS</a></li>
+                <li><a th:href="@{/private/actualizar_roles}">Actualizar Roles</a></li>
+                <li><a th:href="@{/private/usuarios_registrados}">Reporte usuarios</a></li>
                 <li><a th:href="@{/public/cerrar_sesion}">Cerrar Sesión</a></li>
             </ul>
         </div>
     </aside>
 
-    <!-- Contenido Principal -->
+    <!-- Contenido principal -->
     <main class="panel-content">
         <h1>Usuarios registrados en el sistema</h1>
         <table border="1">
+            <thead>
             <tr>
                 <th>ID Usuario</th>
                 <th>Nombre</th>
                 <th>Documento</th>
                 <th>Ubicación</th>
                 <th>Correo</th>
-                <th>Método de pago de preferencia</th>
+                <th>Método de pago</th>
                 <th>Fecha de nacimiento</th>
                 <th>Rol</th>
                 <th>Acción</th>
             </tr>
+            </thead>
+            <tbody>
             <tr th:each="usuario : ${usuarios}">
-                <td th:text="${usuario.idUsuario}">1</td>
-                <td th:text="${usuario.usuario}">jdoe</td>
+                <td th:text="${usuario.Id}">1</td>
+                <td th:text="${usuario.nombreUsuario}">jdoe</td>
                 <td th:text="${usuario.documento}">123456789</td>
                 <td th:text="${usuario.direccion}">Calle Falsa 123</td>
                 <td th:text="${usuario.correo}">correo@example.com</td>
@@ -54,14 +58,19 @@
                 <td th:text="${usuario.fechaNacimiento}">1990-01-01</td>
                 <td th:text="${usuario.rol}">Cliente</td>
                 <td>
-                    <a th:href="@{/eliminar_usuario(id=${usuario.idUsuario})}">Eliminar</a>
+                    <a th:href="@{'/private/eliminar_usuario?id=' + ${usuario.Id}}"
+                       onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
+                        <i class="fas fa-trash-alt"></i> Eliminar
+                    </a>
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(usuarios)}">
                 <td colspan="9">No hay usuarios registrados</td>
             </tr>
+            </tbody>
         </table>
     </main>
 </div>
+
 </body>
 </html>

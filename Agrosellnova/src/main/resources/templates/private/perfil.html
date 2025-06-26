@@ -13,13 +13,13 @@
 
 <header class="top-bar">
     <div class="header-content">
-        <img src="/img/logo.png" alt="Agrosell Nova" class="logo" />
+        <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
         <h1 class="menu-title">AGROSELL NOVA</h1>
 
         <div class="panel-option">
-            <a th:href="@{/private/panel_control}" class="menu-icon">
-                <i class="fa fa-cog"></i>
-            </a>
+            <button id="panelControl">
+                <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+            </button>
         </div>
 
         <a th:href="@{/public/carrito}" class="menu-icon">
@@ -27,12 +27,18 @@
         </a>
 
         <span class="notification">
-            <button id="notificationButton"><i class="fas fa-bell"></i></button>
+            <button id="notificationButton">
+                <i class="fas fa-bell menu-icon"></i>
+            </button>
         </span>
 
         <span class="username">
-            <a th:if="${usuario != null}" th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
-            <a th:unless="${usuario != null}" th:href="@{/public/index}">Iniciar sesión / Registrarse</a>
+            <th:block th:if="${usuario != null}">
+                <a th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
+            </th:block>
+            <th:block th:unless="${usuario != null}">
+                <a th:href="@{/public/index}">Iniciar sesión</a>
+            </th:block>
         </span>
 
         <a th:href="@{/private/perfil}" class="menu-icon">
@@ -89,16 +95,6 @@
         <div class="footer-column">
             <h3>Enlaces rápidos</h3>
             <ul>
-<<<<<<< HEAD
-                <li><a href=/public/inicio">Inicio</a></li>
-                <li><a href="/public/categorias">Categorías</a></li>
-                <li><a href="/public/contactanos">Contáctanos</a></li>
-                <li><a href="/public/about_us">Sobre nosotros</a></li>
-                <li><a href="/public/mapa">Mapa del sitio</a></li>
-                <li><a href="/public/404">Error 404</a></li>
-                <li><a href="/public/500">Error 500</a></li>
-                <li><a href="/public/Dashboard">Dashboard</a></li>
-=======
                 <li><a th:href="@{/public/inicio}">Inicio</a></li>
                 <li><a th:href="@{/public/categorias}">Categorías</a></li>
                 <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
@@ -107,7 +103,6 @@
                 <li><a th:href="@{/public/404}">Error 404</a></li>
                 <li><a th:href="@{/public/500}">Error 500</a></li>
                 <li><a th:href="@{/public/dashboard}">Dashboard</a></li>
->>>>>>> a0ee9703cd0126fe0e2026fb196fb638144641ea
             </ul>
         </div>
 
@@ -129,9 +124,7 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados.
-            <a th:href="@{/public/terminos}">Términos y condiciones</a>
-        </p>
+        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y condiciones</a></p>
     </div>
 </footer>
 

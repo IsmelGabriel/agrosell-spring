@@ -26,7 +26,17 @@ public class SeguridadConfig {
     public SecurityFilterChain filtroSeguridad(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/**").permitAll()
+                )
+                .formLogin(form -> form.disable())
+                .logout(logout -> logout
+                        .logoutUrl("/public/cerrar_sesion")
+                        .logoutSuccessUrl("/public/index")
+                        .permitAll()
+                );
+
         return http.build();
     }
 }
+

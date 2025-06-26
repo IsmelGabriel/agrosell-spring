@@ -63,17 +63,19 @@
     </section>
 
     <section class="filtra-productos">
-        <form action="#" method="get">
+        <form action="/public/productos" method="get">
             <label for="nombre_producto">Producto:</label>
-            <input type="text" name="producto" id="nombre_producto" placeholder="Ej: Manzanas" />
+            <input type="text" name="producto" id="nombre_producto"
+                   th:value="${param.producto}" placeholder="Ej: Manzanas" />
 
             <label for="orden">Ordenar por:</label>
             <select name="orden" id="orden">
-                <option value="recientes">Más recientes</option>
-                <option value="precio_menor">Precio menor</option>
-                <option value="precio_mayor">Precio mayor</option>
-                <option value="nombre">A-Z</option>
+                <option value="recientes" th:selected="${param.orden == 'recientes'}">Más recientes</option>
+                <option value="precio_menor" th:selected="${param.orden == 'precio_menor'}">Precio menor</option>
+                <option value="precio_mayor" th:selected="${param.orden == 'precio_mayor'}">Precio mayor</option>
+                <option value="nombre" th:selected="${param.orden == 'nombre'}">A-Z</option>
             </select>
+
 
             <button type="submit">BUSCAR PRODUCTO</button>
         </form>

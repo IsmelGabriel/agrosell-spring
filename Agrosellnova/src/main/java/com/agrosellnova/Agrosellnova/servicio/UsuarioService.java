@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UsuarioService {
 
@@ -15,11 +18,6 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /**
-     * Registra un nuevo usuario en el sistema.
-     * @param usuario objeto con los datos del formulario.
-     * @return null si el registro fue exitoso; de lo contrario, mensaje de error.
-     */
     public String registrarUsuario(Usuario usuario) {
         if (usuarioRepository.existsByNombreUsuario(usuario.getNombreUsuario())) {
             return "El nombre de usuario ya está en uso.";
@@ -52,4 +50,30 @@ public class UsuarioService {
         }
         return null;
     }
+
+    public void actualizarRolUsuario(Long Id, String nuevoRol) {
+        Usuario usuario = usuarioRepository.findById(Id).orElse(null);
+        if (usuario != null) {
+            usuario.setRol(nuevoRol);
+            usuarioRepository.save(usuario);
+        }
+    }
+
+    public List<Usuario> obtenerTodosLosUsuarios() {
+        return usuarioRepository.findAll();
+    }
+
+    public void eliminarUsuarioPorId(Long idUsuario) {
+        usuarioRepository.deleteById(idUsuario);
+    }
+
+    public void actualizarRol(Long idUsuario, String nuevoRol) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(idUsuario);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            usuario.setRol(nuevoRol);
+            usuarioRepository.save(usuario);
+        }
+    }
+
 }

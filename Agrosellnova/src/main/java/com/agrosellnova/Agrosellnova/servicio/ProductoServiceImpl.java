@@ -15,6 +15,23 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public List<Producto> obtenerTodosLosProductos() {
-        return productoRepository.findAll();
+        return productoRepository.findAllByOrderByIdDesc();
     }
+
+    @Override
+    public List<Producto> buscarProductosFiltrados(String nombre, String orden) {
+        if (nombre == null) nombre = "";
+
+        switch (orden) {
+            case "precio_menor":
+                return productoRepository.findByNombreContainingIgnoreCaseOrderByPrecioAsc(nombre);
+            case "precio_mayor":
+                return productoRepository.findByNombreContainingIgnoreCaseOrderByPrecioDesc(nombre);
+            case "nombre":
+                return productoRepository.findByNombreContainingIgnoreCaseOrderByNombreAsc(nombre);
+            default:
+                return productoRepository.findByNombreContainingIgnoreCaseOrderByIdDesc(nombre);
+        }
+    }
+
 }
