@@ -13,7 +13,7 @@ import java.util.List;
 @Controller
 public class PaginaController {
 
-    // ✅ Asegúrate de tener esta línea
+
     @Autowired
     private UsuarioService usuarioService;
 
@@ -56,7 +56,7 @@ public class PaginaController {
             return "redirect:/public/index";
         }
 
-        // ✅ Aquí ocurre el error si usuarioService es null
+
         Usuario user = usuarioService.buscarPorNombreUsuario(nombreUsuario);
 
         model.addAttribute("usuario", nombreUsuario);

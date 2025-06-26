@@ -22,6 +22,6 @@ public class PaginaErrorController implements ErrorController {
             }
         }
 
-        return "public/500"; // Por defecto, error genérico
+        return "public/500";
     }
 }
