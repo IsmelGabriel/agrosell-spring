@@ -30,36 +30,29 @@
 
 
     <main class="panel-content">
-        <h1>Reservas registradas en el sistema para: <span th:text="${usuario}"></span></h1>
+        <h1>Compras registradas en el sistema para: <span th:text="${usuario}"></span></h1>
         <table border="1">
             <thead>
             <tr>
-                <th>ID Reserva</th>
-                <th>Documento</th>
-                <th>Teléfono</th>
-                <th>Correo</th>
+                <th>ID Venta</th>
+                <th>Vendedor</th>
                 <th>Producto</th>
                 <th>Cantidad (Kg)</th>
-                <th>Método de pago</th>
-                <th>Fecha de reserva</th>
-                <th colspan="2">Acciones</th>
+                <th>Total ($)</th>
+                <th>Fecha</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="reserva : ${listaReservas}">
-                <td th:text="${reserva.id}"></td>
-                <td th:text="${reserva.documento}"></td>
-                <td th:text="${reserva.telefono}"></td>
-                <td th:text="${reserva.correo}"></td>
-                <td th:text="${reserva.producto}"></td>
-                <td th:text="${reserva.cantidadKg}"></td>
-                <td th:text="${reserva.metodoPago}"></td>
-                <td th:text="${reserva.fechaReserva}"></td>
-                <td><a th:href="@{'/editar_reserva?id=' + ${reserva.id}}">Editar</a></td>
-                <td><a th:href="@{'/cancelar_reserva?id=' + ${reserva.id}}">Cancelar</a></td>
+            <tr th:each="venta : ${ventas}">
+                <td th:text="${venta.idVenta}">1</td>
+                <td th:text="${venta.vendedor.nombreUsuario}">vendedor456</td>
+                <td th:text="${venta.producto.nombre}">Papa</td>
+                <td th:text="${venta.cantidadKg}">10</td>
+                <td th:text="${venta.totalVenta}">50000</td>
+                <td th:text="${#temporals.format(venta.fechaVenta, 'yyyy-MM-dd')}">2024-06-01</td>
             </tr>
-            <tr th:if="${#lists.isEmpty(listaReservas)}">
-                <td colspan="10">No tienes reservas registradas en este momento.</td>
+            <tr th:if="${#lists.isEmpty(listaCompra)}">
+                <td colspan="10">No tienes compras registradas en este momento.</td>
             </tr>
             </tbody>
         </table>

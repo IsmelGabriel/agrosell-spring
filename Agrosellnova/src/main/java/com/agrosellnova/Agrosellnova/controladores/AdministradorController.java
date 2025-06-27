@@ -94,11 +94,11 @@ public class AdministradorController {
     @Autowired
     private VentaService ventaService;
 
-    @GetMapping("/private/reportes_ventas")
+    @GetMapping("/private/reporte_ventas")
     public String mostrarVentas(Model model, HttpSession session) {
         model.addAttribute("usuario", session.getAttribute("usuario"));
         model.addAttribute("rol", session.getAttribute("rol"));
         model.addAttribute("ventas", ventaService.obtenerTodasLasVentas());
-        return "private/reportes_ventas";
+        return "private/reporte_ventas";
     }
 }

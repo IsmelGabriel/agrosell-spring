@@ -33,9 +33,9 @@
 
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}">Inicio</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}">Gestionar Reservas</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}">Gestionar compras</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}">Ver Productos</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}">Realizar Reserva</a></li>
-
                 <li><a th:href="@{/public/cerrar_sesion}">Cerrar Sesión</a></li>
             </ul>
         </div>
