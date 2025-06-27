@@ -68,26 +68,6 @@
         <div class="contactanos-descripcion">
             <h1>Si tienes alguna pregunta o inquietud, no dudes en ponerte en contacto con nosotros. Estaremos encantados de ayudarte.</h1>
         </div>
-        <div class="contactanos-formulario">
-            <form th:action="@{/guardar_pqrs}" method="post" class="contact-form needs-validation" novalidate>
-                <div class="contactanos-form-info">
-                    <label for="NOMBRE">Nombre</label>
-                    <input type="text" id="nombre" name="NOMBRE" class="form-control" required>
-                    <div class="invalid-feedback">Por favor, ingrese su nombre.</div>
-                </div>
-                <div class="contactanos-form-info">
-                    <label for="CORREO">Correo Electrónico</label>
-                    <input type="email" id="email" name="CORREO" class="form-control" required>
-                    <div class="invalid-feedback">Por favor, ingrese un correo electrónico válido.</div>
-                </div>
-                <div class="contactanos-form-info">
-                    <label for="MENSAJE">Mensaje</label>
-                    <textarea id="mensaje" name="MENSAJE" class="form-control" rows="4" required></textarea>
-                    <div class="invalid-feedback">Por favor, ingrese un mensaje.</div>
-                </div>
-                <button type="submit" class="contactanos-form-enviar">Enviar</button>
-            </form>
-        </div>
 
         <div class="contactanos-mapa">
             <h3>Visítanos</h3>

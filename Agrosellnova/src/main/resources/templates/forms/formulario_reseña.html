@@ -64,20 +64,20 @@
 <main class="reseña-producto-container">
     <div class="reseña-container">
         <h2>Deja tu reseña</h2>
-        <form th:action="@{/resena/guardar}" method="post" class="needs-validation" novalidate>
+        <form th:action="@{/public/registrarResena}" method="post" class="needs-validation" novalidate>
             <div class="formulario-reseña">
-                <label for="USUARIO" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="USUARIO" name="USUARIO" placeholder="Ingresa tu usuario" required>
+                <label for="USUARIO" class="form-label">Nombre completo</label>
+                <input type="text" class="form-control" id="USUARIO" name="usuario" placeholder="Ingresa tu usuario" required>
                 <div class="invalid-feedback">Por favor ingresa tu usuario.</div>
             </div>
             <div class="formulario-reseña">
                 <label for="CORREO" class="form-label">Correo Electrónico</label>
-                <input type="email" class="form-control" id="CORREO" name="CORREO" placeholder="Ingresa tu correo electrónico" required>
+                <input type="email" class="form-control" id="CORREO" name="correo" placeholder="Ingresa tu correo electrónico" required>
                 <div class="invalid-feedback">Por favor ingresa un correo electrónico válido.</div>
             </div>
             <div class="formulario-reseña">
                 <label for="PUNTUACION" class="form-label">Puntuación</label>
-                <select class="form-select" id="PUNTUACION" name="PUNTUACION" required>
+                <select class="form-select" id="PUNTUACION" name="puntacion" required>
                     <option value="" disabled selected>Selecciona una puntuación</option>
                     <option value="1">1 - Muy mala</option>
                     <option value="2">2 - Mala</option>
@@ -89,7 +89,7 @@
             </div>
             <div class="formulario-reseña">
                 <label for="COMENTARIO" class="form-label">Comentarios</label>
-                <textarea class="form-control" id="COMENTARIO" name="COMENTARIO" rows="4" placeholder="Escribe tus comentarios aquí" required></textarea>
+                <textarea class="form-control" id="COMENTARIO" name="comentario" rows="4" placeholder="Escribe tus comentarios aquí" required></textarea>
                 <div class="invalid-feedback">Por favor ingresa tus comentarios.</div>
             </div>
             <button type="submit" class="confirmar-reseña-btn">Enviar Reseña</button>

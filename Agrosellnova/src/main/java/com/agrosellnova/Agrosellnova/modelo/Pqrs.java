@@ -23,10 +23,13 @@ public class Pqrs {
     @Column(name = "MENSAJE", length = 1000)
     private String mensaje;
 
-    public long idPqrs() {
+    // Getters y Setters
+
+    public Long getIdPqrs() {
         return idPqrs;
     }
-    public  void setIdPqrs(Long idPqrs) {
+
+    public void setIdPqrs(Long idPqrs) {
         this.idPqrs = idPqrs;
     }
 
@@ -54,7 +57,6 @@ public class Pqrs {
     public String getMensaje() {
         return mensaje;
     }
-
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
