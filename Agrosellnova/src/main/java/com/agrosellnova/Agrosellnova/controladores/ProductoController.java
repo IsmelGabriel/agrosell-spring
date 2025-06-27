@@ -93,7 +93,6 @@ public class ProductoController {
 
         } catch (IOException e) {
             e.printStackTrace();
-            // Manejar errores si falla el guardado de imagen o datos
             return "redirect:/private/ofertar_producto?error";
         }
 

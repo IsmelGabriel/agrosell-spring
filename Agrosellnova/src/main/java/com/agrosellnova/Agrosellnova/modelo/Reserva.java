@@ -36,7 +36,7 @@ public class Reserva {
     @Column(name = "FECHA_RESERVA")
     private LocalDate fechaReserva;
 
-    // Getters y Setters
+
     public Long getIdReserva() {
         return idReserva;
     }
