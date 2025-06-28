@@ -11,6 +11,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </head>
+<body>
 
 <header class="top-bar">
   <div class="header-content">
@@ -47,6 +48,7 @@
     </a>
   </div>
 </header>
+
 <!-- Menú -->
 <nav class="menu-bar">
   <ul>
@@ -110,28 +112,27 @@
         </div>
       </div>
 
-
       <div class="ayuda-form">
         <h3 class="text-center mb-4">Registrar PQRS</h3>
-        <form class="needs-validation" novalidate>
+        <form th:action="@{/public/registrarPQRS}" method="post" class="needs-validation" novalidate>
           <div class="mb-3">
             <label for="NOMBRE" class="form-label">Nombre completo</label>
-            <input type="text" class="form-control" id="NOMBRE" name="NOMBRE" placeholder="Ingresa tu nombre" required />
+            <input type="text" class="form-control" id="NOMBRE" name="nombre" placeholder="Ingresa tu nombre" required />
             <div class="invalid-feedback">Por favor ingresa tu nombre completo.</div>
           </div>
           <div class="mb-3">
             <label for="CORREO" class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" id="CORREO" name="CORREO" placeholder="Ingresa tu correo" required />
+            <input type="email" class="form-control" id="CORREO" name="correo" placeholder="Ingresa tu correo" required />
             <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
           </div>
           <div class="mb-3">
             <label for="TELEFONO" class="form-label">Teléfono</label>
-            <input type="number" class="form-control" id="TELEFONO" name="TELEFONO" placeholder="Ingresa tu número de teléfono" required />
+            <input type="text" class="form-control" id="TELEFONO" name="telefono" placeholder="Ingresa tu número de teléfono" maxlength="10" required />
             <div class="invalid-feedback">Por favor ingresa tu número de teléfono.</div>
           </div>
           <div class="mb-3">
             <label for="MENSAJE" class="form-label">Consulta o solicitud</label>
-            <textarea class="form-control" id="MENSAJE" name="MENSAJE" rows="4" placeholder="Describe tu consulta o solicitud" required></textarea>
+            <textarea class="form-control" id="MENSAJE" name="mensaje" rows="4" placeholder="Describe tu consulta o solicitud" required></textarea>
             <div class="invalid-feedback">Por favor describe tu consulta o solicitud.</div>
           </div>
           <button type="submit" class="ayuda-form-enviar">Enviar</button>

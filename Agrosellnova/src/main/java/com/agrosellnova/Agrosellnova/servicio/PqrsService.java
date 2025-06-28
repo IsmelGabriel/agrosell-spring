@@ -16,4 +16,8 @@ public class PqrsService {
     public List<Pqrs> listarTodas() {
         return pqrsRepository.findAll();
     }
+
+    public void guardar(Pqrs pqrs) {
+        pqrsRepository.save(pqrs);
+    }
 }
