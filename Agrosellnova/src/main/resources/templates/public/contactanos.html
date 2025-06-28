@@ -38,7 +38,7 @@
                 <a th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
             </th:block>
             <th:block th:unless="${usuario != null}">
-                <a th:href="@{/public/index}">Iniciar sesión / Registrarse</a>
+                <a th:href="@{/public/index}">Iniciar sesión</a>
             </th:block>
         </span>
 
@@ -87,14 +87,14 @@
         <div class="footer-column">
             <h3>Enlaces rápidos</h3>
             <ul>
-                <li><a th:href="@{/inicio}">Inicio</a></li>
-                <li><a th:href="@{/categorias}">Categorías</a></li>
-                <li><a th:href="@{/contactanos}">Contáctanos</a></li>
-                <li><a th:href="@{/about_us}">Sobre nosotros</a></li>
-                <li><a th:href="@{/mapa}">Mapa del sitio</a></li>
-                <li><a th:href="@{/404}">Error 404</a></li>
-                <li><a th:href="@{/500}">Error 500</a></li>
-                <li><a th:href="@{/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/public/inicio}">Inicio</a></li>
+                <li><a th:href="@{/public/categorias}">Categorías</a></li>
+                <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
+                <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
+                <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
+                <li><a th:href="@{/public/404}">Error 404</a></li>
+                <li><a th:href="@{/public/500}">Error 500</a></li>
+                <li><a th:href="@{/public/dashboard}">Dashboard</a></li>
             </ul>
         </div>
 

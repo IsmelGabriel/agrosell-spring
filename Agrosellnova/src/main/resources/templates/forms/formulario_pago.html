@@ -34,11 +34,11 @@
         </span>
 
         <span class="username">
-            <th:block th:if="${usuario != null}">
-                <a th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
+            <th:block th:if="${nombre != null}">
+                <a th:text="${nombre}" th:href="@{/public/cerrar_sesion}"></a>
             </th:block>
-            <th:block th:unless="${usuario != null}">
-                <a th:href="@{/public/index}">Iniciar sesión / Registrarse</a>
+            <th:block th:unless="${nombre != null}">
+                <a th:href="@{/public/index}">Iniciar sesión</a>
             </th:block>
         </span>
 
@@ -63,15 +63,15 @@
 <main class="formulario-pago-container">
     <div class="cuadro-pago">
         <h2 class="realizar-pago">Realizar pago</h2>
-        <form th:action="@{/public/pago_exitoso}" method="post" class="needs-validation" novalidate>
+        <form th:action="@{/public/registrarPago}" method="post" class="needs-validation" novalidate>
             <div class="formulario-pago">
                 <label for="nombre" class="form-label">Nombre Completo</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Juan Pérez" required>
+                <input type="text" class="form-control" id="nombre" name="nombre" th:value="${nombre}" readonly>
                 <div class="invalid-feedback">Por favor, ingrese su nombre completo.</div>
             </div>
             <div class="formulario-pago">
                 <label for="correo" class="form-label">Correo Electrónico</label>
-                <input type="email" class="form-control" id="correo" name="correo" placeholder="ejemplo@correo.com" required>
+                <input type="email" class="form-control" id="correo" name="correo" th:value="${correo}" readonly>
                 <div class="invalid-feedback">Por favor, ingrese un correo electrónico válido.</div>
             </div>
             <div class="formulario-pago">
@@ -87,13 +87,12 @@
                     <option value="Tarjeta de Debito">Tarjeta de Débito</option>
                     <option value="PayPal">PayPal</option>
                     <option value="Transferencia Bancaria">Transferencia Bancaria</option>
-                    <option value="Nequi">Nequi</option>
                 </select>
                 <div class="invalid-feedback">Por favor, seleccione un método de pago.</div>
             </div>
             <div class="formulario-pago">
                 <label for="tarjeta" class="form-label">Número de Tarjeta</label>
-                <input type="text" class="form-control" id="tarjeta" name="tarjeta" minlength="16" maxlength="16" required>
+                <input type="text" class="form-control" id="tarjeta" name="tarjeta" minlength="19" maxlength="19" required>
                 <div class="invalid-feedback">Por favor, ingrese un número de tarjeta válido (16 dígitos).</div>
             </div>
             <div class="formulario-pago">
@@ -108,9 +107,11 @@
             </div>
             <div class="formulario-pago">
                 <label for="direccion" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Calle 123, Ciudad" required>
+                <input type="text" class="form-control" id="direccion" name="direccion" th:value="${direccion}" required>
                 <div class="invalid-feedback">Por favor, ingrese su dirección.</div>
             </div>
+
+            <input type="hidden" id="carrito" name="carrito">
             <button type="submit" class="confirmar-pago-btn">Confirmar pago</button>
         </form>
 
@@ -172,6 +173,11 @@
             });
         });
     })();
+
+    document.querySelector("form").addEventListener("submit", function () {
+        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        document.getElementById("carrito").value = JSON.stringify(carrito);
+    });
 </script>
 </body>
 </html>

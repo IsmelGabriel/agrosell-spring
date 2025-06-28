@@ -36,7 +36,7 @@
                 <a th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
             </th:block>
             <th:block th:unless="${usuario != null}">
-                <a th:href="@{/public/index}">Iniciar sesión / Registrarse</a>
+                <a th:href="@{/public/index}">Iniciar sesión</a>
             </th:block>
         </span>
 
@@ -89,7 +89,7 @@
                 <p th:text="'$' + ${producto.precio} + ' Kg'">Precio</p>
                 <p th:text="'Stock: ' + ${producto.stock}">Stock</p>
                 <a href="#" class="btn-añadir-carrito"
-                   th:attr="onclick=|agregarAlCarrito('${producto.nombre}', ${producto.precio}, '${producto.imagen}')|">
+                   th:attr="onclick=|agregarAlCarrito(${producto.id}, '${producto.nombre}', ${producto.precio}, '${producto.imagen}')|">
                     Añadir al carrito
                 </a>
             </div>
@@ -140,7 +140,7 @@
         alert("No tienes notificaciones pendientes");
     });
 
-    function agregarAlCarrito(nombre, precio, imagen) {
+    function agregarAlCarrito(id, nombre, precio, imagen) {
         let cantidad = prompt(`Ingrese la cantidad de "${nombre}" que desea agregar:`, "1");
         if (cantidad === null || cantidad.trim() === "" || isNaN(cantidad) || cantidad <= 0) {
             alert("Operación cancelada o cantidad inválida.");
@@ -149,7 +149,7 @@
 
         cantidad = parseInt(cantidad);
         const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-        const producto = { nombre, precio, imagen, cantidad };
+        const producto = { id, nombre, precio, imagen, cantidad };
         carrito.push(producto);
         localStorage.setItem("carrito", JSON.stringify(carrito));
         alert(`${nombre} (${cantidad}) se ha añadido al carrito.`);
