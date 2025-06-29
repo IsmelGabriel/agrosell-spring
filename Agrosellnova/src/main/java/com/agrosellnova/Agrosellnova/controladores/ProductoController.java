@@ -1,6 +1,7 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
 import com.agrosellnova.Agrosellnova.modelo.Producto;
+import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.servicio.ProductoService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class ProductoController {
 
     @Autowired
     private ProductoService productoService;
+
+    @Autowired
+    private ProductoRepository productoRepository;
 
     @GetMapping("/public/productos")
     public String mostrarProductos(
@@ -62,42 +67,41 @@ public class ProductoController {
         return "private/gestionar_productos";
     }
     @PostMapping("/guardar_producto")
-    public String guardarProducto(@RequestParam("productoImagen") MultipartFile archivo,
-                                  @RequestParam("nombreProducto") String nombre,
-                                  @RequestParam("precio") Double precio,
-                                  @RequestParam("descripcion") String descripcion,
-                                  @RequestParam("pesoKg") Double pesoKg,
-                                  @RequestParam("stock") Integer stock,
-                                  @RequestParam("usuario") String usuario,
-                                  HttpSession session) {
-
+    public String guardarProducto(
+            @RequestParam("usuario") String nombreUsuario,
+            @RequestParam("productoImagen") MultipartFile imagen,
+            @RequestParam("nombreProducto") String nombre,
+            @RequestParam("precio") double precio,
+            @RequestParam("descripcion") String descripcion,
+            @RequestParam("pesoKg") double pesoKg,
+            @RequestParam("stock") int stock
+    ) {
         try {
-            // Guardar la imagen en la carpeta static/imagenes/
-            String nombreArchivo = archivo.getOriginalFilename();
-            String ruta = new File("src/main/resources/static/imagenes").getAbsolutePath();
-            Path rutaCompleta = Paths.get(ruta + File.separator + nombreArchivo);
-            Files.write(rutaCompleta, archivo.getBytes());
+            String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
+            String rutaRelativa = "../img/" + nombreArchivo;
+            String rutaAbsoluta = new File("src/main/resources/static/img").getAbsolutePath();
 
-            // Crear el producto
+            byte[] bytes = imagen.getBytes();
+            Path path = Paths.get(rutaAbsoluta + File.separator + nombreArchivo);
+            Files.write(path, bytes);
+
             Producto producto = new Producto();
+            producto.setUsuarioCampesino(nombreUsuario);
+            producto.setImagen(rutaRelativa); // Solo la ruta
             producto.setNombre(nombre);
             producto.setPrecio(precio);
             producto.setDescripcion(descripcion);
             producto.setPesoKg(pesoKg);
             producto.setStock(stock);
-            producto.setUsuarioCampesino(usuario);
-            producto.setImagen(nombreArchivo);
-            producto.setFechaCosecha(LocalDate.now()); // Puedes modificar si deseas
+            producto.setFechaCosecha(LocalDate.now());
 
-            productoService.guardarProducto(producto);
+            productoRepository.save(producto);
+            return "redirect:/private/gestionar_productos";
 
         } catch (IOException e) {
             e.printStackTrace();
-            return "redirect:/private/ofertar_producto?error";
+            return "error";
         }
-
-        return "redirect:/private/gestionar_productos?success";
     }
-
 }
 

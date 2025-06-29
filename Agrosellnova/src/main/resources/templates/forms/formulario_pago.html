@@ -76,7 +76,7 @@
             </div>
             <div class="formulario-pago">
                 <label for="telefono" class="form-label">Número de Teléfono</label>
-                <input type="tel" class="form-control" id="telefono" name="telefono" pattern="[0-9]{10}" required>
+                <input type="tel" class="form-control" id="telefono" name="telefono" maxlength="10" minlength="10" required>
                 <div class="invalid-feedback">Por favor, ingrese un número de teléfono válido (10 dígitos).</div>
             </div>
             <div class="formulario-pago">
@@ -178,6 +178,7 @@
         const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
         document.getElementById("carrito").value = JSON.stringify(carrito);
     });
+
 </script>
 </body>
 </html>

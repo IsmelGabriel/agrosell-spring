@@ -12,5 +12,10 @@
     <p>Su factura será enviada a su correo.</p>
     <a th:href="@{/public/productos}" class="btn-exitoso">Volver a productos</a>
 </div>
+
+<script>
+    localStorage.removeItem("carrito");
+    alert("Gracias por tu compra. Tu carrito ha sido vaciado.");
+</script>
 </body>
 </html>

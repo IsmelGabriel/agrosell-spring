@@ -3,7 +3,9 @@ package com.agrosellnova.Agrosellnova.controladores;
 import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.modelo.Venta;
+import com.agrosellnova.Agrosellnova.modelo.Pago;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
+import com.agrosellnova.Agrosellnova.repositorio.PagoRepository;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
 import com.agrosellnova.Agrosellnova.servicio.VentaService;
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +30,9 @@ public class PagoController {
 
     @Autowired
     private ProductoRepository productoRepository;
+
+    @Autowired
+    private PagoRepository pagoRepository;
 
     @PostMapping("/registrarPago")
     public String procesarPago(
@@ -74,6 +79,17 @@ public class PagoController {
                 }
             }
 
+            // Registrar pago en la tabla "pago"
+            Pago pago = new Pago();
+            pago.setNombre(comprador.getNombre());
+            pago.setCorreo(comprador.getCorreo());
+            pago.setTelefono(telefono);
+            pago.setMetodoPago(metodoPago);
+            pago.setDireccion(direccion);
+            pago.setFechaEmision(LocalDate.now());
+
+            pagoRepository.save(pago);
+
             model.addAttribute("mensaje", "¡Pago exitoso! Gracias por tu compra.");
             return "public/pago_exitoso";
 
@@ -83,5 +99,4 @@ public class PagoController {
             return "public/carrito";
         }
     }
-
 }
