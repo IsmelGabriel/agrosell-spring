@@ -985,10 +985,7 @@ footer {
 }
 
 .about-us-info {
-    width: 60%; 
-    text-align: left; 
     color: #333;
-    padding-right: 100px; 
 }
 
 .about-us-info h2 {
@@ -1721,7 +1718,7 @@ footer {
     .top-bar .username,
     .top-bar .panel-option,
     .logo {
-        padding: 5px;
+        padding: 2px;
         display: grid;
         align-items: center;
     }
@@ -1812,9 +1809,29 @@ footer {
     }
 
     /* Pagina Contactanos */
-
     .contactanos-descripcion h1 {
         margin: 15px auto;
+    }
+
+    /* Pagina about_us */
+    .about-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about-us-info h2 {
+        display: inline-block;
+    }
+
+    .about-us-info p {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .about-imagen {
+        display: flex;
+        margin-top: 30px;
     }
 }
 
