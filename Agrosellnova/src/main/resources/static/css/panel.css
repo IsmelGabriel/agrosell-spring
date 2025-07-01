@@ -87,27 +87,6 @@ header.Bienvenido p {
     line-height: 1.6;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .panel-container {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-        box-shadow: none;
-        text-align: center;
-    }
-
-    .panel-content {
-        box-shadow: none;
-    }
-
-    .sidebar ul li {
-        margin: 10px 0;
-    }
-}
-
 /* css todas las tablas */
 
 tabla {
@@ -280,5 +259,24 @@ main {
 }
 .is-invalid~.invalid-feedback, .is-invalid~.invalid-tooltip, .was-validated :invalid~.invalid-feedback, .was-validated :invalid~.invalid-tooltip {
     display: block;
+}
 
+@media (max-width: 768px) {
+    .panel-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: auto;
+        box-shadow: none;
+        text-align: center;
+    }
+
+    .panel-content {
+        box-shadow: none;
+    }
+
+    .sidebar ul li {
+        margin: 10px 0;
+    }
 }

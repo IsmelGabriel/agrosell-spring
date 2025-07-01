@@ -7,8 +7,6 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
@@ -27,7 +25,7 @@
             <i class="fas fa-shopping-cart"></i>
         </a>
 
-        <span class="notification">
+        <span class="menu-notification">
             <button id="notificationButton">
                 <i class="fas fa-bell menu-icon"></i>
             </button>
@@ -48,8 +46,9 @@
     </div>
 </header>
 
-<nav class="menu-bar">
-    <ul>
+<nav class="menu-bar" id="menu-bar">
+    <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+    <ul id="menu-items">
         <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
         <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
         <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
@@ -142,9 +141,13 @@
 
     function debounce(func, wait) {
         let timeout;
-        return function (...args) {
+        return function(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func.apply(this, args);
+            };
             clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
+            timeout = setTimeout(later, wait);
         };
     }
 
@@ -156,6 +159,13 @@
             menuBar.classList.remove("scrolled");
         }
     }, 100));
+
+    const toggleButton = document.getElementById('menu-toggle');
+    const menuBar = document.getElementById('menu-bar');
+
+    toggleButton.addEventListener('click', () => {
+        menuBar.classList.toggle('active');
+    });
 </script>
 
 </body>

@@ -1,131 +1,15 @@
-@media (max-width: 768px) {
-    /* Encabezado */
-    .top-bar {
-        padding: 0;
-        background-color: #2e7d32;
-    }
 
-    .logo {
-        display: none;
-    }
-
-    .top-bar .header-content {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        text-align: center;
-        gap: 0;
-    }
-
-    .top-bar .logo {
-        max-width: 80px;
-        height: auto;
-    }
-
-    .top-bar .menu-title {
-        font-size: 1.2em;
-        margin: 0;
-    }
-
-    .top-bar .menu-icon,
-    .top-bar .username,
-    .top-bar .panel-option {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .top-bar a,
-    .top-bar button {
-        font-size: 1.2em;
-        padding: 5px;
-    }
-
-    /* Menú */
-    .menu-bar ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .menu-bar ul li {
-        margin: 8px 0;
-    }
-
-    /* Pie de página */
-    .footer-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 15px;
-        padding: 20px 10px;
-    }
-
-    .footer-column {
-        width: 100%;
-        max-width: 300px;
-    }
-
-    .footer-bottom {
-        padding: 10px;
-        font-size: 0.85em;
-        text-align: center;
-    }
-
-    /* Inicio */
-    .presentacion-inicio {
-        display: flex;
-    }
-
-    .presentacion-cuadro-inicio {
-        display: inline-table;
-        font-size: medium;
-        height: 155px;
-    }
-
-    .practicas-seccion {
-        margin: 3px;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-
-    /* Productos */
-    .productos-imagenes {
-        width: 90%;
-        margin: 10px auto;
-        text-align: center;
-    }
-
-    .productos-imagenes img {
-        max-width: 100%;
-        height: auto;
-    }
-
-    .filtra-productos form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-
-    .filtra-productos input,
-    .filtra-productos select,
-    .filtra-productos button {
-        width: 90%;
-        max-width: 300px;
-    }
+.menu-toggle{
+    display: none;
 }
-
 
 /* pagina general */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Comfortaa', Sans-serif;
-    font-weight: 200%;
+    font-family: 'Comfortaa', Sans-serif, serif;
+    font-weight: 400;
 }
 
 
@@ -171,7 +55,6 @@ h1 {
 }
 .panel-option button {
     font-size: larger;
-    background-color: transparent;
     border: none;
     padding: 5px;
     border-radius: 50px;
@@ -180,15 +63,14 @@ h1 {
     cursor: pointer;
 }
 
-.notification {
+.menu-notification {
     padding: 5px;
     display: flex;
     align-items: center;
     margin-left: 5px;
 }
-.notification button{
+.menu-notification button{
     font-size: larger;
-    background-color: transparent;
     border: none;
     padding: 5px;
     border-radius: 50px;
@@ -203,7 +85,7 @@ h1 {
     padding: 10px 20px;
     background-color: #4CAF50;
     color: white !important;
-    text-decoration: none !important; /* Asegura que no se subraye */
+    text-decoration: none !important;
     border-radius: 25px;
     font-size: 16px;
     font-family: Arial, sans-serif;
@@ -375,12 +257,13 @@ footer {
     text-align: center;
     padding: 25px 10px;
     width: 25%;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, background-color 0.3s ease;
+    font-width: 400;
 }
 
 .presentacion-cuadro-inicio a {
-    font-family: arial;
+    font-family: arial, serif;
     font-weight:bolder;
     text-decoration: none;
     color: #327c28;
@@ -402,11 +285,10 @@ footer {
 
 .presentacion-titulo-inicio {
     align-items: center;
-    padding: 0;
+    padding: 10px;
     background-color: #327c28;
     text-align: center;
     font-size: 2em;
-    padding: 10px;
     margin: 0;
     color: #ffffff;
     box-shadow: 2px 4px 8px;
@@ -427,7 +309,7 @@ footer {
     margin-bottom: 30px;
     border-radius: 15px;
     padding: 18px;
-    box-shadow: 2px, 4px 8px;
+    box-shadow: 2px 4px 8px;
 }
 
 .productos-destacados-inicio {
@@ -501,7 +383,7 @@ footer {
 
 .practicas-img img {
     margin-top: 90px;
-    position: center;
+    position: relative;
     width: 100%;
     height: auto;
     border-radius: 15px;
@@ -582,7 +464,7 @@ footer {
     border-radius: 8px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -597,7 +479,7 @@ footer {
 
 .productos-imagenes:hover {
     transform: scale(1.05);
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 .productos-imagenes img:hover {
@@ -608,7 +490,6 @@ footer {
     color: #327c28;
     margin-top: 15px;
     font-size: 1.2em;
-    margin: 10px 0;
 }
 
 .productos-texto p {
@@ -735,7 +616,7 @@ footer {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .login-info-form {
@@ -842,7 +723,7 @@ footer {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .registro-info {
@@ -985,7 +866,7 @@ footer {
     border-radius: 8px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
@@ -997,7 +878,7 @@ footer {
     max-height: 180px;
     max-width: 180px;
     min-width: 180px;
-    max-height: 180px;
+    min-height: 180px;
     border-radius: 8px;
 }
 
@@ -1116,7 +997,7 @@ footer {
     padding: 18px 30px;
     border-radius: 15px;
     text-align: center;
-    background-color: #28a745;
+    background-color: #327c28;
     font-size: 32px;
     margin-bottom: 20px;
     font-weight: bold;
@@ -1171,9 +1052,9 @@ footer {
     padding: 18px 20px;
     border-radius: 15px;
     text-align: center;
-    background-color: #28a745;
+    background-color: #327c28;
     font-size: 30px;
-    margin: 120px 100px;
+    margin: 20px;
 }
 
 .contactanos-descripcion h1 {
@@ -1306,9 +1187,9 @@ footer {
 /* SECCION DASHBOARD.html */
 
 .dashboard-content {
-    padding: 0px;
+    padding: 0;
     background-color: #ffffff;
-    margin: 0px;
+    margin: 0;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -1375,7 +1256,6 @@ footer {
     background-color: #e3fde4;
     margin: 20px;
     padding: 20px;
-    border-radius: 8px;
 }
 
 .recent-orders h3 {
@@ -1649,7 +1529,6 @@ footer {
 /* SECCION DE MAPA_SITIO.HTML */
 
 .body-mapa{
-    margin-top: 0;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -1771,7 +1650,6 @@ footer {
     font-weight: bold;
     text-align: center;
     flex-direction: column;
-    margin: 15px auto;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     
@@ -1819,5 +1697,124 @@ footer {
     transform: scale(1.1);
     text-decoration: none;
     color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    body {
+        margin-top: 100px;
+    }
+
+    .menu-title {
+        display: none;
+    }
+
+    .username {
+        max-lines: 1;
+    }
+
+    .top-bar .header-content {
+        display: contents;
+        text-align: center;
+    }
+
+    .top-bar .menu-icon,
+    .top-bar .username,
+    .top-bar .panel-option,
+    .logo {
+        padding: 5px;
+        display: grid;
+        align-items: center;
+    }
+
+    .menu-bar {
+        background-color: #1a3d4c;
+        width: 100%;
+        text-align: center;
+    }
+
+    #menu-items {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .menu-bar.active #menu-items {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: contents;
+        font-size: 2em;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+    }
+
+    .menu-bar ul li {
+        margin: 5px 0;
+    }
+
+    .footer {
+        text-align: center;
+    }
+
+    /* Pagina registrarse */
+    .registro-info {
+        margin-top: 50px;
+    }
+
+    .registro-titulo {
+        align-items: center;
+    }
+
+    /* Pagina Inicio */
+    .productos-destacados {
+        display: flow;
+        margin: 15px;
+        padding: 30px;
+    }
+
+    .presentacion-inicio {
+        display: flex;
+    }
+
+    .presentacion-cuadro-inicio {
+        display: inline-table;
+        font-size: medium;
+        height: 155px;
+    }
+
+    .practicas-seccion {
+        margin: 3px;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    /* Pagina productos */
+    .filtra-productos form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .filtra-productos input,
+    .filtra-productos select,
+    .filtra-productos button {
+        width: 90%;
+        max-width: 300px;
+    }
+
+    /* Pagina Contactanos */
+
+    .contactanos-descripcion h1 {
+        margin: 15px auto;
+    }
 }
 

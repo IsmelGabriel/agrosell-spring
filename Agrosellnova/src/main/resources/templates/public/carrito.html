@@ -27,7 +27,7 @@
       <i class="fas fa-shopping-cart"></i>
     </a>
 
-    <span class="notification">
+    <span class="menu-notification">
             <button id="notificationButton">
                 <i class="fas fa-bell menu-icon"></i>
             </button>
@@ -49,8 +49,9 @@
 </header>
 
 
-<nav class="menu-bar">
-  <ul>
+<nav class="menu-bar" id="menu-bar">
+  <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+  <ul id="menu-items">
     <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
     <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
     <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
@@ -122,9 +123,32 @@
     alert("No tienes notificaciones pendientes");
   });
 
-  window.addEventListener("scroll", function () {
+  function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func.apply(this, args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  window.addEventListener("scroll", debounce(function () {
     const menuBar = document.querySelector(".menu-bar");
-    menuBar.classList.toggle("scrolled", window.scrollY > 50);
+    if (window.scrollY > 50) {
+      menuBar.classList.add("scrolled");
+    } else {
+      menuBar.classList.remove("scrolled");
+    }
+  }, 100));
+
+  const toggleButton = document.getElementById('menu-toggle');
+  const menuBar = document.getElementById('menu-bar');
+
+  toggleButton.addEventListener('click', () => {
+    menuBar.classList.toggle('active');
   });
 
   let total = 0;
