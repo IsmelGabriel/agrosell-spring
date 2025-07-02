@@ -18,28 +18,25 @@ public class ReservaController {
     @Autowired
     private ReservaService reservaService;
 
-    // Muestra el formulario para crear una reserva
-    @GetMapping("/formulario_reserva")
+    @GetMapping("/forms/formulario_reserva")
     public String mostrarFormularioReserva(Model model) {
         model.addAttribute("reserva", new Reserva());
         return "forms/formulario_reserva";
     }
 
-    // Guarda la reserva del usuario
-    @PostMapping("/reservas/guardar")
+    @PostMapping("/registrarReserva")
     public String guardarReserva(@ModelAttribute("reserva") Reserva reserva, HttpSession session) {
         String usuario = (String) session.getAttribute("usuario");
         if (usuario == null) {
-            return "redirect:/public/login";
+            return "redirect:/public/index";
         }
 
-        reserva.setUsuarioCliente(usuario); // ✅ Cambio aquí
+        reserva.setUsuarioCliente(usuario);
         reserva.setFechaReserva(LocalDate.now());
         reservaService.guardarReserva(reserva);
-        return "redirect:/public/pago_exitoso";
+        return "redirect:/public/reserva_exitosa";
     }
 
-    // Muestra el panel de control con las reservas del usuario
     @GetMapping("/panel_control")
     public String mostrarPanelControl(HttpSession session, Model model) {
         String usuario = (String) session.getAttribute("usuario");

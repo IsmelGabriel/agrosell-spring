@@ -43,12 +43,6 @@ public class AdministradorController {
             return "redirect:/public/index";
         }
 
-
-
-        usuarioService.eliminarUsuarioPorId(idUsuario);
-
-
-
         usuarioService.eliminarUsuarioPorId(idUsuario);
 
         return "redirect:/private/usuarios_registrados";

@@ -13,7 +13,6 @@ public class ReservaServiceImpl implements ReservaService {
 
     private final ReservaRepository reservaRepository;
 
-    // Inyección por constructor (recomendado)
     @Autowired
     public ReservaServiceImpl(ReservaRepository reservaRepository) {
         this.reservaRepository = reservaRepository;
@@ -27,7 +26,7 @@ public class ReservaServiceImpl implements ReservaService {
     @Override
     public void guardarReserva(Reserva reserva) {
         System.out.println("Recibido en servicio: " + reserva.getUsuarioCliente());
-        reserva.setFechaReserva(LocalDate.now()); // Asegúrate que este método exista
+        reserva.setFechaReserva(LocalDate.now());
         reservaRepository.save(reserva);
     }
 
