@@ -107,7 +107,7 @@ h1 {
     width: 100%;
     background-color: #327c28;
     color: white;
-    padding: 2.4px 0;
+    padding: 3px 0;
     display: flex;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
@@ -1768,6 +1768,11 @@ footer {
         align-items: center;
     }
 
+    /* Pagina de recuperar contraseña */
+    .recuperar-contraseña-form {
+        margin-top: 100px;
+    }
+
     /* Pagina Inicio */
     .productos-destacados {
         display: flow;
@@ -1832,6 +1837,23 @@ footer {
     .about-imagen {
         display: flex;
         margin-top: 30px;
+    }
+
+    /* Pagina ayuda */
+    .ayuda-section {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ayuda-info h2 {
+        display: inline-block;
+    }
+
+    .accordion-item {
+        width: 100%;
+        margin-bottom: 5px;
     }
 }
 
