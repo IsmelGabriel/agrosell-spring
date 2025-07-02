@@ -37,6 +37,7 @@ public class Reserva {
     private LocalDate fechaReserva;
 
 
+
     public Long getIdReserva() {
         return idReserva;
     }
@@ -108,9 +109,4 @@ public class Reserva {
     public void setFechaReserva(LocalDate fechaReserva) {
         this.fechaReserva = fechaReserva;
     }
-
-    public void setFechaReservas(LocalDate fecha) {
-        this.fechaReserva = fecha;
-    }
 }
-

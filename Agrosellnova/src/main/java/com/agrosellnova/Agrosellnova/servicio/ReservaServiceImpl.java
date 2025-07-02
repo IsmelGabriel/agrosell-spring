@@ -11,17 +11,29 @@ import java.util.List;
 @Service
 public class ReservaServiceImpl implements ReservaService {
 
+    private final ReservaRepository reservaRepository;
+
+    // Inyección por constructor (recomendado)
     @Autowired
-    private ReservaRepository reservaRepository;
+    public ReservaServiceImpl(ReservaRepository reservaRepository) {
+        this.reservaRepository = reservaRepository;
+    }
 
     @Override
     public List<Reserva> obtenerTodasLasReservas() {
         return reservaRepository.findAll();
     }
+
     @Override
     public void guardarReserva(Reserva reserva) {
         System.out.println("Recibido en servicio: " + reserva.getUsuarioCliente());
-        reserva.setFechaReservas(LocalDate.now());
+        reserva.setFechaReserva(LocalDate.now()); // Asegúrate que este método exista
         reservaRepository.save(reserva);
     }
+
+    @Override
+    public List<Reserva> obtenerReservasPorUsuario(String usuario) {
+        return reservaRepository.findByUsuarioCliente(usuario);
+    }
+
 }

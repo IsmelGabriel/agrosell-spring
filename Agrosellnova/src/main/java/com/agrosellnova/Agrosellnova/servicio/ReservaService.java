@@ -11,4 +11,5 @@ public interface ReservaService {
 
     List<Reserva> obtenerTodasLasReservas();
 
+    List<Reserva> obtenerReservasPorUsuario(String usuario);
 }
