@@ -8,7 +8,7 @@ public interface VentaService {
     void guardarVenta(Venta venta);
     Venta obtenerVentaPorId(Long id);
     void eliminarVenta(Long id);
-    List<Venta> obtenerVentasPorVendedor(String vendedor);
-    List<Venta> filtrarVentas(String criterio, String valor, String vendedor);
-}
+    List<Venta> obtenerVentasPorProductor(String productor);
+    List<Venta> filtrarVentas(String productor, String criterio, String valor);
+    }
 
