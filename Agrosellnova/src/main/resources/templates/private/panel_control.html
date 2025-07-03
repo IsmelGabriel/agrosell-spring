@@ -3,17 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Control - Agrosellnova</title>
+    <title>Panel de Control - AGROSELLNOVA</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/panel.css}">
 </head>
 <body>
 
-<header class="topbar">
-    <div class="logo">Agrosellnova</div>
-    <div class="user-info">
-        <span th:text="'Bienvenido, ' + ${#strings.capitalize(usuario)}">Usuario</span><br>
-        <span class="rol">Rol: <span th:text="${#strings.capitalize(rol)}">Rol</span></span>
+<header class="Bienvenido">
+    <div class="header-left">
+        <img src="/img/logo.png" alt="Logo Agrosellnova" class="logo">
+        <span class="project-name">AGROSELLNOVA</span>
+    </div>
+
+    <div class="header-right">
+        <div class="user-info">
+            <p><strong th:text="'Bienvenido, ' + ${usuario}">Bienvenido, Usuario</strong></p>
+            <p><span th:text="'Rol: ' + ${rol}">Rol: Cliente</span></p>
+        </div>
+        <div class="icons">
+            <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
+            <a th:href="@{/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+        </div>
     </div>
 </header>
 
