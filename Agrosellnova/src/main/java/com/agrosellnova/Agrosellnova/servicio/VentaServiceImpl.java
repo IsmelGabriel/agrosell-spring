@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,43 +36,37 @@ public class VentaServiceImpl implements VentaService {
     }
 
     @Override
-    public List<Venta> obtenerVentasPorVendedor(String nombreUsuario) {
-        return ventaRepository.findByVendedor_NombreUsuario(nombreUsuario);
+    public List<Venta> obtenerVentasPorProductor(String productor) {
+        return ventaRepository.findByVendedor_NombreUsuario(productor);
     }
-    @Override
-    public List<Venta> filtrarVentas(String criterio, String valor, String vendedor) {
-        if (criterio == null || valor == null || valor.trim().isEmpty()) {
-            return ventaRepository.findByVendedor_NombreUsuario(vendedor);
-        }
 
-        switch (criterio) {
+    @Override
+    public List<Venta> filtrarVentas(String productor, String criterio, String valor) {
+        switch (criterio.toLowerCase()) {
             case "id":
                 try {
                     Long id = Long.parseLong(valor);
-                    return ventaRepository.findByIdVentaAndVendedor_NombreUsuario(id, vendedor);
+                    return ventaRepository.findByIdVentaAndVendedor_NombreUsuario(id, productor);
                 } catch (NumberFormatException e) {
-                    return new ArrayList<>();
+                    return List.of();
                 }
 
             case "producto":
-                return ventaRepository.findByProducto_NombreContainingIgnoreCaseAndVendedor_NombreUsuario(valor, vendedor);
-
-            case "comprador":
-                return ventaRepository.findByComprador_NombreUsuarioContainingIgnoreCaseAndVendedor_NombreUsuario(valor, vendedor);
+                return ventaRepository.findByVendedor_NombreUsuarioAndProducto_NombreContainingIgnoreCase(productor, valor);
 
             case "fecha":
                 try {
                     LocalDate fecha = LocalDate.parse(valor);
-                    return ventaRepository.findByFechaVentaAndVendedor_NombreUsuario(fecha, vendedor);
+                    return ventaRepository.findByVendedor_NombreUsuarioAndFechaVenta(fecha, productor);
                 } catch (DateTimeParseException e) {
-                    return new ArrayList<>();
+                    return List.of();
                 }
 
+            case "comprador":
+                return ventaRepository.findByVendedor_NombreUsuarioAndComprador_NombreUsuarioContainingIgnoreCase(productor, valor);
+
             default:
-                return ventaRepository.findByVendedor_NombreUsuario(vendedor);
+                return List.of();
         }
     }
 }
-
-
-
