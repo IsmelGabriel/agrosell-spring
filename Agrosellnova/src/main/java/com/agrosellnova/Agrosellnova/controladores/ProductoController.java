@@ -103,5 +103,24 @@ public class ProductoController {
             return "error";
         }
     }
+    @GetMapping("/gestionar_productos")
+    public String gestionarProductos(
+            @RequestParam(required = false) String criterio,
+            @RequestParam(required = false) String valor,
+            HttpSession session,
+            Model model) {
+
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        List<Producto> listaProductos = productoService.filtrarProductos(criterio, valor, usuario);
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("rol", rol);
+        model.addAttribute("listaProductos", listaProductos);
+
+        return "vistas_privadas/gestionar_productos";
+    }
 }
+
 

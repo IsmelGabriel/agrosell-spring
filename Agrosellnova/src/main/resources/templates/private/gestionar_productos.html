@@ -30,6 +30,18 @@
 
     <main class="panel-content">
         <h1>Productos registrados en el sistema: <span th:text="${usuario}"></span></h1>
+        <div class="filtro-productos">
+            <form th:action="@{/private/gestionar_productos}" method="get" class="filtro-form">
+                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input" required>
+                <select name="criterio" class="filtro-select" required>
+                    <option value="">Selecciona un criterio</option>
+                    <option value="id">ID de Producto</option>
+                    <option value="producto">Producto</option>
+                    <option value="fecha">Fecha (YYYY-MM-DD)</option>
+                </select>
+                <button type="submit" class="filtro-btn">Filtrar</button>
+            </form>
+        </div>
         <table border="1">
             <thead>
             <tr>
