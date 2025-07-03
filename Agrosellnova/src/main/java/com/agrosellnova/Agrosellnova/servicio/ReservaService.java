@@ -12,4 +12,6 @@ public interface ReservaService {
     List<Reserva> obtenerTodasLasReservas();
 
     List<Reserva> obtenerReservasPorUsuario(String usuario);
+
+    List<Reserva> filtrarReservas(String usuario, String criterio, String valor);
 }

@@ -43,7 +43,7 @@ public class ReservaController {
         String rol = (String) session.getAttribute("rol");
 
         if (usuario == null || rol == null) {
-            return "redirect:/public/login";
+            return "redirect:/public/index";
         }
 
         List<Reserva> listaReservas = reservaService.obtenerReservasPorUsuario(usuario);
@@ -53,5 +53,33 @@ public class ReservaController {
 
         return "panel_control";
     }
+
+    @GetMapping("/gestionar_reservas")
+    public String mostrarReservasFiltradas(
+            @RequestParam(required = false) String criterio,
+            @RequestParam(required = false) String valor,
+            HttpSession session,
+            Model model) {
+
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null || rol == null) {
+            return "redirect:/public/index";
+        }
+
+        List<Reserva> reservas;
+        if (criterio != null && valor != null && !valor.isBlank()) {
+            reservas = reservaService.filtrarReservas(usuario, criterio, valor);
+        } else {
+            reservas = reservaService.obtenerReservasPorUsuario(usuario);
+        }
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("rol", rol);
+        model.addAttribute("listaReservas", reservas);
+        return "private/gestionar_reservas";
+    }
+
 }
 

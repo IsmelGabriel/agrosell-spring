@@ -220,6 +220,36 @@ tr:last-child td[colspan] {
     color: #A5D6A7;
 }
 
+/* Seccion de filtros */
+.filtro-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filtro-input,
+.filtro-select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.filtro-btn {
+    background-color: #2E7D32;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.filtro-btn:hover {
+    background-color: #388E3C;
+}
+
+
+
 @media (max-width: 768px) {
     .topbar, header.Bienvenido {
         flex-direction: column;
