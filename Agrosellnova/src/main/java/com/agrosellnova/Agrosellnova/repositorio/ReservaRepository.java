@@ -9,9 +9,8 @@ import java.util.List;
 
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
-    List<Reserva> findByUsuarioCliente(String UsuarioCliente);
-    List<Reserva> findByUsuarioClienteAndIdReserva(String usuarioCliente, Long idReserva);
-    List<Reserva> findByUsuarioClienteAndProductoContainingIgnoreCase(String usuarioCliente, String producto);
-    List<Reserva> findByUsuarioClienteAndFechaReserva(String usuarioCliente, LocalDate fechaReserva);
-
+    List<Reserva> findByUsuarioCliente(String usuario);
+    Reserva findByIdReservaAndUsuarioCliente(Long id, String usuario);
+    List<Reserva> findByUsuarioClienteAndProductoContainingIgnoreCase(String usuario, String producto);
+    List<Reserva> findByUsuarioClienteAndFechaReserva(String usuario, LocalDate fecha);
 }
