@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-@RequestMapping("/public")
+@RequestMapping("/private")
 public class ReservaController {
 
     @Autowired
@@ -37,25 +37,8 @@ public class ReservaController {
         return "redirect:/public/reserva_exitosa";
     }
 
-    @GetMapping("/panel_control")
-    public String mostrarPanelControl(HttpSession session, Model model) {
-        String usuario = (String) session.getAttribute("usuario");
-        String rol = (String) session.getAttribute("rol");
-
-        if (usuario == null || rol == null) {
-            return "redirect:/public/index";
-        }
-
-        List<Reserva> listaReservas = reservaService.obtenerReservasPorUsuario(usuario);
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("rol", rol);
-        model.addAttribute("listaReservas", listaReservas);
-
-        return "panel_control";
-    }
-
-    @GetMapping("/gestionar_reservas")
-    public String mostrarReservasFiltradas(
+    @GetMapping("gestionar_reservas")
+    public String mostrarReservas(
             @RequestParam(required = false) String criterio,
             @RequestParam(required = false) String valor,
             HttpSession session,
@@ -69,6 +52,7 @@ public class ReservaController {
         }
 
         List<Reserva> reservas;
+
         if (criterio != null && valor != null && !valor.isBlank()) {
             reservas = reservaService.filtrarReservas(usuario, criterio, valor);
         } else {
@@ -78,8 +62,10 @@ public class ReservaController {
         model.addAttribute("usuario", usuario);
         model.addAttribute("rol", rol);
         model.addAttribute("listaReservas", reservas);
+
         return "private/gestionar_reservas";
     }
+
 
 }
 

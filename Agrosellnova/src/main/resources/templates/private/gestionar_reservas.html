@@ -48,8 +48,8 @@
 
         <div class="filtro-reservas">
             <form th:action="@{/private/gestionar_reservas}" method="get" class="filtro-form">
-                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input" required>
-                <select name="criterio" class="filtro-select" required>
+                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+                <select name="criterio" class="filtro-select">
                     <option value="">Selecciona un criterio</option>
                     <option value="id">ID de Reserva</option>
                     <option value="producto">Producto</option>
@@ -76,16 +76,16 @@
             </thead>
             <tbody>
             <tr th:each="reserva : ${listaReservas}">
-                <td th:text="${reserva.id}"></td>
-                <td th:text="${reserva.documento}"></td>
-                <td th:text="${reserva.telefono}"></td>
-                <td th:text="${reserva.correo}"></td>
+                <td th:text="${reserva.idReserva}"></td>
+                <td th:text="${reserva.usuarioDocumento}"></td>
+                <td th:text="${reserva.usuarioTelefono}"></td>
+                <td th:text="${reserva.usuarioCorreo}"></td>
                 <td th:text="${reserva.producto}"></td>
                 <td th:text="${reserva.cantidadKg}"></td>
                 <td th:text="${reserva.metodoPago}"></td>
                 <td th:text="${reserva.fechaReserva}"></td>
-                <td><a th:href="@{'/editar_reserva?id=' + ${reserva.id}}">Editar</a></td>
-                <td><a th:href="@{'/cancelar_reserva?id=' + ${reserva.id}}">Cancelar</a></td>
+                <td><a th:href="@{'/editar_reserva?id=' + ${reserva.idReserva}}">Editar</a></td>
+                <td><a th:href="@{'/cancelar_reserva?id=' + ${reserva.idReserva}}">Cancelar</a></td>
             </tr>
             <tr th:if="${#lists.isEmpty(listaReservas)}">
                 <td colspan="10">No tienes reservas registradas en este momento.</td>

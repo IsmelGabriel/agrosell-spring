@@ -36,24 +36,33 @@ public class ReservaServiceImpl implements ReservaService {
         return reservaRepository.findByUsuarioCliente(usuario);
     }
 
-
-    public List<Reserva> filtrarReservas(String usuarioCliente, String criterio, String valor) {
-        try {
-            switch (criterio) {
-                case "id":
+    @Override
+    public List<Reserva> filtrarReservas(String usuario, String criterio, String valor) {
+        switch (criterio.toLowerCase()) {
+            case "id":
+                try {
                     Long id = Long.parseLong(valor);
-                    return reservaRepository.findByUsuarioClienteAndIdReserva(usuarioCliente, id);
-                case "producto":
-                    return reservaRepository.findByUsuarioClienteAndProductoContainingIgnoreCase(usuarioCliente, valor);
-                case "fecha":
+                    Reserva reserva = reservaRepository.findByIdReservaAndUsuarioCliente(id, usuario);
+                    return reserva != null ? List.of(reserva) : List.of();
+                } catch (NumberFormatException e) {
+                    return List.of();
+                }
+
+            case "producto":
+                return reservaRepository.findByUsuarioClienteAndProductoContainingIgnoreCase(usuario, valor);
+
+            case "fecha":
+                try {
                     LocalDate fecha = LocalDate.parse(valor);
-                    return reservaRepository.findByUsuarioClienteAndFechaReserva(usuarioCliente, fecha);
-                default:
-                    return reservaRepository.findByUsuarioCliente(usuarioCliente);
-            }
-        } catch (NumberFormatException | DateTimeParseException e) {
-            return reservaRepository.findByUsuarioCliente(usuarioCliente);
+                    return reservaRepository.findByUsuarioClienteAndFechaReserva(usuario, fecha);
+                } catch (DateTimeParseException e) {
+                    return List.of();
+                }
+
+            default:
+                return List.of();
         }
     }
+
 }
 
