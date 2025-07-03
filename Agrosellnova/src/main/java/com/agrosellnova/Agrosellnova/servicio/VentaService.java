@@ -9,4 +9,6 @@ public interface VentaService {
     Venta obtenerVentaPorId(Long id);
     void eliminarVenta(Long id);
     List<Venta> obtenerVentasPorVendedor(String vendedor);
+    List<Venta> filtrarVentas(String criterio, String valor, String vendedor);
 }
+

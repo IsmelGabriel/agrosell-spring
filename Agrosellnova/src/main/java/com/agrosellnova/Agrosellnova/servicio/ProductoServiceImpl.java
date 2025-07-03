@@ -5,6 +5,9 @@ import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -46,4 +49,36 @@ public class ProductoServiceImpl implements ProductoService {
     public List<Producto> obtenerProductosPorUsuario(String usuarioCampesino) {
         return productoRepository.findByUsuarioCampesino(usuarioCampesino);
     }
+    @Override
+    public List<Producto> filtrarProductos(String criterio, String valor, String usuarioCampesino) {
+        if (criterio == null || valor == null || valor.trim().isEmpty()) {
+            return productoRepository.findByUsuarioCampesino(usuarioCampesino);
+        }
+
+        switch (criterio) {
+            case "id":
+                try {
+                    Long id = Long.parseLong(valor);
+                    return productoRepository.findByIdAndUsuarioCampesino(id, usuarioCampesino);
+                } catch (NumberFormatException e) {
+                    return new ArrayList<>();
+                }
+
+            case "producto":
+                return productoRepository.findByNombreContainingIgnoreCaseAndUsuarioCampesino(valor, usuarioCampesino);
+
+            case "fecha":
+                try {
+                    LocalDate fecha = LocalDate.parse(valor);
+                    return productoRepository.findByFechaCosechaAndUsuarioCampesino(fecha, usuarioCampesino);
+                } catch (DateTimeParseException e) {
+                    return new ArrayList<>();
+                }
+
+            default:
+                return productoRepository.findByUsuarioCampesino(usuarioCampesino);
+        }
+    }
 }
+
+
