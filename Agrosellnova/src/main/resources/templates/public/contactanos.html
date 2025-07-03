@@ -7,8 +7,6 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
@@ -27,7 +25,7 @@
             <i class="fas fa-shopping-cart"></i>
         </a>
 
-        <span class="notification">
+        <span class="menu-notification">
             <button id="notificationButton">
                 <i class="fas fa-bell menu-icon"></i>
             </button>
@@ -48,8 +46,9 @@
     </div>
 </header>
 
-<nav class="menu-bar">
-    <ul>
+<nav class="menu-bar" id="menu-bar">
+    <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+    <ul id="menu-items">
         <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
         <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
         <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
@@ -66,7 +65,7 @@
             <h2>Contáctanos</h2>
         </div>
         <div class="contactanos-descripcion">
-            <h1>Si tienes alguna pregunta o inquietud, no dudes en ponerte en contacto con nosotros. Estaremos encantados de ayudarte.</h1>
+            <h1>Si tienes alguna pregunta o inquietud, no dudes en ponerte en <a th:href="@{/public/ayuda#ayuda-form}"> contacto con nosotros.</a> Estaremos encantados de ayudarte.</h1>
         </div>
 
         <div class="contactanos-mapa">
@@ -76,7 +75,7 @@
         <div class="contactanos-info">
             <h3>Información de contacto</h3>
             <p>Dirección: Calle 65, Bogota, Colombia</p>
-            <p>Teléfono: +57 302 8456 789</p>
+            <p>Teléfono: +57 123 456 7890</p>
             <p>Correo electrónico: contacto@agrosellnova.com</p>
         </div>
     </section>
@@ -101,7 +100,7 @@
         <div class="footer-column">
             <h3>Contacto</h3>
             <p>📍 Dirección: Calle Principal #123</p>
-            <p>📞 Teléfono: +57 123 456 789</p>
+            <p>📞 Teléfono: +57 123 456 7890</p>
             <p>📧 Email: <a href="mailto:info@agrosellnova.com">info@agrosellnova.com</a></p>
         </div>
 
@@ -142,9 +141,13 @@
 
     function debounce(func, wait) {
         let timeout;
-        return function (...args) {
+        return function(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func.apply(this, args);
+            };
             clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
+            timeout = setTimeout(later, wait);
         };
     }
 
@@ -156,6 +159,13 @@
             menuBar.classList.remove("scrolled");
         }
     }, 100));
+
+    const toggleButton = document.getElementById('menu-toggle');
+    const menuBar = document.getElementById('menu-bar');
+
+    toggleButton.addEventListener('click', () => {
+        menuBar.classList.toggle('active');
+    });
 </script>
 
 </body>

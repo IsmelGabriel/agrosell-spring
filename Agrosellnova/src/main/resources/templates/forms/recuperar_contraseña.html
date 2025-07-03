@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +12,7 @@
 </head>
 
 <body>
+
 <header class="top-bar">
     <div class="header-content">
         <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
@@ -28,7 +28,7 @@
             <i class="fas fa-shopping-cart"></i>
         </a>
 
-        <span class="notification">
+        <span class="menu-notification">
             <button id="notificationButton">
                 <i class="fas fa-bell menu-icon"></i>
             </button>
@@ -51,18 +51,6 @@
 
 <nav class="menu-bar">
     <ul>
-        <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
-        <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
-        <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
-        <li><a th:href="@{/public/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
-        <li><a th:href="@{/public/about_us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
-        <li><a th:href="@{/public/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
-        <li><a th:href="@{/public/ayuda}"><i class="fas fa-question-circle"></i> Ayuda</a></li>
-    </ul>
-</nav>
-
-<nav class="menu-bar">
-    <ul>
         <li>Bienvenido a Agrosell Nova. Actualmente estás cambiando tu contraseña.</li>
     </ul>
 </nav>
@@ -70,16 +58,16 @@
 <main class="recuperar-contraseña-container">
     <div class="recuperar-contraseña-form">
         <h2>Recuperar Contraseña</h2>
-        <form id="recoveryForm" class="needs-validation" th:action="@{/recuperar}" method="post" novalidate>
+        <form id="recoveryForm" class="needs-validation" th:action="@{/recuperar_contraseña}" method="post" novalidate>
             <div class="recuperar-contraseña-formulario">
                 <label for="usuario" class="index-text">Usuario</label>
-                <input type="text" id="usuario" name="USUARIO" class="form-control" placeholder="Ingresa tu usuario" required>
+                <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Ingresa tu usuario" required>
                 <div class="invalid-feedback">Por favor, ingresa el usuario a recuperar.</div>
             </div>
 
             <div class="recuperar-contraseña-formulario">
                 <label for="email" class="index-text">Correo Electrónico</label>
-                <input type="email" id="email" name="CORREO" class="form-control" placeholder="Ingresa tu correo." required>
+                <input type="email" id="email" name="correo" class="form-control" placeholder="Ingresa tu correo." required>
                 <div class="invalid-feedback">Por favor, ingresa tu correo electrónico.</div>
             </div>
 
@@ -98,7 +86,7 @@
 
             <div class="recuperar-contraseña-formulario">
                 <button type="submit" class="recuperar-contraseña-btn">Recuperar Contraseña</button>
-                <a th:href="@{/login}" class="btn btn-link text-success">Volver a iniciar sesión</a>
+                <a th:href="@{/public/index}" class="btn btn-link text-success">Volver a iniciar sesión</a>
             </div>
         </form>
     </div>
@@ -109,14 +97,14 @@
         <div class="footer-column">
             <h3>Enlaces rápidos</h3>
             <ul>
-                <li><a th:href="@{/inicio}">Inicio</a></li>
-                <li><a th:href="@{/categorias}">Categorías</a></li>
-                <li><a th:href="@{/contactanos}">Contáctanos</a></li>
-                <li><a th:href="@{/about-us}">Sobre nosotros</a></li>
-                <li><a th:href="@{/mapa}">Mapa del sitio</a></li>
-                <li><a th:href="@{/404}">Error 404</a></li>
-                <li><a th:href="@{/500}">Error 500</a></li>
-                <li><a th:href="@{/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/public/inicio}">Inicio</a></li>
+                <li><a th:href="@{/public/categorias}">Categorías</a></li>
+                <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
+                <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
+                <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
+                <li><a th:href="@{/public/404}">Error 404</a></li>
+                <li><a th:href="@{/public/500}">Error 500</a></li>
+                <li><a th:href="@{/public/dashboard}">Dashboard</a></li>
             </ul>
         </div>
 
@@ -144,36 +132,71 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script>
-
     (function () {
         'use strict';
-        var forms = document.querySelectorAll('.needs-validation');
+        const forms = document.querySelectorAll('.needs-validation');
         Array.prototype.slice.call(forms).forEach(function (form) {
             form.addEventListener('submit', function (event) {
                 const password = document.getElementById('password').value;
                 const confirmPassword = document.getElementById('confirmPassword').value;
-                const regex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/;
+                const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/;
 
-                if (!form.checkValidity() || !regex.test(password)) {
+                if (!form.checkValidity() || !passwordRegex.test(password) || password !== confirmPassword) {
                     event.preventDefault();
                     event.stopPropagation();
-                    document.getElementById('password').setCustomValidity("La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un carácter especial.");
-                } else {
-                    document.getElementById('password').setCustomValidity("");
-                }
 
-                if (password !== confirmPassword) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    document.getElementById('confirmPassword').setCustomValidity("Las contraseñas no coinciden.");
-                } else {
-                    document.getElementById('confirmPassword').setCustomValidity("");
+                    if (!passwordRegex.test(password)) {
+                        document.getElementById('password').setCustomValidity("La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, un número y un carácter especial.");
+                    } else {
+                        document.getElementById('password').setCustomValidity("");
+                    }
+
+                    if (password !== confirmPassword) {
+                        document.getElementById('confirmPassword').setCustomValidity("Las contraseñas no coinciden.");
+                    } else {
+                        document.getElementById('confirmPassword').setCustomValidity("");
+                    }
                 }
 
                 form.classList.add('was-validated');
             }, false);
         });
     })();
+
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func.apply(this, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    window.addEventListener("scroll", debounce(function () {
+        const menuBar = document.querySelector(".menu-bar");
+        if (window.scrollY > 50) {
+            menuBar.classList.add("scrolled");
+        } else {
+            menuBar.classList.remove("scrolled");
+        }
+    }, 100));
+
+    const toggleButton = document.getElementById('menu-toggle');
+    const menuBar = document.getElementById('menu-bar');
+
+    toggleButton.addEventListener('click', () => {
+        menuBar.classList.toggle('active');
+    });
+
+    const toggleButton = document.getElementById('menu-toggle');
+    const menuBar = document.getElementById('menu-bar');
+
+    toggleButton.addEventListener('click', () => {
+        menuBar.classList.toggle('active');
+    });
 </script>
 </body>
 

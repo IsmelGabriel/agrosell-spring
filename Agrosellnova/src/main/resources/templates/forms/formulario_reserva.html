@@ -28,7 +28,7 @@
             <i class="fas fa-shopping-cart"></i>
         </a>
 
-        <span class="notification">
+        <span class="menu-notification">
             <button id="notificationButton">
                 <i class="fas fa-bell menu-icon"></i>
             </button>
@@ -49,8 +49,9 @@
     </div>
 </header>
 
-<nav class="menu-bar">
-    <ul>
+<nav class="menu-bar" id="menu-bar">
+    <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+    <ul id="menu-items">
         <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
         <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
         <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
@@ -65,29 +66,30 @@
     <div class="form-reserva">
         <h2>Reserva tu producto</h2>
         <form th:action="@{/public/registrarReserva}" method="post" class="needs-validation" novalidate>
-            <input type="hidden" name="USUARIO_CLIENTE" id="USUARIO_CLIENTE" />
+
+            <input type="hidden" name="usuarioCliente" id="USUARIO_CLIENTE" th:value="${usuario}" />
 
             <div class="reservar-form">
                 <label for="USUARIO_DOCUMENTO">Número de documento</label>
-                <input type="text" id="USUARIO_DOCUMENTO" name="USUARIO_DOCUMENTO" class="form-control" required />
+                <input type="text" id="USUARIO_DOCUMENTO" name="usuarioDocumento" class="form-control" maxlength="10" minlength="7" required />
                 <div class="invalid-feedback">Por favor, ingrese su número de documento.</div>
             </div>
 
             <div class="reservar-form">
                 <label for="USUARIO_TELEFONO">Teléfono</label>
-                <input type="tel" id="USUARIO_TELEFONO" name="USUARIO_TELEFONO" class="form-control" required />
+                <input type="tel" id="USUARIO_TELEFONO" name="usuarioTelefono" class="form-control" maxlength="10" minlength="10" required />
                 <div class="invalid-feedback">Por favor, ingrese su número de teléfono.</div>
             </div>
 
             <div class="reservar-form">
                 <label for="USUARIO_CORREO">Correo electrónico</label>
-                <input type="email" id="USUARIO_CORREO" name="USUARIO_CORREO" class="form-control" required />
+                <input type="email" id="USUARIO_CORREO" name="usuarioCorreo" class="form-control" required />
                 <div class="invalid-feedback">Por favor, ingrese un correo electrónico válido.</div>
             </div>
 
             <div class="reservar-form">
                 <label for="PRODUCTO">Producto</label>
-                <select id="PRODUCTO" name="PRODUCTO" class="form-control" required>
+                <select id="PRODUCTO" name="producto" class="form-control" required>
                     <option value="">Seleccione un producto</option>
                     <option value="Cebolla">Cebolla</option>
                     <option value="Tomate">Tomate</option>
@@ -101,13 +103,13 @@
 
             <div class="reservar-form">
                 <label for="CANTIDAD_KG">Cantidad (kg)</label>
-                <input type="number" id="CANTIDAD_KG" name="CANTIDAD_KG" class="form-control" required />
+                <input type="number" id="CANTIDAD_KG" name="cantidadKg" class="form-control" required />
                 <div class="invalid-feedback">Por favor, ingrese una cantidad válida.</div>
             </div>
 
             <div class="reservar-form">
                 <label for="METODO_PAGO">Método de pago</label>
-                <select id="METODO_PAGO" name="METODO_PAGO" class="form-control" required>
+                <select id="METODO_PAGO" name="metodoPago" class="form-control" required>
                     <option value="" disabled selected>Seleccione un método</option>
                     <option value="Tarjeta de Credito">Tarjeta de Crédito</option>
                     <option value="Tarjeta de Debito">Tarjeta de Débito</option>
@@ -123,42 +125,6 @@
 </main>
 
 <footer class="footer">
-    <div class="footer-container">
-        <div class="footer-column">
-            <h3>Enlaces rápidos</h3>
-            <ul>
-                <li><a th:href="@{/public/inicio}">Inicio</a></li>
-                <li><a th:href="@{/public/categorias}">Categorías</a></li>
-                <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
-                <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
-                <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
-                <li><a th:href="@{/public/404}">Error 404</a></li>
-                <li><a th:href="@{/public/500}">Error 500</a></li>
-                <li><a th:href="@{/public/dashboard}">Dashboard</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h3>Contacto</h3>
-            <p>📍 Dirección: Calle Principal #123</p>
-            <p>📞 Teléfono: +57 123 456 789</p>
-            <p>📧 Email: <a href="mailto:info@agrosellnova.com">info@agrosellnova.com</a></p>
-        </div>
-
-        <div class="footer-column">
-            <h3>Síguenos</h3>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y condiciones</a></p>
-    </div>
-</footer><footer class="footer">
     <div class="footer-container">
         <div class="footer-column">
             <h3>Enlaces rápidos</h3>
@@ -233,6 +199,13 @@
             });
         });
     })();
+
+    const toggleButton = document.getElementById('menu-toggle');
+    const menuBar = document.getElementById('menu-bar');
+
+    toggleButton.addEventListener('click', () => {
+        menuBar.classList.toggle('active');
+    });
 </script>
 </body>
 

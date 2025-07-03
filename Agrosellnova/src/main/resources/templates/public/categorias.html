@@ -25,7 +25,7 @@
       <i class="fas fa-shopping-cart"></i>
     </a>
 
-    <span class="notification">
+    <span class="menu-notification">
             <button id="notificationButton">
                 <i class="fas fa-bell menu-icon"></i>
             </button>
@@ -46,8 +46,9 @@
   </div>
 </header>
 
-<nav class="menu-bar">
-  <ul>
+<nav class="menu-bar" id="menu-bar">
+  <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+  <ul id="menu-items">
     <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
     <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
     <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
@@ -93,21 +94,21 @@
     <div class="footer-column">
       <h3>Enlaces rápidos</h3>
       <ul>
-        <li><a th:href="@{/}">Inicio</a></li>
-        <li><a th:href="@{/categorias}">Categorías</a></li>
-        <li><a th:href="@{/contactanos}">Contáctanos</a></li>
-        <li><a th:href="@{/about_us}">Sobre nosotros</a></li>
-        <li><a th:href="@{/mapa}">Mapa del sitio</a></li>
-        <li><a th:href="@{/404}">Error 404</a></li>
-        <li><a th:href="@{/500}">Error 500</a></li>
-        <li><a th:href="@{/dashboard}">Dashboard</a></li>
+        <li><a th:href="@{/public/inicio}">Inicio</a></li>
+        <li><a th:href="@{/public/categorias}">Categorías</a></li>
+        <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
+        <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
+        <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
+        <li><a th:href="@{/public/404}">Error 404</a></li>
+        <li><a th:href="@{/public/500}">Error 500</a></li>
+        <li><a th:href="@{/public/dashboard}">Dashboard</a></li>
       </ul>
     </div>
 
     <div class="footer-column">
       <h3>Contacto</h3>
       <p>📍 Dirección: Calle Principal #123</p>
-      <p>📞 Teléfono: +57 123 456 789</p>
+      <p>📞 Teléfono: +57 123 456 7890</p>
       <p>📧 Email: <a href="mailto:info@agrosellnova.com">info@agrosellnova.com</a></p>
     </div>
 
@@ -133,7 +134,7 @@
 
   function debounce(func, wait) {
     let timeout;
-    return function (...args) {
+    return function(...args) {
       const later = () => {
         clearTimeout(timeout);
         func.apply(this, args);
@@ -151,6 +152,13 @@
       menuBar.classList.remove("scrolled");
     }
   }, 100));
+
+  const toggleButton = document.getElementById('menu-toggle');
+  const menuBar = document.getElementById('menu-bar');
+
+  toggleButton.addEventListener('click', () => {
+    menuBar.classList.toggle('active');
+  });
 </script>
 </body>
 </html>

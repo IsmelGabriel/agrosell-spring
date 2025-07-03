@@ -1,21 +1,71 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <title>Error 500 - Error del servidor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error 500</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
-            background-color: white;
-            font-family: Arial, sans-serif;
-            color: #333;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #F4F6F4;
+            color: #2E7D32;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
+
+        .error-container {
+            text-align: center;
+            padding: 40px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .error-content .icon {
+            font-size: 60px;
+            color: #66BB6A;
+            margin-bottom: 15px;
+        }
+
+        .error-content h1 {
+            font-size: 80px;
+            margin: 0;
+            color: #388E3C;
+        }
+
+        .error-content h2 {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .error-content p {
+            font-size: 16px;
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        .btn-back {
+            display: inline-block;
+            background-color: #2E7D32;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+            font-weight: bold;
+        }
+
+        .btn-back:hover {
+            background-color: #1B5E20;
+        }
+
         h1 {
             font-size: 5em;
             margin: 0;
@@ -34,13 +84,31 @@
         img{
             width: 300px;
         }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3em;
+            }
+            p {
+                font-size: 1em;
+            }
+            img {
+                width: 50%;
+            }
+        }
     </style>
 </head>
+
 <body>
-<img src="https://i.ibb.co/cvj3qCk/agrosell-logo-removebg-preview-1.png" alt="logo">
-<h1>ERROR 500 HTTP</h1>
-<p>Parece que algo salio mal.</p>
-<button onclick="goBack()">Volver atras</button>
+<div class="error-container">
+    <div class="error-content">
+        <i class="fas fa-seedling icon"></i>
+        <h1>500</h1>
+        <h2>Error interno del servidor</h2>
+        <p>Lo sentimos, Por favor vuelva a intentarlo mas tarde.</p>
+        <button onclick="goBack()" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</button>
+    </div>
+</div>
 
 <script>
     function goBack(){

@@ -24,7 +24,7 @@
             <i class="fas fa-shopping-cart"></i>
         </a>
 
-        <span class="notification">
+        <span class="menu-notification">
             <button id="notificationButton">
                 <i class="fas fa-bell menu-icon"></i>
             </button>
@@ -45,8 +45,9 @@
     </div>
 </header>
 
-<nav class="menu-bar">
-    <ul>
+<nav class="menu-bar" id="menu-bar">
+    <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+    <ul id="menu-items">
         <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
         <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
         <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
@@ -76,7 +77,7 @@
             <h3>Cebolla</h3>
             <p>Precio: 15.000</p>
             <p>Disponible desde: 01/12/2024</p>
-            <a href="@{/formulario_reserva}" class="btn-reserva">Reservar</a>
+            <a th:href="@{/forms/formulario_reserva}" class="btn-reserva">Reservar</a>
         </div>
 
         <div class="producto-reserva">
@@ -84,7 +85,7 @@
             <h3>Tomate</h3>
             <p>Precio: 12.000</p>
             <p>Disponible desde: 05/12/2024</p>
-            <a href="@{/formulario_reserva}" class="btn-reserva">Reservar</a>
+            <a th:href="@{/forms/formulario_reserva}" class="btn-reserva">Reservar</a>
         </div>
 
         <div class="producto-reserva">
@@ -92,7 +93,7 @@
             <h3>Zanahoria</h3>
             <p>Precio: 18.500</p>
             <p>Disponible desde: 08/12/2024</p>
-            <a href="@{/formulario_reserva}" class="btn-reserva">Reservar</a>
+            <a th:href="@{/forms/formulario_reserva}" class="btn-reserva">Reservar</a>
         </div>
 
         <div class="producto-reserva">
@@ -100,7 +101,7 @@
             <h3>Fresa</h3>
             <p>Precio: 10.000</p>
             <p>Disponible desde: 10/12/2024</p>
-            <a href="@{/formulario_reserva}" class="btn-reserva">Reservar</a>
+            <a th:href="@{/forms/formulario_reserva}" class="btn-reserva">Reservar</a>
         </div>
 
         <div class="producto-reserva">
@@ -108,7 +109,7 @@
             <h3>Mango</h3>
             <p>Precio: 25.000</p>
             <p>Disponible desde: 15/12/2024</p>
-            <a href="@{/formulario_reserva}" class="btn-reserva">Reservar</a>
+            <a th:href="@{/forms/formulario_reserva}" class="btn-reserva">Reservar</a>
         </div>
 
         <div class="producto-reserva">
@@ -116,7 +117,7 @@
             <h3>Manzana</h3>
             <p>Precio: 20.000</p>
             <p>Disponible desde: 20/12/2024</p>
-            <a href="@{/formulario_reserva}" class="btn-reserva">Reservar</a>
+            <a th:href="@{/forms/formulario_reserva}" class="btn-reserva">Reservar</a>
         </div>
     </section>
 </main>
@@ -184,7 +185,13 @@
             menuBar.classList.remove("scrolled");
         }
     }, 100));
-</script>
 
+    const toggleButton = document.getElementById('menu-toggle');
+    const menuBar = document.getElementById('menu-bar');
+
+    toggleButton.addEventListener('click', () => {
+        menuBar.classList.toggle('active');
+    });
+</script>
 </body>
 </html>
