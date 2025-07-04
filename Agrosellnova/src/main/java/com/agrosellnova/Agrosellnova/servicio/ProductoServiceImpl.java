@@ -51,7 +51,7 @@ public class ProductoServiceImpl implements ProductoService {
     }
     @Override
     public List<Producto> obtenerProductosPorProductor(String usuario) {
-        return productoRepository.findByUsuarioProductor(usuario);
+        return productoRepository.findByUsuarioCampesino(usuario);
     }
 
     @Override
@@ -60,19 +60,19 @@ public class ProductoServiceImpl implements ProductoService {
             case "id":
                 try {
                     Long id = Long.parseLong(valor);
-                    Producto producto = productoRepository.findByIdAndUsuarioProductor(id, usuario);
+                    Producto producto = productoRepository.findByIdAndUsuarioCampesino(id, usuario);
                     return producto != null ? List.of(producto) : List.of();
                 } catch (NumberFormatException e) {
                     return List.of();
                 }
 
             case "producto":
-                return productoRepository.findByUsuarioProductorAndNombreContainingIgnoreCase(usuario, valor);
+                return productoRepository.findByNombreContainingIgnoreCaseAndUsuarioCampesino(valor, usuario);
 
             case "fecha":
                 try {
                     LocalDate fecha = LocalDate.parse(valor);
-                    return productoRepository.findByUsuarioProductorAndFechaCosecha(usuario, fecha);
+                    return productoRepository.findByFechaCosechaAndUsuarioCampesino(fecha, usuario);
                 } catch (Exception e) {
                     return List.of();
                 }
@@ -82,4 +82,3 @@ public class ProductoServiceImpl implements ProductoService {
         }
     }
 }
-

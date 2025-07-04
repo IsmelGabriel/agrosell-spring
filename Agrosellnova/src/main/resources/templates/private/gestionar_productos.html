@@ -46,8 +46,8 @@
         <h1>Productos registrados en el sistema: <span th:text="${usuario}"></span></h1>
         <div class="filtro-productos">
             <form th:action="@{/private/gestionar_productos}" method="get" class="filtro-form">
-                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input" required>
-                <select name="criterio" class="filtro-select" required>
+                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+                <select name="criterio" class="filtro-select">
                     <option value="">Selecciona un criterio</option>
                     <option value="id">ID de Producto</option>
                     <option value="producto">Producto</option>
