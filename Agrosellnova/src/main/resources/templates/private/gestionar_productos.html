@@ -9,8 +9,21 @@
 </head>
 <body class="panel-control">
 <header class="Bienvenido">
-    <h1>Bienvenido, <span th:text="${#strings.capitalize(usuario)}"></span></h1>
-    <p>Rol: <span th:text="${#strings.capitalize(rol)}"></span></p>
+    <div class="header-left">
+        <img src="/img/logo.png" alt="Logo Agrosellnova" class="logo">
+        <span class="project-name">AGROSELLNOVA</span>
+    </div>
+
+    <div class="header-right">
+        <div class="user-info">
+            <p><strong th:text="'Bienvenido, ' + ${usuario}">Bienvenido, Usuario</strong></p>
+            <p><span th:text="'Rol: ' + ${rol}">Rol: Cliente</span></p>
+        </div>
+        <div class="icons">
+            <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
+            <a th:href="@{/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+        </div>
+    </div>
 </header>
 
 <div class="panel-container">
@@ -18,11 +31,12 @@
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
-                <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}">Inicio</a></li>
-                <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}">Ofertar Producto</a></li>
-                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}">Gestionar productos</a></li>
-                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}">Gestionar ventas</a> </li>
-                <li><a th:href="@{/public/cerrar_sesion}">Cerrar Sesión</a></li>
+                <!-- PRODUCTOR -->
+                <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}"><i class="fas fa-seedling"></i> Ofertar Producto</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}"><i class="fas fa-boxes"></i> Gestionar Productos</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}"><i class="fas fa-cash-register"></i> Gestionar Ventas</a></li>
+                <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </div>
     </aside>
