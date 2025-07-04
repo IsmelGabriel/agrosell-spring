@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -22,6 +23,7 @@ public class VentaServiceImpl implements VentaService {
 
     @Override
     public void guardarVenta(Venta venta) {
+        venta.setFechaVenta(LocalDate.now()); // opcional si ya se setea en el controlador
         ventaRepository.save(venta);
     }
 
@@ -46,27 +48,31 @@ public class VentaServiceImpl implements VentaService {
             case "id":
                 try {
                     Long id = Long.parseLong(valor);
-                    return ventaRepository.findByIdVentaAndVendedor_NombreUsuario(id, productor);
+                    return ventaRepository
+                            .findByIdVentaAndVendedor_NombreUsuario(id, productor);
                 } catch (NumberFormatException e) {
-                    return List.of();
+                    return Collections.emptyList();
                 }
 
             case "producto":
-                return ventaRepository.findByVendedor_NombreUsuarioAndProducto_NombreContainingIgnoreCase(productor, valor);
+                return ventaRepository
+                        .findByVendedor_NombreUsuarioAndProducto_NombreContainingIgnoreCase(productor, valor);
 
             case "fecha":
                 try {
                     LocalDate fecha = LocalDate.parse(valor);
-                    return ventaRepository.findByVendedor_NombreUsuarioAndFechaVenta(fecha, productor);
+                    return ventaRepository
+                            .findByVendedor_NombreUsuarioAndFechaVenta(productor, fecha);
                 } catch (DateTimeParseException e) {
-                    return List.of();
+                    return Collections.emptyList();
                 }
 
             case "comprador":
-                return ventaRepository.findByVendedor_NombreUsuarioAndComprador_NombreUsuarioContainingIgnoreCase(productor, valor);
+                return ventaRepository
+                        .findByVendedor_NombreUsuarioAndComprador_NombreUsuarioContainingIgnoreCase(productor, valor);
 
             default:
-                return List.of();
+                return Collections.emptyList();
         }
     }
 }
