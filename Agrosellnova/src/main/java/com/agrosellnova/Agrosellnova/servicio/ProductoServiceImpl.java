@@ -50,35 +50,36 @@ public class ProductoServiceImpl implements ProductoService {
         return productoRepository.findByUsuarioCampesino(usuarioCampesino);
     }
     @Override
-    public List<Producto> filtrarProductos(String criterio, String valor, String usuarioCampesino) {
-        if (criterio == null || valor == null || valor.trim().isEmpty()) {
-            return productoRepository.findByUsuarioCampesino(usuarioCampesino);
-        }
+    public List<Producto> obtenerProductosPorProductor(String usuario) {
+        return productoRepository.findByUsuarioProductor(usuario);
+    }
 
-        switch (criterio) {
+    @Override
+    public List<Producto> filtrarProductos(String usuario, String criterio, String valor) {
+        switch (criterio.toLowerCase()) {
             case "id":
                 try {
                     Long id = Long.parseLong(valor);
-                    return productoRepository.findByIdAndUsuarioCampesino(id, usuarioCampesino);
+                    Producto producto = productoRepository.findByIdAndUsuarioProductor(id, usuario);
+                    return producto != null ? List.of(producto) : List.of();
                 } catch (NumberFormatException e) {
-                    return new ArrayList<>();
+                    return List.of();
                 }
 
             case "producto":
-                return productoRepository.findByNombreContainingIgnoreCaseAndUsuarioCampesino(valor, usuarioCampesino);
+                return productoRepository.findByUsuarioProductorAndNombreContainingIgnoreCase(usuario, valor);
 
             case "fecha":
                 try {
                     LocalDate fecha = LocalDate.parse(valor);
-                    return productoRepository.findByFechaCosechaAndUsuarioCampesino(fecha, usuarioCampesino);
-                } catch (DateTimeParseException e) {
-                    return new ArrayList<>();
+                    return productoRepository.findByUsuarioProductorAndFechaCosecha(usuario, fecha);
+                } catch (Exception e) {
+                    return List.of();
                 }
 
             default:
-                return productoRepository.findByUsuarioCampesino(usuarioCampesino);
+                return List.of();
         }
     }
 }
-
 

@@ -27,5 +27,13 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     List<Producto> findByNombreContainingIgnoreCaseAndUsuarioCampesino(String nombre, String usuarioCampesino);
 
     List<Producto> findByFechaCosechaAndUsuarioCampesino(LocalDate fechaCosecha, String usuarioCampesino);
+
+    List<Producto> findByUsuarioProductor(String usuario);
+
+    Producto findByIdAndUsuarioProductor(Long id, String usuario);
+
+    List<Producto> findByUsuarioProductorAndNombreContainingIgnoreCase(String usuario, String nombre);
+
+    List<Producto> findByUsuarioProductorAndFechaCosecha(String usuario, LocalDate fecha);
 }
 
