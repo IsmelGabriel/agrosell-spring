@@ -70,8 +70,7 @@
     }
   </style>
 </head>
-<<<<<<< HEAD
-=======
+
 <style>
   body {
     display: flex;
@@ -116,7 +115,6 @@
   }
 </style>
 
->>>>>>> 17e95111100a12e1a064158e4f549a1573df6b2b
 <body>
 <div class="error-container">
   <div class="error-content">
@@ -124,8 +122,13 @@
     <h1>404</h1>
     <h2>Página no encontrada</h2>
     <p>Lo sentimos, la página que buscas no existe o fue movida.</p>
-    <a th:href="@{/public/inicio}" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+    <a onclick="goBack()" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
   </div>
 </div>
+<script>
+  function goBack(){
+    window.history.back()
+  }
+</script>
 </body>
 </html>
