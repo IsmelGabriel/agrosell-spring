@@ -14,6 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.agrosellnova.Agrosellnova.modelo.Pqrs;
+import com.agrosellnova.Agrosellnova.repositorio.PqrsRepository;
+
+
 
 import java.util.List;
 
@@ -64,13 +68,47 @@ public class AdministradorController {
         usuarioService.actualizarRol(idUsuario, nuevoRol);
         return "redirect:/private/actualizar_roles";
     }
+    @Autowired
+    private PqrsRepository pqrsRepository;
 
     @GetMapping("/private/reporte_pqrs_admin")
-    public String mostrarPqrs(Model model, HttpSession session) {
-        model.addAttribute("usuario", session.getAttribute("usuario"));
-        model.addAttribute("rol", session.getAttribute("rol"));
-        model.addAttribute("pqrsList", pqrsService.listarTodas());
-        return "private/reporte_pqrs";
+    public String mostrarReportePQRS(
+            @RequestParam(required = false) String criterio,
+            @RequestParam(required = false) String valor,
+            Model model,
+            HttpSession session
+    ) {
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null || rol == null) {
+            return "redirect:/public/index";
+        }
+
+        List<Pqrs> lista;
+
+        if (criterio != null && valor != null && !valor.isBlank()) {
+            switch (criterio) {
+                case "usuario":
+                    lista = pqrsRepository.findByNombreContainingIgnoreCase(valor);
+                    break;
+                case "correo":
+                    lista = pqrsRepository.findByCorreoContainingIgnoreCase(valor);
+                    break;
+                case "telefono":
+                    lista = pqrsRepository.findByTelefonoContainingIgnoreCase(valor);
+                    break;
+                default:
+                    lista = pqrsRepository.findAll();
+            }
+        } else {
+            lista = pqrsRepository.findAll();
+        }
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("rol", rol);
+        model.addAttribute("pqrsList", lista);
+        return "reporte_pqrs";
     }
 
     @Autowired
