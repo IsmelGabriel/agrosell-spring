@@ -15,5 +15,7 @@ public interface ProductoService {
     void guardarProducto(Producto producto);
 
     List<Producto> listarProductosPorUsuario(String usuario);
+    List<Producto> obtenerProductosPorProductor(String usuario);
+    List<Producto> filtrarProductos(String usuario, String criterio, String valor);
 
 }

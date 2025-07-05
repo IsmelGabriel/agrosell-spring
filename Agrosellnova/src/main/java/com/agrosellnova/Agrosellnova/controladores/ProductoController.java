@@ -31,7 +31,7 @@ public class ProductoController {
     private ProductoRepository productoRepository;
 
     @GetMapping("/public/productos")
-    public String mostrarProductos(
+    public String mostrarProductosPublicos(
             @RequestParam(name = "producto", required = false) String nombre,
             @RequestParam(name = "orden", required = false, defaultValue = "") String orden,
             HttpSession session,
@@ -50,8 +50,15 @@ public class ProductoController {
         model.addAttribute("productos", productos);
         return "public/productos";
     }
+
+
     @GetMapping("/private/gestionar_productos")
-    public String gestionarProductos(HttpSession session, Model model) {
+    public String mostrarProductos(
+            @RequestParam(required = false) String criterio,
+            @RequestParam(required = false) String valor,
+            HttpSession session,
+            Model model) {
+
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
 
@@ -59,13 +66,21 @@ public class ProductoController {
             return "redirect:/public/index";
         }
 
-        List<Producto> productos = productoService.listarProductosPorUsuario(usuario);
+        List<Producto> productos;
+        if (criterio != null && valor != null && !valor.isBlank()) {
+            productos = productoService.filtrarProductos(usuario, criterio, valor);
+        } else {
+            productos = productoService.obtenerProductosPorProductor(usuario);
+        }
+
         model.addAttribute("usuario", usuario);
         model.addAttribute("rol", rol);
         model.addAttribute("listaProductos", productos);
 
         return "private/gestionar_productos";
     }
+
+
     @PostMapping("/guardar_producto")
     public String guardarProducto(
             @RequestParam("usuario") String nombreUsuario,
@@ -77,17 +92,20 @@ public class ProductoController {
             @RequestParam("stock") int stock
     ) {
         try {
+
             String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
             String rutaRelativa = "../img/" + nombreArchivo;
             String rutaAbsoluta = new File("src/main/resources/static/img").getAbsolutePath();
+
 
             byte[] bytes = imagen.getBytes();
             Path path = Paths.get(rutaAbsoluta + File.separator + nombreArchivo);
             Files.write(path, bytes);
 
+         
             Producto producto = new Producto();
             producto.setUsuarioCampesino(nombreUsuario);
-            producto.setImagen(rutaRelativa); // Solo la ruta
+            producto.setImagen(rutaRelativa);
             producto.setNombre(nombre);
             producto.setPrecio(precio);
             producto.setDescripcion(descripcion);
@@ -104,4 +122,3 @@ public class ProductoController {
         }
     }
 }
-

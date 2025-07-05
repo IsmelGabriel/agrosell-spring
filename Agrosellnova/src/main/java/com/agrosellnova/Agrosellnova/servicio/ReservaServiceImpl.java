@@ -5,6 +5,7 @@ import com.agrosellnova.Agrosellnova.repositorio.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeParseException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -35,4 +36,33 @@ public class ReservaServiceImpl implements ReservaService {
         return reservaRepository.findByUsuarioCliente(usuario);
     }
 
+    @Override
+    public List<Reserva> filtrarReservas(String usuario, String criterio, String valor) {
+        switch (criterio.toLowerCase()) {
+            case "id":
+                try {
+                    Long id = Long.parseLong(valor);
+                    Reserva reserva = reservaRepository.findByIdReservaAndUsuarioCliente(id, usuario);
+                    return reserva != null ? List.of(reserva) : List.of();
+                } catch (NumberFormatException e) {
+                    return List.of();
+                }
+
+            case "producto":
+                return reservaRepository.findByUsuarioClienteAndProductoContainingIgnoreCase(usuario, valor);
+
+            case "fecha":
+                try {
+                    LocalDate fecha = LocalDate.parse(valor);
+                    return reservaRepository.findByUsuarioClienteAndFechaReserva(usuario, fecha);
+                } catch (DateTimeParseException e) {
+                    return List.of();
+                }
+
+            default:
+                return List.of();
+        }
+    }
+
 }
+

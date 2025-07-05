@@ -1,4 +1,4 @@
-body.panel-body {
+body {
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
     background-color: #F3F6F4;
@@ -16,11 +16,14 @@ body.panel-body {
 .logo {
     font-size: 26px;
     font-weight: bold;
+    height: 40px;
+    width: auto;
 }
 
 .user-info {
     font-size: 16px;
     text-align: right;
+    line-height: 1.2;
 }
 
 .panel-container {
@@ -33,6 +36,7 @@ body.panel-body {
     background-color: #1B5E20;
     padding-top: 20px;
     min-height: 100%;
+    flex-shrink: 0;
 }
 
 .sidebar ul {
@@ -50,6 +54,7 @@ body.panel-body {
     text-decoration: none;
     padding: 12px 20px;
     transition: 0.2s;
+    border-radius: 6px;
 }
 
 .sidebar a:hover {
@@ -74,28 +79,21 @@ body.panel-body {
     max-width: 600px;
 }
 
+.user-card p {
+    padding: 10px;
+}
+
 .user-card h3 {
     margin-top: 0;
     color: #2E7D32;
-
-    /css gestion de reservas/
-
-
 }
 
-/* === RESET === */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body.panel-control {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #F4F6F4;
-}
-
-/* === ENCABEZADO SUPERIOR CON LOGO Y PERFIL === */
 header.Bienvenido {
     background-color: #2E7D32;
     color: white;
@@ -103,19 +101,20 @@ header.Bienvenido {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .header-left {
     display: flex;
     align-items: center;
     gap: 15px;
-}
-
-.header-left img.logo {
     height: 40px;
+    font-size: 22px;
+    font-weight: bold;
+    width: auto;
 }
 
-.header-left .project-name {
+.project-name {
     font-size: 22px;
     font-weight: bold;
 }
@@ -125,6 +124,8 @@ header.Bienvenido {
     align-items: center;
     gap: 20px;
     font-size: 20px;
+    text-align: right;
+    line-height: 1.2;
 }
 
 .header-right i {
@@ -136,43 +137,7 @@ header.Bienvenido {
     color: #A5D6A7;
 }
 
-/* === LAYOUT === */
-.panel-container {
-    display: flex;
-    min-height: calc(100vh - 60px);
-}
 
-/* === SIDEBAR === */
-.sidebar {
-    width: 220px;
-    background-color: #1B5E20;
-    padding: 30px 20px;
-    flex-shrink: 0;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar li {
-    margin-bottom: 15px;
-}
-
-.sidebar a {
-    display: block;
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 6px;
-    transition: background-color 0.2s;
-}
-
-.sidebar a:hover {
-    background-color: #388E3C;
-}
-
-/* === CONTENIDO PRINCIPAL === */
 .panel-content {
     flex: 1;
     padding: 40px;
@@ -185,7 +150,6 @@ header.Bienvenido {
     margin-bottom: 25px;
 }
 
-/* === TABLA === */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -199,7 +163,7 @@ thead {
     background-color: #E8F5E9;
 }
 
-th, td {
+td {
     padding: 12px 15px;
     text-align: left;
     font-size: 14px;
@@ -207,11 +171,14 @@ th, td {
 }
 
 th {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
     color: #2E7D32;
     font-weight: bold;
 }
 
-/* === BOTONES ACCIÓN === */
 .action-btn {
     padding: 6px 12px;
     font-size: 13px;
@@ -236,50 +203,10 @@ th {
     opacity: 0.9;
 }
 
-/* === FILA VACÍA === */
 tr:last-child td[colspan] {
     text-align: center;
     color: #888;
     padding: 20px;
-}
-header.Bienvenido {
-    background-color: #2E7D32;
-    color: white;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-/* LOGO Y NOMBRE */
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.header-left .logo {
-    height: 40px; /* ✅ Mucho más pequeño */
-    width: auto;
-}
-
-.header-left .project-name {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-/* INFO DE USUARIO + ICONOS */
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-
-.header-right .user-info {
-    text-align: right;
-    font-size: 14px;
-    line-height: 1.2;
 }
 
 .header-right .icons a {
@@ -292,3 +219,116 @@ header.Bienvenido {
 .header-right .icons a:hover {
     color: #A5D6A7;
 }
+
+/* Seccion de filtros */
+.filtro-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filtro-input,
+.filtro-select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.filtro-btn {
+    background-color: #2E7D32;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.filtro-btn:hover {
+    background-color: #388E3C;
+}
+
+
+
+@media (max-width: 768px) {
+    .topbar, header.Bienvenido {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+        text-align: left;
+    }
+
+    .logo {
+        margin: auto;
+    }
+
+    .header-left,
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 18px;
+    }
+
+    .panel-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        display: flex;
+        padding: 3px;
+        background-color: #1B5E20;
+        flex-direction: column;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .sidebar li {
+        margin: 0;
+    }
+
+    .sidebar a {
+        font-size: 14px;
+        padding: 10px;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .main-content,
+    .panel-content {
+        padding: 20px 15px;
+    }
+
+    .user-card {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+
+    .header-right .icons a {
+        font-size: 18px;
+        margin-left: 8px;
+    }
+
+    .project-name {
+        font-size: 20px;
+    }
+
+    .user-card p {
+        padding: 5px;
+    }
+}
+

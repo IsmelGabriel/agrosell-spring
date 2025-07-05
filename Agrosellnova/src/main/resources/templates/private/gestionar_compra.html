@@ -9,8 +9,21 @@
 </head>
 <body class="panel-control">
 <header class="Bienvenido">
-    <h1>Bienvenido, <span th:text="${#strings.capitalize(usuario)}"></span></h1>
-    <p>Rol: <span th:text="${#strings.capitalize(rol)}"></span></p>
+    <div class="header-left">
+        <img src="/img/logo.png" alt="Logo Agrosellnova" class="logo">
+        <span class="project-name">AGROSELLNOVA</span>
+    </div>
+
+    <div class="header-right">
+        <div class="user-info">
+            <p><strong th:text="'Bienvenido, ' + ${usuario}">Bienvenido, Usuario</strong></p>
+            <p><span th:text="'Rol: ' + ${rol}">Rol: Cliente</span></p>
+        </div>
+        <div class="icons">
+            <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
+            <a th:href="@{/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+        </div>
+    </div>
 </header>
 
 <div class="panel-container">
@@ -18,12 +31,13 @@
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}">Inicio</a></li>
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}">Gestionar Reservas</a></li>
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}">Gestionar compras</a></li>
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}">Ver Productos</a></li>
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}">Realizar Reserva</a></li>
-                <li><a th:href="@{/public/cerrar_sesion}">Cerrar Sesión</a></li>
+                <!-- CLIENTE -->
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}"><i class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver Productos</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}"><i class="fas fa-plus-circle"></i> Realizar Reserva</a></li>
+                <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </div>
     </aside>
@@ -31,6 +45,20 @@
 
     <main class="panel-content">
         <h1>Compras registradas en el sistema para: <span th:text="${usuario}"></span></h1>
+
+        <div class="filtro-reservas">
+            <form th:action="@{/private/gestionar_reservas}" method="get" class="filtro-form">
+                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input" required>
+                <select name="criterio" class="filtro-select" required>
+                    <option value="">Selecciona un criterio</option>
+                    <option value="vendedor">Vendedor</option>
+                    <option value="producto">Producto</option>
+                    <option value="fecha">Fecha</option>
+                </select>
+                <button type="submit" class="filtro-btn">Filtrar</button>
+            </form>
+        </div>
+
         <table border="1">
             <thead>
             <tr>

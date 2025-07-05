@@ -4,11 +4,8 @@
   <meta charset="UTF-8">
   <title>Error 404 - Página no encontrada</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Íconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- ✅ CSS embebido -->
   <style>
     body {
       margin: 0;
@@ -68,6 +65,7 @@
     .btn-back:hover {
       background-color: #1B5E20;
     }
+<<<<<<< HEAD
   </style>
 </head>
 
@@ -101,20 +99,45 @@
   img{
     width: 300px;
   }
+=======
+>>>>>>> fd7d4a10442fa8c13b806c24652f9051e6f3c76a
 
-  @media (max-width: 768px) {
     h1 {
-      font-size: 3em;
+      font-size: 5em;
+      margin: 0;
     }
     p {
-      font-size: 1em;
+      font-size: 1.2em;
     }
-    img {
-      width: 50%;
+    a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
     }
-  }
-</style>
+    a:hover {
+      text-decoration: underline;
+    }
+    img{
+      width: 300px;
+    }
 
+<<<<<<< HEAD
+=======
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 3em;
+      }
+      p {
+        font-size: 1em;
+      }
+      img {
+        width: 50%;
+      }
+    }
+  </style>
+</head>
+
+>>>>>>> fd7d4a10442fa8c13b806c24652f9051e6f3c76a
 <body>
 <div class="error-container">
   <div class="error-content">
@@ -122,6 +145,7 @@
     <h1>404</h1>
     <h2>Página no encontrada</h2>
     <p>Lo sentimos, la página que buscas no existe o fue movida.</p>
+<<<<<<< HEAD
     <a onclick="goBack()" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
   </div>
 </div>
@@ -130,5 +154,17 @@
     window.history.back()
   }
 </script>
+=======
+    <button onclick="goBack()" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</button>
+  </div>
+</div>
+
+  <script>
+    function goBack(){
+      window.history.back()
+    }
+  </script>
+
+>>>>>>> fd7d4a10442fa8c13b806c24652f9051e6f3c76a
 </body>
 </html>

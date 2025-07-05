@@ -54,8 +54,7 @@ public class PagoController {
         }
 
         try {
-            List<Map<String, Object>> carrito = new com.fasterxml.jackson.databind.ObjectMapper()
-                    .readValue(carritoJson, List.class);
+            List<Map<String, Object>> carrito = new com.fasterxml.jackson.databind.ObjectMapper().readValue(carritoJson, List.class);
 
             for (Map<String, Object> item : carrito) {
                 Long idProducto = Long.valueOf(item.get("id").toString());
