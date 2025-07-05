@@ -77,14 +77,42 @@ public class AdministradorController {
     private ReservaService reservaService;
 
     @GetMapping("/private/reporte_reservas")
-    public String mostrarReporteReservas(Model model, HttpSession session) {
-        List<Reserva> reservas = reservaService.obtenerTodasLasReservas();
+    public String mostrarReporteReservas(
+            @RequestParam(required = false) String criterio,
+            @RequestParam(required = false) String valor,
+            Model model,
+            HttpSession session) {
+
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null || rol == null || !rol.equals("administrador")) {
+            return "redirect:/public/index";
+        }
+
+        List<Reserva> reservas;
+
+        switch (criterio != null ? criterio.toLowerCase() : "") {
+            case "usuario":
+                reservas = reservaService.buscarPorUsuario(valor);
+                break;
+            case "producto":
+                reservas = reservaService.buscarPorProducto(valor);
+                break;
+            case "documento":
+                reservas = reservaService.buscarPorDocumento(valor);
+                break;
+            default:
+                reservas = reservaService.obtenerTodasLasReservas();
+        }
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("rol", rol);
         model.addAttribute("reservas", reservas);
-        model.addAttribute("usuario", session.getAttribute("usuario"));
-        model.addAttribute("rol", session.getAttribute("rol"));
 
         return "private/reporte_reservas";
     }
+
 
     @Autowired
     private VentaService ventaService;
