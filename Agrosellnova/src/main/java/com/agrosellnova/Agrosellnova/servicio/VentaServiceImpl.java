@@ -104,4 +104,23 @@ public class VentaServiceImpl implements VentaService {
         }
     }
 
+    public List<Venta> filtrarVentasAdmin(String criterio, String valor) {
+        switch (criterio.toLowerCase()) {
+            case "cliente":
+                return ventaRepository.findByComprador_NombreUsuarioContainingIgnoreCase(valor);
+            case "vendedor":
+                return ventaRepository.findByVendedor_NombreUsuarioContainingIgnoreCase(valor);
+            case "producto":
+                return ventaRepository.findByProducto_NombreContainingIgnoreCase(valor);
+            case "fecha":
+                try {
+                    LocalDate fecha = LocalDate.parse(valor);
+                    return ventaRepository.findByFechaVenta(fecha);
+                } catch (DateTimeParseException e) {
+                    return List.of();
+                }
+            default:
+                return List.of();
+        }
+    }
 }

@@ -65,32 +65,5 @@ public class ReservaController {
 
         return "private/gestionar_reservas";
     }
-
-    // ✅ CAMBIADO: ruta ahora es única para evitar conflictos
-    @GetMapping("/reporte_reservas")
-    public String mostrarReporteReservasCliente(
-            @RequestParam(required = false) String criterio,
-            @RequestParam(required = false) String valor,
-            Model model
-    ) {
-        List<Reserva> reservas;
-
-        switch (criterio != null ? criterio : "") {
-            case "usuario":
-                reservas = reservaService.buscarPorUsuario(valor);
-                break;
-            case "producto":
-                reservas = reservaService.buscarPorProducto(valor);
-                break;
-            case "documento":
-                reservas = reservaService.buscarPorDocumento(valor);
-                break;
-            default:
-                reservas = reservaService.obtenerTodasLasReservas();
-        }
-
-        model.addAttribute("reservas", reservas);
-        return "reporte_reservas";
-    }
 }
 
