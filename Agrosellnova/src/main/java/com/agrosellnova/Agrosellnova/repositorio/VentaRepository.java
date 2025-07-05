@@ -18,6 +18,10 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
     List<Venta> findByComprador_NombreUsuarioAndProducto_NombreContainingIgnoreCase(String nombreUsuario, String producto);
     List<Venta> findByComprador_NombreUsuarioAndFechaVenta(String nombreUsuario, LocalDate fecha);
     List<Venta> findByComprador_NombreUsuarioAndVendedor_NombreUsuarioContainingIgnoreCase(String nombreUsuario, String vendedor);
+    List<Venta> findByComprador_NombreUsuarioContainingIgnoreCase(String cliente);
+    List<Venta> findByVendedor_NombreUsuarioContainingIgnoreCase(String vendedor);
+    List<Venta> findByProducto_NombreContainingIgnoreCase(String producto);
+    List<Venta> findByFechaVenta(LocalDate fecha);
 
 }
 

@@ -2,6 +2,7 @@ package com.agrosellnova.Agrosellnova.controladores;
 
 import com.agrosellnova.Agrosellnova.modelo.Reserva;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
+import com.agrosellnova.Agrosellnova.modelo.Venta;
 import com.agrosellnova.Agrosellnova.servicio.PqrsService;
 import com.agrosellnova.Agrosellnova.servicio.ReservaService;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
@@ -89,10 +90,30 @@ public class AdministradorController {
     private VentaService ventaService;
 
     @GetMapping("/private/reporte_ventas")
-    public String mostrarVentas(Model model, HttpSession session) {
-        model.addAttribute("usuario", session.getAttribute("usuario"));
-        model.addAttribute("rol", session.getAttribute("rol"));
-        model.addAttribute("ventas", ventaService.obtenerTodasLasVentas());
+    public String mostrarVentasFiltradas(
+            @RequestParam(required = false) String criterio,
+            @RequestParam(required = false) String valor,
+            HttpSession session,
+            Model model) {
+
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null || rol == null || !rol.equals("administrador")) {
+            return "redirect:/public/index";
+        }
+
+        List<Venta> ventas;
+        if (criterio != null && valor != null && !valor.isBlank()) {
+            ventas = ventaService.filtrarVentasAdmin(criterio, valor);
+        } else {
+            ventas = ventaService.obtenerTodasLasVentas();
+        }
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("rol", rol);
+        model.addAttribute("ventas", ventas);
+
         return "private/reporte_ventas";
     }
 }
