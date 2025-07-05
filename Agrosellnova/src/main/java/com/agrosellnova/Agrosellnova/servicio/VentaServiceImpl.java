@@ -32,10 +32,6 @@ public class VentaServiceImpl implements VentaService {
         return ventaRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public void eliminarVenta(Long id) {
-        ventaRepository.deleteById(id);
-    }
 
     @Override
     public List<Venta> obtenerVentasPorProductor(String productor) {
