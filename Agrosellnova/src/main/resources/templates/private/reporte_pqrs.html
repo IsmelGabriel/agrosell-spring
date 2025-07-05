@@ -45,6 +45,18 @@
 
     <main class="panel-content">
         <h1>Registro de PQRS</h1>
+        <form th:action="@{/private/reporte_pqrs}" method="get" class="filtro-form">
+            <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+            <select name="criterio" class="filtro-select">
+                <option value="">Selecciona un criterio</option>
+                <option value="usuario">Usuario</option>
+                <option value="correo">Correo</option>
+                <option value="telefono">Teléfono</option>
+            </select>
+            <button type="submit" class="filtro-btn">Filtrar</button>
+        </form>
+
+
 
         <table border="1">
             <thead>

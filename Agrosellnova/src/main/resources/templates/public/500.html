@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Error 500 - Error del servidor</title>
@@ -56,44 +56,29 @@
             background-color: #2E7D32;
             color: white;
             text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 5px;
             transition: background-color 0.2s ease;
-            font-weight: bold;
+            font-weight: 600;
         }
 
         .btn-back:hover {
             background-color: #1B5E20;
         }
 
-        h1 {
-            font-size: 5em;
-            margin: 0;
-        }
-        p {
-            font-size: 1.2em;
-        }
-        a {
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        img{
-            width: 300px;
-        }
-
         @media (max-width: 768px) {
-            h1 {
-                font-size: 3em;
+            .error-content h1 {
+                font-size: 60px;
             }
-            p {
-                font-size: 1em;
+
+            .error-content h2 {
+                font-size: 20px;
             }
-            img {
-                width: 50%;
+
+            .btn-back {
+                padding: 6px 12px;
+                font-size: 13px;
             }
         }
     </style>
@@ -105,16 +90,15 @@
         <i class="fas fa-seedling icon"></i>
         <h1>500</h1>
         <h2>Error interno del servidor</h2>
-        <p>Lo sentimos, Por favor vuelva a intentarlo mas tarde.</p>
-        <a onclick="goBack()" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+        <p>Lo sentimos, por favor vuelve a intentarlo más tarde.</p>
+        <button onclick="goBack()" class="btn-back"><i class="fas fa-arrow-left"></i> Volver atrás</button>
     </div>
 </div>
 
 <script>
     function goBack(){
-        window.history.back()
+        window.history.back();
     }
 </script>
-
 </body>
 </html>

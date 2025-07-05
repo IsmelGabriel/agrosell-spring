@@ -332,3 +332,93 @@ tr:last-child td[colspan] {
     }
 }
 
+/* Contenedor principal */
+.ofertar-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Título */
+.ofertar-titulo {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #2e7d32;
+}
+
+/* Campos del formulario */
+.ofertar-form {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.ofertar-form label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.ofertar-form input,
+.ofertar-form textarea {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s;
+}
+
+.ofertar-form input:focus,
+.ofertar-form textarea:focus {
+    border-color: #4caf50;
+    outline: none;
+}
+
+/* Botón guardar */
+.confirmar-oferta-btn {
+    background-color: #2e7d32;
+    color: #fff;
+    border: none;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.confirmar-oferta-btn:hover {
+    background-color: #1b5e20;
+}
+
+/* Validación Bootstrap-like */
+.was-validated .form-control:invalid {
+    border-color: #dc3545;
+}
+
+.was-validated .form-control:valid {
+    border-color: #28a745;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .ofertar-container {
+        padding: 1rem;
+    }
+
+    .confirmar-oferta-btn {
+        font-size: 0.95rem;
+    }
+}
