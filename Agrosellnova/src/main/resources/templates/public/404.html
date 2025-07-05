@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Error 404 - Página no encontrada</title>
@@ -56,88 +56,34 @@
       background-color: #2E7D32;
       color: white;
       text-decoration: none;
-      padding: 12px 20px;
-      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 14px;
+      border-radius: 5px;
       transition: background-color 0.2s ease;
-      font-weight: bold;
+      font-weight: 600;
     }
 
     .btn-back:hover {
       background-color: #1B5E20;
     }
-<<<<<<< HEAD
-  </style>
-</head>
 
-<style>
-  body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: white;
-    font-family: Arial, sans-serif;
-    color: #333;
-  }
-  h1 {
-    font-size: 5em;
-    margin: 0;
-  }
-  p {
-    font-size: 1.2em;
-  }
-  a {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-  img{
-    width: 300px;
-  }
-=======
->>>>>>> fd7d4a10442fa8c13b806c24652f9051e6f3c76a
-
-    h1 {
-      font-size: 5em;
-      margin: 0;
-    }
-    p {
-      font-size: 1.2em;
-    }
-    a {
-      text-decoration: none;
-      color: #007bff;
-      font-weight: bold;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    img{
-      width: 300px;
-    }
-
-<<<<<<< HEAD
-=======
     @media (max-width: 768px) {
-      h1 {
-        font-size: 3em;
+      .error-content h1 {
+        font-size: 60px;
       }
-      p {
-        font-size: 1em;
+
+      .error-content h2 {
+        font-size: 20px;
       }
-      img {
-        width: 50%;
+
+      .btn-back {
+        padding: 6px 12px;
+        font-size: 13px;
       }
     }
   </style>
 </head>
 
->>>>>>> fd7d4a10442fa8c13b806c24652f9051e6f3c76a
 <body>
 <div class="error-container">
   <div class="error-content">
@@ -145,26 +91,16 @@
     <h1>404</h1>
     <h2>Página no encontrada</h2>
     <p>Lo sentimos, la página que buscas no existe o fue movida.</p>
-<<<<<<< HEAD
-    <a onclick="goBack()" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</a>
+
+    <a onclick="goBack()" class="btn-back"><i class="fas fa-arrow-left"></i> Volver atrás</a>
   </div>
 </div>
+
 <script>
   function goBack(){
-    window.history.back()
+    window.history.back();
   }
 </script>
-=======
-    <button onclick="goBack()" class="btn-back"><i class="fas fa-arrow-left"></i> Volver al inicio</button>
-  </div>
-</div>
-
-  <script>
-    function goBack(){
-      window.history.back()
-    }
-  </script>
-
->>>>>>> fd7d4a10442fa8c13b806c24652f9051e6f3c76a
 </body>
 </html>
+

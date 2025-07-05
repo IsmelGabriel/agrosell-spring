@@ -64,7 +64,7 @@ public class AdministradorController {
         return "redirect:/private/actualizar_roles";
     }
 
-    @GetMapping("/private/reporte_pqrs")
+    @GetMapping("/private/reporte_pqrs_admin")
     public String mostrarPqrs(Model model, HttpSession session) {
         model.addAttribute("usuario", session.getAttribute("usuario"));
         model.addAttribute("rol", session.getAttribute("rol"));
@@ -95,4 +95,5 @@ public class AdministradorController {
         model.addAttribute("ventas", ventaService.obtenerTodasLasVentas());
         return "private/reporte_ventas";
     }
+
 }

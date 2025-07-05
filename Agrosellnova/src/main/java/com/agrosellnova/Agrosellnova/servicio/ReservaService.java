@@ -14,4 +14,11 @@ public interface ReservaService {
 
     List<Reserva> filtrarReservas(String usuario, String criterio, String valor);
 
+    List<Reserva> buscarPorUsuario(String usuario);
+
+    List<Reserva> buscarPorProducto(String producto);
+
+    List<Reserva> buscarPorDocumento(String documento);
 }
+
+
