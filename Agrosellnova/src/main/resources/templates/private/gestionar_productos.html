@@ -59,7 +59,7 @@
         <table border="1">
             <thead>
             <tr>
-                <th>ID PRODUCTO</th>
+                <th>ID</th>
                 <th>IMAGEN</th>
                 <th>PRODUCTO</th>
                 <th>DESCRIPCIÓN</th>
@@ -74,7 +74,7 @@
             <tr th:each="producto : ${listaProductos}">
                 <td th:text="${producto.id}"></td>
                 <td>
-                    <img th:src="@{'/img/' + ${producto.imagen}}" alt="Imagen del producto" width="100">
+                    <img th:src="@{'/img/' + ${producto.imagen}}" alt="Imagen del producto" th:width="100px" th:height="80px">
                 </td>
                 <td th:text="${producto.nombre}"></td>
                 <td th:text="${producto.descripcion}"></td>
