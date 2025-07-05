@@ -1,6 +1,7 @@
 package com.agrosellnova.Agrosellnova.servicio;
 
 import com.agrosellnova.Agrosellnova.modelo.Venta;
+import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.repositorio.VentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ import java.util.List;
 public class VentaServiceImpl implements VentaService {
 
     @Autowired
+    private ProductoRepository productoRepository;
+
+    @Autowired
     private VentaRepository ventaRepository;
 
     @Override
@@ -24,8 +28,31 @@ public class VentaServiceImpl implements VentaService {
     @Override
     public void guardarVenta(Venta venta) {
         venta.setFechaVenta(LocalDate.now());
-        ventaRepository.save(venta);
+
+        if (venta.getProducto() != null) {
+            Long productoId = venta.getProducto().getId();
+
+            productoRepository.findById(productoId).ifPresentOrElse(productoBD -> {
+                int stockActual = productoBD.getStock();
+                int cantidadVendida = venta.getCantidadKg().intValue();
+
+                if (stockActual >= cantidadVendida) {
+                    productoBD.setStock(stockActual - cantidadVendida);
+                    productoRepository.save(productoBD);
+                    ventaRepository.save(venta);
+                } else {
+                    throw new RuntimeException("Stock insuficiente para realizar la venta. Stock disponible: "
+                            + stockActual + ", solicitado: " + cantidadVendida);
+                }
+            }, () -> {
+                throw new RuntimeException("Producto no encontrado en la base de datos.");
+            });
+
+        } else {
+            throw new RuntimeException("No se ha asignado ningún producto a la venta.");
+        }
     }
+
 
     @Override
     public Venta obtenerVentaPorId(Long id) {
