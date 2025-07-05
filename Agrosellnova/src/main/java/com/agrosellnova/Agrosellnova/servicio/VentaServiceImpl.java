@@ -23,7 +23,7 @@ public class VentaServiceImpl implements VentaService {
 
     @Override
     public void guardarVenta(Venta venta) {
-        venta.setFechaVenta(LocalDate.now()); // opcional si ya se setea en el controlador
+        venta.setFechaVenta(LocalDate.now());
         ventaRepository.save(venta);
     }
 
@@ -32,10 +32,6 @@ public class VentaServiceImpl implements VentaService {
         return ventaRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public void eliminarVenta(Long id) {
-        ventaRepository.deleteById(id);
-    }
 
     @Override
     public List<Venta> obtenerVentasPorProductor(String productor) {
@@ -75,4 +71,37 @@ public class VentaServiceImpl implements VentaService {
                 return Collections.emptyList();
         }
     }
+
+    @Override
+    public List<Venta> findByComprador_NombreUsuario(String nombreUsuario) {
+        List<Venta> compras = ventaRepository.findByComprador_NombreUsuario(nombreUsuario);
+        return compras;
+    }
+
+    @Override
+    public List<Venta> filtrarCompras(String comprador, String criterio, String valor) {
+        switch (criterio.toLowerCase()) {
+            case "id":
+                try {
+                    Long id = Long.parseLong(valor);
+                    return ventaRepository.findByIdVentaAndComprador_NombreUsuario(id, comprador);
+                } catch (NumberFormatException e) {
+                    return List.of();
+                }
+            case "producto":
+                return ventaRepository.findByComprador_NombreUsuarioAndProducto_NombreContainingIgnoreCase(comprador, valor);
+            case "fecha":
+                try {
+                    LocalDate fecha = LocalDate.parse(valor);
+                    return ventaRepository.findByComprador_NombreUsuarioAndFechaVenta(comprador, fecha);
+                } catch (DateTimeParseException e) {
+                    return List.of();
+                }
+            case "vendedor":
+                return ventaRepository.findByComprador_NombreUsuarioAndVendedor_NombreUsuarioContainingIgnoreCase(comprador, valor);
+            default:
+                return List.of();
+        }
+    }
+
 }

@@ -9,14 +9,15 @@ import java.util.List;
 public interface VentaRepository extends JpaRepository<Venta, Long> {
 
     List<Venta> findByVendedor_NombreUsuario(String nombreUsuario);
-
+    List<Venta> findByComprador_NombreUsuario(String nombreUsuario);
     List<Venta> findByIdVentaAndVendedor_NombreUsuario(Long id, String nombreUsuario);
-
     List<Venta> findByVendedor_NombreUsuarioAndProducto_NombreContainingIgnoreCase(String nombreUsuario, String producto);
-
-    // ✅ Corregido el orden de parámetros
     List<Venta> findByVendedor_NombreUsuarioAndFechaVenta(String nombreUsuario, LocalDate fecha);
-
     List<Venta> findByVendedor_NombreUsuarioAndComprador_NombreUsuarioContainingIgnoreCase(String nombreUsuario, String comprador);
+    List<Venta> findByIdVentaAndComprador_NombreUsuario(Long id, String nombreUsuario);
+    List<Venta> findByComprador_NombreUsuarioAndProducto_NombreContainingIgnoreCase(String nombreUsuario, String producto);
+    List<Venta> findByComprador_NombreUsuarioAndFechaVenta(String nombreUsuario, LocalDate fecha);
+    List<Venta> findByComprador_NombreUsuarioAndVendedor_NombreUsuarioContainingIgnoreCase(String nombreUsuario, String vendedor);
+
 }
 
