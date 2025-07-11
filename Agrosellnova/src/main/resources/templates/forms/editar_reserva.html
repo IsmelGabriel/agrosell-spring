@@ -1,0 +1,24 @@
+<!-- templates/forms/editar_reserva.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Reserva</title>
+</head>
+<body>
+<h2>Editar Reserva</h2>
+<form th:action="@{/reservas/actualizar}" th:object="${reserva}" method="post">
+    <input type="hidden" th:field="*{idReservas}">
+
+    Nombre: <input type="text" th:field="*{usuarioCliente}"><br>
+    Documento: <input type="text" th:field="*{usuarioDocumento}"><br>
+    Teléfono: <input type="text" th:field="*{usuarioTelefono}"><br>
+    Correo: <input type="email" th:field="*{usuarioCorreo}"><br>
+    Producto: <input type="text" th:field="*{producto}"><br>
+    Cantidad (kg): <input type="number" th:field="*{cantidadKg}"><br>
+    Método de pago: <input type="text" th:field="*{metodoPago}"><br>
+    Fecha de reserva: <input type="date" th:field="*{fechaReserva}"><br>
+
+    <button type="submit">Guardar cambios</button>
+</form>
+</body>
+</html>
