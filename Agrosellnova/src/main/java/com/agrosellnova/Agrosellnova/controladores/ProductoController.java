@@ -111,22 +111,7 @@ public class ProductoController {
                 existente.setImagen("../img/" + nombreArchivo);
             }
 
-<<<<<<< HEAD
-
-            Producto producto = new Producto();
-            producto.setUsuarioCampesino(nombreUsuario);
-            producto.setImagen(rutaRelativa);
-            producto.setNombre(nombre);
-            producto.setPrecio(precio);
-            producto.setDescripcion(descripcion);
-            producto.setPesoKg(pesoKg);
-            producto.setStock(stock);
-            producto.setFechaCosecha(LocalDate.now());
-
-            productoRepository.save(producto);
-=======
             productoRepository.save(existente);
->>>>>>> e7c51c578eaa5f1f15fe412b9bdb610ac7071f49
             return "redirect:/private/gestionar_productos";
 
         } catch (IOException e) {
