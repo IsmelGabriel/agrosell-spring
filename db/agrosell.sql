@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-07-2025 a las 05:58:41
+-- Tiempo de generación: 11-07-2025 a las 21:46:47
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -20,14 +20,10 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `agrosell`
 --
+CREATE DATABASE IF NOT EXISTS `agrosell` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `agrosell`;
 
 -- --------------------------------------------------------
-
---
--- creación de la base de datos `agrosell`
---
-CREATE DATABASE IF NOT EXISTS `agrosell` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `agrosell`;
 
 --
 -- Estructura de tabla para la tabla `facturas`
@@ -203,7 +199,7 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`ID_PRODUCTO`, `usuario_campesino`, `PRODUCTO_IMAGEN`, `nombre_producto`, `descripcion`, `precio`, `peso_kg`, `STOCK`, `FECHA_COSECHA`, `imagen`, `nombre`) VALUES
-(7, 'gabriel', '../img/67f69c4626b0a_arroz.jpg', 'Arroz', 'Arroz blanco', 3500, 1, 84, NULL, NULL, NULL),
+(7, 'gabriel', '../img/67f69c4626b0a_arroz.jpg', 'Arroz', 'Arroz blanco', 3500, 1, 40, NULL, NULL, NULL),
 (8, 'gabriel', '../img/67f6a38b9d67d_ahuyama.jpg', 'Ahuyama', 'Ahuyama en venta', 14000, 1, 30, NULL, NULL, NULL),
 (9, 'gabriel', '../img/67f6a5a04babf_apio.jpg', 'Apio', 'Apios recién cosechados', 4600, 1, 40, NULL, NULL, NULL),
 (10, 'gabriel', '../img/67f6ad1aeadd9_arverja.jpg', 'Arverja', 'Alverjas verdes por kg', 3600, 1, 83, NULL, NULL, NULL),
@@ -343,7 +339,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`ID_USUARIO`, `nombre`, `usuario`, `documento`, `DIRECCION`, `correo`, `metodo_pago`, `FECHA_NACIMIENTO`, `rol`, `roles_ID_roles`, `CONTRASEÑA`, `password`, `contraseñas`) VALUES
-(1, 'Ismel Gabriel Salazar Suniaga', 'ismel salazar', '59791412', 'Carrera 81g #73f-40sur', 'ssismel28@gmail.com', 'Transferencia', '2024-10-17', 'productor', 3, '$2y$10$MDjW1Hpxson3lCaDqe5UAOjc8fHen9WjaDYIBqCbPazvk9xU/fp6y', NULL, NULL),
+(1, 'Ismel Gabriel Salazar Suniaga', 'ismel salazar', '59791412', 'Carrera 81g #73f-40sur', 'ssismel28@gmail.com', 'Transferencia', '2024-10-17', 'administrador', 1, '$2y$10$MDjW1Hpxson3lCaDqe5UAOjc8fHen9WjaDYIBqCbPazvk9xU/fp6y', NULL, NULL),
 (2, 'gabriel ismel suniaga salazar', 'gabriel', '5979141', 'Carrera 81g #73f-40sur', 'gabriel@gmail.com', 'Efectivo', '2006-11-28', 'productor', 3, '$2b$10$JlRT64H.x4yew4XedUBTNuB7K/60Z9qVwfJqRWPBT9WuEt3NGb4pS', NULL, NULL),
 (3, 'Karol Estela Burbano Lopez', 'karol bur24', '2832352123', 'Calle 106a 22', 'esletabur24@gmail.com', 'Nequi', '1998-10-14', 'productor', 3, '$2b$10$CPyvX6PtUWS3IW8iqrrSQeyE.olXG2Po3WRQ66FJNBydqqJ7jr79W', NULL, NULL),
 (5, 'Juan Manuel Salazar', 'manuel', NULL, NULL, 'manu_sa@gmail.com', NULL, NULL, 'cliente', 2, '$2y$10$OUYUQGklFAfss9.g3Wk7xumFMrSxe2bGZsEL8s0vokuwYvxjihVqq', NULL, NULL),
