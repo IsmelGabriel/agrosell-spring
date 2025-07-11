@@ -83,7 +83,6 @@
                 <td th:text="${producto.stock}"></td>
                 <td th:text="${producto.fechaCosecha}"></td>
                 <td><a th:href="@{'/forms/editar_producto?id=' + ${producto.id}}">Editar</a></td>
-                <td><a th:href="@{'/eliminar_producto?id=' + ${producto.id}}">Eliminar</a></td>
             </tr>
             <tr th:if="${#lists.isEmpty(listaProductos)}">
                 <td colspan="10">No tienes productos registrados.</td>
