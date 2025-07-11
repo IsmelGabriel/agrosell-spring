@@ -11,29 +11,14 @@ import java.util.List;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
     List<Producto> findAllByOrderByIdDesc();
-
     List<Producto> findByNombreContainingIgnoreCaseOrderByPrecioAsc(String nombre);
-
     List<Producto> findByNombreContainingIgnoreCaseOrderByPrecioDesc(String nombre);
-
     List<Producto> findByNombreContainingIgnoreCaseOrderByNombreAsc(String nombre);
-
     List<Producto> findByNombreContainingIgnoreCaseOrderByIdDesc(String nombre);
-
     List<Producto> findByUsuarioCampesino(String usuarioCampesino);
-
-    List<Producto> findByIdAndUsuarioCampesino(Long id, String usuarioCampesino);
-
+    Producto findByIdAndUsuarioCampesino(Long id, String usuarioCampesino);
     List<Producto> findByNombreContainingIgnoreCaseAndUsuarioCampesino(String nombre, String usuarioCampesino);
-
     List<Producto> findByFechaCosechaAndUsuarioCampesino(LocalDate fechaCosecha, String usuarioCampesino);
 
-    List<Producto> findByUsuarioProductor(String usuario);
-
-    Producto findByIdAndUsuarioProductor(Long id, String usuario);
-
-    List<Producto> findByUsuarioProductorAndNombreContainingIgnoreCase(String usuario, String nombre);
-
-    List<Producto> findByUsuarioProductorAndFechaCosecha(String usuario, LocalDate fecha);
 }
 

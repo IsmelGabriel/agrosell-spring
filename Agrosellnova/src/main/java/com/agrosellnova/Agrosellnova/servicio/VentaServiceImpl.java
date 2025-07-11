@@ -1,6 +1,7 @@
 package com.agrosellnova.Agrosellnova.servicio;
 
 import com.agrosellnova.Agrosellnova.modelo.Venta;
+import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.repositorio.VentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ import java.util.List;
 public class VentaServiceImpl implements VentaService {
 
     @Autowired
+    private ProductoRepository productoRepository;
+
+    @Autowired
     private VentaRepository ventaRepository;
 
     @Override
@@ -23,19 +27,38 @@ public class VentaServiceImpl implements VentaService {
 
     @Override
     public void guardarVenta(Venta venta) {
-        venta.setFechaVenta(LocalDate.now()); // opcional si ya se setea en el controlador
-        ventaRepository.save(venta);
+        venta.setFechaVenta(LocalDate.now());
+
+        if (venta.getProducto() != null) {
+            Long productoId = venta.getProducto().getId();
+
+            productoRepository.findById(productoId).ifPresentOrElse(productoBD -> {
+                int stockActual = productoBD.getStock();
+                int cantidadVendida = venta.getCantidadKg().intValue();
+
+                if (stockActual >= cantidadVendida) {
+                    productoBD.setStock(stockActual - cantidadVendida);
+                    productoRepository.save(productoBD);
+                    ventaRepository.save(venta);
+                } else {
+                    throw new RuntimeException("Stock insuficiente para realizar la venta. Stock disponible: "
+                            + stockActual + ", solicitado: " + cantidadVendida);
+                }
+            }, () -> {
+                throw new RuntimeException("Producto no encontrado en la base de datos.");
+            });
+
+        } else {
+            throw new RuntimeException("No se ha asignado ningún producto a la venta.");
+        }
     }
+
 
     @Override
     public Venta obtenerVentaPorId(Long id) {
         return ventaRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public void eliminarVenta(Long id) {
-        ventaRepository.deleteById(id);
-    }
 
     @Override
     public List<Venta> obtenerVentasPorProductor(String productor) {
@@ -73,6 +96,58 @@ public class VentaServiceImpl implements VentaService {
 
             default:
                 return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Venta> findByComprador_NombreUsuario(String nombreUsuario) {
+        List<Venta> compras = ventaRepository.findByComprador_NombreUsuario(nombreUsuario);
+        return compras;
+    }
+
+    @Override
+    public List<Venta> filtrarCompras(String comprador, String criterio, String valor) {
+        switch (criterio.toLowerCase()) {
+            case "id":
+                try {
+                    Long id = Long.parseLong(valor);
+                    return ventaRepository.findByIdVentaAndComprador_NombreUsuario(id, comprador);
+                } catch (NumberFormatException e) {
+                    return List.of();
+                }
+            case "producto":
+                return ventaRepository.findByComprador_NombreUsuarioAndProducto_NombreContainingIgnoreCase(comprador, valor);
+            case "fecha":
+                try {
+                    LocalDate fecha = LocalDate.parse(valor);
+                    return ventaRepository.findByComprador_NombreUsuarioAndFechaVenta(comprador, fecha);
+                } catch (DateTimeParseException e) {
+                    return List.of();
+                }
+            case "vendedor":
+                return ventaRepository.findByComprador_NombreUsuarioAndVendedor_NombreUsuarioContainingIgnoreCase(comprador, valor);
+            default:
+                return List.of();
+        }
+    }
+
+    public List<Venta> filtrarVentasAdmin(String criterio, String valor) {
+        switch (criterio.toLowerCase()) {
+            case "cliente":
+                return ventaRepository.findByComprador_NombreUsuarioContainingIgnoreCase(valor);
+            case "vendedor":
+                return ventaRepository.findByVendedor_NombreUsuarioContainingIgnoreCase(valor);
+            case "producto":
+                return ventaRepository.findByProducto_NombreContainingIgnoreCase(valor);
+            case "fecha":
+                try {
+                    LocalDate fecha = LocalDate.parse(valor);
+                    return ventaRepository.findByFechaVenta(fecha);
+                } catch (DateTimeParseException e) {
+                    return List.of();
+                }
+            default:
+                return List.of();
         }
     }
 }

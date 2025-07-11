@@ -21,7 +21,7 @@
         </div>
         <div class="icons">
             <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
-            <a th:href="@{/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+            <a th:href="@{/private/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
         </div>
     </div>
 </header>
@@ -42,18 +42,18 @@
         </div>
     </aside>
 
-
     <main class="panel-content">
         <h1>Compras registradas en el sistema para: <span th:text="${usuario}"></span></h1>
 
         <div class="filtro-reservas">
-            <form th:action="@{/private/gestionar_reservas}" method="get" class="filtro-form">
-                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input" required>
-                <select name="criterio" class="filtro-select" required>
+            <form th:action="@{/private/gestionar_compra}" method="get" class="filtro-form">
+                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+                <select name="criterio" class="filtro-select">
                     <option value="">Selecciona un criterio</option>
-                    <option value="vendedor">Vendedor</option>
+                    <option value="id">ID de Venta</option>
                     <option value="producto">Producto</option>
-                    <option value="fecha">Fecha</option>
+                    <option value="fecha">Fecha (YYYY-MM-DD)</option>
+                    <option value="vendedor">Vendedor</option>
                 </select>
                 <button type="submit" class="filtro-btn">Filtrar</button>
             </form>
@@ -71,7 +71,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="venta : ${ventas}">
+            <tr th:each="venta : ${listaCompra}">
                 <td th:text="${venta.idVenta}">1</td>
                 <td th:text="${venta.vendedor.nombreUsuario}">vendedor456</td>
                 <td th:text="${venta.producto.nombre}">Papa</td>

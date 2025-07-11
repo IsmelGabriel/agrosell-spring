@@ -49,9 +49,12 @@ public class ProductoServiceImpl implements ProductoService {
     public List<Producto> obtenerProductosPorUsuario(String usuarioCampesino) {
         return productoRepository.findByUsuarioCampesino(usuarioCampesino);
     }
+
     @Override
     public List<Producto> obtenerProductosPorProductor(String usuario) {
-        return productoRepository.findByUsuarioProductor(usuario);
+        List<Producto> productos = productoRepository.findByUsuarioCampesino(usuario);
+        System.out.println("Productos encontrados: " + productos.size());
+        return productoRepository.findByUsuarioCampesino(usuario);
     }
 
     @Override
@@ -60,19 +63,19 @@ public class ProductoServiceImpl implements ProductoService {
             case "id":
                 try {
                     Long id = Long.parseLong(valor);
-                    Producto producto = productoRepository.findByIdAndUsuarioProductor(id, usuario);
+                    Producto producto = productoRepository.findByIdAndUsuarioCampesino(id, usuario);
                     return producto != null ? List.of(producto) : List.of();
                 } catch (NumberFormatException e) {
                     return List.of();
                 }
 
             case "producto":
-                return productoRepository.findByUsuarioProductorAndNombreContainingIgnoreCase(usuario, valor);
+                return productoRepository.findByNombreContainingIgnoreCaseAndUsuarioCampesino(valor, usuario);
 
             case "fecha":
                 try {
                     LocalDate fecha = LocalDate.parse(valor);
-                    return productoRepository.findByUsuarioProductorAndFechaCosecha(usuario, fecha);
+                    return productoRepository.findByFechaCosechaAndUsuarioCampesino(fecha, usuario);
                 } catch (Exception e) {
                     return List.of();
                 }
@@ -81,5 +84,15 @@ public class ProductoServiceImpl implements ProductoService {
                 return List.of();
         }
     }
-}
 
+    @Override
+    public Producto obtenerPorId(Long id) {
+        return productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+    }
+
+    @Override
+    public void actualizarProducto(Producto producto) {
+        productoRepository.save(producto);
+    }
+}

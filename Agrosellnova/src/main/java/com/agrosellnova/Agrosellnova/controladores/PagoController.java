@@ -95,7 +95,7 @@ public class PagoController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", "Ocurrió un error al procesar el pago.");
-            return "public/carrito";
+            return "redirect:/error";
         }
     }
 }

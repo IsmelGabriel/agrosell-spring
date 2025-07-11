@@ -22,7 +22,7 @@
         </div>
         <div class="icons">
             <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
-            <a th:href="@{/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+            <a th:href="@{/private/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
         </div>
     </div>
 </header>
@@ -46,6 +46,18 @@
 
     <main class="panel-content">
         <h1>Usuarios registrados en el sistema</h1>
+        <form th:action="@{/private/usuarios_registrados}" method="get" class="filtro-form">
+            <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+            <select name="criterio" class="filtro-select">
+                <option value="">Selecciona un criterio</option>
+                <option value="id">ID Usuario</option>
+                <option value="usuario">nombre</option>
+                <option value="correo">Correo</option>
+                <option value="documento">Documento</option>
+            </select>
+            <button type="submit" class="filtro-btn">Filtrar</button>
+        </form>
+
         <table border="1">
             <thead>
             <tr>

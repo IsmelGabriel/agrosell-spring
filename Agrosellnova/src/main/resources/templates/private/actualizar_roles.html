@@ -22,7 +22,7 @@
         </div>
         <div class="icons">
             <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
-            <a th:href="@{/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+            <a th:href="@{/private/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
         </div>
     </div>
 </header>
@@ -47,6 +47,18 @@
     <main class="panel-content">
         <h1>Actualizar Rol de Usuarios</h1>
 
+        <form th:action="@{/private/actualizar_roles}" method="get" class="filtro-form">
+            <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+            <select name="criterio" class="filtro-select">
+                <option value="">Selecciona un criterio</option>
+                <option value="id">ID Usuario</option>
+                <option value="nombre">Nombre</option>
+                <option value="documento">Documento</option>
+                <option value="correo">Correo</option>
+            </select>
+            <button type="submit" class="filtro-btn">Filtrar</button>
+        </form>
+
         <table border="1">
             <thead>
             <tr>
@@ -63,8 +75,8 @@
             <tbody>
             <tr th:each="usuario : ${usuarios}">
                 <td th:text="${usuario.Id}">1</td>
-                <td th:text="${usuario.nombreUsuario}">Nombre</td>
                 <td th:text="${usuario.nombre}">usuario123</td>
+                <td th:text="${usuario.nombreUsuario}">Nombre</td>
                 <td th:text="${usuario.correo}">correo@ejemplo.com</td>
                 <td th:text="${usuario.documento}">123456</td>
                 <td th:text="${usuario.direccion}">Calle 123</td>

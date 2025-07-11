@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-06-2025 a las 14:25:29
+-- Tiempo de generación: 11-07-2025 a las 21:46:47
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.1.25
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,10 +44,6 @@ CREATE TABLE `facturas` (
   `impuesto` decimal(50,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- RELACIONES PARA LA TABLA `facturas`:
---
-
 -- --------------------------------------------------------
 
 --
@@ -67,10 +63,6 @@ CREATE TABLE `inventario` (
   `Numero_referencia` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- RELACIONES PARA LA TABLA `inventario`:
---
-
 -- --------------------------------------------------------
 
 --
@@ -83,12 +75,6 @@ CREATE TABLE `metodo_pago` (
   `id_usuario` int(11) NOT NULL,
   `facturas_ID_factura` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- RELACIONES PARA LA TABLA `metodo_pago`:
---   `facturas_ID_factura`
---       `facturas` -> `ID_factura`
---
 
 -- --------------------------------------------------------
 
@@ -106,12 +92,6 @@ CREATE TABLE `ofertas_productos` (
   `descripcion_oferta` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- RELACIONES PARA LA TABLA `ofertas_productos`:
---   `ID_PRODUCTO`
---       `producto` -> `ID_PRODUCTO`
---
-
 -- --------------------------------------------------------
 
 --
@@ -122,14 +102,6 @@ CREATE TABLE `ofertas_productos_has_producto` (
   `oferta_ID` int(11) NOT NULL,
   `producto_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- RELACIONES PARA LA TABLA `ofertas_productos_has_producto`:
---   `oferta_ID`
---       `ofertas_productos` -> `ID_OFERTA_PRODUCTO`
---   `producto_ID`
---       `producto` -> `ID_PRODUCTO`
---
 
 -- --------------------------------------------------------
 
@@ -148,10 +120,6 @@ CREATE TABLE `pagos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- RELACIONES PARA LA TABLA `pagos`:
---
-
---
 -- Volcado de datos para la tabla `pagos`
 --
 
@@ -159,7 +127,8 @@ INSERT INTO `pagos` (`id_pago`, `nombre`, `correo`, `telefono`, `metodo_pago`, `
 (1, 'Alicia Sandra Betancur Escobar', 'asdasd@alskdlas.com', '1231231232', 'PayPal', 'Calle 106a 22', '2025-04-10'),
 (2, 'ismel salazar', 'ssismel28@gmail.com', '2147483647', 'Nequi', 'Calle 81f 40', '2025-04-10'),
 (3, 'ismel salazar', 'ssismel28@gmail.com', '2147483647', 'Nequi', 'Calle 81f 40', '2025-04-10'),
-(4, 'Juan Manuel Salazar', 'manu_sa@gmail.com', '1233132123', 'Tarjeta de Credito', 'calle 93 norte', '2025-06-29');
+(4, 'Juan Manuel Salazar', 'manu_sa@gmail.com', '1233132123', 'Tarjeta de Credito', 'calle 93 norte', '2025-06-29'),
+(5, 'Marcela Marquez', 'marce@gmail.com', '3218465823', 'Tarjeta de Credito', 'Cra. 61g #10 25-sur', '2025-07-04');
 
 -- --------------------------------------------------------
 
@@ -174,10 +143,6 @@ CREATE TABLE `pqrs` (
   `telefono` varchar(255) DEFAULT NULL,
   `mensaje` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- RELACIONES PARA LA TABLA `pqrs`:
---
 
 --
 -- Volcado de datos para la tabla `pqrs`
@@ -198,10 +163,6 @@ CREATE TABLE `privilegio` (
   `DESCRIPCION` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- RELACIONES PARA LA TABLA `privilegio`:
---
-
 -- --------------------------------------------------------
 
 --
@@ -212,14 +173,6 @@ CREATE TABLE `privilegio_has_usuarios` (
   `privilegio_ID_privilegio` int(11) NOT NULL,
   `usuarios_ID_USUARIO` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- RELACIONES PARA LA TABLA `privilegio_has_usuarios`:
---   `privilegio_ID_privilegio`
---       `privilegio` -> `ID_PRIVILEGIO`
---   `usuarios_ID_USUARIO`
---       `usuarios` -> `ID_USUARIO`
---
 
 -- --------------------------------------------------------
 
@@ -242,15 +195,11 @@ CREATE TABLE `producto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- RELACIONES PARA LA TABLA `producto`:
---
-
---
 -- Volcado de datos para la tabla `producto`
 --
 
 INSERT INTO `producto` (`ID_PRODUCTO`, `usuario_campesino`, `PRODUCTO_IMAGEN`, `nombre_producto`, `descripcion`, `precio`, `peso_kg`, `STOCK`, `FECHA_COSECHA`, `imagen`, `nombre`) VALUES
-(7, 'gabriel', '../img/67f69c4626b0a_arroz.jpg', 'Arroz', 'Arroz blanco', 3500, 1, 84, NULL, NULL, NULL),
+(7, 'gabriel', '../img/67f69c4626b0a_arroz.jpg', 'Arroz', 'Arroz blanco', 3500, 1, 40, NULL, NULL, NULL),
 (8, 'gabriel', '../img/67f6a38b9d67d_ahuyama.jpg', 'Ahuyama', 'Ahuyama en venta', 14000, 1, 30, NULL, NULL, NULL),
 (9, 'gabriel', '../img/67f6a5a04babf_apio.jpg', 'Apio', 'Apios recién cosechados', 4600, 1, 40, NULL, NULL, NULL),
 (10, 'gabriel', '../img/67f6ad1aeadd9_arverja.jpg', 'Arverja', 'Alverjas verdes por kg', 3600, 1, 83, NULL, NULL, NULL),
@@ -269,9 +218,9 @@ INSERT INTO `producto` (`ID_PRODUCTO`, `usuario_campesino`, `PRODUCTO_IMAGEN`, `
 (23, 'gabriel', '../img/67f6d028733a3_mandarina.jpg', 'Mandarinas', 'Deliciosas mandarinas jugosas y dulces', 4350, 7, 42, NULL, NULL, NULL),
 (24, 'gabriel', '../img/67f6d15b2a5d8_mango.jpg', 'Mango', 'Mango tommy pintón', 6700, 5, 45, NULL, NULL, NULL),
 (25, 'gabriel', '../img/67f6d25622799_mantequilla.jpg', 'Mantequilla', 'Mantequilla en venta', 15000, 1, 50, NULL, NULL, NULL),
-(26, 'gabriel', '../img/67f6f262592b1_papaya.jpg', 'Papaya', 'Deliciosas papayas en venta', 2550, 4, 24, NULL, NULL, NULL),
+(26, 'gabriel', '../img/67f6f262592b1_papaya.jpg', 'Papaya', 'Deliciosas papayas en venta', 2550, 4, 20, NULL, NULL, NULL),
 (27, 'gabriel', '../img/67f7e37f57526_uva.jpg', 'Uva', 'Uvas deliciosas', 5400, 2, 35, NULL, NULL, NULL),
-(28, 'gabriel', '../img/67f7e547c6240_pera.jpg', 'Pera', 'Peras en oferta', 9200, 2, 31, NULL, NULL, NULL),
+(28, 'gabriel', '../img/67f7e547c6240_pera.jpg', 'Pera', 'Peras en oferta', 9200, 2, 26, NULL, NULL, NULL),
 (29, 'gabriel', '../img/67f7e5949f48b_pimenton.jpg', 'Pimenton', 'Pimentón a buen precio', 8600, 1, 63, NULL, NULL, NULL),
 (30, 'karol bur24', '../img/67f861509da47_piña.jpg', 'Piña', 'Piñas jugosas y dulces', 7200, 1, 70, NULL, NULL, NULL);
 
@@ -288,10 +237,6 @@ CREATE TABLE `resenas` (
   `puntuacion` int(11) DEFAULT NULL,
   `comentario` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- RELACIONES PARA LA TABLA `resenas`:
---
 
 --
 -- Volcado de datos para la tabla `resenas`
@@ -323,10 +268,6 @@ CREATE TABLE `reservas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- RELACIONES PARA LA TABLA `reservas`:
---
-
---
 -- Volcado de datos para la tabla `reservas`
 --
 
@@ -351,14 +292,6 @@ CREATE TABLE `reservas_has_producto` (
   `cantidad` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- RELACIONES PARA LA TABLA `reservas_has_producto`:
---   `producto_ID_producto`
---       `producto` -> `ID_PRODUCTO`
---   `reservas_ID_Reservas`
---       `reservas` -> `ID_Reservas`
---
-
 -- --------------------------------------------------------
 
 --
@@ -369,10 +302,6 @@ CREATE TABLE `roles` (
   `ID_ROL` int(11) NOT NULL,
   `NOMBRE_ROL` enum('administrador','cliente','productor') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- RELACIONES PARA LA TABLA `roles`:
---
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -406,21 +335,18 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- RELACIONES PARA LA TABLA `usuarios`:
---
-
---
 -- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`ID_USUARIO`, `nombre`, `usuario`, `documento`, `DIRECCION`, `correo`, `metodo_pago`, `FECHA_NACIMIENTO`, `rol`, `roles_ID_roles`, `CONTRASEÑA`, `password`, `contraseñas`) VALUES
-(1, 'Ismel Gabriel Salazar Suniaga', 'ismel salazar', '59791412', 'Carrera 81g #73f-40sur', 'ssismel28@gmail.com', 'Transferencia', '2024-10-17', 'productor', 3, '$2y$10$MDjW1Hpxson3lCaDqe5UAOjc8fHen9WjaDYIBqCbPazvk9xU/fp6y', NULL, NULL),
+(1, 'Ismel Gabriel Salazar Suniaga', 'ismel salazar', '59791412', 'Carrera 81g #73f-40sur', 'ssismel28@gmail.com', 'Transferencia', '2024-10-17', 'administrador', 1, '$2y$10$MDjW1Hpxson3lCaDqe5UAOjc8fHen9WjaDYIBqCbPazvk9xU/fp6y', NULL, NULL),
 (2, 'gabriel ismel suniaga salazar', 'gabriel', '5979141', 'Carrera 81g #73f-40sur', 'gabriel@gmail.com', 'Efectivo', '2006-11-28', 'productor', 3, '$2b$10$JlRT64H.x4yew4XedUBTNuB7K/60Z9qVwfJqRWPBT9WuEt3NGb4pS', NULL, NULL),
 (3, 'Karol Estela Burbano Lopez', 'karol bur24', '2832352123', 'Calle 106a 22', 'esletabur24@gmail.com', 'Nequi', '1998-10-14', 'productor', 3, '$2b$10$CPyvX6PtUWS3IW8iqrrSQeyE.olXG2Po3WRQ66FJNBydqqJ7jr79W', NULL, NULL),
 (5, 'Juan Manuel Salazar', 'manuel', NULL, NULL, 'manu_sa@gmail.com', NULL, NULL, 'cliente', 2, '$2y$10$OUYUQGklFAfss9.g3Wk7xumFMrSxe2bGZsEL8s0vokuwYvxjihVqq', NULL, NULL),
 (6, 'administrador', 'admin', '3454545458', 'Carrera 15 #45', 'admin@gmail.com', 'Efectivo', '1994-06-21', 'administrador', 1, '$2y$10$HZj47J1WDzcE3yiP9bpZCu.LDoARwFMAceGELYp.YxbN6F8piT4yq', NULL, NULL),
 (7, 'Productor', 'productor', NULL, NULL, 'productor@gmail.com', NULL, NULL, 'productor', 3, '$2a$10$sF.OjciEmfsqovelT/6GnuBq2glBWWVOSym8bVZ8el1gpu8x8VaKW', NULL, NULL),
-(8, 'Cliente', 'cliente', NULL, NULL, 'cliente@gmail.com', NULL, NULL, 'cliente', 2, '$2y$10$1B2iIdXn22r.b5qwm/atxufPbUI55UrfXCBLo0.du.wJ0M6xSgyWm', NULL, NULL);
+(8, 'Cliente', 'cliente', NULL, NULL, 'cliente@gmail.com', NULL, NULL, 'cliente', 2, '$2y$10$1B2iIdXn22r.b5qwm/atxufPbUI55UrfXCBLo0.du.wJ0M6xSgyWm', NULL, NULL),
+(10, 'Marcela Marquez', 'marcela', NULL, NULL, 'marce@gmail.com', NULL, NULL, 'cliente', 2, '$2a$10$NvddrKovlL2eqcXLBgZQ3uO6OO4FlKbhvzLWrxGNbkDEQgjFr8DX6', NULL, NULL);
 
 --
 -- Disparadores `usuarios`
@@ -458,16 +384,6 @@ CREATE TABLE `ventas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- RELACIONES PARA LA TABLA `ventas`:
---   `usuarios_ID_USUARIO`
---       `usuarios` -> `ID_USUARIO`
---   `facturas_ID_factura`
---       `facturas` -> `ID_factura`
---   `ID_Producto`
---       `producto` -> `ID_PRODUCTO`
---
-
---
 -- Volcado de datos para la tabla `ventas`
 --
 
@@ -483,7 +399,9 @@ INSERT INTO `ventas` (`id_venta`, `ID_Producto`, `cantidad_kg`, `FECHA_VENTA`, `
 (9, 12, 3, '2025-06-29', 20100, 5, 2, NULL),
 (10, 23, 2, '2025-06-29', 8700, 5, 2, NULL),
 (11, 25, 3, '2025-06-29', 45000, 5, 2, NULL),
-(12, 18, 2, '2025-06-29', 13000, 5, 2, NULL);
+(12, 18, 2, '2025-06-29', 13000, 5, 2, NULL),
+(13, 28, 5, '2025-07-04', 46000, 10, 2, NULL),
+(14, 26, 4, '2025-07-04', 10200, 10, 2, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -633,7 +551,7 @@ ALTER TABLE `ofertas_productos`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id_pago` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_pago` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `pqrs`
@@ -675,13 +593,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ID_USUARIO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ID_USUARIO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id_venta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_venta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas

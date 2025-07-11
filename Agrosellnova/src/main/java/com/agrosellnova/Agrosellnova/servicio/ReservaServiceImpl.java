@@ -38,31 +38,22 @@ public class ReservaServiceImpl implements ReservaService {
 
     @Override
     public List<Reserva> filtrarReservas(String usuario, String criterio, String valor) {
-        switch (criterio.toLowerCase()) {
-            case "id":
-                try {
-                    Long id = Long.parseLong(valor);
-                    Reserva reserva = reservaRepository.findByIdReservaAndUsuarioCliente(id, usuario);
-                    return reserva != null ? List.of(reserva) : List.of();
-                } catch (NumberFormatException e) {
-                    return List.of();
-                }
-
-            case "producto":
-                return reservaRepository.findByUsuarioClienteAndProductoContainingIgnoreCase(usuario, valor);
-
-            case "fecha":
-                try {
-                    LocalDate fecha = LocalDate.parse(valor);
-                    return reservaRepository.findByUsuarioClienteAndFechaReserva(usuario, fecha);
-                } catch (DateTimeParseException e) {
-                    return List.of();
-                }
-
-            default:
-                return List.of();
-        }
+        return List.of();
     }
 
+    @Override
+    public List<Reserva> buscarPorUsuario(String usuario) {
+        return reservaRepository.findByUsuarioClienteContainingIgnoreCase(usuario);
+    }
+
+    @Override
+    public List<Reserva> buscarPorProducto(String producto) {
+        return reservaRepository.findByProductoContainingIgnoreCase(producto);
+    }
+
+    @Override
+    public List<Reserva> buscarPorDocumento(String documento) {
+        return reservaRepository.findByUsuarioDocumentoContainingIgnoreCase(documento);
+    }
 }
 

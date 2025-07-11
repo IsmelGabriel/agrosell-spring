@@ -12,11 +12,9 @@ public class PqrsService {
 
     @Autowired
     private PqrsRepository pqrsRepository;
-
     public List<Pqrs> listarTodas() {
         return pqrsRepository.findAll();
     }
-
     public void guardar(Pqrs pqrs) {
         pqrsRepository.save(pqrs);
     }

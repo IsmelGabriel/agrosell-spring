@@ -37,7 +37,7 @@ public class ReservaController {
         return "redirect:/public/reserva_exitosa";
     }
 
-    @GetMapping("gestionar_reservas")
+    @GetMapping("/gestionar_reservas")
     public String mostrarReservas(
             @RequestParam(required = false) String criterio,
             @RequestParam(required = false) String valor,
@@ -65,7 +65,5 @@ public class ReservaController {
 
         return "private/gestionar_reservas";
     }
-
-
 }
 

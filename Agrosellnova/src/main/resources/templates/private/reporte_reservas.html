@@ -22,7 +22,7 @@
         </div>
         <div class="icons">
             <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
-            <a th:href="@{/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+            <a th:href="@{/private/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
         </div>
     </div>
 </header>
@@ -45,7 +45,22 @@
 
 
     <main class="panel-content">
-        <h1>Reporte de Reservas</h1>
+        <h1>Reservas registradas></span></h1>
+
+        <div class="filtro-reservas">
+            <form th:action="@{/private/reporte_reservas}" method="get" class="filtro-form">
+                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+                <select name="criterio" class="filtro-select">
+                    <option value="">Selecciona un criterio</option>
+                    <option value="usuario">Usuario</option>
+                    <option value="producto">Producto</option>
+                    <option value="documento">Documento</option>
+                </select>
+                <button type="submit" class="filtro-btn">Filtrar</button>
+            </form>
+
+        </div>
+
         <table border="1">
             <thead>
             <tr>

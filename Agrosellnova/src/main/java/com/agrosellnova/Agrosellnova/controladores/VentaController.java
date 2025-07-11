@@ -44,4 +44,32 @@ public class VentaController {
 
         return "private/gestionar_ventas";
     }
+
+    @GetMapping("/gestionar_compra")
+    public String mostrarComprasCliente(
+            @RequestParam(required = false) String criterio,
+            @RequestParam(required = false) String valor,
+            HttpSession session,
+            Model model) {
+
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null || rol == null || !rol.equals("cliente")) {
+            return "redirect:/public/index";
+        }
+
+        List<Venta> listaCompra;
+        if (criterio != null && valor != null && !valor.isBlank()) {
+            listaCompra = ventaService.filtrarCompras(usuario, criterio, valor);
+        } else {
+            listaCompra = ventaService.findByComprador_NombreUsuario(usuario);
+        }
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("rol", rol);
+        model.addAttribute("listaCompra", listaCompra);
+
+        return "private/gestionar_compra";
+    }
 }
