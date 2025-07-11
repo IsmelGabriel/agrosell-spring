@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.agrosellnova.Agrosellnova.repositorio.ReservaRepository;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -65,5 +67,20 @@ public class ReservaController {
 
         return "private/gestionar_reservas";
     }
+    @Autowired
+    private ReservaRepository reservaRepository;
+
+    @GetMapping("/reservas/editar/{id}")
+    public String mostrarFormularioEdicion(@PathVariable("id") Long id, Model model) {
+        Reserva reserva = reservaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("ID no válido: " + id));
+        model.addAttribute("reserva", reserva);
+        return "forms/editar_reserva";
+    }
+    @PostMapping("/reservas/actualizar")
+    public String actualizarReserva(@ModelAttribute("reserva") Reserva reserva) {
+        reservaRepository.save(reserva);
+        return "redirect:/vistas_privadas/gestionar_reservas.html"; // cambia si tu vista final es otra
+    }
+
 }
 

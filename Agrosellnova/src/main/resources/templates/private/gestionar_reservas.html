@@ -33,7 +33,7 @@
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
-                <!-- CLIENTE -->
+
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}"><i class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
@@ -85,7 +85,7 @@
                 <td th:text="${reserva.cantidadKg}"></td>
                 <td th:text="${reserva.metodoPago}"></td>
                 <td th:text="${reserva.fechaReserva}"></td>
-                <td><a th:href="@{'/editar_reserva?id=' + ${reserva.idReserva}}">Editar</a></td>
+                <a th:href="@{'/reservas/editar/' + ${reserva.idReservas}}">Editar</a>
                 <td><a th:href="@{'/cancelar_reserva?id=' + ${reserva.idReserva}}">Cancelar</a></td>
             </tr>
             <tr th:if="${#lists.isEmpty(listaReservas)}">
