@@ -45,10 +45,11 @@
 
     <main class="panel-content">
         <h1>Registro de PQRS</h1>
-        <form th:action="@{/private/reporte_pqrs_admin}" method="get" class="filtro-form">
+        <form th:action="@{/private/reporte_pqrs}" method="get" class="filtro-form">
             <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
             <select name="criterio" class="filtro-select">
                 <option value="">Selecciona un criterio</option>
+                <option value="id">ID Pqrs</option>
                 <option value="usuario">Usuario</option>
                 <option value="correo">Correo</option>
                 <option value="telefono">Teléfono</option>

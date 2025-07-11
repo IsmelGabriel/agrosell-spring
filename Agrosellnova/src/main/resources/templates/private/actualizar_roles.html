@@ -47,11 +47,12 @@
     <main class="panel-content">
         <h1>Actualizar Rol de Usuarios</h1>
 
-        <form th:action="@{/private/filtrar_roles}" method="get" class="filtro-form">
+        <form th:action="@{/private/actualizar_roles}" method="get" class="filtro-form">
             <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
             <select name="criterio" class="filtro-select">
                 <option value="">Selecciona un criterio</option>
                 <option value="id">ID Usuario</option>
+                <option value="nombre">Nombre</option>
                 <option value="documento">Documento</option>
                 <option value="correo">Correo</option>
             </select>

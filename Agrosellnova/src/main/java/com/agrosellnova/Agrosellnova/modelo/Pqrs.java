@@ -24,7 +24,6 @@ public class Pqrs {
     private String mensaje;
 
     // Getters y Setters
-
     public Long getIdPqrs() {
         return idPqrs;
     }
