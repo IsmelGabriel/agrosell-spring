@@ -86,7 +86,7 @@
                 <td th:text="${reserva.metodoPago}"></td>
                 <td th:text="${reserva.fechaReserva}"></td>
                 <a th:href="@{'/reservas/editar/' + ${reserva.idReservas}}">Editar</a>
-                <a th:href="'#'" th:onclick="'return confirmarCancelacion(\'/reservas/cancelar/' + ${reserva.id} + '\');'" class="btn btn-danger">
+                <a href="#" th:onclick="'return confirmarCancelacion(\'/reservas/cancelar/' + ${reserva.idReserva} + '\')'" class="btn btn-danger">
                     Cancelar
                 </a>
 
@@ -98,15 +98,5 @@
         </table>
     </main>
 </div>
-<script>
-    function confirmarCancelacion(url) {
-        const confirmacion = confirm("¿Estás segura de cancelar esta reserva?");
-        if (confirmacion) {
-            window.location.href = url; // Si da “sí”, redirige al controlador
-        }
-        return false; // Si da “no”, no hace nada
-    }
-</script>
-
 </body>
 </html>
