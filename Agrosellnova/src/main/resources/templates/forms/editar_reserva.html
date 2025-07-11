@@ -1,24 +1,115 @@
-<!-- templates/forms/editar_reserva.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Editar Reserva</title>
+    <link rel="stylesheet" th:href="@{/css/panel.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
-<h2>Editar Reserva</h2>
-<form th:action="@{/reservas/actualizar}" th:object="${reserva}" method="post">
-    <input type="hidden" th:field="*{idReservas}">
+<body class="panel-control">
 
-    Nombre: <input type="text" th:field="*{usuarioCliente}"><br>
-    Documento: <input type="text" th:field="*{usuarioDocumento}"><br>
-    Teléfono: <input type="text" th:field="*{usuarioTelefono}"><br>
-    Correo: <input type="email" th:field="*{usuarioCorreo}"><br>
-    Producto: <input type="text" th:field="*{producto}"><br>
-    Cantidad (kg): <input type="number" th:field="*{cantidadKg}"><br>
-    Método de pago: <input type="text" th:field="*{metodoPago}"><br>
-    Fecha de reserva: <input type="date" th:field="*{fechaReserva}"><br>
+<header class="Bienvenido">
+    <div class="header-left">
+        <img src="/img/logo.png" alt="Logo Agrosellnova" class="logo">
+        <span class="project-name">AGROSELLNOVA</span>
+    </div>
 
-    <button type="submit">Guardar cambios</button>
-</form>
+    <div class="header-right">
+        <div class="user-info">
+            <p><strong th:text="'Bienvenido, ' + ${usuario}">Bienvenido, Usuario</strong></p>
+            <p><span th:text="'Rol: ' + ${rol}">Rol: Cliente</span></p>
+        </div>
+        <div class="icons">
+            <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
+            <a th:href="@{/private/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+        </div>
+    </div>
+</header>
+
+<div class="panel-container">
+    <aside class="sidebar">
+        <div class="lateral-content">
+            <ul>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_reservas}"><i class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
+                <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="ofertar-container">
+        <h2 class="ofertar-titulo">Editar Reserva</h2>
+
+        <form th:action="@{/reservas/actualizar}" th:object="${reserva}" method="post" class="needs-validation" novalidate>
+
+            <input type="hidden" th:field="*{idReserva}"/>
+
+            <div class="ofertar-form">
+                <label class="form-label">Cliente</label>
+                <input type="text" th:field="*{usuarioCliente}" class="form-control" required>
+                <div class="invalid-feedback">Por favor, ingrese el nombre del cliente.</div>
+            </div>
+
+            <div class="ofertar-form">
+                <label class="form-label">Documento</label>
+                <input type="text" th:field="*{usuarioDocumento}" class="form-control" required>
+                <div class="invalid-feedback">Por favor, ingrese el número de documento.</div>
+            </div>
+
+            <div class="ofertar-form">
+                <label class="form-label">Teléfono</label>
+                <input type="text" th:field="*{usuarioTelefono}" class="form-control" required>
+                <div class="invalid-feedback">Por favor, ingrese el teléfono.</div>
+            </div>
+
+            <div class="ofertar-form">
+                <label class="form-label">Correo</label>
+                <input type="email" th:field="*{usuarioCorreo}" class="form-control" required>
+                <div class="invalid-feedback">Por favor, ingrese el correo.</div>
+            </div>
+
+            <div class="ofertar-form">
+                <label class="form-label">Producto</label>
+                <input type="text" th:field="*{producto}" class="form-control" required>
+                <div class="invalid-feedback">Por favor, ingrese el producto.</div>
+            </div>
+
+            <div class="ofertar-form">
+                <label class="form-label">Cantidad (kg)</label>
+                <input type="number" th:field="*{cantidadKg}" class="form-control" required>
+                <div class="invalid-feedback">Por favor, ingrese la cantidad.</div>
+            </div>
+
+            <div class="ofertar-form">
+                <label class="form-label">Método de pago</label>
+                <input type="text" th:field="*{metodoPago}" class="form-control" required>
+                <div class="invalid-feedback">Por favor, ingrese el método de pago.</div>
+            </div>
+
+            <div class="ofertar-form">
+                <label class="form-label">Fecha de reserva</label>
+                <input type="date" th:field="*{fechaReserva}" class="form-control">
+            </div>
+
+            <button type="submit" class="confirmar-oferta-btn">Guardar</button>
+        </form>
+    </main>
+</div>
+
+<script>
+    (function () {
+        'use strict';
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.from(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
 </body>
 </html>

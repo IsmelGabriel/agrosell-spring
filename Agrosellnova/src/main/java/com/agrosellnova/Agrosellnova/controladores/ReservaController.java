@@ -72,20 +72,18 @@ public class ReservaController {
 
     @GetMapping("/reservas/editar/{id}")
     public String mostrarFormularioEdicion(@PathVariable("id") Long id, Model model) {
-        Reserva reserva = reservaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("ID no válido: " + id));
+        Reserva reserva = reservaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID no válido: " + id));
         model.addAttribute("reserva", reserva);
         return "forms/editar_reserva";
-    }
-    @PostMapping("/reservas/actualizar")
-    public String actualizarReserva(@ModelAttribute("reserva") Reserva reserva) {
-        reservaRepository.save(reserva);
-        return "redirect:/vistas_privadas/gestionar_reservas.html"; // cambia si tu vista final es otra
+
     }
     @GetMapping("/reservas/cancelar/{id}")
     public String cancelarReserva(@PathVariable("id") Long id) {
         reservaRepository.deleteById(id);
-        return "redirect:/vistas_privadas/gestionar_reservas.html"; // redirige donde quieras
+        return "redirect:/vistas_privadas/gestionar_reservas";
     }
 
 }
+
 
