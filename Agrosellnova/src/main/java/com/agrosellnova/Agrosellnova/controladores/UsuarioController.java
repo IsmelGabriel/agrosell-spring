@@ -39,8 +39,8 @@ public class UsuarioController {
 
         Usuario usuarioExistente = usuarioService.buscarPorNombreUsuario(nombreUsuario);
         usuarioActualizado.setId(usuarioExistente.getId());
-        usuarioActualizado.setRol(usuarioExistente.getRol()); // conservar el rol
-        usuarioActualizado.setPassword(usuarioExistente.getPassword()); // conservar la contraseña
+        usuarioActualizado.setRol(usuarioExistente.getRol());
+        usuarioActualizado.setPassword(usuarioExistente.getPassword());
 
         usuarioService.actualizarPerfil(usuarioActualizado);
         model.addAttribute("mensaje", "Perfil actualizado correctamente.");
