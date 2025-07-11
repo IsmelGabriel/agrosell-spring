@@ -81,6 +81,11 @@ public class ReservaController {
         reservaRepository.save(reserva);
         return "redirect:/vistas_privadas/gestionar_reservas.html"; // cambia si tu vista final es otra
     }
+    @GetMapping("/reservas/cancelar/{id}")
+    public String cancelarReserva(@PathVariable("id") Long id) {
+        reservaRepository.deleteById(id);
+        return "redirect:/vistas_privadas/gestionar_reservas.html"; // redirige donde quieras
+    }
 
 }
 

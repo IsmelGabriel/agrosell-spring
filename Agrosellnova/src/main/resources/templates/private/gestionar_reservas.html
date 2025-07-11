@@ -85,8 +85,11 @@
                 <td th:text="${reserva.cantidadKg}"></td>
                 <td th:text="${reserva.metodoPago}"></td>
                 <td th:text="${reserva.fechaReserva}"></td>
-                <td><a th:href="@{'/reservas/editar?id' + ${idReservas}}">Editar</a></td>
-                <td><a th:href="@{'/cancelar_reserva?id=' + ${idReserva}}">Cancelar</a></td>
+                <a th:href="@{'/reservas/editar/' + ${reserva.idReservas}}">Editar</a>
+                <a href="#" th:onclick="'return confirmarCancelacion(\'/reservas/cancelar/' + ${reserva.idReserva} + '\')'" class="btn btn-danger">
+                    Cancelar
+                </a>
+
             </tr>
             <tr th:if="${#lists.isEmpty(listaReservas)}">
                 <td colspan="10">No tienes reservas registradas en este momento.</td>
