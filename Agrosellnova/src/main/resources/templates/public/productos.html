@@ -91,7 +91,8 @@
                 <p th:text="'$' + ${producto.precio} + ' Kg'">Precio</p>
                 <p th:text="'Stock: ' + ${producto.stock}">Stock</p>
                 <a href="#" class="btn-añadir-carrito"
-                   th:attr="onclick=|agregarAlCarrito(${producto.id}, '${producto.nombre}', ${producto.precio}, '${producto.imagen}')|">
+                   th:attr="onclick=|agregarAlCarrito(${producto.id}, '${producto.nombre}', ${producto.precio},
+                   '${producto.imagen}', ${producto.stock})|">
                     Añadir al carrito
                 </a>
             </div>
@@ -142,10 +143,15 @@
         alert("No tienes notificaciones pendientes");
     });
 
-    function agregarAlCarrito(id, nombre, precio, imagen) {
+    function agregarAlCarrito(id, nombre, precio, imagen, stock) {
         let cantidad = prompt(`Ingrese la cantidad de "${nombre}" que desea agregar:`, "1");
         if (cantidad === null || cantidad.trim() === "" || isNaN(cantidad) || cantidad <= 0) {
             alert("Operación cancelada o cantidad inválida.");
+            return;
+        }
+
+        if (cantidad > stock) {
+            alert(`No hay suficiente stock. Stock disponible: ${stock}`);
             return;
         }
 
