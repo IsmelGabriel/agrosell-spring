@@ -334,7 +334,7 @@ tr:last-child td[colspan] {
 
 /* Contenedor principal */
 .ofertar-container {
-    max-width: 800px;
+    width: 650px;
     margin: 2rem auto;
     padding: 2rem;
     background-color: #ffffff;

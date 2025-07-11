@@ -15,8 +15,6 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     List<Producto> findByNombreContainingIgnoreCaseOrderByPrecioDesc(String nombre);
     List<Producto> findByNombreContainingIgnoreCaseOrderByNombreAsc(String nombre);
     List<Producto> findByNombreContainingIgnoreCaseOrderByIdDesc(String nombre);
-
-    // Correctos con usuarioCampesino
     List<Producto> findByUsuarioCampesino(String usuarioCampesino);
     Producto findByIdAndUsuarioCampesino(Long id, String usuarioCampesino);
     List<Producto> findByNombreContainingIgnoreCaseAndUsuarioCampesino(String nombre, String usuarioCampesino);

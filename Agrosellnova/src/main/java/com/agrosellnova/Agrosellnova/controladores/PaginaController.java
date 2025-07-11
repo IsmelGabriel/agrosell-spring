@@ -1,20 +1,39 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
+import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
+import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
+import com.agrosellnova.Agrosellnova.servicio.ProductoService;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.web.exchanges.HttpExchange;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class PaginaController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private ProductoRepository productoRepository;
+
+    @Autowired
+    private ProductoService productoService;
 
     private final List<String> paginasRestringidas = List.of("cerrar_sesion", "api");
 
@@ -82,4 +101,63 @@ public class PaginaController {
 
         return "forms/formulario_pago";
     }
+
+    @PostMapping("/guardar_producto")
+    public String guardarProducto(
+            @RequestParam("usuario") String nombreUsuario,
+            @RequestParam("productoImagen") MultipartFile imagen,
+            @RequestParam("nombreProducto") String nombre,
+            @RequestParam("precio") double precio,
+            @RequestParam("descripcion") String descripcion,
+            @RequestParam("pesoKg") double pesoKg,
+            @RequestParam("stock") int stock
+    ) {
+        try {
+
+            String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
+            String rutaRelativa = "../img/" + nombreArchivo;
+            String rutaAbsoluta = new File("src/main/resources/static/img").getAbsolutePath();
+
+            byte[] bytes = imagen.getBytes();
+            Path path = Paths.get(rutaAbsoluta + File.separator + nombreArchivo);
+            Files.write(path, bytes);
+
+            Producto producto = new Producto();
+            producto.setUsuarioCampesino(nombreUsuario);
+            producto.setImagen(rutaRelativa);
+            producto.setNombre(nombre);
+            producto.setPrecio(precio);
+            producto.setDescripcion(descripcion);
+            producto.setPesoKg(pesoKg);
+            producto.setStock(stock);
+            producto.setFechaCosecha(LocalDate.now());
+
+            productoRepository.save(producto);
+            return "redirect:/private/gestionar_productos";
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "redirect:/error";
+        }
+    }
+
+    @GetMapping("/forms/editar_producto")
+    public String mostrarFormularioEdicion(@RequestParam("id") Long id, HttpSession session, Model model) {
+        String nombreUsuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+        if (nombreUsuario == null) {
+            return "redirect:/public/index";
+        }
+        Producto producto = productoService.obtenerPorId(id);
+        Usuario usuario = usuarioService.buscarPorNombreUsuario(nombreUsuario);
+
+        model.addAttribute("usuario", usuario.getNombreUsuario());
+        model.addAttribute("rol", usuario.getRol());
+        model.addAttribute("producto", producto);
+
+
+
+        return "forms/editar_producto";
+    }
+
 }

@@ -49,8 +49,11 @@ public class ProductoServiceImpl implements ProductoService {
     public List<Producto> obtenerProductosPorUsuario(String usuarioCampesino) {
         return productoRepository.findByUsuarioCampesino(usuarioCampesino);
     }
+
     @Override
     public List<Producto> obtenerProductosPorProductor(String usuario) {
+        List<Producto> productos = productoRepository.findByUsuarioCampesino(usuario);
+        System.out.println("Productos encontrados: " + productos.size());
         return productoRepository.findByUsuarioCampesino(usuario);
     }
 
@@ -80,5 +83,16 @@ public class ProductoServiceImpl implements ProductoService {
             default:
                 return List.of();
         }
+    }
+
+    @Override
+    public Producto obtenerPorId(Long id) {
+        return productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+    }
+
+    @Override
+    public void actualizarProducto(Producto producto) {
+        productoRepository.save(producto);
     }
 }

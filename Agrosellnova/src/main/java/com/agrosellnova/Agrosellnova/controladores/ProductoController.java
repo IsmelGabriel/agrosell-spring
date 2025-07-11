@@ -3,11 +3,13 @@ package com.agrosellnova.Agrosellnova.controladores;
 import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.servicio.ProductoService;
+import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +31,9 @@ public class ProductoController {
 
     @Autowired
     private ProductoRepository productoRepository;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @GetMapping("/public/productos")
     public String mostrarProductosPublicos(
@@ -80,40 +85,33 @@ public class ProductoController {
         return "private/gestionar_productos";
     }
 
-
-    @PostMapping("/guardar_producto")
-    public String guardarProducto(
-            @RequestParam("usuario") String nombreUsuario,
-            @RequestParam("productoImagen") MultipartFile imagen,
-            @RequestParam("nombreProducto") String nombre,
-            @RequestParam("precio") double precio,
-            @RequestParam("descripcion") String descripcion,
-            @RequestParam("pesoKg") double pesoKg,
-            @RequestParam("stock") int stock
+    @PostMapping("/producto/editar")
+    public String editarProducto(
+            @ModelAttribute Producto producto,
+            @RequestParam(value = "productoImagen", required = false) MultipartFile nuevaImagen
     ) {
         try {
+            Producto existente = productoService.obtenerPorId(producto.getId());
+            if (existente == null) {
+                return "redirect:/error";
+            }
 
-            String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
-            String rutaRelativa = "../img/" + nombreArchivo;
-            String rutaAbsoluta = new File("src/main/resources/static/img").getAbsolutePath();
+            existente.setNombre(producto.getNombre());
+            existente.setPrecio(producto.getPrecio());
+            existente.setDescripcion(producto.getDescripcion());
+            existente.setPesoKg(producto.getPesoKg());
+            existente.setStock(producto.getStock());
 
+            if (nuevaImagen != null && !nuevaImagen.isEmpty()) {
+                String nombreArchivo = UUID.randomUUID().toString() + "_" + nuevaImagen.getOriginalFilename();
+                String rutaAbsoluta = new File("src/main/resources/static/img").getAbsolutePath();
+                Path path = Paths.get(rutaAbsoluta + File.separator + nombreArchivo);
+                Files.write(path, nuevaImagen.getBytes());
 
-            byte[] bytes = imagen.getBytes();
-            Path path = Paths.get(rutaAbsoluta + File.separator + nombreArchivo);
-            Files.write(path, bytes);
+                existente.setImagen("../img/" + nombreArchivo);
+            }
 
-         
-            Producto producto = new Producto();
-            producto.setUsuarioCampesino(nombreUsuario);
-            producto.setImagen(rutaRelativa);
-            producto.setNombre(nombre);
-            producto.setPrecio(precio);
-            producto.setDescripcion(descripcion);
-            producto.setPesoKg(pesoKg);
-            producto.setStock(stock);
-            producto.setFechaCosecha(LocalDate.now());
-
-            productoRepository.save(producto);
+            productoRepository.save(existente);
             return "redirect:/private/gestionar_productos";
 
         } catch (IOException e) {
@@ -121,4 +119,5 @@ public class ProductoController {
             return "error";
         }
     }
+
 }
