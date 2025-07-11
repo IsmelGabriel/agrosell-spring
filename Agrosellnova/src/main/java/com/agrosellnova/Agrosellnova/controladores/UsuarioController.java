@@ -9,12 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/private")
+@RequestMapping("/forms")
 public class UsuarioController {
+
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("forms/actualizar_datos_perfil")
+    @GetMapping("/actualizar_datos_perfil")
     public String mostrarFormularioActualizar(HttpSession session, Model model) {
         String nombreUsuario = (String) session.getAttribute("usuario");
 
@@ -39,12 +40,11 @@ public class UsuarioController {
 
         Usuario usuarioExistente = usuarioService.buscarPorNombreUsuario(nombreUsuario);
         usuarioActualizado.setId(usuarioExistente.getId());
-        usuarioActualizado.setRol(usuarioExistente.getRol()); // conservar el rol
-        usuarioActualizado.setPassword(usuarioExistente.getPassword()); // conservar la contraseña
+        usuarioActualizado.setRol(usuarioExistente.getRol());
+        usuarioActualizado.setPassword(usuarioExistente.getPassword());
 
         usuarioService.actualizarPerfil(usuarioActualizado);
-        model.addAttribute("mensaje", "Perfil actualizado correctamente.");
+
         return "redirect:/private/perfil";
     }
-
 }

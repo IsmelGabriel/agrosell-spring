@@ -16,29 +16,41 @@
     <div class="header-content">
         <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
         <h1 class="menu-title">AGROSELL NOVA</h1>
+
         <div class="panel-option">
-            <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+            <button id="panelControl">
+                <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+            </button>
         </div>
+
         <a th:href="@{/public/carrito}" class="menu-icon">
             <i class="fas fa-shopping-cart"></i>
         </a>
-        <span class="notification">
+
+        <span class="menu-notification">
             <button id="notificationButton">
-                <i class="fas fa-bell"></i>
+                <i class="fas fa-bell menu-icon"></i>
             </button>
         </span>
+
         <span class="username">
-            <a th:if="${usuario != null}" th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
-            <a th:unless="${usuario != null}" th:href="@{/public/index}">Iniciar sesión/Registrarse</a>
+            <th:block th:if="${usuario.nombreUsuario != null}">
+                <a th:text="${usuario.nombreUsuario}" th:href="@{/public/cerrar_sesion}"></a>
+            </th:block>
+            <th:block th:unless="${usuario.nombreUsuario != null}">
+                <a th:href="@{/public/index}">Iniciar sesión</a>
+            </th:block>
         </span>
+
         <a th:href="@{/private/perfil}" class="menu-icon">
             <i class="bi bi-person-circle" style="font-size: 30px;"></i>
         </a>
     </div>
 </header>
 
-<nav class="menu-bar">
-    <ul>
+<nav class="menu-bar" id="menu-bar">
+    <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+    <ul id="menu-items">
         <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
         <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
         <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
@@ -52,23 +64,23 @@
 <main class="actualizar-perfil-container">
     <div class="actualizar-perfil-formulario">
         <h2>Actualizar Perfil</h2>
-        <form id="updateProfileForm" class="needs-validation" th:action="@{/perfil/actualizar}" method="post"
+        <form id="updateProfileForm" class="needs-validation" th:action="@{/forms/actualizar_datos_perfil}" method="post"
               th:object="${usuario}" novalidate>
             <div class="form-actualizar-perfil">
                 <label for="nombre" class="form-label">Nombre Completo</label>
-                <input type="text" class="form-control" id="nombre" th:field="*{nombreUsuario}" required>
+                <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required>
                 <div class="invalid-feedback">Por favor, ingresa tu nombre completo.</div>
             </div>
 
             <div class="form-actualizar-perfil">
                 <label for="nombreUsuario" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="nombreUsuario" th:field="*{usuario}" required>
+                <input type="text" class="form-control" id="nombreUsuario" th:field="*{nombreUsuario}" required>
                 <div class="invalid-feedback">Por favor, ingresa tu nombre de usuario.</div>
             </div>
 
             <div class="form-actualizar-perfil">
                 <label for="documento" class="form-label">Documento</label>
-                <input type="number" class="form-control" id="documento" th:field="*{documento}" required>
+                <input type="text" class="form-control" id="documento" th:field="*{documento}" required>
                 <div class="invalid-feedback">Por favor, ingresa tu documento.</div>
             </div>
 
