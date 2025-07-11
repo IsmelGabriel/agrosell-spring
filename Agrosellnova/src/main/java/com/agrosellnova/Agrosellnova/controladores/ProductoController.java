@@ -102,7 +102,7 @@ public class ProductoController {
             Path path = Paths.get(rutaAbsoluta + File.separator + nombreArchivo);
             Files.write(path, bytes);
 
-         
+
             Producto producto = new Producto();
             producto.setUsuarioCampesino(nombreUsuario);
             producto.setImagen(rutaRelativa);
