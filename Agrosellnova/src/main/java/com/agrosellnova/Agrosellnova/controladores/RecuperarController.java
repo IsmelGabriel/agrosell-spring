@@ -28,14 +28,14 @@ public class RecuperarController {
 
         if (usuario == null || !usuario.getCorreo().equalsIgnoreCase(correo)) {
             redirectAttributes.addFlashAttribute("error", "Usuario o correo no válidos.");
-            return "redirect:/public/recuperar_contraseña";
+            return "redirect:/public/registro_fallido";
         }
 
-        // Actualizar la contraseña codificada
+
         usuario.setPassword(passwordEncoder.encode(nuevaPassword));
         usuarioRepository.save(usuario);
 
         redirectAttributes.addFlashAttribute("mensaje", "Contraseña actualizada con éxito. Inicia sesión.");
-        return "redirect:/public/index";
+        return "redirect:/public/registro_exitoso";
     }
 }

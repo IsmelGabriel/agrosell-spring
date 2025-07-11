@@ -73,7 +73,7 @@
             <div class="col-md-8">
                 <h4>Detalles del Perfil</h4>
                 <ul class="list-group">
-                    <li class="list-group-item"><strong>ID Usuario:</strong> <span th:text="${user.id}"></span></li>
+                    <li class="list-group-item"><strong>ID Usuario:</strong> <span th:text="${user.id}" ></span></li>
                     <li class="list-group-item"><strong>Nombre:</strong> <span th:text="${user.nombre}"></span></li>
                     <li class="list-group-item"><strong>Usuario:</strong> <span th:text="${user.nombreUsuario}"></span></li>
                     <li class="list-group-item"><strong>Correo Electrónico:</strong> <span th:text="${user.correo}"></span></li>
@@ -83,7 +83,7 @@
                     <li class="list-group-item"><strong>Rol:</strong> <span th:text="${user.rol}"></span></li>
                 </ul>
                 <div class="d-flex justify-content-between mt-4">
-                    <a th:href="@{'/formulario/actualizar_datos_perfil'(id=${user.id})}" class="btn btn-warning">Editar Perfil</a>
+                    <a th:href="@{/forms/actualizar_datos_perfil}" class="btn btn-warning">Editar Perfil</a>
                     <a th:href="@{/public/cerrar_sesion}" class="btn btn-danger">Cerrar sesión</a>
                 </div>
             </div>

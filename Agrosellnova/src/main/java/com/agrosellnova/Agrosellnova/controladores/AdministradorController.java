@@ -6,7 +6,7 @@ import com.agrosellnova.Agrosellnova.modelo.Venta;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
 import com.agrosellnova.Agrosellnova.servicio.PqrsService;
 import com.agrosellnova.Agrosellnova.servicio.ReservaService;
-import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
+import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
 import com.agrosellnova.Agrosellnova.servicio.VentaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import java.util.List;
 public class AdministradorController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UsuarioServiceImpl usuarioService;
 
     @Autowired
     private PqrsService pqrsService;
