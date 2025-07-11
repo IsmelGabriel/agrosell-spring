@@ -88,6 +88,9 @@
                 <button type="submit" class="recuperar-contraseña-btn">Recuperar Contraseña</button>
                 <a th:href="@{/public/index}" class="btn btn-link text-success">Volver a iniciar sesión</a>
             </div>
+
+            <div th:if="${mensaje}" class="alert alert-success" role="alert" th:text="${mensaje}"></div>
+            <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
         </form>
     </div>
 </main>
