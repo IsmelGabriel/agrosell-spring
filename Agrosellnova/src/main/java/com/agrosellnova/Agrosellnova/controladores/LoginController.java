@@ -1,7 +1,7 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
-import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
+import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UsuarioServiceImpl usuarioService;
 
     @GetMapping("/public/index")
     public String mostrarLogin() {

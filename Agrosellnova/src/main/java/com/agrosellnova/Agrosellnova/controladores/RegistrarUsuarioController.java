@@ -1,7 +1,7 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
-import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
+import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class RegistrarUsuarioController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UsuarioServiceImpl usuarioService;
 
     @GetMapping("/public/registrarse")
     public String mostrarFormulario(Model model) {
