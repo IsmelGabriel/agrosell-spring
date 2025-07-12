@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-07-2025 a las 21:46:47
+-- Tiempo de generación: 12-07-2025 a las 04:55:42
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -128,7 +128,8 @@ INSERT INTO `pagos` (`id_pago`, `nombre`, `correo`, `telefono`, `metodo_pago`, `
 (2, 'ismel salazar', 'ssismel28@gmail.com', '2147483647', 'Nequi', 'Calle 81f 40', '2025-04-10'),
 (3, 'ismel salazar', 'ssismel28@gmail.com', '2147483647', 'Nequi', 'Calle 81f 40', '2025-04-10'),
 (4, 'Juan Manuel Salazar', 'manu_sa@gmail.com', '1233132123', 'Tarjeta de Credito', 'calle 93 norte', '2025-06-29'),
-(5, 'Marcela Marquez', 'marce@gmail.com', '3218465823', 'Tarjeta de Credito', 'Cra. 61g #10 25-sur', '2025-07-04');
+(5, 'Marcela Marquez', 'marce@gmail.com', '3218465823', 'Tarjeta de Credito', 'Cra. 61g #10 25-sur', '2025-07-04'),
+(6, 'Juan Manuel Salazar', 'manu_sa@gmail.com', '3218478565', 'Tarjeta de Credito', 'Cra. 81g #73f 40-sur, Bosa Laureles', '2025-07-11');
 
 -- --------------------------------------------------------
 
@@ -215,14 +216,15 @@ INSERT INTO `producto` (`ID_PRODUCTO`, `usuario_campesino`, `PRODUCTO_IMAGEN`, `
 (20, 'gabriel', '../img/67f6ca341e846_leche.jpg', 'Leche', 'Leche entera por lt', 5200, 10, 100, NULL, NULL, NULL),
 (21, 'gabriel', '../img/67f6ca82d62d7_lechuga.jpg', 'Lechuga', 'Lechuga fresca', 1200, 3, 42, NULL, NULL, NULL),
 (22, 'gabriel', '../img/67f6cfabcc0b9_lenteja.jpg', 'Lentejas', 'Una fuente abundante de fibra, ácido fólico y potasio', 5200, 2, 28, NULL, NULL, NULL),
-(23, 'gabriel', '../img/67f6d028733a3_mandarina.jpg', 'Mandarinas', 'Deliciosas mandarinas jugosas y dulces', 4350, 7, 42, NULL, NULL, NULL),
-(24, 'gabriel', '../img/67f6d15b2a5d8_mango.jpg', 'Mango', 'Mango tommy pintón', 6700, 5, 45, NULL, NULL, NULL),
+(23, 'gabriel', '../img/67f6d028733a3_mandarina.jpg', 'Mandarinas', 'Deliciosas mandarinas jugosas y dulces', 4350, 7, 35, NULL, NULL, NULL),
+(24, 'gabriel', '../img/67f6d15b2a5d8_mango.jpg', 'Mango', 'Mango tommy pintón', 6700, 5, 35, NULL, NULL, NULL),
 (25, 'gabriel', '../img/67f6d25622799_mantequilla.jpg', 'Mantequilla', 'Mantequilla en venta', 15000, 1, 50, NULL, NULL, NULL),
 (26, 'gabriel', '../img/67f6f262592b1_papaya.jpg', 'Papaya', 'Deliciosas papayas en venta', 2550, 4, 20, NULL, NULL, NULL),
 (27, 'gabriel', '../img/67f7e37f57526_uva.jpg', 'Uva', 'Uvas deliciosas', 5400, 2, 35, NULL, NULL, NULL),
-(28, 'gabriel', '../img/67f7e547c6240_pera.jpg', 'Pera', 'Peras en oferta', 9200, 2, 26, NULL, NULL, NULL),
+(28, 'gabriel', '../img/67f7e547c6240_pera.jpg', 'Pera', 'Peras en oferta', 9200, 2, 11, NULL, NULL, NULL),
 (29, 'gabriel', '../img/67f7e5949f48b_pimenton.jpg', 'Pimenton', 'Pimentón a buen precio', 8600, 1, 63, NULL, NULL, NULL),
-(30, 'karol bur24', '../img/67f861509da47_piña.jpg', 'Piña', 'Piñas jugosas y dulces', 7200, 1, 70, NULL, NULL, NULL);
+(30, 'karol bur24', '../img/67f861509da47_piña.jpg', 'Piña', 'Piñas jugosas y dulces', 7200, 1, 70, NULL, NULL, NULL),
+(34, 'karol bur24', '../img/51f815df-904c-4ffc-8e49-8ccea5c8b768_papas.png', 'Papas', 'papapara', 2300, 5, 9, '2025-07-11', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -277,8 +279,7 @@ INSERT INTO `reservas` (`ID_Reservas`, `usuario_cliente`, `usuario_documento`, `
 (3, 'Karol Estela', '98232323', '2147483647', 'karolestela@gmail.com', 'Mango', 2, 'EFECTIVO', NULL),
 (4, 'Karol Estela', '98232323', '2147483647', 'karolestela@gmail.com', 'Mango', 2, 'EFECTIVO', NULL),
 (5, 'Laura Lopez', '98232323', '2147483647', 'laura_0711@gmail.com', 'Manzana', 5, 'TARJETA', NULL),
-(6, 'manuel', '987654321', '2147483647', 'manu_sa@gmail.com', 'Tomate', 30, 'TARJETA', NULL),
-(7, 'manuel', '987654321', '2147483647', 'manu_sa@gmail.com', 'Fresa', 14, 'EFECTIVO', NULL);
+(6, 'manuel', '987654321', '2147483647', 'manu_sa@gmail.com', 'Tomate', 30, 'TARJETA', NULL);
 
 -- --------------------------------------------------------
 
@@ -339,10 +340,10 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`ID_USUARIO`, `nombre`, `usuario`, `documento`, `DIRECCION`, `correo`, `metodo_pago`, `FECHA_NACIMIENTO`, `rol`, `roles_ID_roles`, `CONTRASEÑA`, `password`, `contraseñas`) VALUES
-(1, 'Ismel Gabriel Salazar Suniaga', 'ismel salazar', '59791412', 'Carrera 81g #73f-40sur', 'ssismel28@gmail.com', 'Transferencia', '2024-10-17', 'administrador', 1, '$2y$10$MDjW1Hpxson3lCaDqe5UAOjc8fHen9WjaDYIBqCbPazvk9xU/fp6y', NULL, NULL),
-(2, 'gabriel ismel suniaga salazar', 'gabriel', '5979141', 'Carrera 81g #73f-40sur', 'gabriel@gmail.com', 'Efectivo', '2006-11-28', 'productor', 3, '$2b$10$JlRT64H.x4yew4XedUBTNuB7K/60Z9qVwfJqRWPBT9WuEt3NGb4pS', NULL, NULL),
-(3, 'Karol Estela Burbano Lopez', 'karol bur24', '2832352123', 'Calle 106a 22', 'esletabur24@gmail.com', 'Nequi', '1998-10-14', 'productor', 3, '$2b$10$CPyvX6PtUWS3IW8iqrrSQeyE.olXG2Po3WRQ66FJNBydqqJ7jr79W', NULL, NULL),
-(5, 'Juan Manuel Salazar', 'manuel', NULL, NULL, 'manu_sa@gmail.com', NULL, NULL, 'cliente', 2, '$2y$10$OUYUQGklFAfss9.g3Wk7xumFMrSxe2bGZsEL8s0vokuwYvxjihVqq', NULL, NULL),
+(1, 'Ismel Gabriel Salazar Suniaga', 'ismel salazar', '59791412', 'Carrera 81g #73f-40sur', 'ssismel28@gmail.com', 'Transferencia', '2024-10-17', 'administrador', 1, '$2a$10$3w9OtGiwSm6HKSiScW83KOQSrAx4HfeGd3vb/OemnHrSPlRIkh4te', NULL, NULL),
+(2, 'gabriel ismel suniaga salazar', 'gabriel', '7825451647', 'Calle 72 #105 a 26', 'gabriel@gmail.com', 'Efectivo', '2002-07-10', 'productor', 3, '$2b$10$JlRT64H.x4yew4XedUBTNuB7K/60Z9qVwfJqRWPBT9WuEt3NGb4pS', NULL, NULL),
+(3, 'Karol Estela Burbano Lopez', 'karol bur24', '2832352123', 'Calle 106a 22', 'esletabur24@gmail.com', 'Nequi', '1998-10-14', 'productor', 3, '$2a$10$ryZbbs84WuzcLBb2/xbZ..mRl5CgkfL11PYs64is84lA5itng6qZC', NULL, NULL),
+(5, 'Juan Manuel Salazar', 'manuel', '4658156478', '', 'manu_sa@gmail.com', 'Tarjeta de credito', '1992-07-14', 'cliente', 2, '$2y$10$OUYUQGklFAfss9.g3Wk7xumFMrSxe2bGZsEL8s0vokuwYvxjihVqq', NULL, NULL),
 (6, 'administrador', 'admin', '3454545458', 'Carrera 15 #45', 'admin@gmail.com', 'Efectivo', '1994-06-21', 'administrador', 1, '$2y$10$HZj47J1WDzcE3yiP9bpZCu.LDoARwFMAceGELYp.YxbN6F8piT4yq', NULL, NULL),
 (7, 'Productor', 'productor', NULL, NULL, 'productor@gmail.com', NULL, NULL, 'productor', 3, '$2a$10$sF.OjciEmfsqovelT/6GnuBq2glBWWVOSym8bVZ8el1gpu8x8VaKW', NULL, NULL),
 (8, 'Cliente', 'cliente', NULL, NULL, 'cliente@gmail.com', NULL, NULL, 'cliente', 2, '$2y$10$1B2iIdXn22r.b5qwm/atxufPbUI55UrfXCBLo0.du.wJ0M6xSgyWm', NULL, NULL),
@@ -401,7 +402,11 @@ INSERT INTO `ventas` (`id_venta`, `ID_Producto`, `cantidad_kg`, `FECHA_VENTA`, `
 (11, 25, 3, '2025-06-29', 45000, 5, 2, NULL),
 (12, 18, 2, '2025-06-29', 13000, 5, 2, NULL),
 (13, 28, 5, '2025-07-04', 46000, 10, 2, NULL),
-(14, 26, 4, '2025-07-04', 10200, 10, 2, NULL);
+(14, 26, 4, '2025-07-04', 10200, 10, 2, NULL),
+(15, 28, 15, '2025-07-11', 138000, 5, 2, NULL),
+(16, 34, 5, '2025-07-11', 11500, 5, 3, NULL),
+(17, 24, 10, '2025-07-11', 67000, 5, 2, NULL),
+(18, 23, 7, '2025-07-11', 30450, 5, 2, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -551,7 +556,7 @@ ALTER TABLE `ofertas_productos`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id_pago` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_pago` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `pqrs`
@@ -569,7 +574,7 @@ ALTER TABLE `privilegio`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `ID_PRODUCTO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `ID_PRODUCTO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `resenas`
@@ -599,7 +604,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id_venta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_venta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Restricciones para tablas volcadas
