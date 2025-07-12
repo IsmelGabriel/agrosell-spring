@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-07-2025 a las 21:46:47
+-- Tiempo de generación: 05-07-2025 a las 05:58:41
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -20,29 +20,33 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `agrosell`
 --
-CREATE DATABASE IF NOT EXISTS `agrosell` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `agrosell`;
 
 -- --------------------------------------------------------
+
+--
+-- creación de la base de datos `agrosell`
+--
+CREATE DATABASE IF NOT EXISTS `agrosell` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `agrosell`;
 
 --
 -- Estructura de tabla para la tabla `facturas`
 --
 
 CREATE TABLE `facturas` (
-  `ID_factura` int(11) NOT NULL,
-  `cliente` varchar(100) NOT NULL,
-  `direccion` varchar(120) NOT NULL,
-  `metodo_pago` varchar(120) NOT NULL,
-  `correo` varchar(255) NOT NULL,
-  `telefono` int(20) NOT NULL,
-  `valor_compra` int(120) NOT NULL,
-  `descuento` decimal(50,0) DEFAULT NULL,
-  `productos` varchar(255) NOT NULL,
-  `cantidad` int(50) NOT NULL,
-  `fecha` date NOT NULL,
-  `impuesto` decimal(50,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `ID_factura` INT(11) NOT NULL,
+  `cliente` VARCHAR(100) NOT NULL,
+  `direccion` VARCHAR(120) NOT NULL,
+  `metodo_pago` VARCHAR(120) NOT NULL,
+  `correo` VARCHAR(255) NOT NULL,
+  `telefono` INT(20) NOT NULL,
+  `valor_compra` INT(120) NOT NULL,
+  `descuento` DECIMAL(50,0) DEFAULT NULL,
+  `productos` VARCHAR(255) NOT NULL,
+  `cantidad` INT(50) NOT NULL,
+  `fecha` DATE NOT NULL,
+  `impuesto` DECIMAL(50,0) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -51,17 +55,17 @@ CREATE TABLE `facturas` (
 --
 
 CREATE TABLE `inventario` (
-  `ID_inventario` int(11) NOT NULL,
-  `ID_producto` int(11) NOT NULL,
-  `Nombre_producto` varchar(120) NOT NULL,
-  `productor` varchar(120) NOT NULL,
-  `Precio` decimal(10,0) NOT NULL,
-  `Fecha_cosecha` date NOT NULL,
-  `Peso_kg` decimal(10,0) NOT NULL,
-  `stock` int(11) NOT NULL,
-  `Descripcion` varchar(100) NOT NULL,
-  `Numero_referencia` varchar(120) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `ID_inventario` INT(11) NOT NULL,
+  `ID_producto` INT(11) NOT NULL,
+  `Nombre_producto` VARCHAR(120) NOT NULL,
+  `productor` VARCHAR(120) NOT NULL,
+  `Precio` DECIMAL(10,0) NOT NULL,
+  `Fecha_cosecha` DATE NOT NULL,
+  `Peso_kg` DECIMAL(10,0) NOT NULL,
+  `stock` INT(11) NOT NULL,
+  `Descripcion` VARCHAR(100) NOT NULL,
+  `Numero_referencia` VARCHAR(120) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -70,11 +74,11 @@ CREATE TABLE `inventario` (
 --
 
 CREATE TABLE `metodo_pago` (
-  `id_metodo` int(11) NOT NULL,
-  `metodo` enum('no definido','efectivo','tranferencia','tarjeta','PSE') NOT NULL DEFAULT 'no definido',
-  `id_usuario` int(11) NOT NULL,
-  `facturas_ID_factura` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `id_metodo` INT(11) NOT NULL,
+  `metodo` ENUM('no definido','efectivo','tranferencia','tarjeta','PSE') NOT NULL DEFAULT 'no definido',
+  `id_usuario` INT(11) NOT NULL,
+  `facturas_ID_factura` INT(11) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -83,14 +87,14 @@ CREATE TABLE `metodo_pago` (
 --
 
 CREATE TABLE `ofertas_productos` (
-  `ID_OFERTA_PRODUCTO` int(11) NOT NULL,
-  `USUARIO_CAMPESINO` varchar(50) NOT NULL,
-  `FECHA_INICIO_OFERTA` date NOT NULL,
-  `FECHA_FIN_OFERTA` date NOT NULL,
-  `ID_PRODUCTO` int(11) NOT NULL,
-  `precio_oferta` decimal(10,2) NOT NULL,
-  `descripcion_oferta` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `ID_OFERTA_PRODUCTO` INT(11) NOT NULL,
+  `USUARIO_CAMPESINO` VARCHAR(50) NOT NULL,
+  `FECHA_INICIO_OFERTA` DATE NOT NULL,
+  `FECHA_FIN_OFERTA` DATE NOT NULL,
+  `ID_PRODUCTO` INT(11) NOT NULL,
+  `precio_oferta` DECIMAL(10,2) NOT NULL,
+  `descripcion_oferta` TEXT NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -99,9 +103,9 @@ CREATE TABLE `ofertas_productos` (
 --
 
 CREATE TABLE `ofertas_productos_has_producto` (
-  `oferta_ID` int(11) NOT NULL,
-  `producto_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `oferta_ID` INT(11) NOT NULL,
+  `producto_ID` INT(11) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -110,14 +114,14 @@ CREATE TABLE `ofertas_productos_has_producto` (
 --
 
 CREATE TABLE `pagos` (
-  `id_pago` bigint(20) NOT NULL,
-  `nombre` varchar(255) DEFAULT NULL,
-  `correo` varchar(255) DEFAULT NULL,
-  `telefono` varchar(255) DEFAULT NULL,
-  `metodo_pago` varchar(255) DEFAULT NULL,
-  `direccion` varchar(255) DEFAULT NULL,
-  `fecha_emision` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `id_pago` BIGINT(20) NOT NULL,
+  `nombre` VARCHAR(255) DEFAULT NULL,
+  `correo` VARCHAR(255) DEFAULT NULL,
+  `telefono` VARCHAR(255) DEFAULT NULL,
+  `metodo_pago` VARCHAR(255) DEFAULT NULL,
+  `direccion` VARCHAR(255) DEFAULT NULL,
+  `fecha_emision` DATE DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Volcado de datos para la tabla `pagos`
@@ -137,12 +141,12 @@ INSERT INTO `pagos` (`id_pago`, `nombre`, `correo`, `telefono`, `metodo_pago`, `
 --
 
 CREATE TABLE `pqrs` (
-  `id_pqrs` bigint(20) NOT NULL,
-  `nombre` varchar(255) DEFAULT NULL,
-  `correo` varchar(255) DEFAULT NULL,
-  `telefono` varchar(255) DEFAULT NULL,
-  `mensaje` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `id_pqrs` BIGINT(20) NOT NULL,
+  `nombre` VARCHAR(255) DEFAULT NULL,
+  `correo` VARCHAR(255) DEFAULT NULL,
+  `telefono` VARCHAR(255) DEFAULT NULL,
+  `mensaje` VARCHAR(1000) DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `pqrs`
@@ -159,9 +163,9 @@ INSERT INTO `pqrs` (`id_pqrs`, `nombre`, `correo`, `telefono`, `mensaje`) VALUES
 --
 
 CREATE TABLE `privilegio` (
-  `ID_PRIVILEGIO` int(11) NOT NULL,
-  `DESCRIPCION` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `ID_PRIVILEGIO` INT(11) NOT NULL,
+  `DESCRIPCION` VARCHAR(100) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -170,9 +174,9 @@ CREATE TABLE `privilegio` (
 --
 
 CREATE TABLE `privilegio_has_usuarios` (
-  `privilegio_ID_privilegio` int(11) NOT NULL,
-  `usuarios_ID_USUARIO` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `privilegio_ID_privilegio` INT(11) NOT NULL,
+  `usuarios_ID_USUARIO` INT(11) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -181,25 +185,25 @@ CREATE TABLE `privilegio_has_usuarios` (
 --
 
 CREATE TABLE `producto` (
-  `ID_PRODUCTO` int(11) NOT NULL,
-  `usuario_campesino` varchar(255) DEFAULT NULL,
-  `PRODUCTO_IMAGEN` varchar(255) NOT NULL,
-  `nombre_producto` varchar(255) DEFAULT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
-  `precio` double DEFAULT NULL,
-  `peso_kg` double DEFAULT NULL,
-  `STOCK` int(11) NOT NULL,
-  `FECHA_COSECHA` date DEFAULT NULL,
-  `imagen` varchar(255) DEFAULT NULL,
-  `nombre` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `ID_PRODUCTO` INT(11) NOT NULL,
+  `usuario_campesino` VARCHAR(255) DEFAULT NULL,
+  `PRODUCTO_IMAGEN` VARCHAR(255) NOT NULL,
+  `nombre_producto` VARCHAR(255) DEFAULT NULL,
+  `descripcion` VARCHAR(255) DEFAULT NULL,
+  `precio` DOUBLE DEFAULT NULL,
+  `peso_kg` DOUBLE DEFAULT NULL,
+  `STOCK` INT(11) NOT NULL,
+  `FECHA_COSECHA` DATE DEFAULT NULL,
+  `imagen` VARCHAR(255) DEFAULT NULL,
+  `nombre` VARCHAR(255) DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `producto`
 --
 
 INSERT INTO `producto` (`ID_PRODUCTO`, `usuario_campesino`, `PRODUCTO_IMAGEN`, `nombre_producto`, `descripcion`, `precio`, `peso_kg`, `STOCK`, `FECHA_COSECHA`, `imagen`, `nombre`) VALUES
-(7, 'gabriel', '../img/67f69c4626b0a_arroz.jpg', 'Arroz', 'Arroz blanco', 3500, 1, 40, NULL, NULL, NULL),
+(7, 'gabriel', '../img/67f69c4626b0a_arroz.jpg', 'Arroz', 'Arroz blanco', 3500, 1, 84, NULL, NULL, NULL),
 (8, 'gabriel', '../img/67f6a38b9d67d_ahuyama.jpg', 'Ahuyama', 'Ahuyama en venta', 14000, 1, 30, NULL, NULL, NULL),
 (9, 'gabriel', '../img/67f6a5a04babf_apio.jpg', 'Apio', 'Apios recién cosechados', 4600, 1, 40, NULL, NULL, NULL),
 (10, 'gabriel', '../img/67f6ad1aeadd9_arverja.jpg', 'Arverja', 'Alverjas verdes por kg', 3600, 1, 83, NULL, NULL, NULL),
@@ -231,12 +235,12 @@ INSERT INTO `producto` (`ID_PRODUCTO`, `usuario_campesino`, `PRODUCTO_IMAGEN`, `
 --
 
 CREATE TABLE `resenas` (
-  `id` bigint(20) NOT NULL,
-  `usuario` varchar(255) DEFAULT NULL,
-  `correo` varchar(255) DEFAULT NULL,
-  `puntuacion` int(11) DEFAULT NULL,
-  `comentario` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `id` BIGINT(20) NOT NULL,
+  `usuario` VARCHAR(255) DEFAULT NULL,
+  `correo` VARCHAR(255) DEFAULT NULL,
+  `puntuacion` INT(11) DEFAULT NULL,
+  `comentario` VARCHAR(1000) DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `resenas`
@@ -256,16 +260,16 @@ INSERT INTO `resenas` (`id`, `usuario`, `correo`, `puntuacion`, `comentario`) VA
 --
 
 CREATE TABLE `reservas` (
-  `ID_Reservas` int(11) NOT NULL,
-  `usuario_cliente` varchar(255) DEFAULT NULL,
-  `usuario_documento` varchar(255) DEFAULT NULL,
-  `usuario_telefono` varchar(255) DEFAULT NULL,
-  `usuario_correo` varchar(255) DEFAULT NULL,
-  `producto` varchar(255) DEFAULT NULL,
-  `cantidad_kg` double DEFAULT NULL,
-  `metodo_pago` varchar(255) DEFAULT NULL,
-  `FECHA_RESERVA` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `ID_Reservas` INT(11) NOT NULL,
+  `usuario_cliente` VARCHAR(255) DEFAULT NULL,
+  `usuario_documento` VARCHAR(255) DEFAULT NULL,
+  `usuario_telefono` VARCHAR(255) DEFAULT NULL,
+  `usuario_correo` VARCHAR(255) DEFAULT NULL,
+  `producto` VARCHAR(255) DEFAULT NULL,
+  `cantidad_kg` DOUBLE DEFAULT NULL,
+  `metodo_pago` VARCHAR(255) DEFAULT NULL,
+  `FECHA_RESERVA` DATE DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `reservas`
@@ -287,10 +291,10 @@ INSERT INTO `reservas` (`ID_Reservas`, `usuario_cliente`, `usuario_documento`, `
 --
 
 CREATE TABLE `reservas_has_producto` (
-  `reservas_ID_Reservas` int(11) NOT NULL,
-  `producto_ID_producto` int(11) NOT NULL,
-  `cantidad` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `reservas_ID_Reservas` INT(11) NOT NULL,
+  `producto_ID_producto` INT(11) NOT NULL,
+  `cantidad` DECIMAL(10,2) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -299,9 +303,9 @@ CREATE TABLE `reservas_has_producto` (
 --
 
 CREATE TABLE `roles` (
-  `ID_ROL` int(11) NOT NULL,
-  `NOMBRE_ROL` enum('administrador','cliente','productor') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `ID_ROL` INT(11) NOT NULL,
+  `NOMBRE_ROL` ENUM('administrador','cliente','productor') NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `roles`
@@ -319,27 +323,27 @@ INSERT INTO `roles` (`ID_ROL`, `NOMBRE_ROL`) VALUES
 --
 
 CREATE TABLE `usuarios` (
-  `ID_USUARIO` int(11) NOT NULL,
-  `nombre` varchar(255) DEFAULT NULL,
-  `usuario` varchar(255) DEFAULT NULL,
-  `documento` varchar(255) DEFAULT NULL,
-  `DIRECCION` varchar(255) DEFAULT NULL,
-  `correo` varchar(255) DEFAULT NULL,
-  `metodo_pago` varchar(255) DEFAULT NULL,
-  `FECHA_NACIMIENTO` date DEFAULT NULL,
-  `rol` varchar(255) DEFAULT NULL,
-  `roles_ID_roles` int(11) DEFAULT 2,
-  `CONTRASEÑA` varchar(255) NOT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `contraseñas` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `ID_USUARIO` INT(11) NOT NULL,
+  `nombre` VARCHAR(255) DEFAULT NULL,
+  `usuario` VARCHAR(255) DEFAULT NULL,
+  `documento` VARCHAR(255) DEFAULT NULL,
+  `DIRECCION` VARCHAR(255) DEFAULT NULL,
+  `correo` VARCHAR(255) DEFAULT NULL,
+  `metodo_pago` VARCHAR(255) DEFAULT NULL,
+  `FECHA_NACIMIENTO` DATE DEFAULT NULL,
+  `rol` VARCHAR(255) DEFAULT NULL,
+  `roles_ID_roles` INT(11) DEFAULT 2,
+  `CONTRASEÑA` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) DEFAULT NULL,
+  `contraseñas` VARCHAR(255) DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`ID_USUARIO`, `nombre`, `usuario`, `documento`, `DIRECCION`, `correo`, `metodo_pago`, `FECHA_NACIMIENTO`, `rol`, `roles_ID_roles`, `CONTRASEÑA`, `password`, `contraseñas`) VALUES
-(1, 'Ismel Gabriel Salazar Suniaga', 'ismel salazar', '59791412', 'Carrera 81g #73f-40sur', 'ssismel28@gmail.com', 'Transferencia', '2024-10-17', 'administrador', 1, '$2y$10$MDjW1Hpxson3lCaDqe5UAOjc8fHen9WjaDYIBqCbPazvk9xU/fp6y', NULL, NULL),
+(1, 'Ismel Gabriel Salazar Suniaga', 'ismel salazar', '59791412', 'Carrera 81g #73f-40sur', 'ssismel28@gmail.com', 'Transferencia', '2024-10-17', 'productor', 3, '$2y$10$MDjW1Hpxson3lCaDqe5UAOjc8fHen9WjaDYIBqCbPazvk9xU/fp6y', NULL, NULL),
 (2, 'gabriel ismel suniaga salazar', 'gabriel', '5979141', 'Carrera 81g #73f-40sur', 'gabriel@gmail.com', 'Efectivo', '2006-11-28', 'productor', 3, '$2b$10$JlRT64H.x4yew4XedUBTNuB7K/60Z9qVwfJqRWPBT9WuEt3NGb4pS', NULL, NULL),
 (3, 'Karol Estela Burbano Lopez', 'karol bur24', '2832352123', 'Calle 106a 22', 'esletabur24@gmail.com', 'Nequi', '1998-10-14', 'productor', 3, '$2b$10$CPyvX6PtUWS3IW8iqrrSQeyE.olXG2Po3WRQ66FJNBydqqJ7jr79W', NULL, NULL),
 (5, 'Juan Manuel Salazar', 'manuel', NULL, NULL, 'manu_sa@gmail.com', NULL, NULL, 'cliente', 2, '$2y$10$OUYUQGklFAfss9.g3Wk7xumFMrSxe2bGZsEL8s0vokuwYvxjihVqq', NULL, NULL),
@@ -373,15 +377,15 @@ DELIMITER ;
 --
 
 CREATE TABLE `ventas` (
-  `id_venta` bigint(20) NOT NULL,
-  `ID_Producto` int(11) NOT NULL,
-  `cantidad_kg` double DEFAULT NULL,
-  `FECHA_VENTA` date NOT NULL,
-  `total_venta` double DEFAULT NULL,
-  `usuarios_ID_USUARIO` int(11) NOT NULL,
-  `usuarios_id_vendedor` bigint(20) DEFAULT NULL,
-  `facturas_ID_factura` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `id_venta` BIGINT(20) NOT NULL,
+  `ID_Producto` INT(11) NOT NULL,
+  `cantidad_kg` DOUBLE DEFAULT NULL,
+  `FECHA_VENTA` DATE NOT NULL,
+  `total_venta` DOUBLE DEFAULT NULL,
+  `usuarios_ID_USUARIO` INT(11) NOT NULL,
+  `usuarios_id_vendedor` BIGINT(20) DEFAULT NULL,
+  `facturas_ID_factura` INT(11) DEFAULT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `ventas`
@@ -527,79 +531,79 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `facturas`
 --
 ALTER TABLE `facturas`
-  MODIFY `ID_factura` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_factura` INT(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `inventario`
 --
 ALTER TABLE `inventario`
-  MODIFY `ID_inventario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_inventario` INT(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `metodo_pago`
 --
 ALTER TABLE `metodo_pago`
-  MODIFY `id_metodo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_metodo` INT(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `ofertas_productos`
 --
 ALTER TABLE `ofertas_productos`
-  MODIFY `ID_OFERTA_PRODUCTO` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_OFERTA_PRODUCTO` INT(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id_pago` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_pago` BIGINT(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `pqrs`
 --
 ALTER TABLE `pqrs`
-  MODIFY `id_pqrs` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_pqrs` BIGINT(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `privilegio`
 --
 ALTER TABLE `privilegio`
-  MODIFY `ID_PRIVILEGIO` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_PRIVILEGIO` INT(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `ID_PRODUCTO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `ID_PRODUCTO` INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `resenas`
 --
 ALTER TABLE `resenas`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` BIGINT(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `ID_Reservas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID_Reservas` INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `ID_ROL` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID_ROL` INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ID_USUARIO` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ID_USUARIO` INT(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id_venta` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_venta` BIGINT(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas
