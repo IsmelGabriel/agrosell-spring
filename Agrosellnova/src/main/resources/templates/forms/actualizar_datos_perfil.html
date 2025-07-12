@@ -80,13 +80,13 @@
 
             <div class="form-actualizar-perfil">
                 <label for="documento" class="form-label">Documento</label>
-                <input type="text" class="form-control" id="documento" th:field="*{documento}" required>
+                <input type="text" class="form-control" id="documento" th:field="*{documento}" maxlength="10" minlength="7">
                 <div class="invalid-feedback">Por favor, ingresa tu documento.</div>
             </div>
 
             <div class="form-actualizar-perfil">
                 <label for="direccion" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccion" th:field="*{direccion}" required>
+                <input type="text" class="form-control" id="direccion" th:field="*{direccion}">
                 <div class="invalid-feedback">Por favor, ingresa tu dirección.</div>
             </div>
 
@@ -98,7 +98,7 @@
 
             <div class="form-actualizar-perfil">
                 <label for="metodoPago" class="form-label">Método de Pago Preferido</label>
-                <input type="text" class="form-control" id="metodoPago" th:field="*{metodoPago}" required>
+                <input type="text" class="form-control" id="metodoPago" th:field="*{metodoPago}">
                 <div class="invalid-feedback">Por favor, ingresa tu método de pago.</div>
             </div>
 

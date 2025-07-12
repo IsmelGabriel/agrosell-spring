@@ -20,10 +20,10 @@ public class ReservaController {
     @Autowired
     private ReservaService reservaService;
 
-    @GetMapping("/forms/formulario_reserva")
+    @GetMapping("/formulario_reserva")
     public String mostrarFormularioReserva(Model model) {
         model.addAttribute("reserva", new Reserva());
-        return "forms/formulario_reserva";
+        return "redirect:/forms/formulario_reserva";
     }
 
     @PostMapping("/registrarReserva")
@@ -67,21 +67,39 @@ public class ReservaController {
 
         return "private/gestionar_reservas";
     }
+
     @Autowired
     private ReservaRepository reservaRepository;
 
-    @GetMapping("/reservas/editar/{id}")
-    public String mostrarFormularioEdicion(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/editar_reserva")
+    public String mostrarFormularioEdicion(@RequestParam("id") Long id, HttpSession session, Model model) {
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null || rol == null) {
+            return "redirect:/public/index";
+        }
+
         Reserva reserva = reservaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ID no válido: " + id));
-        model.addAttribute("reserva", reserva);
-        return "forms/editar_reserva";
 
+        model.addAttribute("reserva", reserva);
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("rol", rol);
+
+        return "forms/editar_reserva";
     }
-    @GetMapping("/reservas/cancelar/{id}")
-    public String cancelarReserva(@PathVariable("id") Long id) {
+
+
+    @GetMapping("/cancelar_reserva")
+    public String cancelarReserva(@RequestParam("id") Long id, HttpSession session) {
+        System.out.println("Cancelando reserva con ID: " + id);
+        if (session.getAttribute("usuario") == null) {
+            return "redirect:/public/index";
+        }
+
         reservaRepository.deleteById(id);
-        return "redirect:/vistas_privadas/gestionar_reservas";
+        return "redirect:/private/gestionar_reservas";
     }
 
 }

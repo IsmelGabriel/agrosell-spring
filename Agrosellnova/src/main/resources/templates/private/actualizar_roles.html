@@ -32,13 +32,14 @@
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
-                <li><a th:href="@{/public/inicio}">Inicio</a></li>
-                <li><a th:href="@{/private/reporte_ventas}">Reporte de Ventas</a></li>
-                <li><a th:href="@{/private/reporte_reservas}">Reporte de Reservas</a></li>
-                <li><a th:href="@{/private/reporte_pqrs}">Reporte de PQRS</a></li>
-                <li><a th:href="@{/private/actualizar_roles}">Actualizar Roles</a></li>
-                <li><a th:href="@{/private/usuarios_registrados}">Reporte usuarios</a></li>
-                <li><a th:href="@{/public/cerrar_sesion}">Cerrar Sesión</a></li>
+                <!-- ADMINISTRADOR -->
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_ventas}"><i class="fas fa-chart-line"></i> Reporte de Ventas</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}"><i class="fas fa-calendar-check"></i> Reporte de Reservas</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}"><i class="fas fa-envelope-open-text"></i> Reporte de PQRS</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}"><i class="fas fa-user-cog"></i> Actualizar Roles</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}"><i class="fas fa-users"></i> Usuarios Registrados</a></li>
+                <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </div>
     </aside>
