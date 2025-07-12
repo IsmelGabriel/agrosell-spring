@@ -68,13 +68,13 @@
               th:object="${usuario}" novalidate>
             <div class="form-actualizar-perfil">
                 <label for="nombre" class="form-label">Nombre Completo</label>
-                <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required>
+                <input type="text" class="form-control" id="nombre" th:field="*{nombre}"  readonly required>
                 <div class="invalid-feedback">Por favor, ingresa tu nombre completo.</div>
             </div>
 
             <div class="form-actualizar-perfil">
                 <label for="nombreUsuario" class="form-label">Usuario</label>
-                <input type="text" class="form-control" id="nombreUsuario" th:field="*{nombreUsuario}" required>
+                <input type="text" class="form-control" id="nombreUsuario" th:field="*{nombreUsuario}" readonly required>
                 <div class="invalid-feedback">Por favor, ingresa tu nombre de usuario.</div>
             </div>
 

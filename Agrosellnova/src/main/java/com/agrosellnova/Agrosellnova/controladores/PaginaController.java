@@ -153,8 +153,6 @@ public class PaginaController {
         model.addAttribute("rol", usuario.getRol());
         model.addAttribute("producto", producto);
 
-
-
         return "forms/editar_producto";
     }
 
