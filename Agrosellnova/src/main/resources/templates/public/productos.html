@@ -144,7 +144,7 @@
     });
 
     function agregarAlCarrito(id, nombre, precio, imagen, stock) {
-        let cantidad = prompt(`Ingrese la cantidad de "${nombre}" que desea agregar:`, "1");
+        let cantidad = prompt(`Ingrese la cantidad de "${nombre}" en KG que desea agregar:`, "1");
         if (cantidad === null || cantidad.trim() === "" || isNaN(cantidad) || cantidad <= 0) {
             alert("Operación cancelada o cantidad inválida.");
             return;
@@ -160,7 +160,7 @@
         const producto = { id, nombre, precio, imagen, cantidad };
         carrito.push(producto);
         localStorage.setItem("carrito", JSON.stringify(carrito));
-        alert(`${nombre} (${cantidad}) se ha añadido al carrito.`);
+        alert(`${nombre} (${cantidad}) Kg, se ha añadido al carrito.`);
     }
 
     function debounce(func, wait) {

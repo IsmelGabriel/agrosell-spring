@@ -30,8 +30,11 @@
     <aside class="sidebar">
         <div class="lateral-content">
             <ul>
-                <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
-                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_reservas}"><i class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}"><i class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver Productos</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}"><i class="fas fa-plus-circle"></i> Realizar Reserva</a></li>
                 <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </div>
@@ -46,13 +49,13 @@
 
             <div class="ofertar-form">
                 <label class="form-label">Cliente</label>
-                <input type="text" th:field="*{usuarioCliente}" class="form-control" required>
+                <input type="text" th:field="*{usuarioCliente}" class="form-control" readonly>
                 <div class="invalid-feedback">Por favor, ingrese el nombre del cliente.</div>
             </div>
 
             <div class="ofertar-form">
                 <label class="form-label">Documento</label>
-                <input type="text" th:field="*{usuarioDocumento}" class="form-control" required>
+                <input type="text" th:field="*{usuarioDocumento}" class="form-control" readonly>
                 <div class="invalid-feedback">Por favor, ingrese el número de documento.</div>
             </div>
 
@@ -88,7 +91,7 @@
 
             <div class="ofertar-form">
                 <label class="form-label">Fecha de reserva</label>
-                <input type="date" th:field="*{fechaReserva}" class="form-control">
+                <input type="date" th:field="*{fechaReserva}" class="form-control" readonly>
             </div>
 
             <button type="submit" class="confirmar-oferta-btn">Guardar</button>

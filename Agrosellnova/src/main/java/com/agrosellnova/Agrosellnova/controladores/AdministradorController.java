@@ -52,7 +52,7 @@ public class AdministradorController {
                     usuarios = usuarioRepository.findAllById(Long.parseLong(valor));
                     break;
                 case "usuario":
-                    usuarios = usuarioRepository.findByNombreContainingIgnoreCase(valor);
+                    usuarios = usuarioRepository.findByNombreUsuarioContainingIgnoreCase(valor);
                     break;
                 case "documento":
                     usuarios = usuarioRepository.findByDocumentoContainingIgnoreCase(valor);
