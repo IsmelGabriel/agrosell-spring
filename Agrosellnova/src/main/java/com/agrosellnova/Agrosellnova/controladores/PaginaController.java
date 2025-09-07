@@ -111,14 +111,14 @@ public class PaginaController {
             @RequestParam("stock") int stock
     ) {
         try {
-
             String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
-            String rutaRelativa = "../img/" + nombreArchivo;
             String rutaAbsoluta = new File("src/main/resources/static/img").getAbsolutePath();
 
-            byte[] bytes = imagen.getBytes();
-            Path path = Paths.get(rutaAbsoluta + File.separator + nombreArchivo);
-            Files.write(path, bytes);
+            // Crear carpeta si no existe
+            Files.createDirectories(Paths.get(rutaAbsoluta));
+            Path path = Paths.get(rutaAbsoluta, nombreArchivo);
+            Files.write(path, imagen.getBytes());
+            String rutaRelativa = "../img/" + nombreArchivo;
 
             Producto producto = new Producto();
             producto.setUsuarioCampesino(nombreUsuario);
@@ -131,13 +131,15 @@ public class PaginaController {
             producto.setFechaCosecha(LocalDate.now());
 
             productoRepository.save(producto);
+
             return "redirect:/private/gestionar_productos";
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/error";
+            return "error";
         }
     }
+
 
     @GetMapping("/forms/editar_producto")
     public String mostrarFormularioEdicion(@RequestParam("id") Long id, HttpSession session, Model model) {
