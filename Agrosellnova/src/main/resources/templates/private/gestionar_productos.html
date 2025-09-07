@@ -74,7 +74,7 @@
             <tr th:each="producto : ${listaProductos}">
                 <td th:text="${producto.id}"></td>
                 <td>
-                    <img th:src="@{'/img/' + ${producto.imagen}}" alt="Imagen del producto" th:width="100px" th:height="80px">
+                    <img th:src="@{${producto.imagen}}" alt="Imagen del producto" th:width="100px" th:height="80px">
                 </td>
                 <td th:text="${producto.nombre}"></td>
                 <td th:text="${producto.descripcion}"></td>

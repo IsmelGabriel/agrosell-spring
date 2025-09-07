@@ -112,7 +112,7 @@ public class PaginaController {
     ) {
         try {
             String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
-            String rutaAbsoluta = new File("src/main/resources/static/img").getAbsolutePath();
+            String rutaAbsoluta = new File("Agrosellnova/src/main/resources/static/img").getAbsolutePath();
 
             // Crear carpeta si no existe
             Files.createDirectories(Paths.get(rutaAbsoluta));
