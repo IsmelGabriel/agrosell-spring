@@ -293,6 +293,98 @@ footer {
     box-shadow: 2px 4px 8px;
 }
 
+/* Sección general */
+.productos-destacados {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.productos-titulo {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: #333;
+}
+
+.icono-destacado {
+    color: #f1c40f;
+    margin-right: 8px;
+}
+
+/* Grid de productos */
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* Tarjeta del producto */
+.producto-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.producto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+/* Imagen */
+.producto-imagen {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+/* Info */
+.producto-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.producto-nombre {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    text-transform: capitalize;
+}
+
+.producto-descripcion {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 10px;
+    min-height: 40px;
+}
+
+.producto-precio {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #27ae60;
+    margin-bottom: 10px;
+}
+
+/* Botón */
+.producto-boton {
+    display: inline-block;
+    background: #27ae60;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.producto-boton:hover {
+    background: #219150;
+}
+
 .destacados-inicio {
     padding: 40px;
     background-color: #ffffff;
@@ -301,8 +393,9 @@ footer {
 }
 
 .destacados-inicio-titulo {
-    font-size: 21px;
+    font-size: 1.8rem;
     color: #ffffff;
+    font-weight: bold;
     background-color: #28a745;
     text-align: center;
     margin-bottom: 30px;
@@ -1792,6 +1885,13 @@ footer {
         justify-content: center;
         align-items: center;
         flex-direction: column;
+    }
+
+    .product-card img {
+        height: 160px;
+    }
+    .product-card .card-title {
+        font-size: 1rem;
     }
 
     /* Pagina productos */

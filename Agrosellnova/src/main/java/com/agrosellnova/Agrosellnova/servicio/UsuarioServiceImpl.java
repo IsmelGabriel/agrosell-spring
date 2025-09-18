@@ -2,7 +2,9 @@ package com.agrosellnova.Agrosellnova.servicio;
 
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
+import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private StringHttpMessageConverter stringHttpMessageConverter;
 
     @Override
     public String registrarUsuario(Usuario usuario) {
@@ -34,7 +41,15 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         usuarioRepository.save(usuario);
+
+        emailService.sendWelcomeEmail(usuario.getCorreo(), usuario.getNombreUsuario());
+
         return null;
+    }
+
+    @Override
+    public String obtenerUsuarioPorEmail(String email) {
+        return "";
     }
 
     @Override
@@ -56,6 +71,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuario = usuarioRepository.findById(Id).orElse(null);
         if (usuario != null) {
             usuario.setRol(nuevoRol);
+
             usuarioRepository.save(usuario);
         }
     }
@@ -76,6 +92,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
             usuario.setRol(nuevoRol);
+            emailService.sendRoleUpdateEmail(usuario.getCorreo(), usuario.getNombreUsuario(), nuevoRol);
             usuarioRepository.save(usuario);
         }
     }

@@ -3,6 +3,7 @@ package com.agrosellnova.Agrosellnova.repositorio;
 import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.modelo.Venta;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -19,6 +20,8 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     Producto findByIdAndUsuarioCampesino(Long id, String usuarioCampesino);
     List<Producto> findByNombreContainingIgnoreCaseAndUsuarioCampesino(String nombre, String usuarioCampesino);
     List<Producto> findByFechaCosechaAndUsuarioCampesino(LocalDate fechaCosecha, String usuarioCampesino);
-
+    List<Producto> findTop4ByOrderByPrecioAsc();
+    List<Producto> findTop4ByOrderByStockDesc();
+    List<Producto> findTop4ByOrderByFechaCosechaDesc();
 }
 

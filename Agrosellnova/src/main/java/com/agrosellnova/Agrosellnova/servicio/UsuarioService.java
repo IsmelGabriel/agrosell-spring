@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface UsuarioService {
     String registrarUsuario(Usuario usuario);
+    String obtenerUsuarioPorEmail(String email);
     Usuario buscarPorNombreUsuario(String nombreUsuario);
     Usuario autenticarUsuario(String usuario, String passwordPlano);
     void actualizarRolUsuario(Long Id, String nuevoRol);

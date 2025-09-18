@@ -158,4 +158,17 @@ public class PaginaController {
         return "forms/editar_producto";
     }
 
+    @GetMapping("public/inicio")
+    public String mostrarInicio(Model model) {
+        List<Producto> destacados = productoRepository.findTop4ByOrderByPrecioAsc();
+        List<Producto> masStock = productoRepository.findTop4ByOrderByStockDesc();
+        List<Producto> recientes = productoRepository.findTop4ByOrderByFechaCosechaDesc();
+
+        model.addAttribute("productosDestacados", destacados);
+        model.addAttribute("productosStock", masStock);
+        model.addAttribute("productosRecientes", recientes);
+
+        return "public/inicio";
+    }
+
 }
