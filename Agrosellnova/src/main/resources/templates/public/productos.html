@@ -7,6 +7,107 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" />
+    <style>
+        /* Modal fondo */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Contenido */
+        .modal-content {
+            color: #333333;
+            margin: 10px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 350px;
+            text-align: center;
+            position: relative;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 10px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+        }
+
+        .btn-confirmar {
+            background: #28a745;
+            color: #fff;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-confirmar:hover {
+            background: #218838;
+        }
+
+        /* Botón cerrar */
+        .close {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        /* Animación */
+        @keyframes fadeIn {
+            from {opacity: 0; transform: scale(0.9);}
+            to {opacity: 1; transform: scale(1);}
+        }
+
+        /* Contenedor de los toasts */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Estilo base */
+        .toast {
+            min-width: 250px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            animation: fadeInUp 0.4s, fadeOut 0.5s 3s forwards;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Colores según tipo */
+        .toast-success { background: #28a745; }
+        .toast-error { background: #dc3545; }
+        .toast-warning { background: #ffc107; color: #000; }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateY(20px); }
+        }
+
+    </style>
 </head>
 
 <body>
@@ -98,6 +199,26 @@
             </div>
         </div>
     </section>
+
+    <!-- Contenedor de toasts -->
+    <div id="toast-container"></div>
+
+    <!-- Modal para añadir al carrito -->
+    <div id="carritoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h2 id="modal-nombre"></h2>
+            <img id="modal-imagen" src="" alt="Producto" style="width: 150px; margin: 10px auto; display: block;">
+            <p id="modal-precio"></p>
+            <p id="modal-stock"></p>
+            <label for="modal-cantidad">Cantidad (Kg):</label>
+            <input type="number" id="modal-cantidad" min="1" value="1" class="form-control">
+            <button class="btn-confirmar" onclick="confirmarAgregar()">Añadir al carrito</button>
+            <div th:if="${NewError}" class="Validate" th:text="${NewError}"></div>
+        </div>
+    </div>
+
+
 </main>
 
 <footer class="footer">
@@ -143,25 +264,63 @@
         alert("No tienes notificaciones pendientes");
     });
 
+    let productoSeleccionado = {};
+
     function agregarAlCarrito(id, nombre, precio, imagen, stock) {
-        let cantidad = prompt(`Ingrese la cantidad de "${nombre}" en KG que desea agregar:`, "1");
-        if (cantidad === null || cantidad.trim() === "" || isNaN(cantidad) || cantidad <= 0) {
-            alert("Operación cancelada o cantidad inválida.");
+        productoSeleccionado = { id, nombre, precio, imagen, stock };
+
+        document.getElementById("modal-nombre").textContent = nombre;
+        document.getElementById("modal-precio").textContent = `Precio: $${precio} / Kg`;
+        document.getElementById("modal-stock").textContent = `Stock disponible: ${stock}`;
+        document.getElementById("modal-imagen").src = imagen;
+        document.getElementById("modal-cantidad").value = 1;
+
+        document.getElementById("carritoModal").style.display = "flex";
+    }
+
+    function cerrarModal() {
+        document.getElementById("carritoModal").style.display = "none";
+    }
+
+    function confirmarAgregar() {
+        let cantidad = parseInt(document.getElementById("modal-cantidad").value);
+
+        if (isNaN(cantidad) || cantidad <= 0) {
+            showToast("⚠️ Cantidad inválida.", "error");
             return;
         }
 
-        if (cantidad > stock) {
-            alert(`No hay suficiente stock. Stock disponible: ${stock}`);
+        if (cantidad > productoSeleccionado.stock) {
+            showToast(`❌ Stock insuficiente. Disponible: ${productoSeleccionado.stock}`, "warning");
             return;
         }
 
-        cantidad = parseInt(cantidad);
         const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-        const producto = { id, nombre, precio, imagen, cantidad };
+        const producto = { ...productoSeleccionado, cantidad };
         carrito.push(producto);
         localStorage.setItem("carrito", JSON.stringify(carrito));
-        alert(`${nombre} (${cantidad}) Kg, se ha añadido al carrito.`);
+
+        showToast(`${productoSeleccionado.nombre} (${cantidad} Kg) añadido al carrito. ✅`, "success");
+        cerrarModal();
     }
+
+
+    function showToast(message, type = "success") {
+        const container = document.getElementById("toast-container");
+
+        const toast = document.createElement("div");
+        toast.classList.add("toast", `toast-${type}`);
+        toast.textContent = message;
+
+        container.appendChild(toast);
+
+        // Eliminar después de 4s
+        setTimeout(() => {
+            toast.remove();
+        }, 4000);
+    }
+
+
 
     function debounce(func, wait) {
         let timeout;
