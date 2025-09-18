@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-@RequestMapping("/private")
 public class ReservaController {
 
     @Autowired
@@ -26,7 +25,7 @@ public class ReservaController {
         return "redirect:/forms/formulario_reserva";
     }
 
-    @PostMapping("/registrarReserva")
+    @PostMapping("/public/registrarReserva")
     public String guardarReserva(@ModelAttribute("reserva") Reserva reserva, HttpSession session) {
         String usuario = (String) session.getAttribute("usuario");
         if (usuario == null) {
@@ -39,7 +38,7 @@ public class ReservaController {
         return "redirect:/public/reserva_exitosa";
     }
 
-    @GetMapping("/gestionar_reservas")
+    @GetMapping("/private/gestionar_reservas")
     public String mostrarReservas(
             @RequestParam(required = false) String criterio,
             @RequestParam(required = false) String valor,
