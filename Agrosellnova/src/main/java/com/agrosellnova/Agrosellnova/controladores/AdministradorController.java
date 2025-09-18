@@ -124,6 +124,8 @@ public class AdministradorController {
         model.addAttribute("usuario", session.getAttribute("usuario"));
         model.addAttribute("rol", session.getAttribute("rol"));
 
+
+
         return "private/actualizar_roles";
     }
 
