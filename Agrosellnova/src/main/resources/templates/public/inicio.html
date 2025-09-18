@@ -77,24 +77,25 @@
     </section>
 
     <section class="main-inicio">
+
         <section class="destacados-inicio">
+
             <div class="destacados-inicio-titulo">
-                <h2>Productos más destacados</h2>
+                PRODUCTOS MÁS DESTACADOS
             </div>
-            <div class="productos-destacados-inicio">
-                <div class="productos-destacados">
-                    <img src="/img/tomates.jpg" alt="Tomates" class="producto-imagen">
-                    <h3>Tomates</h3>
-                    <p>Tomates frescos</p>
-                    <a th:href="@{/public/productos}" class="btn-productos-inicio">Ver más</a>
+                <div class="productos-grid">
+                    <div class="producto-item" th:each="producto : ${productosDestacados}">
+                        <div class="producto-card">
+                            <img th:src="@{|/images/${producto.imagen}|}" class="producto-imagen" th:alt="${producto.nombre}">
+                            <div class="producto-info">
+                                <h5 class="producto-nombre" th:text="${producto.nombre}"></h5>
+                                <p class="producto-descripcion" th:text="${producto.descripcion}"></p>
+                                <p class="producto-precio" th:text="'$' + ${producto.precio}"></p>
+                                <a href="#" class="producto-boton">Ver más</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="productos-destacados">
-                    <img src="/img/zanahoria.jpg" alt="Zanahoria" class="producto-imagen">
-                    <h3>Zanahoria</h3>
-                    <p>Zanahorias frescas</p>
-                    <a th:href="@{/public/productos}" class="btn-productos-inicio">Ver más</a>
-                </div>
-            </div>
         </section>
 
         <div class="practicas-seccion">
