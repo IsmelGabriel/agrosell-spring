@@ -14,4 +14,5 @@ public interface UsuarioService {
     void eliminarUsuarioPorId(Long idUsuario);
     void actualizarRol(Long idUsuario, String nuevoRol);
     void actualizarPerfil(Usuario usuario);
+    void actualizarEstado(Long idUsuario, String estado);
 }

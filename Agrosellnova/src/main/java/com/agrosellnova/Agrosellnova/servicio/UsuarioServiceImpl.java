@@ -21,6 +21,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private EmailService emailService;
+
     @Autowired
     private StringHttpMessageConverter stringHttpMessageConverter;
 
@@ -84,6 +85,18 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void eliminarUsuarioPorId(Long idUsuario) {
         usuarioRepository.deleteById(idUsuario);
+    }
+
+
+    @Override
+    public void actualizarEstado(Long idUsuario, String estado) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(idUsuario);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            usuario.setEstado(estado);
+            usuarioRepository.save(usuario);
+            emailService.sendEstadoUpdateEmail(usuario.getCorreo(), usuario.getNombreUsuario(), estado);
+        }
     }
 
     @Override

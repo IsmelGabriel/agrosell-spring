@@ -29,6 +29,8 @@ public class Usuario {
 
     private String rol;
 
+    private String estado;
+
     @Column(name = "CONTRASEÑA")
     private String password;
 
@@ -59,6 +61,9 @@ public class Usuario {
 
     public String getRol() { return rol; }
     public void setRol(String rol) { this.rol = rol; }
+
+    public String getEstado() { return estado; }
+    public void setEstado(String Estado) { this.estado = Estado; }
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
