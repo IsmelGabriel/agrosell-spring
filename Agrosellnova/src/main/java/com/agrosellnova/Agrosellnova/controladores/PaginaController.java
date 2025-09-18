@@ -159,7 +159,11 @@ public class PaginaController {
     }
 
     @GetMapping("public/inicio")
-    public String mostrarInicio(Model model) {
+    public String mostrarInicio(Model model,HttpSession session ) {
+
+        String usuario = (String) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
+
         List<Producto> destacados = productoRepository.findTop4ByOrderByPrecioAsc();
         List<Producto> masStock = productoRepository.findTop4ByOrderByStockDesc();
         List<Producto> recientes = productoRepository.findTop4ByOrderByFechaCosechaDesc();
