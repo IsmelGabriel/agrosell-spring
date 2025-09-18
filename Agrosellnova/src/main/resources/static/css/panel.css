@@ -248,8 +248,6 @@ tr:last-child td[colspan] {
     background-color: #388E3C;
 }
 
-
-
 @media (max-width: 768px) {
     .topbar, header.Bienvenido {
         flex-direction: column;
@@ -421,4 +419,6 @@ tr:last-child td[colspan] {
     .confirmar-oferta-btn {
         font-size: 0.95rem;
     }
+
+
 }

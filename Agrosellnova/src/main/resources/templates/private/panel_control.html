@@ -43,7 +43,8 @@
             <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
             <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}"><i class="fas fa-seedling"></i> Ofertar Producto</a></li>
             <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}"><i class="fas fa-boxes"></i> Gestionar Productos</a></li>
-            <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}"><i class="fas fa-cash-register"></i> Gestionar Ventas</a></li>
+            <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}"><i class="fas fa-cash-register"></i> Gestionar Ventas</a>
+            <li th:if="${rol == 'productor'}"><a th:href="@{/private/buenas_practicas}"><i class="fas fa-leaf"></i> Buenas Prácticas</a></li>
 
             <!-- CLIENTE -->
             <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
