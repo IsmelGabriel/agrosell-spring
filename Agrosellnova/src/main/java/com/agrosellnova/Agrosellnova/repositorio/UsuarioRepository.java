@@ -11,11 +11,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Usuario> findByNombreContainingIgnoreCase(String nombre);
     List<Usuario> findByDocumentoContainingIgnoreCase(String documento);
     List<Usuario> findByCorreoContainingIgnoreCase(String correo);
+    List<Usuario> findByEstadoContainingIgnoreCase(String estado);
     List<Usuario> findAllById(Long id);
     Usuario findByNombreUsuario(String nombreUsuario);
     boolean existsByNombreUsuario(String nombreUsuario);
     boolean existsByCorreo(String correo);
     List<Usuario> findAll();
-
-
 }

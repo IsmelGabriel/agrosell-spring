@@ -40,4 +40,15 @@ public class EmailService {
                 "Si tienes dudas, por favor comunícate con soporte.");
         mailSender.send(message);
     }
+
+    public void sendEstadoUpdateEmail(String to, String username, String nuevoEstado) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Actualización de estado en AgroSell Nova");
+        message.setText("Hola " + username + ",\n\n" +
+                "Tu estado en AgrosellNova ha sido actualizado a: " + nuevoEstado + ".\n\n" +
+                "Si tienes dudas, comunícate con nuestro equipo de soporte.");
+        mailSender.send(message);
+    }
+
 }

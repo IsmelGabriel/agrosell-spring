@@ -60,6 +60,9 @@ public class AdministradorController {
                 case "correo":
                     usuarios = usuarioRepository.findByCorreoContainingIgnoreCase(valor);
                     break;
+                case "estado":
+                    usuarios = usuarioRepository.findByEstadoContainingIgnoreCase(valor);
+                    break;
                 default:
                     usuarios = usuarioService.obtenerTodosLosUsuarios();
             }
@@ -75,16 +78,23 @@ public class AdministradorController {
     }
 
 
-    @GetMapping("/private/eliminar_usuario")
-    public String eliminarUsuario(@RequestParam("id") Long idUsuario, HttpSession session) {
+    @GetMapping("/private/actualizarEstado")
+    public String actualizarEstado(@RequestParam("idUsuario") Long idUsuario,
+                                   @RequestParam("estado") String estado,
+                                   HttpSession session,
+                                   Model model) {
         if (session.getAttribute("usuario") == null) {
             return "redirect:/public/index";
         }
 
-        usuarioService.eliminarUsuarioPorId(idUsuario);
+        model.addAttribute("usuario", session.getAttribute("usuario"));
+
+        // Llamada correcta al servicio
+        usuarioService.actualizarEstado(idUsuario, estado);
 
         return "redirect:/private/usuarios_registrados";
     }
+
 
 
     @GetMapping("/private/actualizar_roles")

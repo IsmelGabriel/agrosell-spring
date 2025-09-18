@@ -70,6 +70,7 @@
                 <th>Método de pago</th>
                 <th>Fecha de nacimiento</th>
                 <th>Rol</th>
+                <th>Estado</th>
                 <th>Acción</th>
             </tr>
             </thead>
@@ -83,12 +84,19 @@
                 <td th:text="${usuario.metodoPago}">Nequi</td>
                 <td th:text="${usuario.fechaNacimiento}">1990-01-01</td>
                 <td th:text="${usuario.rol}">Cliente</td>
+                <td th:text="${usuario.Estado}">Estado</td>
                 <td>
-                    <a th:href="@{'/private/eliminar_usuario?id=' + ${usuario.Id}}"
-                       onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
-                        <i class="fas fa-trash-alt"></i> Eliminar
-                    </a>
+                    <form th:action="@{/private/actualizarEstado}" method="get">
+                        <input type="hidden" name="idUsuario" th:value="${usuario.id}" />
+                        <select name="estado" class="form-control" required>
+                            <option disabled selected value="">Seleccionar</option>
+                            <option value="Deshabilitado">Deshabilitar</option>
+                            <option value="Habilitado">Habilitar</option>
+                        </select>
+                        <button type="submit">Actualizar</button>
+                    </form>
                 </td>
+
             </tr>
             <tr th:if="${#lists.isEmpty(usuarios)}">
                 <td colspan="9">No hay usuarios registrados</td>
