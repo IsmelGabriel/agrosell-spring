@@ -14,10 +14,10 @@ public class EmailService {
     public void sendWelcomeEmail(String to, String username) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
-        message.setSubject("Bienvenido a AgrosellNova");
+        message.setSubject("Bienvenido a AgroSell Nova");
         message.setText("Hola " + username + ",\n\n¡Gracias por registrarte en AgroSell Nova! 🌱\n\n" +
                 "Ahora puedes acceder a todos nuestros servicios.\n\n" +
-                "Saludos,\nEl equipo de AgrosellNova");
+                "Saludos,\nEl equipo de AgroSell Nova");
 
         mailSender.send(message);
     }
@@ -36,7 +36,7 @@ public class EmailService {
         message.setTo(to);
         message.setSubject("Actualización de rol en AgroSell Nova");
         message.setText("Hola " + username + ",\n\n" +
-                "Tu rol en AgrosellNova ha sido actualizado a: " + nuevoRol + ".\n\n" +
+                "Tu rol en AgroSell Nova ha sido actualizado a: " + nuevoRol + ".\n\n" +
                 "Si tienes dudas, por favor comunícate con soporte.");
         mailSender.send(message);
     }
@@ -46,7 +46,7 @@ public class EmailService {
         message.setTo(to);
         message.setSubject("Actualización de estado en AgroSell Nova");
         message.setText("Hola " + username + ",\n\n" +
-                "Tu estado en AgrosellNova ha sido actualizado a: " + nuevoEstado + ".\n\n" +
+                "Tu estado en AgroSell Nova ha sido actualizado a: " + nuevoEstado + ".\n\n" +
                 "Si tienes dudas, comunícate con nuestro equipo de soporte.");
         mailSender.send(message);
     }
