@@ -3,52 +3,51 @@ package com.agrosellnova.Agrosellnova.controladores;
 import com.agrosellnova.Agrosellnova.modelo.Calificaciones;
 import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
+import com.agrosellnova.Agrosellnova.repositorio.CalificacionesRepository;
+import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
+import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
 import com.agrosellnova.Agrosellnova.servicio.CalificacionesService;
-import com.agrosellnova.Agrosellnova.servicio.ProductoService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Controller
-@RequestMapping("/private")
 public class CalificacionesController {
 
-    private final CalificacionesService calificacionesService;
-    private final ProductoService productoService;
+    @Autowired
+    private CalificacionesService calificacionesService;
 
     @Autowired
-    public CalificacionesController(CalificacionesService calificacionesService, ProductoService productoService) {
-        this.calificacionesService = calificacionesService;
-        this.productoService = productoService;
-    }
+    private ProductoRepository productoRepository;
 
-    @PostMapping("/guardar_calificacion")
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @PostMapping("/private/guardar_calificacion")
     public String guardarCalificacion(@RequestParam("idVenta") Long idVenta,
                                       @RequestParam("productoId") Long productoId,
-                                      @RequestParam("estrellas") Integer estrellas,
-                                      @RequestParam("comentario") String comentario,
-                                      HttpSession session) {
+                                      @RequestParam("estrellas") int estrellas,
+                                      @RequestParam("comentario") String comentario) {
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Producto producto = productoRepository.findById(productoId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        if (usuario == null) {
-            return "redirect:/login";
-        }
 
-        Producto producto = productoService.obtenerPorId(productoId);
+        Usuario usuario = usuarioRepository.findById(1L)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         Calificaciones calificacion = new Calificaciones();
         calificacion.setProducto(producto);
         calificacion.setUsuario(usuario);
         calificacion.setCalificacion(estrellas);
         calificacion.setComentario(comentario);
-        calificacion.setFechaCreacion(LocalDateTime.now());
+        calificacion.setFecha_creacion(LocalDate.now());
 
         calificacionesService.guardar(calificacion);
 
-        return "redirect:/private/gestionar_compra?calificado=true";
+        return "redirect:/private/gestionar_compra";
     }
 }
