@@ -83,16 +83,19 @@ public class PaginaController {
 
     @GetMapping("/forms/formulario_pago")
     public String mostrarFormularioPago(HttpSession session, Model model) {
-        String nombreUsuario = (String) session.getAttribute("usuario");
-        if (nombreUsuario == null) {
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null || rol == null) {
             return "redirect:/public/index";
         }
 
-        Usuario comprador = usuarioService.buscarPorNombreUsuario(nombreUsuario);
+        Usuario comprador = usuarioService.buscarPorNombreUsuario(usuario);
         if (comprador == null) {
             return "redirect:/public/index";
         }
 
+        model.addAttribute("usuario", usuario);
         model.addAttribute("nombre", comprador.getNombre());
         model.addAttribute("correo", comprador.getCorreo());
         model.addAttribute("direccion", comprador.getDireccion());
