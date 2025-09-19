@@ -1,0 +1,337 @@
+/* Estilos específicos para el formulario de productor */
+.cuadro-pago {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 8px 32px rgba(46, 125, 50, 0.15);
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #E8F5E9;
+}
+
+.cuadro-pago h1 {
+    color: #2E7D32;
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 35px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #E8F5E9;
+}
+
+.ofertar-form {
+    display: grid;
+    gap: 25px;
+}
+
+.formulario-pago {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #1B5E20;
+    margin-bottom: 8px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.form-label::before {
+    content: "●";
+    color: #4CAF50;
+    margin-right: 8px;
+    font-size: 12px;
+}
+
+.form-control {
+    padding: 14px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #FAFAFA;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-control:hover {
+    border-color: #66BB6A;
+    background-color: white;
+}
+
+.form-control::placeholder {
+    color: #9E9E9E;
+    font-style: italic;
+}
+
+/* Estilos específicos para select */
+select.form-control,
+select {
+    cursor: pointer;
+    padding: 14px 16px;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #FAFAFA;
+    font-family: 'Segoe UI', sans-serif;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234CAF50'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    color: #333;
+    width: 100%;
+}
+
+select:focus,
+select.form-control:focus {
+    outline: none;
+    border-color: #4CAF50;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    transform: translateY(-1px);
+}
+
+select:hover,
+select.form-control:hover {
+    border-color: #66BB6A;
+    background-color: white;
+}
+
+/* Estilos para las opciones del select */
+select option {
+    padding: 10px;
+    background-color: white;
+    color: #333;
+    font-size: 15px;
+}
+
+select option:first-child {
+    color: #9E9E9E;
+    font-style: italic;
+}
+
+select option:checked {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+}
+
+/* Estilos específicos para textarea */
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
+}
+
+/* Botón de envío */
+.btn-registrar {
+    background: linear-gradient(135deg, #2E7D32 0%, #388E3C 100%);
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-registrar:hover {
+    background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+}
+
+.btn-registrar:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(46, 125, 50, 0.3);
+}
+
+/* Alerta de éxito */
+.alerta-exito {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-left: 4px solid #4CAF50;
+    margin-top: 20px;
+    display: none;
+    font-weight: 500;
+}
+
+.alerta-exito.mostrar {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estados de validación - Solo después de envío */
+.ofertar-form.was-validated .form-control:invalid,
+.ofertar-form.was-validated select:invalid {
+    border-color: #F44336;
+    background-color: #FFEBEE;
+}
+
+.ofertar-form.was-validated .form-control:valid,
+.ofertar-form.was-validated select:valid {
+    border-color: #4CAF50;
+    background-color: #F1F8E9;
+}
+
+/* Prevenir validación automática del navegador */
+.form-control:invalid,
+select:invalid {
+    border-color: #E0E0E0;
+    background-color: #FAFAFA;
+    box-shadow: none;
+}
+
+.form-control:valid,
+select:valid {
+    border-color: #E0E0E0;
+    background-color: #FAFAFA;
+}
+
+/* Efectos de enfoque mejorados */
+.formulario-pago {
+    position: relative;
+}
+
+.formulario-pago::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #4CAF50, #66BB6A);
+    transition: width 0.3s ease;
+    border-radius: 1px;
+}
+
+.formulario-pago:focus-within::after {
+    width: 100%;
+}
+
+/* Grid responsivo para campos relacionados */
+@media (min-width: 768px) {
+    .ofertar-form {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+            "nombre ubicacion"
+            "area tipo"
+            "experiencia capacidad"
+            "contacto contacto"
+            "productos productos"
+            "descripcion descripcion"
+            "boton boton";
+    }
+
+    .formulario-pago:nth-child(1) { grid-area: nombre; }
+    .formulario-pago:nth-child(2) { grid-area: ubicacion; }
+    .formulario-pago:nth-child(3) { grid-area: area; }
+    .formulario-pago:nth-child(4) { grid-area: tipo; }
+    .formulario-pago:nth-child(5) { grid-area: experiencia; }
+    .formulario-pago:nth-child(6) { grid-area: capacidad; }
+    .formulario-pago:nth-child(7) { grid-area: contacto; }
+    .formulario-pago:nth-child(8) { grid-area: productos; }
+    .formulario-pago:nth-child(9) { grid-area: descripcion; }
+    .btn-registrar { grid-area: boton; }
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .cuadro-pago {
+        padding: 25px 20px;
+        margin: 10px;
+        border-radius: 8px;
+    }
+
+    .cuadro-pago h1 {
+        font-size: 24px;
+        margin-bottom: 25px;
+    }
+
+    .form-control {
+        padding: 12px 14px;
+        font-size: 16px; /* Evita zoom en iOS */
+    }
+
+    .btn-registrar {
+        padding: 14px 30px;
+        font-size: 15px;
+    }
+
+    .ofertar-form {
+        gap: 20px;
+    }
+}
+
+/* Animación de carga del formulario */
+.cuadro-pago {
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mejoras de accesibilidad */
+.form-control:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+.btn-registrar:focus {
+    outline: 2px solid #A5D6A7;
+    outline-offset: 2px;
+}
+
+/* Indicador de campo requerido */
+.form-label[data-required="true"]::after {
+    content: " *";
+    color: #F44336;
+    font-weight: bold;
+}
+
+/* Efectos hover para mejorar la interacción */
+.formulario-pago {
+    transition: all 0.2s ease;
+}
+
+.formulario-pago:hover .form-control {
+    border-color: #81C784;
+}
