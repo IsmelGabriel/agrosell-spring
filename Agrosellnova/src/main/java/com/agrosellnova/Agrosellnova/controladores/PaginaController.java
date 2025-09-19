@@ -104,7 +104,7 @@ public class PaginaController {
     }
 
     @PostMapping("/guardar_producto")
-    public String guardarProducto(
+    public String guardarProductoReserva(
             @RequestParam("usuario") String nombreUsuario,
             @RequestParam("productoImagen") MultipartFile imagen,
             @RequestParam("nombreProducto") String nombre,
@@ -131,6 +131,7 @@ public class PaginaController {
             producto.setDescripcion(descripcion);
             producto.setPesoKg(pesoKg);
             producto.setStock(stock);
+            producto.setEstado("Disponible");
             producto.setFechaCosecha(LocalDate.now());
 
             productoRepository.save(producto);
@@ -139,7 +140,7 @@ public class PaginaController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "error";
+            return "redirect:/error";
         }
     }
 

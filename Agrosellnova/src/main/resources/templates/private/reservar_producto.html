@@ -45,54 +45,64 @@
     </aside>
 
     <main class="ofertar-container">
-        <h2 class="ofertar-titulo">Publicar Producto</h2>
-        <form th:action="@{/guardar_producto}" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
-
-            <input type="hidden" name="usuario" id="usuario" th:value="${usuario}" />
+        <h2 class="ofertar-titulo">Ofertar Producto en Reserva</h2>
+        <form th:action="@{/private/guardarProductoReserva}" method="post"
+              class="needs-validation" novalidate enctype="multipart/form-data">
 
             <div class="ofertar-form">
                 <label for="productoImagen" class="form-label">Foto del Producto</label>
-                <input type="file" name="productoImagen" id="productoImagen" class="form-control" accept="image/*" required>
+                <input type="file" name="productoImagen" id="productoImagen"
+                       class="form-control" accept="image/*" required>
                 <div class="invalid-feedback">Por favor, selecciona una foto.</div>
             </div>
 
-
             <div class="ofertar-form">
                 <label for="nombreProducto" class="form-label">Nombre del producto</label>
-                <input type="text" name="nombreProducto" id="nombreProducto" class="form-control" placeholder="Nombre del producto" required>
+                <input type="text" name="nombreProducto" id="nombreProducto"
+                       class="form-control" placeholder="Nombre del producto" required>
                 <div class="invalid-feedback">Por favor, escribe un nombre.</div>
             </div>
 
-
             <div class="ofertar-form">
-                <label for="precio" class="form-label">Precio del producto - POR Kg</label>
-                <input type="number" name="precio" id="precio" class="form-control" placeholder="Ingrese el precio del producto" required>
+                <label for="precio" class="form-label">Precio estimado - POR Kg</label>
+                <input type="number" name="precio" id="precio" class="form-control"
+                       placeholder="Ingrese el precio" step="0.01" required>
                 <div class="invalid-feedback">Por favor, ingrese un precio.</div>
             </div>
 
-
             <div class="ofertar-form">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <textarea name="descripcion" id="descripcion" class="form-control" placeholder="Describa la oferta" required></textarea>
+                <textarea name="descripcion" id="descripcion" class="form-control"
+                          placeholder="Describa el producto" required></textarea>
                 <div class="invalid-feedback">Por favor, ingrese una descripción.</div>
             </div>
 
-
             <div class="ofertar-form">
-                <label for="pesoKg" class="form-label">Peso en KG</label>
-                <input type="number" name="pesoKg" id="pesoKg" class="form-control" placeholder="Ingrese el peso en KG" required>
-                <div class="invalid-feedback">Por favor, ingrese un peso.</div>
+                <label for="pesoKg" class="form-label">Peso por unidad (Kg)</label>
+                <input type="number" name="pesoKg" id="pesoKg" class="form-control"
+                       placeholder="Ejemplo: 2.5" step="0.1" required>
+                <div class="invalid-feedback">Por favor, ingrese el peso.</div>
             </div>
 
-
             <div class="ofertar-form">
-                <label for="stock" class="form-label">Stock</label>
-                <input type="number" name="stock" id="stock" class="form-control" placeholder="Ingrese el Stock del producto" required>
-                <div class="invalid-feedback">Por favor, ingrese el Stock.</div>
+                <label for="stock" class="form-label">Stock disponible (Kg)</label>
+                <input type="number" name="stock" id="stock" class="form-control"
+                       placeholder="Ejemplo: 100" required>
+                <div class="invalid-feedback">Por favor, ingrese el stock.</div>
             </div>
 
-            <button type="submit" class="confirmar-oferta-btn">Guardar Oferta</button>
+            <div class="ofertar-form">
+                <label for="fechaCosecha" class="form-label">Fecha estimada de cosecha</label>
+                <input type="date" name="fechaCosecha" id="fechaCosecha"
+                       class="form-control" required>
+                <div class="invalid-feedback">Por favor, seleccione la fecha de cosecha.</div>
+            </div>
+
+            <button type="submit" class="confirmar-oferta-btn">
+                Guardar Producto en Reserva
+            </button>
         </form>
+
     </main>
 </div>
 

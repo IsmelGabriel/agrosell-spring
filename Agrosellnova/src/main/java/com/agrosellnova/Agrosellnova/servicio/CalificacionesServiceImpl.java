@@ -1,10 +1,8 @@
 package com.agrosellnova.Agrosellnova.servicio;
 
-
 import com.agrosellnova.Agrosellnova.modelo.Calificaciones;
 import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.repositorio.CalificacionesRepository;
-import com.agrosellnova.Agrosellnova.servicio.CalificacionesService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +17,17 @@ public class CalificacionesServiceImpl implements CalificacionesService {
     }
 
     @Override
-    public Calificaciones guardar(Calificaciones calificaciones) {
-        return calificacionesRepository.save(calificaciones);
+    public Calificaciones guardar(Calificaciones calificacion) {
+        return calificacionesRepository.save(calificacion);
     }
 
     @Override
     public List<Calificaciones> listarPorProducto(Producto producto) {
         return calificacionesRepository.findByProducto(producto);
+    }
+
+    @Override
+    public List<Calificaciones> listarPorUsuario(Long usuarioId) {
+        return calificacionesRepository.findByUsuarioId(usuarioId);
     }
 }

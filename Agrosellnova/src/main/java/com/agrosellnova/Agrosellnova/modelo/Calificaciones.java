@@ -1,7 +1,7 @@
 package com.agrosellnova.Agrosellnova.modelo;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "calificaciones")
@@ -9,72 +9,38 @@ public class Calificaciones {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(nullable = false)
-    private Integer calificacion;
-
-    @Column(length = 255)
-    private String comentario;
-
-    @Column(name = "fecha_creacion")
-    private LocalDateTime fechaCreacion;
+    private Long id;
 
     // Relación con Producto
     @ManyToOne
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
 
+    // Relación con Usuario
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
+    private int calificacion;
+    private String comentario;
+    private LocalDate fecha_creacion;
 
-    public Integer getId() {
-        return id;
-    }
+    // ===== GETTERS & SETTERS =====
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public Producto getProducto() { return producto; }
+    public void setProducto(Producto producto) { this.producto = producto; }
 
-    public Integer getCalificacion() {
-        return calificacion;
-    }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
 
-    public void setCalificacion(Integer calificacion) {
-        this.calificacion = calificacion;
-    }
+    public int getCalificacion() { return calificacion; }
+    public void setCalificacion(int calificacion) { this.calificacion = calificacion; }
 
-    public String getComentario() {
-        return comentario;
-    }
+    public String getComentario() { return comentario; }
+    public void setComentario(String comentario) { this.comentario = comentario; }
 
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
-    }
-
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
+    public LocalDate getFecha_creacion() { return fecha_creacion; }
+    public void setFecha_creacion(LocalDate fecha_creacion) { this.fecha_creacion = fecha_creacion; }
 }

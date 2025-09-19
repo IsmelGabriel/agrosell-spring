@@ -4,10 +4,7 @@ import com.agrosellnova.Agrosellnova.modelo.Reserva;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.modelo.Venta;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
-import com.agrosellnova.Agrosellnova.servicio.PqrsService;
-import com.agrosellnova.Agrosellnova.servicio.ReservaService;
-import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
-import com.agrosellnova.Agrosellnova.servicio.VentaService;
+import com.agrosellnova.Agrosellnova.servicio.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +30,8 @@ public class AdministradorController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private ProductoService productoService;
 
 
     @GetMapping("/private/usuarios_registrados")
@@ -96,7 +95,6 @@ public class AdministradorController {
     }
 
 
-
     @GetMapping("/private/actualizar_roles")
     public String mostrarActualizarRoles(@RequestParam(required = false) String criterio,
                                          @RequestParam(required = false) String valor,
@@ -133,12 +131,8 @@ public class AdministradorController {
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("usuario", session.getAttribute("usuario"));
         model.addAttribute("rol", session.getAttribute("rol"));
-
-
-
         return "private/actualizar_roles";
     }
-
 
     @PostMapping("/private/actualizarRol")
     public String actualizarRol(@RequestParam("id_usuario") Long idUsuario,
