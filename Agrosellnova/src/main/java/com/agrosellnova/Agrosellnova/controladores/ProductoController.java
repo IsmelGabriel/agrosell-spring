@@ -35,7 +35,7 @@ public class ProductoController {
     private UsuarioServiceImpl usuarioService;
 
     @GetMapping("/public/productos")
-    public String mostrarProductosPublicos(
+    public String mostrarProductos(
             @RequestParam(name = "producto", required = false) String nombre,
             @RequestParam(name = "orden", required = false, defaultValue = "") String orden,
             HttpSession session,
@@ -48,41 +48,28 @@ public class ProductoController {
         if (nombre != null || !orden.isBlank()) {
             productos = productoService.buscarProductosFiltrados(nombre, orden);
         } else {
-            productos = productoService.obtenerTodosLosProductos();
+            productos = productoService.obtenerProductosDisponibles();
         }
 
         model.addAttribute("productos", productos);
         return "public/productos";
     }
 
-
     @GetMapping("/private/gestionar_productos")
-    public String mostrarProductos(
-            @RequestParam(required = false) String criterio,
-            @RequestParam(required = false) String valor,
-            HttpSession session,
-            Model model) {
-
+    public String gestionarProductos(HttpSession session, Model model) {
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
 
-        if (usuario == null || rol == null || !rol.equals("productor")) {
-            return "redirect:/public/index";
-        }
+        List<Producto> listaProductos = productoService.obtenerProductosPorProductor(usuario);
 
-        List<Producto> productos;
-        if (criterio != null && valor != null && !valor.isBlank()) {
-            productos = productoService.filtrarProductos(usuario, criterio, valor);
-        } else {
-            productos = productoService.obtenerProductosPorProductor(usuario);
-        }
-
+        model.addAttribute("listaProductos", listaProductos);
         model.addAttribute("usuario", usuario);
         model.addAttribute("rol", rol);
-        model.addAttribute("listaProductos", productos);
 
         return "private/gestionar_productos";
     }
+
+
 
     @PostMapping("/producto/editar")
     public String editarProducto(
@@ -115,7 +102,7 @@ public class ProductoController {
 
         } catch (IOException e) {
             e.printStackTrace();
-            return "error";
+            return "redirect:/error";
         }
     }
 

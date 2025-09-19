@@ -248,6 +248,14 @@ tr:last-child td[colspan] {
     background-color: #388E3C;
 }
 
+.btn-acion-gestion-producto{
+    color: #F3F6F4;
+    background-color: #2E7D32;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+}
+
 @media (max-width: 768px) {
     .topbar, header.Bienvenido {
         flex-direction: column;
