@@ -33,7 +33,8 @@
             <ul>
                 <!-- PRODUCTOR -->
                 <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
-                <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}"><i class="fas fa-seedling"></i> Ofertar Producto</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}"><i class="fas fa-seedling"></i> Publicar Producto</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/reservar_producto}"><i class="fas fa-seedling"></i>Ofertar proximos a salir</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}"><i class="fas fa-boxes"></i> Gestionar Productos</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}"><i class="fas fa-cash-register"></i> Gestionar Ventas</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/buenas_practicas}"><i class="fas fa-leaf"></i> Buenas Prácticas</a></li>
@@ -67,7 +68,8 @@
                 <th>PRECIO</th>
                 <th>PESO Kg</th>
                 <th>STOCK</th>
-                <th>PUBLICADO</th>
+                <th>ESTADO</th>
+                <th>FECHA</th>
                 <th colspan="2">ACCIONES</th>
             </tr>
             </thead>
@@ -75,15 +77,27 @@
             <tr th:each="producto : ${listaProductos}">
                 <td th:text="${producto.id}"></td>
                 <td>
-                    <img th:src="@{${producto.imagen}}" alt="Imagen del producto" th:width="100px" th:height="80px">
+                    <img th:src="@{${producto.imagen}}" alt="Imagen del producto" th:max-width="100vh" th:height="80px">
                 </td>
                 <td th:text="${producto.nombre}"></td>
                 <td th:text="${producto.descripcion}"></td>
                 <td th:text="${producto.precio}"></td>
                 <td th:text="${producto.pesoKg}"></td>
                 <td th:text="${producto.stock}"></td>
+                <td th:text="${producto.estado}"></td>
                 <td th:text="${producto.fechaCosecha}"></td>
-                <td><a th:href="@{'/forms/editar_producto?id=' + ${producto.id}}">Editar</a></td>
+                <td>
+                    <button class="btn-acion-gestion-producto" th:href="@{'/forms/editar_producto?id=' + ${producto.id}}">Editar</button>
+                    <form th:action="@{/private/actualizarEstadoProducto}" method="post">
+                        <input type="hidden" name="productoId" th:value="${producto.Id}" />
+                        <select name="nuevoEstado" class="form-control" required>
+                            <option disabled selected value="">Estado</option>
+                            <option value="disponible">Disponible</option>
+                            <option value="">Agotado</option>
+                        </select>
+                        <button type="submit">Actualizar</button>
+                    </form>
+                </td>
             </tr>
             <tr th:if="${#lists.isEmpty(listaProductos)}">
                 <td colspan="10">No tienes productos registrados.</td>

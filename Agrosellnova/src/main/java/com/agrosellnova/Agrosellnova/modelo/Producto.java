@@ -36,6 +36,9 @@ public class Producto {
     @Column(name = "FECHA_COSECHA")
     private LocalDate fechaCosecha;
 
+    @Column(name = "estado")
+    private String estado;
+
     public Long getId() {
         return id;
     }
@@ -99,4 +102,10 @@ public class Producto {
         this.fechaCosecha = fechaCosecha;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 }

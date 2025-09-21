@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,11 +17,6 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public void guardarProducto(Producto producto) {
         productoRepository.save(producto);
-    }
-
-    @Override
-    public List<Producto> listarProductosPorUsuario(String usuario) {
-        return productoRepository.findByUsuarioCampesino(usuario);
     }
 
     @Override
@@ -46,14 +39,14 @@ public class ProductoServiceImpl implements ProductoService {
                 return productoRepository.findByNombreContainingIgnoreCaseOrderByIdDesc(nombre);
         }
     }
+
+    @Override
     public List<Producto> obtenerProductosPorUsuario(String usuarioCampesino) {
         return productoRepository.findByUsuarioCampesino(usuarioCampesino);
     }
 
     @Override
     public List<Producto> obtenerProductosPorProductor(String usuario) {
-        List<Producto> productos = productoRepository.findByUsuarioCampesino(usuario);
-        System.out.println("Productos encontrados: " + productos.size());
         return productoRepository.findByUsuarioCampesino(usuario);
     }
 
@@ -86,10 +79,26 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
+    public List<Producto> obtenerProductosPorEstado(String estado) {
+        return productoRepository.findByEstadoContainingIgnoreCase(estado);
+    }
+
+    @Override
+    public List<Producto> obtenerProductosDisponibles() {
+        return productoRepository.findProductosDisponibles();
+    }
+
+    @Override
     public Producto obtenerPorId(Long id) {
         return productoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
     }
+
+    @Override
+    public List<Producto> obtenerProductosParaReserva() {
+        return productoRepository.findByEstado("Proximo a salir");
+    }
+
 
     @Override
     public void actualizarProducto(Producto producto) {

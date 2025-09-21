@@ -190,7 +190,7 @@
             <div class="productos-texto">
                 <h3 th:text="${producto.nombre}">Nombre producto</h3>
                 <p th:text="'$' + ${producto.precio} + ' Kg'">Precio</p>
-                <p th:text="'Stock: ' + ${producto.stock}">Stock</p>
+                <p th:text="${producto.descripcion}">Descripcion del producto</p>
                 <a href="#" class="btn-añadir-carrito"
                    th:attr="onclick=|agregarAlCarrito(${producto.id}, '${producto.nombre}', ${producto.precio},
                    '${producto.imagen}', ${producto.stock})|">
@@ -214,7 +214,6 @@
             <label for="modal-cantidad">Cantidad (Kg):</label>
             <input type="number" id="modal-cantidad" min="1" value="1" class="form-control">
             <button class="btn-confirmar" onclick="confirmarAgregar()">Añadir al carrito</button>
-            <div th:if="${NewError}" class="Validate" th:text="${NewError}"></div>
         </div>
     </div>
 
@@ -291,7 +290,7 @@
         }
 
         if (cantidad > productoSeleccionado.stock) {
-            showToast(`❌ Stock insuficiente. Disponible: ${productoSeleccionado.stock}`, "warning");
+            showToast(`❌ Stock insuficiente. Disponible:`, "warning");
             return;
         }
 

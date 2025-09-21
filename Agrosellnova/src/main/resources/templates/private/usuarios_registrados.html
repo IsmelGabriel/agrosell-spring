@@ -59,10 +59,16 @@
             <button type="submit" class="filtro-btn">Filtrar</button>
         </form>
 
+        <form th:action="@{/export/usuarios_registrados}" method="get">
+            <button type="submit" class="filtro-btn btn-danger">
+                <i class="fas fa-file-pdf"></i> Exportar PDF
+            </button>
+        </form>
+
         <table border="1">
             <thead>
             <tr>
-                <th>ID Usuario</th>
+                <th>ID</th>
                 <th>Nombre</th>
                 <th>Documento</th>
                 <th>Ubicación</th>

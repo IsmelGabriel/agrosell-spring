@@ -16,6 +16,26 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`agrosell` /*!40100 DEFAULT CHARACTER SE
 
 USE `agrosell`;
 
+/*Table structure for table `calificaciones` */
+
+DROP TABLE IF EXISTS `calificaciones`;
+
+CREATE TABLE `calificaciones` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `producto_id` int(11) DEFAULT NULL,
+  `usuario_id` bigint(20) DEFAULT NULL,
+  `comentario` varchar(255) DEFAULT NULL,
+  `calificacion` int(11) DEFAULT NULL,
+  `fecha_creacion` date DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_calificacion_producto` (`producto_id`),
+  CONSTRAINT `fk_calificacion_producto` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`ID_PRODUCTO`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `calificaciones` */
+
+insert  into `calificaciones`(`id`,`producto_id`,`usuario_id`,`comentario`,`calificacion`,`fecha_creacion`) values (1,30,1,'Muy bueno',4,'2025-09-18');
+
 /*Table structure for table `facturas` */
 
 DROP TABLE IF EXISTS `facturas`;
@@ -185,14 +205,39 @@ CREATE TABLE `producto` (
   `peso_kg` double DEFAULT NULL,
   `STOCK` int(11) NOT NULL,
   `FECHA_COSECHA` date DEFAULT NULL,
-  `imagen` varchar(255) DEFAULT NULL,
-  `nombre` varchar(255) DEFAULT NULL,
+  `estado` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_PRODUCTO`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `producto` */
 
-insert  into `producto`(`ID_PRODUCTO`,`usuario_campesino`,`PRODUCTO_IMAGEN`,`nombre_producto`,`descripcion`,`precio`,`peso_kg`,`STOCK`,`FECHA_COSECHA`,`imagen`,`nombre`) values (7,'gabriel','../img/67f69c4626b0a_arroz.jpg','Arroz','Arroz blanco',3500,1,40,NULL,NULL,NULL),(8,'gabriel','../img/67f6a38b9d67d_ahuyama.jpg','Ahuyama','Ahuyama en venta',14000,1,30,NULL,NULL,NULL),(9,'gabriel','../img/67f6a5a04babf_apio.jpg','Apio','Apios recién cosechados',4600,1,40,NULL,NULL,NULL),(10,'gabriel','../img/67f6ad1aeadd9_arverja.jpg','Arverja','Alverjas verdes por kg',3600,1,83,NULL,NULL,NULL),(11,'gabriel','../img/67f6b1fb40801_banano.jpg','Banano','Bananos listos para la venta',3800,5,75,NULL,NULL,NULL),(12,'gabriel','../img/67f6b2bf9ced8_berenjena.jpg','Berenjena','Berenjenas recién cultivadas',6700,4,46,NULL,NULL,NULL),(13,'gabriel','../img/67f6b397b4f57_brevas.jpg','Brevas','Brevas listas para la venta y el consumo',22000,8,86,NULL,NULL,NULL),(14,'gabriel','../img/67f6b49a28adb_cebolla.jpg','Cebolla','Cebollas cabezonas',3700,12,102,NULL,NULL,NULL),(15,'gabriel','../img/67f6b5280cae2_cuajada.jpg','Cuajada','Queso cuajada en colombia',16000,4,64,NULL,NULL,NULL),(16,'gabriel','../img/67f6bc6b1d747_dragon_fruit.jpg','Pitahaya','Pitahaya de cascarón espinoso y sabor dulce',2300,4,90,NULL,NULL,NULL),(17,'gabriel','../img/67f6bdfca6951_fresas.jpg','Fresas','Fresas rojas y jugosas',12000,6,47,NULL,NULL,NULL),(18,'gabriel','../img/67f6befbe3578_frijol.jpg','Frijoles','Frijoles rojos en venta',6500,3,36,NULL,NULL,NULL),(19,'gabriel','../img/67f6c1e2f0f2c_garbanzo.jpg','Garbanzo','GARBANZO EN GRANO',12650,5,90,NULL,NULL,NULL),(20,'gabriel','../img/67f6ca341e846_leche.jpg','Leche','Leche entera por lt',5200,10,100,NULL,NULL,NULL),(21,'gabriel','../img/67f6ca82d62d7_lechuga.jpg','Lechuga','Lechuga fresca',1200,3,42,NULL,NULL,NULL),(22,'gabriel','../img/67f6cfabcc0b9_lenteja.jpg','Lentejas','Una fuente abundante de fibra, ácido fólico y potasio',5200,2,28,NULL,NULL,NULL),(23,'gabriel','../img/67f6d028733a3_mandarina.jpg','Mandarinas','Deliciosas mandarinas jugosas y dulces',4350,7,35,NULL,NULL,NULL),(24,'gabriel','../img/67f6d15b2a5d8_mango.jpg','Mango','Mango tommy pintón',6700,5,35,NULL,NULL,NULL),(25,'gabriel','../img/67f6d25622799_mantequilla.jpg','Mantequilla','Mantequilla en venta',15000,1,50,NULL,NULL,NULL),(26,'gabriel','../img/67f6f262592b1_papaya.jpg','Papaya','Deliciosas papayas en venta',2550,4,20,NULL,NULL,NULL),(27,'gabriel','../img/67f7e37f57526_uva.jpg','Uva','Uvas deliciosas',5400,2,35,NULL,NULL,NULL),(28,'gabriel','../img/67f7e547c6240_pera.jpg','Pera','Peras en oferta',9200,2,11,NULL,NULL,NULL),(29,'gabriel','../img/67f7e5949f48b_pimenton.jpg','Pimenton','Pimentón a buen precio',8600,1,63,NULL,NULL,NULL),(30,'karol bur24','../img/67f861509da47_piña.jpg','Piña','Piñas jugosas y dulces',7200,1,70,NULL,NULL,NULL),(34,'karol bur24','../img/51f815df-904c-4ffc-8e49-8ccea5c8b768_papas.png','Papas','papapara',2300,5,9,'2025-07-11',NULL,NULL),(39,'productor','../img/b79b712c-9483-4e1a-b260-7a51b134b6bd_fondo.jpg','prueba','esto es una prueba',2000,30,6,'2025-09-07',NULL,NULL);
+insert  into `producto`(`ID_PRODUCTO`,`usuario_campesino`,`PRODUCTO_IMAGEN`,`nombre_producto`,`descripcion`,`precio`,`peso_kg`,`STOCK`,`FECHA_COSECHA`,`estado`) values (7,'gabriel','../img/67f69c4626b0a_arroz.jpg','Arroz','Arroz blanco',3500,1,40,NULL,'Disponible'),(8,'gabriel','../img/67f6a38b9d67d_ahuyama.jpg','Ahuyama','Ahuyama en venta',14000,1,30,NULL,'Disponible'),(9,'gabriel','../img/67f6a5a04babf_apio.jpg','Apio','Apios recién cosechados',4600,1,40,NULL,'Disponible'),(10,'gabriel','../img/67f6ad1aeadd9_arverja.jpg','Arverja','Alverjas verdes por kg',3600,1,83,NULL,'Disponible'),(11,'gabriel','../img/67f6b1fb40801_banano.jpg','Banano','Bananos listos para la venta',3800,5,75,NULL,'Disponible'),(12,'gabriel','../img/67f6b2bf9ced8_berenjena.jpg','Berenjena','Berenjenas recién cultivadas',6700,4,46,NULL,'Disponible'),(13,'gabriel','../img/67f6b397b4f57_brevas.jpg','Brevas','Brevas listas para la venta y el consumo',22000,8,86,NULL,'Disponible'),(14,'gabriel','../img/67f6b49a28adb_cebolla.jpg','Cebolla','Cebollas cabezonas',3700,12,102,NULL,'Disponible'),(15,'gabriel','../img/67f6b5280cae2_cuajada.jpg','Cuajada','Queso cuajada en colombia',16000,4,64,NULL,'Disponible'),(16,'gabriel','../img/67f6bc6b1d747_dragon_fruit.jpg','Pitahaya','Pitahaya de cascarón espinoso y sabor dulce',2300,4,90,NULL,'Disponible'),(17,'gabriel','../img/67f6bdfca6951_fresas.jpg','Fresas','Fresas rojas y jugosas',12000,6,47,NULL,'Disponible'),(18,'gabriel','../img/67f6befbe3578_frijol.jpg','Frijoles','Frijoles rojos en venta',6500,3,36,NULL,'Disponible'),(19,'gabriel','../img/67f6c1e2f0f2c_garbanzo.jpg','Garbanzo','GARBANZO EN GRANO',12650,5,90,NULL,'Disponible'),(20,'gabriel','../img/67f6ca341e846_leche.jpg','Leche','Leche entera por lt',5200,10,100,NULL,'Disponible'),(21,'gabriel','../img/67f6ca82d62d7_lechuga.jpg','Lechuga','Lechuga fresca',1200,3,42,NULL,'Disponible'),(22,'gabriel','../img/67f6cfabcc0b9_lenteja.jpg','Lentejas','Una fuente abundante de fibra, ácido fólico y potasio',5200,2,28,NULL,'Disponible'),(23,'gabriel','../img/67f6d028733a3_mandarina.jpg','Mandarinas','Deliciosas mandarinas jugosas y dulces',4350,7,35,NULL,'Disponible'),(24,'gabriel','../img/67f6d15b2a5d8_mango.jpg','Mango','Mango tommy pintón',6700,5,35,NULL,'Disponible'),(25,'gabriel','../img/67f6d25622799_mantequilla.jpg','Mantequilla','Mantequilla en venta',15000,1,50,NULL,'Disponible'),(26,'gabriel','../img/67f6f262592b1_papaya.jpg','Papaya','Deliciosas papayas en venta',2550,4,20,NULL,'Disponible'),(27,'gabriel','../img/67f7e37f57526_uva.jpg','Uva','Uvas deliciosas',5400,2,35,NULL,'Disponible'),(28,'gabriel','../img/67f7e547c6240_pera.jpg','Pera','Peras en oferta',9200,2,11,NULL,'Disponible'),(29,'gabriel','../img/67f7e5949f48b_pimenton.jpg','Pimenton','Pimentón a buen precio',8600,1,63,NULL,'Disponible'),(30,'karol bur24','../img/67f861509da47_piña.jpg','Piña','Piñas jugosas y dulces',7200,1,70,NULL,'Disponible'),(34,'karol bur24','../img/51f815df-904c-4ffc-8e49-8ccea5c8b768_papas.png','Papas','papapara',2300,5,9,'2025-07-11','Disponible'),(39,'productor','../img/b79b712c-9483-4e1a-b260-7a51b134b6bd_fondo.jpg','prueba','esto es una prueba',2000,30,6,'2025-09-07','Disponible'),(40,'gabriel','../img/cf6a3eae-205c-4ebf-9bc3-8212ef151793_Captura de pantalla 2025-09-04 225847.png','cursor','cursor de mouse rojo',1500,1.5,14,'2025-09-30','Proximo a salir');
+
+/*Table structure for table `productores` */
+
+DROP TABLE IF EXISTS `productores`;
+
+CREATE TABLE `productores` (
+  `id_productor` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(11) NOT NULL,
+  `nombre_finca` varchar(100) NOT NULL,
+  `ubicacion` varchar(255) NOT NULL,
+  `area_cultivo` decimal(10,2) DEFAULT NULL,
+  `tipo_produccion` enum('Agrícola','Pecuaria','Mixta') NOT NULL,
+  `productos` text DEFAULT NULL,
+  `años_experiencia` int(11) DEFAULT NULL,
+  `capacidad_produccion` decimal(10,2) DEFAULT NULL,
+  `contacto_comercial` varchar(100) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `estado_solicitud` enum('Pendiente','Aprobado','Rechazado') DEFAULT 'Pendiente',
+  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id_productor`),
+  KEY `id_usuario` (`id_usuario`),
+  CONSTRAINT `productores_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`ID_USUARIO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `productores` */
 
 /*Table structure for table `resenas` */
 
@@ -227,11 +272,11 @@ CREATE TABLE `reservas` (
   `FECHA_RESERVA` date DEFAULT NULL,
   PRIMARY KEY (`ID_Reservas`),
   KEY `fk_reservas_producto` (`producto`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `reservas` */
 
-insert  into `reservas`(`ID_Reservas`,`usuario_cliente`,`usuario_documento`,`usuario_telefono`,`usuario_correo`,`producto`,`cantidad_kg`,`metodo_pago`,`FECHA_RESERVA`) values (1,'ismel gabriel salazar suniaga','5979141','2147483647','ssismel28@gmail.com','producto2',2,'EFECTIVO',NULL),(2,'Laura Lopez','542903','2147483647','laura_0711@gmail.com','Mango',15,'',NULL),(3,'Karol Estela','98232323','2147483647','karolestela@gmail.com','Mango',2,'EFECTIVO',NULL),(4,'Karol Estela','98232323','2147483647','karolestela@gmail.com','Mango',2,'EFECTIVO',NULL),(5,'Laura Lopez','98232323','2147483647','laura_0711@gmail.com','Manzana',5,'TARJETA',NULL),(6,'manuel','987654321','2147483647','manu_sa@gmail.com','Tomate',30,'TARJETA',NULL);
+insert  into `reservas`(`ID_Reservas`,`usuario_cliente`,`usuario_documento`,`usuario_telefono`,`usuario_correo`,`producto`,`cantidad_kg`,`metodo_pago`,`FECHA_RESERVA`) values (1,'ismel gabriel salazar suniaga','5979141','2147483647','ssismel28@gmail.com','producto2',2,'EFECTIVO',NULL),(2,'Laura Lopez','542903','2147483647','laura_0711@gmail.com','Mango',15,'',NULL),(3,'Karol Estela','98232323','2147483647','karolestela@gmail.com','Mango',2,'EFECTIVO',NULL),(4,'Karol Estela','98232323','2147483647','karolestela@gmail.com','Mango',2,'EFECTIVO',NULL),(5,'Laura Lopez','98232323','2147483647','laura_0711@gmail.com','Manzana',5,'TARJETA',NULL),(6,'manuel','987654321','2147483647','manu_sa@gmail.com','Tomate',30,'TARJETA',NULL),(8,'gabriel','5646547444','3204545465','manuel@gmail.com','Cebolla',10,'Tarjeta de Debito','2025-09-18'),(9,'manuel','5646547444','3204545465','manuel@gmail.com','Mango',10,'Tarjeta de Credito','2025-09-18');
 
 /*Table structure for table `reservas_has_producto` */
 

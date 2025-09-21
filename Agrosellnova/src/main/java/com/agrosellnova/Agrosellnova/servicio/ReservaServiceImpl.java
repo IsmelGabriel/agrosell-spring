@@ -1,6 +1,8 @@
 package com.agrosellnova.Agrosellnova.servicio;
 
+import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.modelo.Reserva;
+import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.repositorio.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ import java.util.List;
 public class ReservaServiceImpl implements ReservaService {
 
     private final ReservaRepository reservaRepository;
+
+    @Autowired
+    private ProductoRepository productoRepository;
 
     @Autowired
     public ReservaServiceImpl(ReservaRepository reservaRepository) {
@@ -29,6 +34,10 @@ public class ReservaServiceImpl implements ReservaService {
         System.out.println("Recibido en servicio: " + reserva.getUsuarioCliente());
         reserva.setFechaReserva(LocalDate.now());
         reservaRepository.save(reserva);
+    }
+
+    public List<Producto> obtenerProductosParaReserva() {
+        return productoRepository.findProductosParaReserva();
     }
 
     @Override

@@ -1,18 +1,50 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Sobre nosotros - Agrosell nova</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+
+    <!-- Mantengo tu referencia a estilos (añadí href fallback para que VSCode no marque tanto) -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"/>
+
+    <style>
+        /* Estilos mínimos adicionales (no reemplazan tu styles.css) */
+        .about-hero img { width:100%; max-height:420px; object-fit:cover; display:block; }
+        .about-section { display:flex; gap:30px; align-items:center; padding:60px 20px; flex-wrap:wrap; }
+        .about-us-info { flex:1; min-width:280px; }
+        .about-imagen { flex:1; min-width:280px; }
+        .about-imagen img { width:100%; border-radius:8px; object-fit:cover; }
+
+        /* Sección tipo referencia */
+        .about-team { background:#0a1841; color:#fff; padding:50px 20px; text-align:center; }
+        .team-image img { width:90%; max-width:1100px; margin:0 auto 30px; display:block; border-radius:8px; }
+        .team-stats { display:flex; justify-content:space-around; gap:20px; flex-wrap:wrap; max-width:1200px; margin:0 auto; }
+        .team-stats .stat { flex:1; min-width:200px; padding:20px; }
+        .team-stats h3 { font-size:2.2rem; margin-bottom:8px; color:#cfc9ff; }
+
+        /* Carrusel de opiniones */
+        .opiniones { padding:50px 20px; background:#f6f6f7; text-align:center; }
+        .carousel { max-width:760px; margin:0 auto; position:relative; }
+        .carousel-item { display:none; padding:20px 30px; border-radius:8px; background:#fff; box-shadow:0 6px 18px rgba(0,0,0,.08); }
+        .carousel-item.active { display:block; }
+        .carousel-item p { font-size:1.05rem; margin-bottom:12px; }
+        .carousel-item span { display:block; font-weight:600; color:#333; }
+
+        .carousel-controls { margin-top:18px; display:flex; justify-content:center; gap:10px; }
+        .carousel-controls button { border:none; background:#0a1841; color:#fff; padding:10px 14px; border-radius:999px; cursor:pointer; }
+        .carousel-dots { margin-top:12px; display:flex; justify-content:center; gap:8px; }
+        .dot { width:12px; height:12px; border-radius:50%; background:#ddd; display:inline-block; cursor:pointer; }
+        .dot.active { background:#0a1841; }
+    </style>
 </head>
 <body>
 
 <header class="top-bar">
     <div class="header-content">
-        <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
+        <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="Agrosell Nova" class="logo" />
         <h1 class="menu-title">AGROSELL NOVA</h1>
 
         <div class="panel-option">
@@ -21,14 +53,10 @@
             </button>
         </div>
 
-        <a th:href="@{/public/carrito}" class="menu-icon">
-            <i class="fas fa-shopping-cart"></i>
-        </a>
+        <a th:href="@{/public/carrito}" class="menu-icon"><i class="fas fa-shopping-cart"></i></a>
 
         <span class="menu-notification">
-            <button id="notificationButton">
-                <i class="fas fa-bell menu-icon"></i>
-            </button>
+            <button id="notificationButton"><i class="fas fa-bell menu-icon"></i></button>
         </span>
 
         <span class="username">
@@ -60,25 +88,253 @@
 </nav>
 
 <main>
-    <section class="about-section">
-        <div class="about-us-info">
-            <h2>SOBRE NOSOTROS</h2>
-            <p>
-                En <strong>AGROSELL NOVA</strong>, creemos en la fuerza de la tierra y en el trabajo incansable de quienes la cultivan.
-                Somos una plataforma dedicada a conectar directamente a los pequeños productores agropecuarios con los consumidores,
-                eliminando los intermediarios y garantizando que cada venta beneficie directamente a quienes trabajan el campo.
-            </p>
-            <p>
-                Nuestra misión es apoyar a los campesinos, empoderándolos para que puedan obtener un precio justo por sus productos,
-                mientras ofrecemos a los clientes alimentos frescos, de alta calidad, y cultivados de manera responsable.
-                Queremos crear un sistema más justo y transparente, donde tanto el productor como el consumidor se beneficien.
-            </p>
-            <a th:href="@{/forms/formulario_reseña}" class="btn-aboutUs">Dejar una reseña</a>
+
+    <!-- Sección: Nuestra Misión -->
+    <section class="nuestra-mision">
+        <h1 class="mision-title">NUESTRA MISIÓN</h1>
+    </section>
+
+    <style>
+        .nuestra-mision {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 100px 20px;
+          background: #f5fdf5; /* verde claro de fondo */
+        }
+
+        .mision-title {
+          font-size: 6rem;
+          font-weight: 900;
+          text-transform: uppercase;
+          text-align: center;
+          margin: 0;
+
+          /* Imagen dentro de las letras */
+          background: url("/img/campo.jpg") center/cover no-repeat;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          color: transparent;
+
+          /* Contorno verde */
+          -webkit-text-stroke: 3px #2e7d32;
+          letter-spacing: 5px;
+        }
+
+        @media (max-width: 768px) {
+          .mision-title {
+            font-size: 3rem;
+            -webkit-text-stroke: 2px #2e7d32;
+          }
+        }
+    </style>
+
+
+
+
+    <!-- =========================
+       SECCIÓN 2: SOBRE NOSOTROS
+       Imagen izquierda que ocupa TODO el alto de la sección
+       Texto + botón a la derecha, centrado verticalmente
+       ========================= -->
+    <section class="sobre-nosotros"
+             style="display:flex; align-items:stretch; min-height:40vh; width:100%; overflow:hidden;">
+
+        <!-- columna izquierda: imagen (ocupa toda la altura de la sección) -->
+        <div class="col-left" style="flex:1 1 50%; min-width:250px;">
+            <img
+                    th:src="@{/img/about_us_img.jpg}"
+                    src="/img/about_us_img.jpg"
+                    alt="Campesino en el campo"
+                    style="width:100%; height:100%; display:block; object-fit:cover;"
+            />
         </div>
-        <div class="about-imagen">
-            <img src="/img/about_us_img.jpg" alt="Imagen sobre nosotros">
+
+        <!-- columna derecha: texto centrado verticalmente -->
+        <div class="col-right" style="flex:1 1 50%; display:flex; align-items:center; justify-content:flex-start;">
+            <div style="padding:48px; max-width:720px;">
+                <h2 style="font-size:2.4rem; margin:0 0 16px; color:#2e7d32;">Sobre nosotros</h2>
+
+                <p style="font-size:1.05rem; line-height:1.6; color:#333; margin-bottom:16px;">
+                    En <strong>Agrosell Nova</strong> creemos en el valor de la tierra y en el trabajo de nuestros campesinos.
+                    Somos una plataforma que conecta directamente a los pequeños productores agrícolas con los consumidores,
+                    asegurando precios justos y alimentos frescos y de calidad.
+                </p>
+
+                <p style="font-size:1.05rem; line-height:1.6; color:#333; margin-bottom:20px;">
+                    Nuestra misión es apoyar a los agricultores, reducir la brecha con el mercado y llevar hasta tu mesa lo mejor del campo colombiano.
+                </p>
+
+                <a href="/public/contactanos"
+                   class="btn btn-success"
+                   style="background-color:#2e7d32; border:none; padding:10px 22px; border-radius:24px; color:#fff; text-decoration:none;">
+                    Conócenos más
+                </a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Estilos de apoyo (responsive) -->
+    <style>
+        /* En pantallas pequeñas apilamos: imagen arriba, texto abajo */
+        @media (max-width: 767px) {
+          .sobre-nosotros { flex-direction: column; min-height: auto; }
+          .sobre-nosotros .col-left img { height: 40vh !important; } /* alto moderado para móvil */
+          .sobre-nosotros .col-right { padding: 20px !important; }
+        }
+
+        /* Si tu header es fijo y tapa parte de la sección, reduce la altura */
+        /* .sobre-nosotros { min-height: calc(40vh - 80px); } */
+    </style>
+
+    <!-- Sección 3: Carrusel de opiniones -->
+    <section class="opiniones">
+        <h2>Opiniones de nuestros clientes</h2>
+
+        <div class="carousel">
+            <div class="carousel-item active">
+                <p>"Excelente plataforma, pude vender mis productos sin intermediarios y con pago justo."</p>
+                <span>- Carlos, productor de café</span>
+            </div>
+
+            <div class="carousel-item">
+                <p>"La calidad de los alimentos es increíble, todo muy fresco y llego rápido."</p>
+                <span>- María, consumidora</span>
+            </div>
+
+            <div class="carousel-item">
+                <p>"Gracias a Agrosell Nova recibo un pago justo por mi trabajo y más clientes directos."</p>
+                <span>- Andrés, agricultor</span>
+            </div>
+        </div>
+
+        <div class="carousel-controls">
+            <button id="prevBtn" aria-label="Anterior">&#10094;</button>
+            <button id="nextBtn" aria-label="Siguiente">&#10095;</button>
+        </div>
+
+        <div class="carousel-dots" id="dots">
+            <!-- dots se crean por JS -->
         </div>
     </section>
+
+    <style>
+        /* Sección de Opiniones */
+        .opiniones {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: #f4f9f4;
+        }
+
+        .opiniones h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #2e7d32; /* verde oscuro */
+        }
+
+        .carousel {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .carousel-item {
+            display: none;
+            font-size: 1.2rem;
+            color: #333;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .carousel-item.active {
+            display: block;
+        }
+
+        .carousel-item p {
+            font-style: italic;
+            margin-bottom: 10px;
+            color: #2e7d32; /* verde oscuro */
+        }
+
+        .carousel-item span {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #1b5e20; /* verde aún más oscuro */
+        }
+
+        /* Botones */
+        .carousel-controls {
+            margin-top: 20px;
+        }
+
+        .carousel-controls button {
+            background-color: #2e7d32; /* verde oscuro */
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 50%;
+            margin: 0 8px;
+            transition: background 0.3s;
+        }
+
+        .carousel-controls button:hover {
+            background-color: #1b5e20;
+        }
+
+        /* Dots */
+        .carousel-dots {
+            margin-top: 15px;
+        }
+
+        .carousel-dots span {
+            display: inline-block;
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: #c8e6c9; /* verde clarito */
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .carousel-dots .active {
+            background-color: #2e7d32; /* verde oscuro */
+        }
+    </style>
+
+
+
+    <!-- Sección 3: Imagen central + métricas (como tu referencia) -->
+    <section class="about-team">
+        <div class="team-image">
+            <img th:src="@{/img/team.jpg}" src="/img/team.jpg" alt="Nuestro equipo"/>
+        </div>
+
+        <div class="team-stats">
+            <div class="stat">
+                <h3>2011</h3>
+                <p>Fundamos AGROSELL NOVA, conectando productores y consumidores.</p>
+            </div>
+            <div class="stat">
+                <h3>+12,000</h3>
+                <p>Clientes satisfechos comprando directamente del campo.</p>
+            </div>
+            <div class="stat">
+                <h3>+950MM</h3>
+                <p>Conversaciones y transacciones exitosas en la plataforma.</p>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
 </main>
 
 <footer class="footer">
@@ -86,14 +342,14 @@
         <div class="footer-column">
             <h3>Enlaces rápidos</h3>
             <ul>
-                <li><a th:href="@{/public/inicio}">Inicio</a></li>
-                <li><a th:href="@{/public/categorias}">Categorías</a></li>
-                <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
-                <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
-                <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
-                <li><a th:href="@{/public/404}">Error 404</a></li>
-                <li><a th:href="@{/public/500}">Error 500</a></li>
-                <li><a th:href="@{/public/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/public/inicio}" href="/public/inicio">Inicio</a></li>
+                <li><a th:href="@{/public/categorias}" href="/public/categorias">Categorías</a></li>
+                <li><a th:href="@{/public/contactanos}" href="/public/contactanos">Contáctanos</a></li>
+                <li><a th:href="@{/public/about_us}" href="/public/about_us">Sobre nosotros</a></li>
+                <li><a th:href="@{/public/mapa}" href="/public/mapa">Mapa del sitio</a></li>
+                <li><a th:href="@{/public/404}" href="/public/404">Error 404</a></li>
+                <li><a th:href="@{/public/500}" href="/public/500">Error 500</a></li>
+                <li><a th:href="@{/public/dashboard}" href="/public/dashboard">Dashboard</a></li>
             </ul>
         </div>
 
@@ -115,7 +371,7 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y condiciones</a></p>
+        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}" href="/terminos">Términos y condiciones</a></p>
     </div>
 </footer>
 
@@ -151,6 +407,57 @@
     toggleButton.addEventListener('click', () => {
         menuBar.classList.toggle('active');
     });
+
+    /* Carrusel: manual + automático cada 5s */
+    (function(){
+        const items = Array.from(document.querySelectorAll('.carousel-item'));
+        const prev = document.getElementById('prevBtn');
+        const next = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('dots');
+        let current = 0;
+        let interval = null;
+        const AUTO_MS = 5000;
+
+        function goTo(index) {
+            items[current].classList.remove('active');
+            dotsContainer.children[current].classList.remove('active');
+            current = (index + items.length) % items.length;
+            items[current].classList.add('active');
+            dotsContainer.children[current].classList.add('active');
+        }
+
+        function nextItem(){ goTo(current+1); }
+        function prevItem(){ goTo(current-1); }
+
+        // Crear dots
+        items.forEach((_, i) => {
+            const d = document.createElement('span');
+            d.classList.add('dot');
+            if(i===0) d.classList.add('active');
+            d.addEventListener('click', () => { goTo(i); resetAuto(); });
+            dotsContainer.appendChild(d);
+        });
+
+        next.addEventListener('click', () => { nextItem(); resetAuto(); });
+        prev.addEventListener('click', () => { prevItem(); resetAuto(); });
+
+        function startAuto(){
+            interval = setInterval(nextItem, AUTO_MS);
+        }
+        function stopAuto(){
+            if(interval) clearInterval(interval);
+            interval = null;
+        }
+        function resetAuto(){ stopAuto(); startAuto(); }
+
+        // Inicia
+        startAuto();
+        // pausa si el usuario pasa el mouse por el carrusel
+        const carousel = document.querySelector('.carousel');
+        carousel.addEventListener('mouseenter', stopAuto);
+        carousel.addEventListener('mouseleave', startAuto);
+    })();
 </script>
+
 </body>
 </html>

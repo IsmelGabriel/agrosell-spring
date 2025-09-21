@@ -164,14 +164,14 @@ thead {
 }
 
 td {
-    padding: 12px 15px;
+    padding: 8px 10px;
     text-align: left;
     font-size: 14px;
     border-bottom: 1px solid #ddd;
 }
 
 th {
-    padding: 12px 15px;
+    padding: 10px 8px;
     text-align: left;
     font-size: 14px;
     border-bottom: 1px solid #ddd;
@@ -246,6 +246,14 @@ tr:last-child td[colspan] {
 
 .filtro-btn:hover {
     background-color: #388E3C;
+}
+
+.btn-acion-gestion-producto{
+    color: #F3F6F4;
+    background-color: #2E7D32;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
 }
 
 @media (max-width: 768px) {

@@ -6,7 +6,113 @@
     <title>Panel de control</title>
     <link rel="stylesheet" th:href="@{/css/panel.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        .btn-icon {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        }
+        .btn-icon:hover {
+         transform: scale(1.2);
+         }
+        .modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            position: relative;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .modal-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+        .cerrar {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        .form-calificacion {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group select,
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .form-group textarea {
+            resize: none;
+        }
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-cancelar {
+            background: #e57373;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-cancelar:hover {
+            background: #d32f2f;
+        }
+        .btn-guardar {
+            background: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-guardar:hover {
+            background: #2e7d32;
+        }
+        @keyframes fadeIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
 </head>
+
 <body class="panel-control">
 <header class="Bienvenido">
     <div class="header-left">
@@ -48,14 +154,18 @@
 
         <div class="filtro-reservas">
             <form th:action="@{/private/gestionar_compra}" method="get" class="filtro-form">
-                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
-                <select name="criterio" class="filtro-select">
-                    <option value="">Selecciona un criterio</option>
-                    <option value="id">ID de Venta</option>
-                    <option value="producto">Producto</option>
-                    <option value="fecha">Fecha (YYYY-MM-DD)</option>
-                    <option value="vendedor">Vendedor</option>
-                </select>
+                <label>
+                    <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+                </label>
+                <label>
+                    <select name="criterio" class="filtro-select">
+                        <option value="">Selecciona un criterio</option>
+                        <option value="id">ID de Venta</option>
+                        <option value="producto">Producto</option>
+                        <option value="fecha">Fecha (YYYY-MM-DD)</option>
+                        <option value="vendedor">Vendedor</option>
+                    </select>
+                </label>
                 <button type="submit" class="filtro-btn">Filtrar</button>
             </form>
         </div>
@@ -69,6 +179,7 @@
                 <th>Cantidad (Kg)</th>
                 <th>Total ($)</th>
                 <th>Fecha</th>
+                <th>Calificación</th>
             </tr>
             </thead>
             <tbody>
@@ -79,6 +190,14 @@
                 <td th:text="${venta.cantidadKg}">10</td>
                 <td th:text="${venta.totalVenta}">50000</td>
                 <td th:text="${#temporals.format(venta.fechaVenta, 'yyyy-MM-dd')}">2024-06-01</td>
+                <td>
+                    <button type="button"
+                            th:onclick="|abrirModal(${venta.idVenta}, ${venta.producto.id})|"
+                            class="btn-icon">
+                        🥕
+                    </button>
+                </td>
+
             </tr>
             <tr th:if="${#lists.isEmpty(listaCompra)}">
                 <td colspan="10">No tienes compras registradas en este momento.</td>
@@ -86,6 +205,67 @@
             </tbody>
         </table>
     </main>
+
+    <!-- MODAL PARA CALIFICACIÓN -->
+    <div id="modalCalificacion" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="cerrar" onclick="cerrarModal()">&times;</span>
+            <h2 class="modal-title">Calificar compra</h2>
+            <form th:action="@{/private/guardar_calificacion}" method="post" class="form-calificacion">
+                <input type="hidden" id="idVenta" name="idVenta">
+                <input type="hidden" id="productoId" name="productoId">
+
+                <div class="form-group">
+                    <label for="estrellas">Calificación:</label>
+                    <select name="estrellas" id="estrellas" required>
+                        <option value="">Selecciona</option>
+                        <option value="1">🥕</option>
+                        <option value="2">🥕🥕</option>
+                        <option value="3">🥕🥕🥕</option>
+                        <option value="4">🥕🥕🥕🥕</option>
+                        <option value="5">🥕🥕🥕🥕🥕</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="comentario">Comentario:</label>
+                    <textarea id="comentario" name="comentario" rows="5" placeholder="Escribe tu opinión aquí..."
+                              required></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="btn-guardar">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+<script>
+    function abrirModal(idVenta, productoId) {
+        document.getElementById("idVenta").value = idVenta;
+        document.getElementById("productoId").value = productoId;
+        const modal = document.getElementById("modalCalificacion");
+        modal.style.display = "flex";
+    }
+
+
+    function cerrarModal() {
+        const modal = document.getElementById("modalCalificacion");
+        modal.style.display = "none";
+    }
+
+    document.addEventListener('click', function (e) {
+        const modal = document.getElementById('modalCalificacion');
+        if (!modal) return;
+        if (e.target === modal) cerrarModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') cerrarModal();
+    });
+</script>
+
 </body>
 </html>

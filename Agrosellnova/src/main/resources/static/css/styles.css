@@ -585,6 +585,7 @@ footer {
 }
 
 .productos-texto p {
+    max-width: 170px;
     font-size: 15px;
     color: #666;
     margin: 10px 0;

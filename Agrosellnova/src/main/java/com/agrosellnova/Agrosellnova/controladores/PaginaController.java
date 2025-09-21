@@ -83,16 +83,19 @@ public class PaginaController {
 
     @GetMapping("/forms/formulario_pago")
     public String mostrarFormularioPago(HttpSession session, Model model) {
-        String nombreUsuario = (String) session.getAttribute("usuario");
-        if (nombreUsuario == null) {
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null || rol == null) {
             return "redirect:/public/index";
         }
 
-        Usuario comprador = usuarioService.buscarPorNombreUsuario(nombreUsuario);
+        Usuario comprador = usuarioService.buscarPorNombreUsuario(usuario);
         if (comprador == null) {
             return "redirect:/public/index";
         }
 
+        model.addAttribute("usuario", usuario);
         model.addAttribute("nombre", comprador.getNombre());
         model.addAttribute("correo", comprador.getCorreo());
         model.addAttribute("direccion", comprador.getDireccion());
@@ -101,7 +104,7 @@ public class PaginaController {
     }
 
     @PostMapping("/guardar_producto")
-    public String guardarProducto(
+    public String guardarProductoReserva(
             @RequestParam("usuario") String nombreUsuario,
             @RequestParam("productoImagen") MultipartFile imagen,
             @RequestParam("nombreProducto") String nombre,
@@ -128,6 +131,7 @@ public class PaginaController {
             producto.setDescripcion(descripcion);
             producto.setPesoKg(pesoKg);
             producto.setStock(stock);
+            producto.setEstado("Disponible");
             producto.setFechaCosecha(LocalDate.now());
 
             productoRepository.save(producto);
@@ -136,7 +140,7 @@ public class PaginaController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "error";
+            return "redirect:/error";
         }
     }
 
@@ -159,7 +163,11 @@ public class PaginaController {
     }
 
     @GetMapping("public/inicio")
-    public String mostrarInicio(Model model) {
+    public String mostrarInicio(Model model,HttpSession session ) {
+
+        String usuario = (String) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
+
         List<Producto> destacados = productoRepository.findTop4ByOrderByPrecioAsc();
         List<Producto> masStock = productoRepository.findTop4ByOrderByStockDesc();
         List<Producto> recientes = productoRepository.findTop4ByOrderByFechaCosechaDesc();
