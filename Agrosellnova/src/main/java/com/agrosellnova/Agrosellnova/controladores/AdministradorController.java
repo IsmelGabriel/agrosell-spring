@@ -5,12 +5,10 @@ import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.modelo.Venta;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
 import com.agrosellnova.Agrosellnova.servicio.*;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,7 @@ import com.agrosellnova.Agrosellnova.repositorio.PqrsRepository;
 
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -88,38 +87,78 @@ public class AdministradorController {
         response.setHeader("Content-Disposition", "attachment; filename=usuarios.pdf");
 
         List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
-        Document document = new Document(PageSize.A4);
+        Document document = new Document(PageSize.A4.rotate());
         PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
 
-        document.add(new Paragraph("Lista de Usuarios"));
+        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, new BaseColor(34,139,34));
+        Paragraph title = new Paragraph("Lista de Usuarios Registrados ",titleFont);
+        title.setAlignment(Element.ALIGN_CENTER);
+        document.add(title);
         document.add(new Paragraph(" "));
 
-        PdfPTable table = new PdfPTable(9); // ID, Nombre, Email
-        table.addCell("ID");
-        table.addCell("Nombre");
-        table.addCell("Documento");
-        table.addCell("Ubicación");
-        table.addCell("Correo");
-        table.addCell("Método de pago");
-        table.addCell("Fecha de nacimiento");
-        table.addCell("Rol");
-        table.addCell("Estado");
+        Paragraph fecha = new Paragraph("Fecha de generación: " + new Date().toString());
+        fecha.setAlignment(Element.ALIGN_RIGHT);
+        document.add(fecha);
+        document.add(new Paragraph(" "));
+
+        PdfPTable table = new PdfPTable(9);
+        table.setWidthPercentage(100);
+
+        float[] columnWidths = {1f, 2f, 1.5f, 2f, 2.5f, 1.5f, 1.5f, 1f, 1f};
+        table.setWidths(columnWidths);
+        int rowIndex = 0;
+        Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+        addCellToTable(table, "ID", headerFont, true, rowIndex);
+        addCellToTable(table, "Nombre", headerFont, true, rowIndex);
+        addCellToTable(table, "Documento", headerFont, true, rowIndex);
+        addCellToTable(table, "Ubicación", headerFont, true, rowIndex);
+        addCellToTable(table, "Correo", headerFont, true, rowIndex);
+        addCellToTable(table, "Método Pago", headerFont, true, rowIndex);
+        addCellToTable(table, "Fecha Nac.", headerFont, true, rowIndex);
+        addCellToTable(table, "Rol", headerFont, true, rowIndex);
+        addCellToTable(table, "Estado", headerFont, true, rowIndex);
+
+        Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 8);
 
         for (Usuario usuario : usuarios) {
-            table.addCell(String.valueOf(usuario.getId()));
-            table.addCell(usuario.getNombreUsuario());
-            table.addCell(String.valueOf(usuario.getDocumento()));
-            table.addCell(String.valueOf(usuario.getDireccion()));
-            table.addCell(usuario.getCorreo());
-            table.addCell(usuario.getMetodoPago());
-            table.addCell(String.valueOf(usuario.getFechaNacimiento()));
-            table.addCell(usuario.getRol());
-            table.addCell(usuario.getEstado());
+            addCellToTable(table, String.valueOf(usuario.getId()), dataFont, false, rowIndex);
+            addCellToTable(table, usuario.getNombre() != null ? usuario.getNombre() : "", dataFont, false, rowIndex);
+            addCellToTable(table, usuario.getDocumento() != null ? usuario.getDocumento() : "", dataFont, false, rowIndex);
+            addCellToTable(table, usuario.getDireccion() != null ? usuario.getDireccion() : "", dataFont, false, rowIndex);
+            addCellToTable(table, usuario.getCorreo() != null ? usuario.getCorreo() : "", dataFont, false, rowIndex);
+            addCellToTable(table, usuario.getMetodoPago() != null ? usuario.getMetodoPago() : "", dataFont, false, rowIndex);
+            addCellToTable(table, usuario.getFechaNacimiento() != null ? usuario.getFechaNacimiento().toString() : "", dataFont, false, rowIndex);
+            addCellToTable(table, usuario.getRol() != null ? usuario.getRol() : "", dataFont, false, rowIndex);
+            addCellToTable(table, usuario.getEstado() != null ? usuario.getEstado() : "", dataFont, false, rowIndex);
+            rowIndex++;
         }
 
         document.add(table);
+
+        document.add(new Paragraph(" "));
+        Paragraph footer = new Paragraph("Total de usuarios: " + usuarios.size());
+        footer.setAlignment(Element.ALIGN_CENTER);
+        document.add(footer);
+
         document.close();
+    }
+    private void addCellToTable(PdfPTable table, String content, Font font, boolean isHeader, int rowIndex) {
+        PdfPCell cell = new PdfPCell(new Phrase(content, font));
+        if (isHeader) {
+            cell.setBackgroundColor(new BaseColor(200, 230, 200)); // verde claro
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setBorderColor(new BaseColor(180, 220, 180)); // bordes verdes suaves
+        } else {
+            if (rowIndex % 2 == 0) {
+                cell.setBackgroundColor(new BaseColor(235, 250, 235)); // verde muy suave
+            }
+            cell.setBorderColor(new BaseColor(220, 240, 220));
+
+            cell.setBorderColor(new BaseColor(220, 240, 220)); // bordes más claros para datos
+        }
+        cell.setPadding(5);
+        table.addCell(cell);
     }
 
 
