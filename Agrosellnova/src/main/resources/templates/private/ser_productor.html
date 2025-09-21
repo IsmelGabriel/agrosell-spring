@@ -40,8 +40,7 @@
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver Productos</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}"><i class="fas fa-plus-circle"></i> Realizar Reserva</a></li>
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/ser_productor
-                }"><i class="fas fa-tractor"></i> Ser Productor</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/ser_productor}"><i class="fas fa-tractor"></i> Ser Productor</a></li>
                 <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </div>
@@ -49,64 +48,98 @@
 
     <main class="main-content">
         <div class="cuadro-pago">
-        <h1>Registro de Productor Agropecuario</h1>
+            <h1>Registro de Productor Agropecuario</h1>
 
-        <form   method="post" class="ofertar-form" novalidate>
-
-            <div class="formulario-pago">
-                <label class="form-label">Nombre de la finca</label>
-                <input type="text" class="form-control" placeholder="Ej: Finca La Esperanza" required>
+            <!-- Mensajes de alerta -->
+            <div th:if="${error}" class="alerta-error" style="background-color: #FFEBEE; color: #C62828; padding: 15px 20px; border-radius: 8px; border-left: 4px solid #F44336; margin-bottom: 20px; font-weight: 500;">
+                <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>
+                <span th:text="${error}"></span>
             </div>
 
-            <div class="formulario-pago">
-                <label class="form-label">Ubicación</label>
-                <input type="text" class="form-control" placeholder="Ej: Vereda San José, Municipio X" required>
+            <div th:if="${exito}" class="alerta-exito" style="background-color: #E8F5E9; color: #2E7D32; padding: 15px 20px; border-radius: 8px; border-left: 4px solid #4CAF50; margin-bottom: 20px; font-weight: 500; display: block;">
+                <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                <span th:text="${exito}"></span>
             </div>
 
-            <div class="formulario-pago">
-                <label class="form-label">Área de cultivo (Ha)</label>
-                <input type="number" class="form-control" step="0.01"  placeholder="Ej: 12.5">
+            <!-- Mostrar estado si ya es productor -->
+            <div th:if="${tieneProductor}" class="estado-productor" style="background-color: #F3E5F5; color: #7B1FA2; padding: 20px; border-radius: 8px; border-left: 4px solid #9C27B0; margin-bottom: 25px;">
+                <h3 style="margin-top: 0; color: #7B1FA2;">
+                    <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                    Estado de tu solicitud
+                </h3>
+                <p><strong>Finca:</strong> <span th:text="${productorExistente?.nombreFinca}"></span></p>
+                <p><strong>Estado:</strong>
+                    <span th:text="${productorExistente?.estadoSolicitud}"></span>
+                </p>
+                <p th:text="${mensajeEstado}" style="font-style: italic; margin-top: 15px;"></p>
+
+                <div th:if="${productorExistente != null && productorExistente.estadoSolicitud.name() == 'Aprobado'}" style="margin-top: 15px;">
+                    <a th:href="@{/private/mi_solicitud_productor}" class="btn-registrar" style="display: inline-block; text-decoration: none; text-align: center; margin-right: 10px;">
+                        <i class="fas fa-eye" style="margin-right: 5px;"></i>
+                        Ver Detalles
+                    </a>
+                </div>
             </div>
 
-            <div class="formulario-pago">
-                <label class="form-label">Tipo de producción</label>
-                <select class="form-select" required>
-                    <option value="">Seleccione...</option>
-                    <option value="Agrícola">Agrícola</option>
-                    <option value="Pecuaria">Pecuaria</option>
-                    <option value="Mixta">Mixta</option>
-                </select>
+            <!-- Formulario solo si no tiene solicitud o fue rechazada -->
+            <div th:if="${!tieneProductor || (productorExistente != null && productorExistente.estadoSolicitud.name() == 'Rechazado')}">
+                <form th:action="@{/private/ser_productor}" method="post" class="ofertar-form" novalidate>
+
+                    <div class="formulario-pago">
+                        <label class="form-label">Nombre de la finca</label>
+                        <input type="text" name="nombreFinca" class="form-control" placeholder="Ej: Finca La Esperanza" required maxlength="100">
+                    </div>
+
+                    <div class="formulario-pago">
+                        <label class="form-label">Ubicación</label>
+                        <input type="text" name="ubicacion" class="form-control" placeholder="Ej: Vereda San José, Municipio X" required maxlength="255">
+                    </div>
+
+                    <div class="formulario-pago">
+                        <label class="form-label">Área de cultivo (Ha)</label>
+                        <input type="number" name="areaCultivo" class="form-control" step="0.01" min="0.01" placeholder="Ej: 12.5">
+                    </div>
+
+                    <div class="formulario-pago">
+                        <label class="form-label">Tipo de producción</label>
+                        <select name="tipoProduccion" class="form-select" required>
+                            <option value="">Seleccione...</option>
+                            <option value="Agrícola">Agrícola</option>
+                            <option value="Pecuaria">Pecuaria</option>
+                            <option value="Mixta">Mixta</option>
+                        </select>
+                    </div>
+
+                    <div class="formulario-pago">
+                        <label class="form-label">Años de experiencia</label>
+                        <input type="number" name="anosExperiencia" class="form-control" min="0" max="100" placeholder="Ej: 5">
+                    </div>
+
+                    <div class="formulario-pago">
+                        <label class="form-label">Capacidad de producción (Ton/mes)</label>
+                        <input type="number" name="capacidadProduccion" class="form-control" step="0.01" min="0.01" placeholder="Ej: 3.2">
+                    </div>
+
+                    <div class="formulario-pago">
+                        <label class="form-label">Contacto comercial</label>
+                        <input type="text" name="contactoComercial" class="form-control" placeholder="Teléfono, correo o persona de contacto" required maxlength="100">
+                    </div>
+
+                    <div class="formulario-pago">
+                        <label class="form-label">Productos</label>
+                        <textarea name="productos" rows="3" class="form-control" placeholder="Ej: Café, plátano, leche..."></textarea>
+                    </div>
+
+                    <div class="formulario-pago">
+                        <label class="form-label">Descripción</label>
+                        <textarea name="descripcion" rows="4" class="form-control" placeholder="Ej: Tradición familiar en cultivo de café, prácticas sostenibles, etc."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-registrar">Enviar Solicitud</button>
+                </form>
             </div>
 
-            <div class="formulario-pago">
-                <label class="form-label">Años de experiencia</label>
-                <input type="number" class="form-control" placeholder="Ej: 5">
-            </div>
-
-            <div class="formulario-pago">
-                <label class="form-label">Capacidad de producción (kg/mes)</label>
-                <input type="number" class="form-control" step="0.01"  placeholder="Ej: 3.2" required>
-            </div>
-
-            <div class="formulario-pago">
-                <label class="form-label">Contacto comercial</label>
-                <input type="text" class="form-control" placeholder="Teléfono, correo o persona de contacto" required>
-            </div>
-
-            <div class="formulario-pago">
-                <label class="form-label">Productos</label>
-                <textarea  rows="3" class="form-control" placeholder="Ej: Café, plátano, leche..." required></textarea>
-            </div>
-
-            <div class="formulario-pago">
-                <label class="form-label">Descripción</label>
-                <textarea  rows="4" class="form-control" placeholder="Ej: Tradición familiar en cultivo de café, prácticas sostenibles, etc."></textarea>
-            </div>
-
-            <button type="submit" class="btn-registrar">Enviar Solicitud</button>
-        </form>
-
-        <div  class="alerta-exito" ></div>
+            <div class="alerta-exito" style="display: none;"></div>
         </div>
     </main>
 </div>
@@ -122,45 +155,23 @@
 
             // Manejar el envío del formulario
             form.addEventListener('submit', function(e) {
-                e.preventDefault(); // Prevenir envío por defecto
-
                 // Agregar clase para activar estilos de validación
                 form.classList.add('was-validated');
 
                 // Verificar si el formulario es válido
                 const isValid = form.checkValidity();
 
-                if (isValid) {
-                    // Aquí puedes procesar el formulario o enviarlo
-                    mostrarExito();
-                    // form.submit(); // Descomenta esta línea para enviar realmente
-                } else {
+                if (!isValid) {
+                    e.preventDefault(); // Solo prevenir si es inválido
                     // Enfocar el primer campo inválido
                     const firstInvalid = form.querySelector(':invalid');
                     if (firstInvalid) {
                         firstInvalid.focus();
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
+                // Si es válido, dejar que el formulario se envíe normalmente
             });
-
-            // Función para mostrar mensaje de éxito
-            function mostrarExito() {
-                const alertaExito = document.querySelector('.alerta-exito');
-                if (alertaExito) {
-                    alertaExito.textContent = '¡Solicitud enviada exitosamente! Te contactaremos pronto.';
-                    alertaExito.classList.add('mostrar');
-
-                    // Scroll al mensaje
-                    alertaExito.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                    // Opcional: resetear formulario después de unos segundos
-                    setTimeout(() => {
-                        form.reset();
-                        form.classList.remove('was-validated');
-                        alertaExito.classList.remove('mostrar');
-                    }, 5000);
-                }
-            }
 
             // Limpiar validación al resetear campos manualmente
             const inputs = form.querySelectorAll('input, select, textarea');
@@ -174,9 +185,22 @@
                 });
             });
         }
+
+        // Auto-ocultar alertas después de 10 segundos
+        const alertas = document.querySelectorAll('.alerta-error, .alerta-exito');
+        alertas.forEach(alerta => {
+            if (alerta.style.display !== 'none' && alerta.textContent.trim() !== '') {
+                setTimeout(() => {
+                    alerta.style.transition = 'opacity 0.5s ease';
+                    alerta.style.opacity = '0';
+                    setTimeout(() => {
+                        alerta.style.display = 'none';
+                    }, 500);
+                }, 10000);
+            }
+        });
     });
 </script>
-
 
 </body>
 </html>

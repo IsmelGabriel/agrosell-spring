@@ -1,18 +1,339 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
+import com.agrosellnova.Agrosellnova.modelo.Usuario;
+import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import com.agrosellnova.Agrosellnova.modelo.Productor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import com.agrosellnova.Agrosellnova.servicio.ProductorService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
+@RequestMapping("/private")
 public class ProductorController {
 
-    @GetMapping("/private/ser_productor")
-    public String mostrarFormulario() {
-        return "/private/ser_productor";  // solo devuelve la vista
+    @Autowired
+    private ProductorService productorService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    /**
+     * Obtener ID de usuario desde la sesión con manejo de errores
+     */
+    private Long obtenerIdUsuario(HttpSession session, String nombreUsuario) {
+        Long idUsuario = (Long) session.getAttribute("ID_USUARIO");
+
+        // Si es null, intentar obtenerlo de la base de datos
+        if (idUsuario == null && nombreUsuario != null) {
+            Usuario usuario = usuarioRepository.findByNombreUsuario(nombreUsuario);
+            if (usuario != null) {
+                idUsuario = usuario.getId();
+                // Guardar en sesión para próximas veces
+                session.setAttribute("ID_USUARIO", idUsuario);
+            }
+        }
+
+        return idUsuario;
     }
 
+    /**
+     * Mostrar formulario para ser productor
+     */
+    @GetMapping("/ser_productor")
+    public String mostrarFormularioProductor(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        // Verificar sesión siguiendo el patrón del ejemplo
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+        Long idUsuario = obtenerIdUsuario(session, usuario);
+
+        if (usuario == null || rol == null) {
+            return "redirect:/public/index";
+        }
+
+        if (!"cliente".equals(rol)) {
+            redirectAttributes.addFlashAttribute("error", "Acceso denegado");
+            return "redirect:/public/index";
+        }
+
+        if (idUsuario == null) {
+            redirectAttributes.addFlashAttribute("error", "Error de sesión. Inicia sesión nuevamente");
+            return "redirect:/public/index";
+        }
+
+        // Verificar si ya es productor
+        boolean tieneProductor = productorService.yaEsProductor(idUsuario.intValue());
+        model.addAttribute("tieneProductor", tieneProductor);
+
+        if (tieneProductor) {
+            Optional<Productor> productorExistente = productorService.obtenerPorUsuario(idUsuario.intValue());
+            if (productorExistente.isPresent()) {
+                Productor productor = productorExistente.get();
+                model.addAttribute("productorExistente", productor);
+
+                String mensaje = switch (productor.getEstadoSolicitud()) {
+                    case Pendiente -> "Tu solicitud está siendo revisada.";
+                    case Aprobado -> "¡Felicidades! Tu solicitud ha sido aprobada. Ya eres productor.";
+                    case Rechazado -> "Tu solicitud ha sido rechazada. Puedes enviar una nueva solicitud.";
+                };
+                model.addAttribute("mensajeEstado", mensaje);
+            }
+        }
+
+        // Datos de sesión para la vista
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("rol", rol);
+
+        return "private/ser_productor";
+    }
+
+    /**
+     * Procesar formulario de solicitud de productor
+     */
+    @PostMapping("/ser_productor")
+    public String procesarSolicitudProductor(
+            @RequestParam("nombreFinca") String nombreFinca,
+            @RequestParam("ubicacion") String ubicacion,
+            @RequestParam(value = "areaCultivo", required = false) BigDecimal areaCultivo,
+            @RequestParam("tipoProduccion") String tipoProduccion,
+            @RequestParam(value = "anosExperiencia", required = false) Integer anosExperiencia,
+            @RequestParam(value = "capacidadProduccion", required = false) BigDecimal capacidadProduccion,
+            @RequestParam("contactoComercial") String contactoComercial,
+            @RequestParam(value = "productos", required = false) String productos,
+            @RequestParam(value = "descripcion", required = false) String descripcion,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        try {
+            // Verificar sesión siguiendo el patrón del ejemplo
+            String usuario = (String) session.getAttribute("usuario");
+            String rol = (String) session.getAttribute("rol");
+            Long idUsuario = obtenerIdUsuario(session, usuario);
+
+            if (usuario == null || rol == null) {
+                return "redirect:/public/index";
+            }
+
+            if (!"cliente".equals(rol)) {
+                redirectAttributes.addFlashAttribute("error", "Acceso denegado");
+                return "redirect:/public/index";
+            }
+
+            if (idUsuario == null) {
+                redirectAttributes.addFlashAttribute("error", "Error de sesión. Inicia sesión nuevamente");
+                return "redirect:/public/index";
+            }
+
+            // Verificar si ya tiene solicitud
+            if (productorService.yaEsProductor(idUsuario.intValue())) {
+                redirectAttributes.addFlashAttribute("error", "Ya tienes una solicitud de productor registrada");
+                return "redirect:/private/ser_productor";
+            }
+
+            // Crear nuevo productor
+            Productor nuevoProductor = new Productor();
+            nuevoProductor.setIdUsuario(idUsuario.intValue());
+            nuevoProductor.setNombreFinca(nombreFinca.trim());
+            nuevoProductor.setUbicacion(ubicacion.trim());
+            nuevoProductor.setAreaCultivo(areaCultivo);
+            nuevoProductor.setTipoProduccion(Productor.TipoProduccion.valueOf(tipoProduccion));
+            nuevoProductor.setAnosExperiencia(anosExperiencia);
+            nuevoProductor.setCapacidadProduccion(capacidadProduccion);
+            nuevoProductor.setContactoComercial(contactoComercial.trim());
+            nuevoProductor.setProductos(productos != null ? productos.trim() : null);
+            nuevoProductor.setDescripcion(descripcion != null ? descripcion.trim() : null);
+
+            // Guardar en base de datos
+            productorService.crearSolicitudProductor(nuevoProductor);
+
+            redirectAttributes.addFlashAttribute("exito", "¡Solicitud enviada exitosamente! Te contactaremos pronto.");
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al procesar la solicitud: " + e.getMessage());
+        }
+
+        return "redirect:/private/ser_productor";
+    }
+
+    /**
+     * Ver estado de solicitud de productor
+     */
+    @GetMapping("/mi_solicitud_productor")
+    public String verMiSolicitud(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        // Verificar sesión siguiendo el patrón del ejemplo
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+        Long idUsuario = obtenerIdUsuario(session, usuario);
+
+        if (usuario == null || rol == null) {
+            return "redirect:/public/index";
+        }
+
+        if (idUsuario == null) {
+            redirectAttributes.addFlashAttribute("error", "Error de sesión. Inicia sesión nuevamente");
+            return "redirect:/public/index";
+        }
+
+        Optional<Productor> productor = productorService.obtenerPorUsuario(idUsuario.intValue());
+        if (productor.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "No tienes solicitud de productor");
+            return "redirect:/private/ser_productor";
+        }
+
+        model.addAttribute("productor", productor.get());
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("rol", rol);
+
+        return "mi_solicitud_productor";
+    }
+
+    /**
+     * Listar todos los productores (para administrador)
+     */
+    @GetMapping("/gestionar_productores")
+    public String gestionarProductores(
+            @RequestParam(value = "estado", required = false) String estado,
+            @RequestParam(value = "buscar", required = false) String buscar,
+            HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+
+        // Verificar sesión de administrador siguiendo el patrón
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null || rol == null) {
+            return "redirect:/public/index";
+        }
+
+        if (!"administrador".equals(rol)) {
+            redirectAttributes.addFlashAttribute("error", "Acceso denegado");
+            return "redirect:/public/inicio";
+        }
+
+        List<Productor> productores;
+
+        // Filtrar por estado si se especifica
+        if (estado != null && !estado.isEmpty()) {
+            try {
+                Productor.EstadoSolicitud estadoEnum = Productor.EstadoSolicitud.valueOf(estado);
+                productores = productorService.obtenerPorEstado(estadoEnum);
+            } catch (IllegalArgumentException e) {
+                productores = productorService.obtenerTodos();
+            }
+        }
+        // Buscar por término si se especifica
+        else if (buscar != null && !buscar.trim().isEmpty()) {
+            String termino = buscar.trim();
+            productores = productorService.buscarPorNombreFinca(termino);
+            // Se podrían agregar más criterios de búsqueda aquí
+        }
+        // Mostrar todos si no hay filtros
+        else {
+            productores = productorService.obtenerTodos();
+        }
+
+        // Estadísticas
+        long pendientes = productorService.contarPorEstado(Productor.EstadoSolicitud.Pendiente);
+        long aprobados = productorService.contarPorEstado(Productor.EstadoSolicitud.Aprobado);
+        long rechazados = productorService.contarPorEstado(Productor.EstadoSolicitud.Rechazado);
+
+        model.addAttribute("productores", productores);
+        model.addAttribute("estadoFiltro", estado);
+        model.addAttribute("terminoBusqueda", buscar);
+        model.addAttribute("cantidadPendientes", pendientes);
+        model.addAttribute("cantidadAprobados", aprobados);
+        model.addAttribute("cantidadRechazados", rechazados);
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("rol", rol);
+
+        return "gestionar_productores";
+    }
+
+    /**
+     * Aprobar solicitud de productor
+     */
+    @PostMapping("/aprobar_productor/{id}")
+    public String aprobarProductor(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+        // Verificar sesión de administrador siguiendo el patrón
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null || rol == null) {
+            return "redirect:/public/index";
+        }
+
+        if (!"administrador".equals(rol)) {
+            redirectAttributes.addFlashAttribute("error", "Acceso denegado");
+            return "redirect:/public/inicio";
+        }
+
+        try {
+            productorService.aprobarSolicitud(id);
+            redirectAttributes.addFlashAttribute("exito", "Solicitud aprobada exitosamente");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al aprobar solicitud: " + e.getMessage());
+        }
+
+        return "redirect:/private/gestionar_productores";
+    }
+
+    /**
+     * Rechazar solicitud de productor
+     */
+    @PostMapping("/rechazar_productor/{id}")
+    public String rechazarProductor(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+        // Verificar sesión de administrador siguiendo el patrón
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null || rol == null) {
+            return "redirect:/public/index";
+        }
+
+        if (!"administrador".equals(rol)) {
+            redirectAttributes.addFlashAttribute("error", "Acceso denegado");
+            return "redirect:/public/inicio";
+        }
+
+        try {
+            productorService.rechazarSolicitud(id);
+            redirectAttributes.addFlashAttribute("exito", "Solicitud rechazada");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al rechazar solicitud: " + e.getMessage());
+        }
+
+        return "redirect:/private/gestionar_productores";
+    }
+
+    /**
+     * Ver detalles de un productor
+     */
+    @GetMapping("/ver_productor/{id}")
+    public String verProductor(@PathVariable Long id, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+        // Verificar sesión siguiendo el patrón
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null || rol == null) {
+            return "redirect:/public/index";
+        }
+
+        Optional<Productor> productorOpt = productorService.obtenerPorId(id);
+        if (productorOpt.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Productor no encontrado");
+            return "redirect:/private/gestionar_productores";
+        }
+
+        model.addAttribute("productor", productorOpt.get());
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("rol", rol);
+
+        return "ver_productor";
+    }
 }
