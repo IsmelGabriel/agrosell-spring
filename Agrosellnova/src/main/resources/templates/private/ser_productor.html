@@ -50,7 +50,7 @@
         <div class="cuadro-pago">
             <h1>Registro de Productor Agropecuario</h1>
 
-            <!-- Mensajes de alerta -->
+
             <div th:if="${error}" class="alerta-error" style="background-color: #FFEBEE; color: #C62828; padding: 15px 20px; border-radius: 8px; border-left: 4px solid #F44336; margin-bottom: 20px; font-weight: 500;">
                 <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>
                 <span th:text="${error}"></span>
@@ -61,7 +61,7 @@
                 <span th:text="${exito}"></span>
             </div>
 
-            <!-- Mostrar estado si ya es productor -->
+
             <div th:if="${tieneProductor}" class="estado-productor" style="background-color: #F3E5F5; color: #7B1FA2; padding: 20px; border-radius: 8px; border-left: 4px solid #9C27B0; margin-bottom: 25px;">
                 <h3 style="margin-top: 0; color: #7B1FA2;">
                     <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
@@ -74,15 +74,12 @@
                 <p th:text="${mensajeEstado}" style="font-style: italic; margin-top: 15px;"></p>
 
                 <div th:if="${productorExistente != null && productorExistente.estadoSolicitud.name() == 'Aprobado'}" style="margin-top: 15px;">
-                    <a th:href="@{/private/mi_solicitud_productor}" class="btn-registrar" style="display: inline-block; text-decoration: none; text-align: center; margin-right: 10px;">
-                        <i class="fas fa-eye" style="margin-right: 5px;"></i>
-                        Ver Detalles
-                    </a>
+
                 </div>
             </div>
 
-            <!-- Formulario solo si no tiene solicitud o fue rechazada -->
-            <div th:if="${!tieneProductor || (productorExistente != null && productorExistente.estadoSolicitud.name() == 'Rechazado')}">
+
+            <div th:if="${!tieneProductor || puedeEnviarSolicitud}">
                 <form th:action="@{/private/ser_productor}" method="post" class="ofertar-form" novalidate>
 
                     <div class="formulario-pago">
@@ -150,30 +147,30 @@
         const submitButton = document.querySelector('.btn-registrar');
 
         if (form && submitButton) {
-            // Prevenir validación automática al cargar
+
             form.setAttribute('novalidate', 'novalidate');
 
-            // Manejar el envío del formulario
+
             form.addEventListener('submit', function(e) {
                 // Agregar clase para activar estilos de validación
                 form.classList.add('was-validated');
 
-                // Verificar si el formulario es válido
+
                 const isValid = form.checkValidity();
 
                 if (!isValid) {
                     e.preventDefault(); // Solo prevenir si es inválido
-                    // Enfocar el primer campo inválido
+
                     const firstInvalid = form.querySelector(':invalid');
                     if (firstInvalid) {
                         firstInvalid.focus();
                         firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
-                // Si es válido, dejar que el formulario se envíe normalmente
+
             });
 
-            // Limpiar validación al resetear campos manualmente
+
             const inputs = form.querySelectorAll('input, select, textarea');
             inputs.forEach(input => {
                 input.addEventListener('input', function() {
@@ -186,7 +183,7 @@
             });
         }
 
-        // Auto-ocultar alertas después de 10 segundos
+
         const alertas = document.querySelectorAll('.alerta-error, .alerta-exito');
         alertas.forEach(alerta => {
             if (alerta.style.display !== 'none' && alerta.textContent.trim() !== '') {

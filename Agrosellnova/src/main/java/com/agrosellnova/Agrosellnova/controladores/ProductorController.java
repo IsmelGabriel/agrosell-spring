@@ -12,6 +12,7 @@ import com.agrosellnova.Agrosellnova.servicio.ProductorService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,31 +26,22 @@ public class ProductorController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    /**
-     * Obtener ID de usuario desde la sesión con manejo de errores
-     */
     private Long obtenerIdUsuario(HttpSession session, String nombreUsuario) {
         Long idUsuario = (Long) session.getAttribute("ID_USUARIO");
 
-        // Si es null, intentar obtenerlo de la base de datos
         if (idUsuario == null && nombreUsuario != null) {
             Usuario usuario = usuarioRepository.findByNombreUsuario(nombreUsuario);
             if (usuario != null) {
                 idUsuario = usuario.getId();
-                // Guardar en sesión para próximas veces
                 session.setAttribute("ID_USUARIO", idUsuario);
             }
         }
-
         return idUsuario;
     }
 
-    /**
-     * Mostrar formulario para ser productor
-     */
     @GetMapping("/ser_productor")
     public String mostrarFormularioProductor(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        // Verificar sesión siguiendo el patrón del ejemplo
+
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
         Long idUsuario = obtenerIdUsuario(session, usuario);
@@ -58,19 +50,11 @@ public class ProductorController {
             return "redirect:/public/index";
         }
 
-        if (!"cliente".equals(rol)) {
-            redirectAttributes.addFlashAttribute("error", "Acceso denegado");
-            return "redirect:/public/index";
-        }
-
-        if (idUsuario == null) {
-            redirectAttributes.addFlashAttribute("error", "Error de sesión. Inicia sesión nuevamente");
-            return "redirect:/public/index";
-        }
-
-        // Verificar si ya es productor
         boolean tieneProductor = productorService.yaEsProductor(idUsuario.intValue());
+        boolean puedeEnviar = productorService.puedeEnviarSolicitud(idUsuario.intValue());
+
         model.addAttribute("tieneProductor", tieneProductor);
+        model.addAttribute("puedeEnviarSolicitud", puedeEnviar);
 
         if (tieneProductor) {
             Optional<Productor> productorExistente = productorService.obtenerPorUsuario(idUsuario.intValue());
@@ -81,22 +65,16 @@ public class ProductorController {
                 String mensaje = switch (productor.getEstadoSolicitud()) {
                     case Pendiente -> "Tu solicitud está siendo revisada.";
                     case Aprobado -> "¡Felicidades! Tu solicitud ha sido aprobada. Ya eres productor.";
-                    case Rechazado -> "Tu solicitud ha sido rechazada. Puedes enviar una nueva solicitud.";
+                    case Rechazado -> "Tu solicitud ha sido rechazada. Puedes enviar una nueva solicitud con la información actualizada.";
                 };
                 model.addAttribute("mensajeEstado", mensaje);
             }
         }
-
-        // Datos de sesión para la vista
         model.addAttribute("usuario", usuario);
         model.addAttribute("rol", rol);
-
         return "private/ser_productor";
     }
 
-    /**
-     * Procesar formulario de solicitud de productor
-     */
     @PostMapping("/ser_productor")
     public String procesarSolicitudProductor(
             @RequestParam("nombreFinca") String nombreFinca,
@@ -112,7 +90,6 @@ public class ProductorController {
             RedirectAttributes redirectAttributes) {
 
         try {
-            // Verificar sesión siguiendo el patrón del ejemplo
             String usuario = (String) session.getAttribute("usuario");
             String rol = (String) session.getAttribute("rol");
             Long idUsuario = obtenerIdUsuario(session, usuario);
@@ -121,23 +98,11 @@ public class ProductorController {
                 return "redirect:/public/index";
             }
 
-            if (!"cliente".equals(rol)) {
-                redirectAttributes.addFlashAttribute("error", "Acceso denegado");
-                return "redirect:/public/index";
-            }
-
-            if (idUsuario == null) {
-                redirectAttributes.addFlashAttribute("error", "Error de sesión. Inicia sesión nuevamente");
-                return "redirect:/public/index";
-            }
-
-            // Verificar si ya tiene solicitud
-            if (productorService.yaEsProductor(idUsuario.intValue())) {
-                redirectAttributes.addFlashAttribute("error", "Ya tienes una solicitud de productor registrada");
+            if (!productorService.puedeEnviarSolicitud(idUsuario.intValue())) {
+                redirectAttributes.addFlashAttribute("error", "No puedes enviar una nueva solicitud en este momento");
                 return "redirect:/private/ser_productor";
             }
 
-            // Crear nuevo productor
             Productor nuevoProductor = new Productor();
             nuevoProductor.setIdUsuario(idUsuario.intValue());
             nuevoProductor.setNombreFinca(nombreFinca.trim());
@@ -150,11 +115,15 @@ public class ProductorController {
             nuevoProductor.setProductos(productos != null ? productos.trim() : null);
             nuevoProductor.setDescripcion(descripcion != null ? descripcion.trim() : null);
 
-            // Guardar en base de datos
-            productorService.crearSolicitudProductor(nuevoProductor);
 
-            redirectAttributes.addFlashAttribute("exito", "¡Solicitud enviada exitosamente! Te contactaremos pronto.");
+            productorService.crearOActualizarSolicitudProductor(nuevoProductor);
 
+            Optional<Productor> solicitudExistente = productorService.obtenerPorUsuario(idUsuario.intValue());
+            String mensaje = "¡Solicitud enviada exitosamente! Te contactaremos pronto.";
+
+            if (solicitudExistente.isPresent() && solicitudExistente.get().getFechaRegistro().isBefore(LocalDateTime.now().minusMinutes(1))) {
+                mensaje = "¡Solicitud actualizada exitosamente! Tu solicitud ha sido enviada nuevamente para revisión.";
+            }
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al procesar la solicitud: " + e.getMessage());
         }
@@ -162,12 +131,9 @@ public class ProductorController {
         return "redirect:/private/ser_productor";
     }
 
-    /**
-     * Ver estado de solicitud de productor
-     */
     @GetMapping("/mi_solicitud_productor")
     public String verMiSolicitud(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        // Verificar sesión siguiendo el patrón del ejemplo
+
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
         Long idUsuario = obtenerIdUsuario(session, usuario);
@@ -194,16 +160,13 @@ public class ProductorController {
         return "mi_solicitud_productor";
     }
 
-    /**
-     * Listar todos los productores (para administrador)
-     */
     @GetMapping("/gestionar_productores")
     public String gestionarProductores(
             @RequestParam(value = "estado", required = false) String estado,
             @RequestParam(value = "buscar", required = false) String buscar,
             HttpSession session, Model model, RedirectAttributes redirectAttributes) {
 
-        // Verificar sesión de administrador siguiendo el patrón
+
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
 
@@ -218,7 +181,7 @@ public class ProductorController {
 
         List<Productor> productores;
 
-        // Filtrar por estado si se especifica
+
         if (estado != null && !estado.isEmpty()) {
             try {
                 Productor.EstadoSolicitud estadoEnum = Productor.EstadoSolicitud.valueOf(estado);
@@ -227,13 +190,13 @@ public class ProductorController {
                 productores = productorService.obtenerTodos();
             }
         }
-        // Buscar por término si se especifica
+
         else if (buscar != null && !buscar.trim().isEmpty()) {
             String termino = buscar.trim();
             productores = productorService.buscarPorNombreFinca(termino);
             // Se podrían agregar más criterios de búsqueda aquí
         }
-        // Mostrar todos si no hay filtros
+
         else {
             productores = productorService.obtenerTodos();
         }
@@ -255,9 +218,6 @@ public class ProductorController {
         return "gestionar_productores";
     }
 
-    /**
-     * Aprobar solicitud de productor
-     */
     @PostMapping("/aprobar_productor/{id}")
     public String aprobarProductor(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
         // Verificar sesión de administrador siguiendo el patrón
@@ -283,9 +243,7 @@ public class ProductorController {
         return "redirect:/private/gestionar_productores";
     }
 
-    /**
-     * Rechazar solicitud de productor
-     */
+
     @PostMapping("/rechazar_productor/{id}")
     public String rechazarProductor(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
         // Verificar sesión de administrador siguiendo el patrón
@@ -311,9 +269,7 @@ public class ProductorController {
         return "redirect:/private/gestionar_productores";
     }
 
-    /**
-     * Ver detalles de un productor
-     */
+
     @GetMapping("/ver_productor/{id}")
     public String verProductor(@PathVariable Long id, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         // Verificar sesión siguiendo el patrón
