@@ -112,6 +112,7 @@ public class AdministradorController {
             table.addCell(String.valueOf(usuario.getDocumento()));
             table.addCell(String.valueOf(usuario.getDireccion()));
             table.addCell(usuario.getCorreo());
+            table.addCell(usuario.getMetodoPago());
             table.addCell(String.valueOf(usuario.getFechaNacimiento()));
             table.addCell(usuario.getRol());
             table.addCell(usuario.getEstado());
