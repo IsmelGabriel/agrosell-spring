@@ -57,6 +57,11 @@
                 <option value="documento">Documento</option>
             </select>
             <button type="submit" class="filtro-btn">Filtrar</button>
+            <form th:action="@{/web/users/export/pdf}" method="get">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-file-pdf"></i> Exportar PDF
+                </button>
+            </form>
         </form>
 
         <table border="1">

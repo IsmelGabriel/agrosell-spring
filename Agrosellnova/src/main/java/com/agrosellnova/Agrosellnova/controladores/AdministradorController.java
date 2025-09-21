@@ -5,6 +5,13 @@ import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.modelo.Venta;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
 import com.agrosellnova.Agrosellnova.servicio.*;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +23,7 @@ import com.agrosellnova.Agrosellnova.modelo.Pqrs;
 import com.agrosellnova.Agrosellnova.repositorio.PqrsRepository;
 
 
-
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -74,6 +81,44 @@ public class AdministradorController {
         model.addAttribute("rol", session.getAttribute("rol"));
 
         return "private/usuarios_registrados";
+    }
+    @GetMapping("/export/usuarios_registrados")
+    public void exportUsersToPdf(HttpServletResponse response) throws IOException, DocumentException {
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=usuarios.pdf");
+
+        List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
+        Document document = new Document(PageSize.A4);
+        PdfWriter.getInstance(document, response.getOutputStream());
+        document.open();
+
+        document.add(new Paragraph("Lista de Usuarios"));
+        document.add(new Paragraph(" "));
+
+        PdfPTable table = new PdfPTable(9); // ID, Nombre, Email
+        table.addCell("ID");
+        table.addCell("Nombre");
+        table.addCell("Documento");
+        table.addCell("Ubicación");
+        table.addCell("Correo");
+        table.addCell("Método de pago");
+        table.addCell("Fecha de nacimiento");
+        table.addCell("Rol");
+        table.addCell("Estado");
+
+        for (Usuario usuario : usuarios) {
+            table.addCell(String.valueOf(usuario.getId()));
+            table.addCell(usuario.getNombreUsuario());
+            table.addCell(String.valueOf(usuario.getDocumento()));
+            table.addCell(String.valueOf(usuario.getDireccion()));
+            table.addCell(usuario.getCorreo());
+            table.addCell(String.valueOf(usuario.getFechaNacimiento()));
+            table.addCell(usuario.getRol());
+            table.addCell(usuario.getEstado());
+        }
+
+        document.add(table);
+        document.close();
     }
 
 
