@@ -58,6 +58,11 @@
                 <button type="submit" class="filtro-btn">Filtrar</button>
             </form>
         </div>
+        <form th:action="@{/private/export/gestionar_productos}" method="get">
+            <button type="submit" class="export-btn btn-danger">
+                <i class="fas fa-file-pdf"></i> Exportar PDF
+            </button>
+        </form>
         <table border="1">
             <thead>
             <tr>
