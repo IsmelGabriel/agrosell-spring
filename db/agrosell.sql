@@ -220,15 +220,15 @@ DROP TABLE IF EXISTS `productores`;
 CREATE TABLE `productores` (
   `id_productor` bigint(20) NOT NULL AUTO_INCREMENT,
   `id_usuario` int(11) NOT NULL,
-  `nombre_finca` varchar(100) NOT NULL,
+  `nombre_finca` varchar(255) DEFAULT NULL,
   `ubicacion` varchar(255) NOT NULL,
-  `area_cultivo` decimal(10,2) DEFAULT NULL,
+  `area_cultivo` decimal(38,2) DEFAULT NULL,
   `tipo_produccion` enum('Agrícola','Pecuaria','Mixta') NOT NULL,
-  `productos` text DEFAULT NULL,
+  `productos` varchar(255) DEFAULT NULL,
   `años_experiencia` int(11) DEFAULT NULL,
-  `capacidad_produccion` decimal(10,2) DEFAULT NULL,
-  `contacto_comercial` varchar(100) NOT NULL,
-  `descripcion` text DEFAULT NULL,
+  `capacidad_produccion` decimal(38,2) DEFAULT NULL,
+  `contacto_comercial` varchar(255) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
   `estado_solicitud` enum('Pendiente','Aprobado','Rechazado') DEFAULT 'Pendiente',
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -332,11 +332,11 @@ CREATE TABLE `usuarios` (
   UNIQUE KEY `USUARIO` (`usuario`),
   UNIQUE KEY `DOCUMENTO` (`documento`),
   KEY `roles_ID_roles` (`roles_ID_roles`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `usuarios` */
 
-insert  into `usuarios`(`ID_USUARIO`,`nombre`,`usuario`,`documento`,`DIRECCION`,`correo`,`metodo_pago`,`FECHA_NACIMIENTO`,`rol`,`roles_ID_roles`,`CONTRASEÑA`,`estado`) values (1,'Ismel Gabriel Salazar Suniaga','ismel salazar','59791412','Carrera 81g #73f-40sur','ssismel28@gmail.com','Transferencia','2024-10-17','administrador',1,'$2a$10$3w9OtGiwSm6HKSiScW83KOQSrAx4HfeGd3vb/OemnHrSPlRIkh4te','Habilitado'),(2,'gabriel ismel suniaga salazar','gabriel','7825451647','Calle 72 #105 a 26','gabriel@gmail.com','Efectivo','2002-07-10','productor',3,'$2b$10$JlRT64H.x4yew4XedUBTNuB7K/60Z9qVwfJqRWPBT9WuEt3NGb4pS','Habilitado'),(3,'Karol Estela Burbano Lopez','karol bur24','2832352123','Calle 106a 22','esletabur24@gmail.com','Nequi','1998-10-14','productor',3,'$2a$10$ryZbbs84WuzcLBb2/xbZ..mRl5CgkfL11PYs64is84lA5itng6qZC','Habilitado'),(5,'Juan Manuel Salazar','manuel','4658156478','','manu_sa@gmail.com','Tarjeta de credito','1992-07-14','cliente',2,'$2y$10$OUYUQGklFAfss9.g3Wk7xumFMrSxe2bGZsEL8s0vokuwYvxjihVqq','Habilitado'),(6,'administrador','admin','3454545458','Carrera 64 #10','admin@gmail.com','Efectivo','1994-10-26','administrador',1,'$2y$10$HZj47J1WDzcE3yiP9bpZCu.LDoARwFMAceGELYp.YxbN6F8piT4yq','Habilitado'),(7,'Productor','productor',NULL,NULL,'productor@gmail.com',NULL,NULL,'productor',3,'$2a$10$sF.OjciEmfsqovelT/6GnuBq2glBWWVOSym8bVZ8el1gpu8x8VaKW','Habilitado'),(8,'Cliente','cliente',NULL,NULL,'cliente@gmail.com',NULL,NULL,'cliente',2,'$2y$10$1B2iIdXn22r.b5qwm/atxufPbUI55UrfXCBLo0.du.wJ0M6xSgyWm','Habilitado'),(10,'Marcela Marquez','marcela',NULL,NULL,'marce@gmail.com',NULL,NULL,'cliente',2,'$2a$10$NvddrKovlL2eqcXLBgZQ3uO6OO4FlKbhvzLWrxGNbkDEQgjFr8DX6','Habilitado'),(11,'Laura Estefania Lopez Burbano','Laura',NULL,NULL,'laeslobu@gmail.com',NULL,NULL,'administrador',1,'$2a$10$X.hyJRo6QJ5AEKYbdocHquc5qH64Dyid0u.j5J8eFzdlVe1RGnNFW','Deshabilitado'),(12,'Karol Liliana Puello Gaviria','Karol',NULL,NULL,'Karolpuellog0819@gmail.com',NULL,NULL,'cliente',2,'$2a$10$v1pTyMr9tR3nVw5CON7HLuuCDUUGkoKPWxI4FcaKmLp4PKC9pXYPG','Habilitado');
+insert  into `usuarios`(`ID_USUARIO`,`nombre`,`usuario`,`documento`,`DIRECCION`,`correo`,`metodo_pago`,`FECHA_NACIMIENTO`,`rol`,`roles_ID_roles`,`CONTRASEÑA`,`estado`) values (1,'Ismel Gabriel Salazar Suniaga','ismel salazar','59791412','Carrera 81g #73f-40sur','ssismel28@gmail.com','Transferencia','2024-10-17','administrador',1,'$2a$10$3w9OtGiwSm6HKSiScW83KOQSrAx4HfeGd3vb/OemnHrSPlRIkh4te','Habilitado'),(2,'gabriel ismel suniaga salazar','gabriel','7825451647','Calle 72 #105 a 26','gabriel@gmail.com','Efectivo','2002-07-10','productor',3,'$2b$10$JlRT64H.x4yew4XedUBTNuB7K/60Z9qVwfJqRWPBT9WuEt3NGb4pS','Habilitado'),(3,'Karol Estela Burbano Lopez','karol bur24','2832352123','Calle 106a 22','esletabur24@gmail.com','Nequi','1998-10-14','productor',3,'$2a$10$ryZbbs84WuzcLBb2/xbZ..mRl5CgkfL11PYs64is84lA5itng6qZC','Habilitado'),(5,'Juan Manuel Salazar','manuel','4658156478','','manu_sa@gmail.com','Tarjeta de credito','1992-07-14','cliente',2,'$2y$10$OUYUQGklFAfss9.g3Wk7xumFMrSxe2bGZsEL8s0vokuwYvxjihVqq','Habilitado'),(6,'administrador','admin','3454545458','Carrera 64 #10','admin@gmail.com','Efectivo','1994-10-26','administrador',1,'$2y$10$HZj47J1WDzcE3yiP9bpZCu.LDoARwFMAceGELYp.YxbN6F8piT4yq','Habilitado'),(7,'Productor','productor',NULL,NULL,'productor@gmail.com',NULL,NULL,'productor',3,'$2a$10$sF.OjciEmfsqovelT/6GnuBq2glBWWVOSym8bVZ8el1gpu8x8VaKW','Habilitado'),(8,'Cliente','cliente',NULL,NULL,'cliente@gmail.com',NULL,NULL,'cliente',2,'$2y$10$1B2iIdXn22r.b5qwm/atxufPbUI55UrfXCBLo0.du.wJ0M6xSgyWm','Habilitado'),(10,'Marcela Marquez','marcela',NULL,NULL,'marce@gmail.com',NULL,NULL,'cliente',2,'$2a$10$NvddrKovlL2eqcXLBgZQ3uO6OO4FlKbhvzLWrxGNbkDEQgjFr8DX6','Habilitado'),(11,'Laura Estefania Lopez Burbano','Laura',NULL,NULL,'laeslobu@gmail.com',NULL,NULL,'administrador',1,'$2a$10$X.hyJRo6QJ5AEKYbdocHquc5qH64Dyid0u.j5J8eFzdlVe1RGnNFW','Deshabilitado'),(12,'Karol Liliana Puello Gaviria','Karol',NULL,NULL,'Karolpuellog0819@gmail.com',NULL,NULL,'cliente',2,'$2a$10$v1pTyMr9tR3nVw5CON7HLuuCDUUGkoKPWxI4FcaKmLp4PKC9pXYPG','Habilitado'),(13,'Luis Eduardo Prieto Peña','Luis',NULL,NULL,'arad23tp@gmail.com',NULL,NULL,'cliente',2,'$2a$10$p.oanwsPkQBs7mLcNCPhQelXWcw4iXylnmML9Yh8BdvGBPJeP3k9m',NULL);
 
 /*Table structure for table `ventas` */
 
