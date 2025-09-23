@@ -248,6 +248,19 @@ tr:last-child td[colspan] {
     background-color: #388E3C;
 }
 
+.export-btn {
+    background-color: #2E7D32;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.export-btn:hover {
+    background-color: #388E3C;
+}
+
 .btn-acion-gestion-producto{
     color: #F3F6F4;
     background-color: #2E7D32;
