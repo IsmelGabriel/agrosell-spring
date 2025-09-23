@@ -184,7 +184,7 @@ public class ReservaController {
     }
 
     @GetMapping("/export/reporte_reservas")
-    public void exportExportPqrsToPdf(HttpServletResponse response) throws IOException, DocumentException {
+    public void exportReservasToPdf(HttpServletResponse response) throws IOException, DocumentException {
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=reservas.pdf");
 

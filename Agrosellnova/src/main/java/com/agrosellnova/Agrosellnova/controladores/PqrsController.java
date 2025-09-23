@@ -31,7 +31,7 @@ public class PqrsController {
     }
 
     @GetMapping("/export/reporte_pqrs")
-    public void exportExportPqrsToPdf(HttpServletResponse response) throws IOException, DocumentException {
+    public void exportPqrsToPdf(HttpServletResponse response) throws IOException, DocumentException {
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=PQRSs.pdf");
 
