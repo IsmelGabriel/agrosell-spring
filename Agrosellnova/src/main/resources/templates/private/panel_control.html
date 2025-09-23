@@ -53,6 +53,7 @@
             <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
             <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver Productos</a></li>
             <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}"><i class="fas fa-plus-circle"></i> Realizar Reserva</a></li>
+            <li th:if="${rol == 'cliente'}"><a th:href="@{/private/ser_productor}"><i class="fas fa-tractor"></i> Ser Productor</a></li>
 
             <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
         </ul>
