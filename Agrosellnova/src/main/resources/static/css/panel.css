@@ -248,7 +248,17 @@ tr:last-child td[colspan] {
     background-color: #388E3C;
 }
 
+.export-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
 .export-btn {
+    gap: 10px;
+    margin: 5px;
     background-color: #2E7D32;
     color: white;
     padding: 10px 20px;

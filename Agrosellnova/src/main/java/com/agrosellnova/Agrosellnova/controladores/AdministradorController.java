@@ -81,6 +81,7 @@ public class AdministradorController {
 
         return "private/usuarios_registrados";
     }
+
     @GetMapping("/export/usuarios_registrados")
     public void exportUsersToPdf(HttpServletResponse response) throws IOException, DocumentException {
         response.setContentType("application/pdf");
