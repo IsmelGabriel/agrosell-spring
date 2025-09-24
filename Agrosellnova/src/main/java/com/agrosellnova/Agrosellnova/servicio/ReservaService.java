@@ -20,4 +20,5 @@ public interface ReservaService {
 
     // Relación con productos
     List<Producto> obtenerProductosParaReserva();
+
 }
