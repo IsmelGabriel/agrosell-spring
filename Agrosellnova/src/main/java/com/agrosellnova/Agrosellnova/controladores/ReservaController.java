@@ -177,7 +177,56 @@ public class ReservaController {
             return "redirect:/error";
         }
     }
+    @GetMapping("/export/reservas")
+    public void exportToPDF(HttpServletResponse response, HttpSession session)
+            throws DocumentException, IOException {
 
+        // 📌 Configurar tipo de respuesta
+        response.setContentType("application/pdf");
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=mis_reservas.pdf";
+        response.setHeader(headerKey, headerValue);
+
+        // 📌 Obtener el usuario logueado desde la sesión
+        String documentoUsuario = (String) session.getAttribute("usuarioDocumento");
+
+        // 📌 Traer solo las reservas del usuario logueado
+        List<Reserva> listaReservas = reservaService.findByUsuarioDocumento(documentoUsuario);
+
+        // 📌 Crear el PDF
+        Document document = new Document();
+        PdfWriter.getInstance(document, response.getOutputStream());
+
+        document.open();
+        document.add(new Paragraph("Reporte de Reservas del Usuario"));
+        document.add(new Paragraph("Documento: " + documentoUsuario));
+        document.add(new Paragraph(" "));
+
+        // 📌 Crear tabla con las mismas columnas que tu tabla HTML
+        PdfPTable table = new PdfPTable(7); // quitamos columnas de acciones
+        table.addCell("ID Reserva");
+        table.addCell("Documento");
+        table.addCell("Teléfono");
+        table.addCell("Correo");
+        table.addCell("Producto");
+        table.addCell("Cantidad (Kg)");
+        table.addCell("Método de pago");
+        table.addCell("Fecha de reserva");
+
+        for (Reserva r : listaReservas) {
+            table.addCell(String.valueOf(r.getIdReserva()));
+            table.addCell(r.getUsuarioDocumento());
+            table.addCell(r.getUsuarioTelefono());
+            table.addCell(r.getUsuarioCorreo());
+            table.addCell(r.getProducto());
+            table.addCell(String.valueOf(r.getCantidadKg()));
+            table.addCell(r.getMetodoPago());
+            table.addCell(r.getFechaReserva().toString());
+        }
+
+        document.add(table);
+        document.close();
+    }
 }
 
 
