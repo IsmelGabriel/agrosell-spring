@@ -58,7 +58,7 @@ public class ReservaController {
     @GetMapping("/formulario_reserva")
     public String mostrarFormularioReserva(Model model) {
         model.addAttribute("reserva", new Reserva());
-        return "redirect:/forms/formulario_reserva";
+        return "/forms/formulario_reserva";
     }
 
     @PostMapping("/public/registrarReserva")
