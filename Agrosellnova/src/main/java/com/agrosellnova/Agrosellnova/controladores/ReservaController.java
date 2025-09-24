@@ -24,29 +24,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
-
 @Controller
 public class ReservaController {
 
@@ -199,84 +176,8 @@ public class ReservaController {
             e.printStackTrace();
             return "redirect:/error";
         }
-
-    }
-    @GetMapping("/export/reservas")
-    public void exportReservasToPdf(HttpServletResponse response, Principal principal) throws IOException, DocumentException {
-        response.setContentType("application/pdf");
-
-        // Nombre dinámico con la fecha
-        String fileName = "reservas_" + java.time.LocalDate.now() + ".pdf";
-        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-
-        // Obtener el correo del usuario logueado
-        String usuarioCorreo = principal.getName();  // Si tienes un 'username' como correo
-
-        // Filtrar las reservas del usuario logueado
-        List<Reserva> reservas = reservaService.obtenerReservasPorUsuario(usuarioCorreo);
-
-        // Crear documento PDF
-        Document document = new Document(PageSize.A4.rotate());
-        PdfWriter.getInstance(document, response.getOutputStream());
-        document.open();
-
-        // Título del documento
-        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.GREEN);
-        Paragraph title = new Paragraph("Reporte de Reservas", titleFont);
-        title.setAlignment(Element.ALIGN_CENTER);
-        document.add(title);
-        document.add(new Paragraph(" "));
-
-        // Fecha de generación
-        Paragraph fecha = new Paragraph("Fecha de generación: " + new Date().toString());
-        fecha.setAlignment(Element.ALIGN_RIGHT);
-        document.add(fecha);
-        document.add(new Paragraph(" "));
-
-        // Crear la tabla para las reservas
-        PdfPTable table = new PdfPTable(7); // 7 columnas
-        table.setWidthPercentage(100);
-
-        // Encabezados de la tabla
-        addCellToTable(table, "ID Reserva", true);
-        addCellToTable(table, "Documento", true);
-        addCellToTable(table, "Teléfono", true);
-        addCellToTable(table, "Correo", true);
-        addCellToTable(table, "Producto", true);
-        addCellToTable(table, "Cantidad (Kg)", true);
-        addCellToTable(table, "Método Pago", true);
-
-        // Agregar los datos de las reservas
-        for (Reserva reserva : reservas) {
-            addCellToTable(table, String.valueOf(reserva.getIdReserva()), false);
-            addCellToTable(table, reserva.getUsuarioDocumento(), false);
-            addCellToTable(table, reserva.getUsuarioTelefono(), false);
-            addCellToTable(table, reserva.getUsuarioCorreo(), false);
-            addCellToTable(table, reserva.getProducto(), false);
-            addCellToTable(table, String.valueOf(reserva.getCantidadKg()), false);
-            addCellToTable(table, reserva.getMetodoPago(), false);
-        }
-
-        // Añadir la tabla al documento
-        document.add(table);
-
-        // Cerrar el documento
-        document.close();
     }
 
-    // Método auxiliar para agregar celdas a la tabla del PDF
-    private void addCellToTable(PdfPTable table, String content, boolean isHeader) {
-        Font font = isHeader ? FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10) : FontFactory.getFont(FontFactory.HELVETICA, 9);
-
-        PdfPCell cell = new PdfPCell(new Phrase(content, font));
-        if (isHeader) {
-            cell.setBackgroundColor(BaseColor.LIGHT_GRAY);  // Color de fondo para el encabezado
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        }
-        cell.setPadding(5);
-        table.addCell(cell);
-    }
 }
-
 
 

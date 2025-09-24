@@ -248,7 +248,17 @@ tr:last-child td[colspan] {
     background-color: #388E3C;
 }
 
+.export-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
 .export-btn {
+    gap: 10px;
+    margin: 5px;
     background-color: #2E7D32;
     color: white;
     padding: 10px 20px;
@@ -261,12 +271,20 @@ tr:last-child td[colspan] {
     background-color: #388E3C;
 }
 
+.table-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
 .btn-acion-gestion-producto{
     color: #F3F6F4;
     background-color: #2E7D32;
     padding: 10px 15px;
     border: none;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {

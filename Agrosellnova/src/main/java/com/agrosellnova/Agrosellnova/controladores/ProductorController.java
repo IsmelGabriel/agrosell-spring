@@ -1,7 +1,16 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
+import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
+import com.agrosellnova.Agrosellnova.modelo.Venta;
+import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
+import com.agrosellnova.Agrosellnova.servicio.ProductoService;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -11,8 +20,10 @@ import org.springframework.web.bind.annotation.*;
 import com.agrosellnova.Agrosellnova.servicio.ProductorService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +36,12 @@ public class ProductorController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ProductoService productoService;
+
+    @Autowired
+    private ProductoRepository productoRepository;
 
     private Long obtenerIdUsuario(HttpSession session, String nombreUsuario) {
         Long idUsuario = (Long) session.getAttribute("ID_USUARIO");
@@ -292,4 +309,87 @@ public class ProductorController {
 
         return "ver_productor";
     }
+    @GetMapping("/export/gestionar_productos")
+    public void exportUsersToPdf(HttpServletResponse response,HttpSession session, Model model) throws IOException, DocumentException {
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=productos.pdf");
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+        Long idUsuario = obtenerIdUsuario(session, usuario);
+
+
+
+        List<Producto> productos = productoService.obtenerProductosPorProductor(usuario);
+        Document document = new Document(PageSize.A4.rotate());
+        PdfWriter.getInstance(document, response.getOutputStream());
+        document.open();
+
+        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, new BaseColor(34,139,34));
+        Paragraph title = new Paragraph("Lista de Poductos Registrados ",titleFont);
+        title.setAlignment(Element.ALIGN_CENTER);
+        document.add(title);
+        document.add(new Paragraph(" "));
+
+        Paragraph fecha = new Paragraph("Fecha de generación: " + new Date().toString());
+        fecha.setAlignment(Element.ALIGN_RIGHT);
+        document.add(fecha);
+        document.add(new Paragraph(" "));
+
+        PdfPTable table = new PdfPTable(8);
+        table.setWidthPercentage(100);
+
+        float[] columnWidths = {1f, 2f, 1.5f, 2f, 2.5f, 1.5f, 1.5f, 1f};
+        table.setWidths(columnWidths);
+        int rowIndex = 0;
+        Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+        addCellToTable(table, "ID", headerFont, true, rowIndex);
+        addCellToTable(table, "Producto", headerFont, true, rowIndex);
+        addCellToTable(table, "Descripcion", headerFont, true, rowIndex);
+        addCellToTable(table, "Precio", headerFont, true, rowIndex);
+        addCellToTable(table, "Peso Kg", headerFont, true, rowIndex);
+        addCellToTable(table, "Stock", headerFont, true, rowIndex);
+        addCellToTable(table, "Fecha Cos.", headerFont, true, rowIndex);
+        addCellToTable(table, "Estado", headerFont, true, rowIndex);
+
+        Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 8);
+
+        for (Producto producto : productos) {
+            addCellToTable(table, String.valueOf(producto.getId()), dataFont, false, rowIndex);
+            addCellToTable(table, producto.getNombre() != null ? producto.getNombre() : "", dataFont, false, rowIndex);
+            addCellToTable(table, producto.getDescripcion() != null ? producto.getDescripcion() : "", dataFont, false, rowIndex);
+            addCellToTable(table, String.valueOf(producto.getPrecio()), dataFont, false, rowIndex);
+            addCellToTable(table, String.valueOf(producto.getPesoKg()), dataFont, false, rowIndex);
+            addCellToTable(table, String.valueOf(producto.getStock()), dataFont, false, rowIndex);
+            addCellToTable(table, producto.getFechaCosecha() != null ? producto.getFechaCosecha().toString() : "", dataFont, false, rowIndex);
+            addCellToTable(table, producto.getEstado() != null ? producto.getEstado() : "", dataFont, false, rowIndex);
+            rowIndex++;
+        }
+
+        document.add(table);
+
+        document.add(new Paragraph(" "));
+        Paragraph footer = new Paragraph("Total de productos: " + productos.size());
+        footer.setAlignment(Element.ALIGN_CENTER);
+        document.add(footer);
+
+        document.close();
+    }
+    private void addCellToTable(PdfPTable table, String content, Font font, boolean isHeader, int rowIndex) {
+        PdfPCell cell = new PdfPCell(new Phrase(content, font));
+        if (isHeader) {
+            cell.setBackgroundColor(new BaseColor(200, 230, 200)); // verde claro
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setBorderColor(new BaseColor(180, 220, 180)); // bordes verdes suaves
+        } else {
+            if (rowIndex % 2 == 0) {
+                cell.setBackgroundColor(new BaseColor(235, 250, 235)); // verde muy suave
+            }
+            cell.setBorderColor(new BaseColor(220, 240, 220));
+
+            cell.setBorderColor(new BaseColor(220, 240, 220)); // bordes más claros para datos
+        }
+        cell.setPadding(5);
+        table.addCell(cell);
+    }
+
 }
