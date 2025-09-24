@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -48,7 +49,7 @@ public class PaginaController {
             return "redirect:/error";
         }
 
-        return "public/" + pagina;
+        return "redirect:public/" + pagina;
     }
 
     @GetMapping("/forms/{pagina}")
@@ -60,7 +61,7 @@ public class PaginaController {
             return "redirect:/error";
         }
 
-        return "forms/" + pagina;
+        return "redirect:forms/" + pagina;
     }
 
     @GetMapping("/private/{pagina}")
@@ -149,7 +150,7 @@ public class PaginaController {
     public String mostrarFormularioEdicion(@RequestParam("id") Long id, HttpSession session, Model model) {
         String nombreUsuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
-        if (nombreUsuario == null) {
+        if (nombreUsuario == null || !Objects.equals(rol, "productor")) {
             return "redirect:/public/index";
         }
         Producto producto = productoService.obtenerPorId(id);

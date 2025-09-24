@@ -46,7 +46,7 @@
 
     <main class="panel-content">
         <h1>Productos registrados en el sistema: <span th:text="${usuario}"></span></h1>
-        <div class="filtro-productos">
+        <div class="table-actions">
             <form th:action="@{/private/gestionar_productos}" method="get" class="filtro-form">
                 <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
                 <select name="criterio" class="filtro-select">
@@ -57,12 +57,14 @@
                 </select>
                 <button type="submit" class="filtro-btn">Filtrar</button>
             </form>
+
+            <form th:action="@{/private/export/gestionar_productos}" method="get" class="export-form">
+                <button type="submit" class="export-btn btn-danger">
+                    <i class="fas fa-file-pdf"></i> Exportar PDF
+                </button>
+            </form>
         </div>
-        <form th:action="@{/private/export/gestionar_productos}" method="get">
-            <button type="submit" class="export-btn btn-danger">
-                <i class="fas fa-file-pdf"></i> Exportar PDF
-            </button>
-        </form>
+
         <table border="1">
             <thead>
             <tr>
@@ -92,13 +94,16 @@
                 <td th:text="${producto.estado}"></td>
                 <td th:text="${producto.fechaCosecha}"></td>
                 <td>
-                    <button class="btn-acion-gestion-producto" th:href="@{'/forms/editar_producto?id=' + ${producto.id}}">Editar</button>
-                    <form th:action="@{/private/actualizarEstadoProducto}" method="post">
-                        <input type="hidden" name="productoId" th:value="${producto.Id}" />
-                        <select name="nuevoEstado" class="form-control" required>
+                    <form action="/forms/editar_producto" method="get">
+                        <input type="hidden" name="id" th:value="${producto.id}" />
+                        <button type="submit" class="btn-acion-gestion-producto">Editar</button>
+                    </form>
+                    <form th:action="@{/private/actualizarEstadoProducto}" method="get">
+                        <input type="hidden" name="id" th:value="${producto.id}" />
+                        <select name="estado" class="form-control" required>
                             <option disabled selected value="">Estado</option>
                             <option value="disponible">Disponible</option>
-                            <option value="">Agotado</option>
+                            <option value="Agotado">Agotado</option>
                         </select>
                         <button type="submit">Actualizar</button>
                     </form>

@@ -47,23 +47,25 @@
 
     <main class="panel-content">
         <h1>Usuarios registrados en el sistema</h1>
-        <form th:action="@{/private/usuarios_registrados}" method="get" class="filtro-form">
-            <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
-            <select name="criterio" class="filtro-select">
-                <option value="">Selecciona un criterio</option>
-                <option value="id">ID Usuario</option>
-                <option value="usuario">nombre</option>
-                <option value="correo">Correo</option>
-                <option value="documento">Documento</option>
-            </select>
-            <button type="submit" class="filtro-btn">Filtrar</button>
-        </form>
+        <div class="table-actions">
+            <form th:action="@{/private/usuarios_registrados}" method="get" class="filtro-form">
+                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+                <select name="criterio" class="filtro-select">
+                    <option value="">Selecciona un criterio</option>
+                    <option value="id">ID Usuario</option>
+                    <option value="usuario">nombre</option>
+                    <option value="correo">Correo</option>
+                    <option value="documento">Documento</option>
+                </select>
+                <button type="submit" class="filtro-btn">Filtrar</button>
+            </form>
 
-        <form th:action="@{/export/usuarios_registrados}" method="get" class="export-form">
-            <button type="submit" class="export-btn btn-danger">
-                <i class="fas fa-file-pdf"></i> Exportar PDF
-            </button>
-        </form>
+            <form th:action="@{/export/usuarios_registrados}" method="get" class="export-form">
+                <button type="submit" class="export-btn btn-danger">
+                    <i class="fas fa-file-pdf"></i> Exportar PDF
+                </button>
+            </form>
+        </div>
 
         <table border="1">
             <thead>

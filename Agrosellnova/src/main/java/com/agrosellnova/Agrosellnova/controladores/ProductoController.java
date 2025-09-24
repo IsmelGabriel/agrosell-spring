@@ -70,7 +70,6 @@ public class ProductoController {
     }
 
 
-
     @PostMapping("/producto/editar")
     public String editarProducto(
             @ModelAttribute Producto producto,
@@ -104,6 +103,16 @@ public class ProductoController {
             e.printStackTrace();
             return "redirect:/error";
         }
+    }
+
+    @GetMapping("/private/actualizarEstadoProducto")
+    public String actualizarEstadoProducto(@RequestParam("id") Long id, @RequestParam("estado") String estado) {
+        Producto producto = productoService.obtenerPorId(id);
+        if (producto != null) {
+            producto.setEstado(estado);
+            productoRepository.save(producto);
+        }
+        return "redirect:/private/gestionar_productos";
     }
 
 }

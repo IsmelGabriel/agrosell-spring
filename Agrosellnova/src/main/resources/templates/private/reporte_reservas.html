@@ -49,22 +49,24 @@
     <main class="panel-content">
         <h1>Reservas registradas></h1>
 
-        <form th:action="@{/private/reporte_reservas}" method="get" class="filtro-form">
-            <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
-            <select name="criterio" class="filtro-select">
-                <option value="">Selecciona un criterio</option>
-                <option value="usuario">Usuario</option>
-                <option value="producto">Producto</option>
-                <option value="documento">Documento</option>
-            </select>
-            <button type="submit" class="filtro-btn">Filtrar</button>
-        </form>
+        <div class="table-actions">
+            <form th:action="@{/private/reporte_reservas}" method="get" class="filtro-form">
+                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+                <select name="criterio" class="filtro-select">
+                    <option value="">Selecciona un criterio</option>
+                    <option value="usuario">Usuario</option>
+                    <option value="producto">Producto</option>
+                    <option value="documento">Documento</option>
+                </select>
+                <button type="submit" class="filtro-btn">Filtrar</button>
+            </form>
 
-        <form th:action="@{/export/reporte_reservas}" method="get" class="export-form">
-            <button type="submit" class="export-btn btn-danger">
-                <i class="fas fa-file-pdf"></i> Exportar PDF
-            </button>
-        </form>
+            <form th:action="@{/export/reporte_reservas}" method="get" class="export-form">
+                <button type="submit" class="export-btn btn-danger">
+                    <i class="fas fa-file-pdf"></i> Exportar PDF
+                </button>
+            </form>
+        </div>
 
         <table border="1">
             <thead>
