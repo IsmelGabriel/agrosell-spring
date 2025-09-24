@@ -16,5 +16,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     List<Reserva> findByUsuarioClienteContainingIgnoreCase(String usuario);
     List<Reserva> findByProductoContainingIgnoreCase(String producto);
     List<Reserva> findByUsuarioDocumentoContainingIgnoreCase(String documento);
+    public List<Reserva> findByUsuarioCorreo(String usuarioCorreo);
+
 
 }
