@@ -263,7 +263,6 @@ public class ProductorController {
 
     @PostMapping("/rechazar_productor/{id}")
     public String rechazarProductor(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
-        // Verificar sesión de administrador siguiendo el patrón
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
 

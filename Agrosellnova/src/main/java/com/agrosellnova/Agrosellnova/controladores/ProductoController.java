@@ -56,11 +56,20 @@ public class ProductoController {
     }
 
     @GetMapping("/private/gestionar_productos")
-    public String gestionarProductos(HttpSession session, Model model) {
+    public String gestionarProductos(
+            @RequestParam(required = false) String criterio,
+            @RequestParam(required = false) String valor,
+            HttpSession session, Model model) {
+
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
 
-        List<Producto> listaProductos = productoService.obtenerProductosPorProductor(usuario);
+        List<Producto> listaProductos;
+        if (criterio != null && valor != null && !criterio.isEmpty() && !valor.isEmpty()) {
+            listaProductos = productoService.filtrarProductos(usuario, criterio, valor);
+        }else {
+            listaProductos = productoService.obtenerProductosPorProductor(usuario);
+        }
 
         model.addAttribute("listaProductos", listaProductos);
         model.addAttribute("usuario", usuario);
