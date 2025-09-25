@@ -150,4 +150,19 @@ public class VentaServiceImpl implements VentaService {
                 return List.of();
         }
     }
+
+    @Override
+    public List<Venta> obtenerComprasPorUsuario(String documentoUsuario) {
+        return List.of();
+    }
+
+    @Override
+    public List<Venta> sobtenerComprasPorUsuario(String documentoUsuario) {
+        return List.of();
+    }
+
+    @Override
+    public List<Venta> obtenerTodas() {
+        return List.of();
+    }
 }

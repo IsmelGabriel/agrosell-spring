@@ -41,6 +41,11 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
+    public List<Reserva> findByUsuarioDocumento(String documentoUsuario) {
+        return List.of();
+    }
+
+    @Override
     public List<Reserva> obtenerReservasPorUsuario(String usuario) {
         return reservaRepository.findByUsuarioCliente(usuario);
     }

@@ -5,6 +5,8 @@ import com.agrosellnova.Agrosellnova.modelo.Reserva;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.servicio.ProductoService;
 import com.agrosellnova.Agrosellnova.servicio.ReservaService;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPTable;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,8 +23,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
+
+
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.IOException;
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.Date;
+
 
 @Controller
 public class ReservaController {
@@ -177,56 +187,85 @@ public class ReservaController {
             return "redirect:/error";
         }
     }
-    @GetMapping("/export/reservas")
-    public void exportToPDF(HttpServletResponse response, HttpSession session)
-            throws DocumentException, IOException {
+    @GetMapping("/export/reporte_reservas")
+    public void exportReservasToPdf(HttpServletResponse response, HttpSession session)
+            throws IOException, DocumentException {
 
-        // 📌 Configurar tipo de respuesta
         response.setContentType("application/pdf");
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=mis_reservas.pdf";
-        response.setHeader(headerKey, headerValue);
+        response.setHeader("Content-Disposition", "attachment; filename=reservas.pdf");
 
-        // 📌 Obtener el usuario logueado desde la sesión
+        // 📌 Obtener usuario logueado desde sesión
         String documentoUsuario = (String) session.getAttribute("usuarioDocumento");
 
-        // 📌 Traer solo las reservas del usuario logueado
-        List<Reserva> listaReservas = reservaService.findByUsuarioDocumento(documentoUsuario);
+        // 📌 Consultar reservas SOLO de ese usuario
+        List<Reserva> reservas = reservaService.findByUsuarioDocumento(documentoUsuario);
 
-        // 📌 Crear el PDF
-        Document document = new Document();
+        Document document = new Document(PageSize.A4.rotate());
         PdfWriter.getInstance(document, response.getOutputStream());
-
         document.open();
-        document.add(new Paragraph("Reporte de Reservas del Usuario"));
-        document.add(new Paragraph("Documento: " + documentoUsuario));
+
+        // 📌 Título
+        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, new BaseColor(0, 102, 204));
+        Paragraph title = new Paragraph("Reporte de Reservas del Usuario", titleFont);
+        title.setAlignment(Element.ALIGN_CENTER);
+        document.add(title);
         document.add(new Paragraph(" "));
 
-        // 📌 Crear tabla con las mismas columnas que tu tabla HTML
-        PdfPTable table = new PdfPTable(7); // quitamos columnas de acciones
-        table.addCell("ID Reserva");
-        table.addCell("Documento");
-        table.addCell("Teléfono");
-        table.addCell("Correo");
-        table.addCell("Producto");
-        table.addCell("Cantidad (Kg)");
-        table.addCell("Método de pago");
-        table.addCell("Fecha de reserva");
+        // 📌 Fecha de generación
+        Paragraph fecha = new Paragraph("Fecha de generación: " + new Date().toString());
+        fecha.setAlignment(Element.ALIGN_RIGHT);
+        document.add(fecha);
+        document.add(new Paragraph(" "));
 
-        for (Reserva r : listaReservas) {
-            table.addCell(String.valueOf(r.getIdReserva()));
-            table.addCell(r.getUsuarioDocumento());
-            table.addCell(r.getUsuarioTelefono());
-            table.addCell(r.getUsuarioCorreo());
-            table.addCell(r.getProducto());
-            table.addCell(String.valueOf(r.getCantidadKg()));
-            table.addCell(r.getMetodoPago());
-            table.addCell(r.getFechaReserva().toString());
+        // 📌 Tabla con columnas
+        PdfPTable table = new PdfPTable(8);
+        table.setWidthPercentage(100);
+
+        float[] columnWidths = {1f, 2f, 2f, 3f, 2.5f, 1.5f, 2f, 2f};
+        table.setWidths(columnWidths);
+
+        int rowIndex = 0;
+        Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+
+        addCellToTable(table, "ID Reserva", headerFont, true, rowIndex);
+        addCellToTable(table, "Documento", headerFont, true, rowIndex);
+        addCellToTable(table, "Teléfono", headerFont, true, rowIndex);
+        addCellToTable(table, "Correo", headerFont, true, rowIndex);
+        addCellToTable(table, "Producto", headerFont, true, rowIndex);
+        addCellToTable(table, "Cantidad (Kg)", headerFont, true, rowIndex);
+        addCellToTable(table, "Método de Pago", headerFont, true, rowIndex);
+        addCellToTable(table, "Fecha de Reserva", headerFont, true, rowIndex);
+
+        // 📌 Datos
+        Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 8);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        for (Reserva reserva : reservas) {
+            addCellToTable(table, String.valueOf(reserva.getIdReserva()), dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getUsuarioDocumento() != null ? reserva.getUsuarioDocumento() : "", dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getUsuarioTelefono() != null ? reserva.getUsuarioTelefono() : "", dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getUsuarioCorreo() != null ? reserva.getUsuarioCorreo() : "", dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getProducto() != null ? reserva.getProducto() : "", dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getCantidadKg() != null ? String.valueOf(reserva.getCantidadKg()) : "", dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getMetodoPago() != null ? reserva.getMetodoPago() : "", dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getFechaReserva() != null ? reserva.getFechaReserva().format(formatter) : "", dataFont, false, rowIndex);
+            rowIndex++;
         }
 
         document.add(table);
+
+        document.add(new Paragraph(" "));
+        Paragraph footer = new Paragraph("Total de Reservas: " + reservas.size());
+        footer.setAlignment(Element.ALIGN_CENTER);
+        document.add(footer);
+
         document.close();
     }
+
+    private void addCellToTable(PdfPTable table, String s, Font dataFont, boolean b, int rowIndex) {
+    }
+
 }
+
 
 

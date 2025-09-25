@@ -223,5 +223,45 @@ public class VentaController {
 
         document.close();
     }
+    @RequestMapping("/export")
+    public class ReporteComprasController {
 
+        @Autowired
+        private VentaService ventaService; // servicio para acceder a las ventas
+
+        @GetMapping("/reporte_ventas")
+        public void exportarVentasPDF(HttpServletResponse response) throws Exception {
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=ventas.pdf");
+
+            List<Venta> listaVentas = ventaService.obtenerTodas();
+
+            Document documento = new Document();
+            PdfWriter.getInstance(documento, response.getOutputStream());
+            documento.open();
+
+            documento.add(new Paragraph("Reporte de Compras / Ventas\n\n"));
+
+            // Crear tabla con columnas
+            PdfPTable tabla = new PdfPTable(6);
+            tabla.addCell("ID Venta");
+            tabla.addCell("Vendedor");
+            tabla.addCell("Producto");
+            tabla.addCell("Cantidad (Kg)");
+            tabla.addCell("Total ($)");
+            tabla.addCell("Fecha");
+
+            for (Venta venta : listaVentas) {
+                tabla.addCell(String.valueOf(venta.getIdVenta()));
+                tabla.addCell(venta.getVendedor().getNombreUsuario());
+                tabla.addCell(venta.getProducto().getNombre());
+                tabla.addCell(String.valueOf(venta.getCantidadKg()));
+                tabla.addCell(String.valueOf(venta.getTotalVenta()));
+                tabla.addCell(String.valueOf(venta.getFechaVenta()));
+            }
+
+            documento.add(tabla);
+            documento.close();
+        }
+    }
 }
