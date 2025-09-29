@@ -6,6 +6,20 @@
     <title>Panel de Control - AGROSELLNOVA</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/panel.css}">
+    <style>
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -61,19 +75,38 @@
 
     <main class="main-content">
         <h2>Panel de Control</h2>
-        <div class="user-card">
-            <h3>Información del Usuario</h3>
 
-            <div th:if="${user != null}">
-                <p><strong>ID:</strong> <span th:text="${user.id}">ID</span></p>
-                <p><strong>Nombre:</strong> <span th:text="${user.nombre}">Nombre</span></p>
-                <p><strong>Usuario:</strong> <span th:text="${user.nombreUsuario}">Usuario</span></p>
-                <p><strong>Email:</strong> <span th:text="${user.correo}">Correo</span></p>
-                <p><strong>Rol:</strong> <span th:text="${user.rol}">Rol</span></p>
+        <div class="cards-container">
+            <!-- Tarjeta de información del usuario -->
+            <div class="user-card">
+                <h3>Información del Usuario</h3>
+
+                <div th:if="${user != null}">
+                    <p><strong>ID:</strong> <span th:text="${user.id}">ID</span></p>
+                    <p><strong>Nombre:</strong> <span th:text="${user.nombre}">Nombre</span></p>
+                    <p><strong>Usuario:</strong> <span th:text="${user.nombreUsuario}">Usuario</span></p>
+                    <p><strong>Email:</strong> <span th:text="${user.correo}">Correo</span></p>
+                    <p><strong>Rol:</strong> <span th:text="${user.rol}">Rol</span></p>
+                </div>
+
+                <div th:if="${user == null}">
+                    <p style="color: red;">No se pudo cargar la información del usuario.</p>
+                </div>
             </div>
 
-            <div th:if="${user == null}">
-                <p style="color: red;">No se pudo cargar la información del usuario.</p>
+            <div class="user-card" th:if="${rol == 'productor' && productor != null}">
+                <h3><i class="fas fa-tractor"></i> Información de Productor</h3>
+
+                <p><strong>Nombre de la Finca:</strong> <span th:text="${productor.nombreFinca}">Nombre Finca</span></p>
+                <p><strong>Ubicación:</strong> <span th:text="${productor.ubicacion}">Ubicación</span></p>
+                <p><strong>Área de Cultivo (Ha):</strong> <span th:text="${productor.areaCultivo != null ? productor.areaCultivo : 'No especificado'}">Área</span></p>
+                <p><strong>Tipo de Producción:</strong> <span th:text="${productor.tipoProduccion}">Tipo</span></p>
+                <p><strong>Productos:</strong> <span th:text="${productor.productos != null && !#strings.isEmpty(productor.productos) ? productor.productos : 'No especificado'}">Productos</span></p>
+                <p><strong>Años de Experiencia:</strong> <span th:text="${productor.anosExperiencia != null ? productor.anosExperiencia : 'No especificado'}">Experiencia</span></p>
+                <p><strong>Capacidad de Producción (Ton/mes):</strong> <span th:text="${productor.capacidadProduccion != null ? productor.capacidadProduccion : 'No especificado'}">Capacidad</span></p>
+                <p><strong>Contacto Comercial:</strong> <span th:text="${productor.contactoComercial}">Contacto</span></p>
+                <p><strong>Descripción:</strong> <span th:text="${productor.descripcion != null && !#strings.isEmpty(productor.descripcion) ? productor.descripcion : 'Sin descripción'}">Descripción</span></p>
+                <p><strong>Fecha de Registro:</strong> <span th:text="${#temporals.format(productor.fechaRegistro, 'dd/MM/yyyy HH:mm')}">Fecha</span></p>
             </div>
         </div>
     </main>
