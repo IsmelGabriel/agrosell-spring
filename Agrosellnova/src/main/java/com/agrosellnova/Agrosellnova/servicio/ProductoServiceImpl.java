@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductoServiceImpl implements ProductoService {
@@ -104,4 +105,49 @@ public class ProductoServiceImpl implements ProductoService {
     public void actualizarProducto(Producto producto) {
         productoRepository.save(producto);
     }
+
+
+    @Override
+    public Long obtenerCantidadTotalProductos() {
+        return productoRepository.count();
+    }
+
+    @Override
+    public Long obtenerCantidadProductosDisponibles() {
+        return (long) productoRepository.findProductosDisponibles().size();
+    }
+
+    @Override
+    public Long obtenerCantidadProductosPorEstado(String estado) {
+        return (long) productoRepository.findByEstadoContainingIgnoreCase(estado).size();
+    }
+
+    @Override
+    public List<Object[]> obtenerProductosPorEstado() {
+        return productoRepository.findAll()
+                .stream()
+                .collect(Collectors.groupingBy(
+                        Producto::getEstado,
+                        Collectors.counting()
+                ))
+                .entrySet()
+                .stream()
+                .map(e -> new Object[]{e.getKey(), e.getValue()})
+                .toList();
+    }
+
+    @Override
+    public List<Object[]> obtenerProductosPorUsuario() {
+        return productoRepository.findAll()
+                .stream()
+                .collect(Collectors.groupingBy(
+                        Producto::getUsuarioCampesino,
+                        Collectors.counting()
+                ))
+                .entrySet()
+                .stream()
+                .map(e -> new Object[]{e.getKey(), e.getValue()})
+                .toList();
+    }
+
 }

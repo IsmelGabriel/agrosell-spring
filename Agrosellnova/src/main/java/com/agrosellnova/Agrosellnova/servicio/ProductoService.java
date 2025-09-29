@@ -22,5 +22,15 @@ public interface ProductoService {
     // Filtros
     List<Producto> buscarProductosFiltrados(String nombre, String orden);
     List<Producto> filtrarProductos(String usuario, String criterio, String valor);
+
+    // Métricas para dashboard
+    Long obtenerCantidadTotalProductos();
+    Long obtenerCantidadProductosDisponibles();
+    Long obtenerCantidadProductosPorEstado(String estado);
+
+    // Gráficos
+    List<Object[]> obtenerProductosPorEstado(); // estado - cantidad
+    List<Object[]> obtenerProductosPorUsuario(); // campesino - cantidad
+
 }
 
