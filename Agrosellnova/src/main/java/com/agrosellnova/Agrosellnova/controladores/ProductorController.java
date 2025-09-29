@@ -2,6 +2,7 @@ package com.agrosellnova.Agrosellnova.controladores;
 
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
+import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -10,9 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.agrosellnova.Agrosellnova.servicio.ProductorService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,9 @@ public class ProductorController {
 
     @Autowired
     private ProductorService productorService;
+
+    @Autowired
+    private UsuarioServiceImpl usuarioService;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -166,7 +170,6 @@ public class ProductorController {
             @RequestParam(value = "buscar", required = false) String buscar,
             HttpSession session, Model model, RedirectAttributes redirectAttributes) {
 
-
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
 
@@ -181,7 +184,6 @@ public class ProductorController {
 
         List<Productor> productores;
 
-
         if (estado != null && !estado.isEmpty()) {
             try {
                 Productor.EstadoSolicitud estadoEnum = Productor.EstadoSolicitud.valueOf(estado);
@@ -190,18 +192,38 @@ public class ProductorController {
                 productores = productorService.obtenerTodos();
             }
         }
-
         else if (buscar != null && !buscar.trim().isEmpty()) {
             String termino = buscar.trim();
-            productores = productorService.buscarPorNombreFinca(termino);
-            // Se podrían agregar más criterios de búsqueda aquí
+            List<Productor> porFinca = productorService.buscarPorNombreFinca(termino);
+            List<Productor> porUbicacion = productorService.buscarPorUbicacion(termino);
+            List<Productor> porProductos = productorService.buscarPorProductos(termino);
+            productores = new ArrayList<>(porFinca);
+            for (Productor p : porUbicacion) {
+                if (!productores.contains(p)) {
+                    productores.add(p);
+                }
+            }
+            for (Productor p : porProductos) {
+                if (!productores.contains(p)) {
+                    productores.add(p);
+                }
+            }
         }
-
         else {
             productores = productorService.obtenerTodos();
         }
+        productores.sort((p1, p2) -> {
+            if (p1.getEstadoSolicitud() == Productor.EstadoSolicitud.Pendiente &&
+                    p2.getEstadoSolicitud() == Productor.EstadoSolicitud.Pendiente) {
+                return p1.getFechaRegistro().compareTo(p2.getFechaRegistro());
+            }
+            if (p1.getEstadoSolicitud() == Productor.EstadoSolicitud.Pendiente) return -1;
+            if (p2.getEstadoSolicitud() == Productor.EstadoSolicitud.Pendiente) return 1;
 
-        // Estadísticas
+            return p2.getFechaRegistro().compareTo(p1.getFechaRegistro());
+        });
+
+
         long pendientes = productorService.contarPorEstado(Productor.EstadoSolicitud.Pendiente);
         long aprobados = productorService.contarPorEstado(Productor.EstadoSolicitud.Aprobado);
         long rechazados = productorService.contarPorEstado(Productor.EstadoSolicitud.Rechazado);
@@ -215,14 +237,15 @@ public class ProductorController {
         model.addAttribute("usuario", usuario);
         model.addAttribute("rol", rol);
 
-        return "gestionar_productores";
-    }
 
+        return "private/gestionar_productores";
+    }
     @PostMapping("/aprobar_productor/{id}")
-    public String aprobarProductor(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
-        // Verificar sesión de administrador siguiendo el patrón
+    public String aprobarProductor(@PathVariable Long id,@RequestParam("id_usuario") Long idUsuario, HttpSession session, RedirectAttributes redirectAttributes) {
+
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
+
 
         if (usuario == null || rol == null) {
             return "redirect:/public/index";
@@ -235,7 +258,9 @@ public class ProductorController {
 
         try {
             productorService.aprobarSolicitud(id);
+            usuarioService.actualizarRol(idUsuario, "productor");
             redirectAttributes.addFlashAttribute("exito", "Solicitud aprobada exitosamente");
+
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al aprobar solicitud: " + e.getMessage());
         }
@@ -246,7 +271,6 @@ public class ProductorController {
 
     @PostMapping("/rechazar_productor/{id}")
     public String rechazarProductor(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
-        // Verificar sesión de administrador siguiendo el patrón
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
 
@@ -272,7 +296,6 @@ public class ProductorController {
 
     @GetMapping("/ver_productor/{id}")
     public String verProductor(@PathVariable Long id, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        // Verificar sesión siguiendo el patrón
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
 
