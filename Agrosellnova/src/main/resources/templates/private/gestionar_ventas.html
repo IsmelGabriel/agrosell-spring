@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestionar Ventas</title>
-  <link rel="stylesheet" th:href="@{/css/panel.css}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Gestionar Ventas</title>
+    <link rel="stylesheet" th:href="@{/css/panel.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body class="panel-control">
 <header class="Bienvenido">
-  <div class="header-left">
-    <img src="/img/logo.png" alt="Logo Agrosellnova" class="logo">
-    <span class="project-name">AGROSELLNOVA</span>
-  </div>
+    <div class="header-left">
+        <img alt="Logo Agrosellnova" class="logo" src="/img/logo.png">
+        <span class="project-name">AGROSELLNOVA</span>
+    </div>
 
-  <div class="header-right">
-    <div class="user-info">
-      <p><strong th:text="'Bienvenido, ' + ${usuario}">Bienvenido, Usuario</strong></p>
-      <p><span th:text="'Rol: ' + ${rol}">Rol: Cliente</span></p>
+    <div class="header-right">
+        <div class="user-info">
+            <p><strong th:text="'Bienvenido, ' + ${usuario}">Bienvenido, Usuario</strong></p>
+            <p><span th:text="'Rol: ' + ${rol}">Rol: Cliente</span></p>
+        </div>
+        <div class="icons">
+            <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
+            <a th:href="@{/private/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+        </div>
     </div>
-    <div class="icons">
-      <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
-      <a th:href="@{/private/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
-    </div>
-  </div>
 </header>
 
 <div class="panel-container">
@@ -32,61 +32,73 @@
         <div class="lateral-content">
             <ul>
                 <!-- PRODUCTOR -->
-                <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
-                <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}"><i class="fas fa-seedling"></i> Publicar Producto</a></li>
-                <li th:if="${rol == 'productor'}"><a th:href="@{/private/reservar_producto}"><i class="fas fa-seedling"></i>Ofertar proximos a salir</a></li>
-                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}"><i class="fas fa-boxes"></i> Gestionar Productos</a></li>
-                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}"><i class="fas fa-cash-register"></i> Gestionar Ventas</a></li>
-                <li th:if="${rol == 'productor'}"><a th:href="@{/private/buenas_practicas}"><i class="fas fa-leaf"></i> Buenas Prácticas</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a>
+                </li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}"><i
+                        class="fas fa-seedling"></i> Publicar Producto</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/reservar_producto}"><i
+                        class="fas fa-seedling"></i>Ofertar proximos a salir</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}"><i
+                        class="fas fa-boxes"></i> Gestionar Productos</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}"><i
+                        class="fas fa-cash-register"></i> Gestionar Ventas</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/buenas_practicas}"><i class="fas fa-leaf"></i>
+                    Buenas Prácticas</a></li>
                 <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </div>
     </aside>
 
 
-  <main class="panel-content">
-    <h1>Ventas registradas por: <span th:text="${usuario}"></span></h1>
-    <div class="filtro-ventas">
-      <form th:action="@{/private/gestionar_ventas}" method="get" class="filtro-form">
-        <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
-        <select name="criterio" class="filtro-select">
-          <option value="">Selecciona un criterio</option>
-          <option value="id">ID de Venta</option>
-          <option value="producto">Producto</option>
-          <option value="fecha">Fecha (YYYY-MM-DD)</option>
-          <option value="comprador">Comprador</option>
-        </select>
-        <button type="submit" class="filtro-btn">Filtrar</button>
-      </form>
-    </div>
-    <table border="1">
-      <thead>
-      <tr>
-        <th>ID Venta</th>
-        <th>Producto</th>
-        <th>Cantidad (Kg)</th>
-        <th>Precio Unitario</th>
-        <th>Total Venta</th>
-        <th>Comprador</th>
-        <th>Fecha</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="venta : ${listaVentas}">
-        <td th:text="${venta.idVenta}">1</td>
-        <td th:text="${venta.producto.nombre}">Arroz</td>
-        <td th:text="${venta.cantidadKg}">10</td>
-        <td th:text="${venta.producto.precio}">3500</td>
-        <td th:text="${venta.totalVenta}">35000</td>
-        <td th:text="${venta.comprador.nombreUsuario}">cliente123</td>
-        <td th:text="${venta.fechaVenta}">2024-06-25</td>
-      </tr>
-      <tr th:if="${#lists.isEmpty(listaVentas)}">
-        <td colspan="7">No se han registrado ventas.</td>
-      </tr>
-      </tbody>
-    </table>
-  </main>
+    <main class="panel-content">
+        <h1>Ventas registradas por: <span th:text="${usuario}"></span></h1>
+        <div class="table-actions">
+            <form class="filtro-form" method="get" th:action="@{/private/gestionar_ventas}">
+                <input class="filtro-input" name="valor" placeholder="Buscar..." type="text">
+                <select class="filtro-select" name="criterio">
+                    <option value="">Selecciona un criterio</option>
+                    <option value="id">ID de Venta</option>
+                    <option value="producto">Producto</option>
+                    <option value="fecha">Fecha (YYYY-MM-DD)</option>
+                    <option value="comprador">Comprador</option>
+                </select>
+                <button class="filtro-btn" type="submit">Filtrar</button>
+            </form>
+
+            <form class="export-form" method="get" th:action="@{/private/export/gestionar_ventas}">
+                <button class="export-btn btn-danger" type="submit">
+                    <i class="fas fa-file-pdf"></i> Exportar PDF
+                </button>
+            </form>
+        </div>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>ID Venta</th>
+                <th>Producto</th>
+                <th>Cantidad (Kg)</th>
+                <th>Precio Unitario</th>
+                <th>Total Venta</th>
+                <th>Comprador</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="venta : ${listaVentas}">
+                <td th:text="${venta.idVenta}">1</td>
+                <td th:text="${venta.producto.nombre}">Arroz</td>
+                <td th:text="${venta.cantidadKg}">10</td>
+                <td th:text="${venta.producto.precio}">3500</td>
+                <td th:text="${venta.totalVenta}">35000</td>
+                <td th:text="${venta.comprador.nombreUsuario}">cliente123</td>
+                <td th:text="${venta.fechaVenta}">2024-06-25</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(listaVentas)}">
+                <td colspan="7">No se han registrado ventas.</td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
 </div>
 </body>
 </html>

@@ -15,4 +15,14 @@ public interface UsuarioService {
     void actualizarRol(Long idUsuario, String nuevoRol);
     void actualizarPerfil(Usuario usuario);
     void actualizarEstado(Long idUsuario, String estado);
+
+    // Estadísticas
+    Long obtenerTotalUsuarios();
+    Long obtenerUsuariosPorRol(String rol);
+    Long obtenerUsuariosPorEstado(String estado);
+
+    // Gráficos
+    List<Object[]> obtenerUsuariosAgrupadosPorRol();     // rol - cantidad
+    List<Object[]> obtenerUsuariosAgrupadosPorEstado();  // estado - cantidad
+
 }

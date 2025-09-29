@@ -20,4 +20,6 @@ public interface ReservaService {
 
     // Relación con productos
     List<Producto> obtenerProductosParaReserva();
+
+    List<Reserva> findByUsuarioDocumento(String documentoUsuario);
 }

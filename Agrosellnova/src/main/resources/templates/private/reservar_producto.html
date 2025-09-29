@@ -6,6 +6,34 @@
     <title>Panel de control</title>
     <link rel="stylesheet" th:href="@{/css/panel.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    /* Estilo base */
+       .toast {
+           min-width: 250px;
+           padding: 12px 16px;
+           border-radius: 8px;
+           color: #fff;
+           font-size: 14px;
+           animation: fadeInUp 0.4s, fadeOut 0.5s 3s forwards;
+           box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+       }
+
+       /* Colores según tipo */
+       .toast-success { background: #28a745; }
+       .toast-error { background: #dc3545; }
+       .toast-warning { background: #ffc107; color: #000; }
+
+       /* Animaciones */
+       @keyframes fadeInUp {
+           from { opacity: 0; transform: translateY(20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+       @keyframes fadeOut {
+           to { opacity: 0; transform: translateY(20px); }
+       }
+
+</style>
+
 </head>
 
 <body class="panel-control">
@@ -45,15 +73,19 @@
     </aside>
 
     <main class="ofertar-container">
-        <h2 class="ofertar-titulo">Ofertar Producto en Reserva</h2>
+        <h2 class="ofertar-titulo">Ofertar Producto Proximo a Salir</h2>
         <form th:action="@{/private/guardarProductoReserva}" method="post"
               class="needs-validation" novalidate enctype="multipart/form-data">
 
             <div class="ofertar-form">
                 <label for="productoImagen" class="form-label">Foto del Producto</label>
-                <input type="file" name="productoImagen" id="productoImagen"
-                       class="form-control" accept="image/*" required>
-                <div class="invalid-feedback">Por favor, selecciona una foto.</div>
+                <input type="file"
+                       name="productoImagen"
+                       id="productoImagen"
+                       class="form-control"
+                       accept="image/png, image/jpeg"
+                       required>
+                <div class="invalid-feedback">Por favor, selecciona una foto en formato JPG o PNG.</div>
             </div>
 
             <div class="ofertar-form">
@@ -102,11 +134,23 @@
                 Guardar Producto en Reserva
             </button>
         </form>
+        <div id="toast-container"></div>
 
     </main>
 </div>
 
 <script>
+
+    document.getElementById("productoImagen").addEventListener("change", function () {
+    const file = this.files[0];
+    if (file) {
+      const validTypes = ["image/jpeg", "image/png"];
+      if (!validTypes.includes(file.type)) {
+        alert("Solo se permiten imágenes en formato JPG o PNG.");
+        this.value = "";
+      }
+    }
+  });
 
     (function () {
         'use strict';
@@ -121,6 +165,7 @@
             }, false);
         });
     })();
+
 </script>
 </body>
 </html>

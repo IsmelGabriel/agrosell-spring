@@ -48,7 +48,7 @@
     <main class="panel-content">
         <h1>Reporte de Ventas</h1>
 
-        <div class="filtro-ventas">
+        <div class="table-actions">
             <form th:action="@{/private/reporte_ventas}" method="get" class="filtro-form">
                 <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
                 <select name="criterio" class="filtro-select">
@@ -59,6 +59,12 @@
                     <option value="fecha">Fecha (YYYY-MM-DD)</option>
                 </select>
                 <button type="submit" class="filtro-btn">Filtrar</button>
+            </form>
+
+            <form th:action="@{/private/export/reporte_ventas}" method="get" class="export-form">
+                <button type="submit" class="export-btn btn-danger">
+                    <i class="fas fa-file-pdf"></i> Exportar PDF
+                </button>
             </form>
         </div>
 

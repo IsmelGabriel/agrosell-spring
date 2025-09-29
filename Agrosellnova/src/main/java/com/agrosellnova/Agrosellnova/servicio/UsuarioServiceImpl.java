@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -124,6 +125,54 @@ public class UsuarioServiceImpl implements UsuarioService {
             usuario.setFechaNacimiento(usuarioActualizado.getFechaNacimiento());
             usuarioRepository.save(usuario);
         }
+    }
+
+
+    @Override
+    public Long obtenerTotalUsuarios() {
+        return usuarioRepository.count();
+    }
+
+    @Override
+    public Long obtenerUsuariosPorRol(String rol) {
+        return usuarioRepository.findAll().stream()
+                .filter(u -> u.getRol().equalsIgnoreCase(rol))
+                .count();
+    }
+
+    @Override
+    public Long obtenerUsuariosPorEstado(String estado) {
+        return usuarioRepository.findAll().stream()
+                .filter(u -> u.getEstado() != null && u.getEstado().equalsIgnoreCase(estado))
+                .count();
+    }
+
+    @Override
+    public List<Object[]> obtenerUsuariosAgrupadosPorRol() {
+        return usuarioRepository.findAll()
+                .stream()
+                .collect(Collectors.groupingBy(
+                        Usuario::getRol,
+                        Collectors.counting()
+                ))
+                .entrySet()
+                .stream()
+                .map(e -> new Object[]{e.getKey(), e.getValue()})
+                .toList();
+    }
+
+    @Override
+    public List<Object[]> obtenerUsuariosAgrupadosPorEstado() {
+        return usuarioRepository.findAll()
+                .stream()
+                .collect(Collectors.groupingBy(
+                        Usuario::getEstado,
+                        Collectors.counting()
+                ))
+                .entrySet()
+                .stream()
+                .map(e -> new Object[]{e.getKey(), e.getValue()})
+                .toList();
     }
 
 }

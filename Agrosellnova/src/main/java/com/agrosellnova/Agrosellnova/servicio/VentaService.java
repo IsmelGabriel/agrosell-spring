@@ -12,5 +12,16 @@ public interface VentaService {
     List<Venta> filtrarVentas(String productor, String criterio, String valor);
     List<Venta> filtrarCompras(String comprador, String criterio, String valor);
     List<Venta> filtrarVentasAdmin(String criterio, String valor);
+    List<Venta> obtenerComprasPorUsuario(String documentoUsuario);
+    List<Venta> sobtenerComprasPorUsuario(String documentoUsuario);
+    List<Venta> obtenerTodas();
+
+    Double obtenerTotalVentas(); // suma de totalVenta
+    Long obtenerCantidadProductosVendidos(); // suma de cantidadKg
+    Long obtenerCantidadClientes(); // clientes distintos
+
+    List<Object[]> obtenerVentasPorMes(); // mes - total
+    List<Object[]> obtenerProductosMasVendidos(); // producto - cantidad
+
 }
 

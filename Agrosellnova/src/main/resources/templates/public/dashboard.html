@@ -31,10 +31,10 @@
         </span>
 
         <span class="username">
-            <th:block th:if="${usuario != null}">
-                <a th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
+            <th:block th:if="${username != null}">
+                <a th:text="${username}" th:href="@{/public/cerrar_sesion}"></a>
             </th:block>
-            <th:block th:unless="${usuario != null}">
+            <th:block th:unless="${username != null}">
                 <a th:href="@{/public/index}">Iniciar sesión</a>
             </th:block>
         </span>
@@ -64,77 +64,122 @@
             <i class="fas fa-dollar-sign"></i>
             <div class="stat-info">
                 <h3>Ventas Totales</h3>
-                <p>$75,450.000</p>
+                <p th:text="${dashboardData.getTotalVentas()}">0</p>
             </div>
         </div>
         <div class="stat-item">
             <i class="fas fa-box"></i>
             <div class="stat-info">
-                <h3>Productos Vendidos</h3>
-                <p>500</p>
+                <h3>Productos</h3>
+                <p th:text="${dashboardData.getTotalProductos()}">0</p>
             </div>
         </div>
         <div class="stat-item">
             <i class="fas fa-users"></i>
             <div class="stat-info">
-                <h3>Clientes</h3>
-                <p>200</p>
+                <h3>Usuarios</h3>
+                <p th:text="${dashboardData.getTotalUsuarios()}">0</p>
             </div>
         </div>
     </section>
 
     <section class="charts">
         <div class="chart">
-            <h3>Ventas Mensuales</h3>
-            <canvas id="monthlySalesChart"></canvas>
+            <h3>Ventas por Fecha</h3>
+            <canvas id="ventasPorFechaChart"></canvas>
         </div>
         <div class="chart">
-            <h3>Productos Más Vendidos</h3>
-            <canvas id="topProductsChart"></canvas>
+            <h3>Productos por Estado</h3>
+            <canvas id="productosPorEstadoChart"></canvas>
         </div>
     </section>
 
-    <section class="recent-orders">
-        <h3>Órdenes Recientes</h3>
-        <table>
-            <thead>
-            <tr>
-                <th>ID Orden</th>
-                <th>Cliente</th>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Total</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>#001</td>
-                <td>Juan Pérez</td>
-                <td>Tomates</td>
-                <td>10</td>
-                <td>$50</td>
-            </tr>
-            <tr>
-                <td>#002</td>
-                <td>Maria López</td>
-                <td>Lechuga</td>
-                <td>5</td>
-                <td>$25</td>
-            </tr>
-            <tr>
-                <td>#003</td>
-                <td>Carlos García</td>
-                <td>Zanahorias</td>
-                <td>8</td>
-                <td>$40</td>
-            </tr>
-            </tbody>
-        </table>
+    <section class="usuarios-stats">
+        <div class="chart">
+            <h3>Usuarios por Rol</h3>
+            <canvas id="usuariosPorRolChart"></canvas>
+        </div>
+        <div class="chart">
+            <h3>Usuarios por Estado</h3>
+            <canvas id="usuariosPorEstadoChart"></canvas>
+        </div>
     </section>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script th:src="@{/js/dashboard-charts.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const ventasPorFecha = /*[[${dashboardData.ventasPorFecha}]]*/ {};
+    const productosPorEstado = /*[[${dashboardData.productosPorEstado}]]*/ {};
+    const usuariosPorRol = /*[[${dashboardData.usuariosPorRol}]]*/ {};
+    const usuariosPorEstado = /*[[${dashboardData.usuariosPorEstado}]]*/ {};
+
+    function getLabelsAndValues(map) {
+        const labels = Object.keys(map);
+        const values = Object.values(map);
+        return { labels, values };
+    }
+
+    // Ventas por Fecha
+    const ventasData = getLabelsAndValues(ventasPorFecha);
+    new Chart(document.getElementById('ventasPorFechaChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ventasData.labels,
+            datasets: [{
+                label: 'Ventas',
+                data: ventasData.values,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    });
+
+    // Productos por Estado
+    const productosData = getLabelsAndValues(productosPorEstado);
+    new Chart(document.getElementById('productosPorEstadoChart').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: productosData.labels,
+            datasets: [{
+                data: productosData.values,
+                backgroundColor: ['#4caf50','#ff9800','#f44336','#2196f3']
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // Usuarios por Rol
+    const usuariosRolData = getLabelsAndValues(usuariosPorRol);
+    new Chart(document.getElementById('usuariosPorRolChart').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: usuariosRolData.labels,
+            datasets: [{
+                data: usuariosRolData.values,
+                backgroundColor: ['#3f51b5','#00bcd4','#ff5722','#8bc34a']
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // Usuarios por Estado
+    const usuariosEstadoData = getLabelsAndValues(usuariosPorEstado);
+    new Chart(document.getElementById('usuariosPorEstadoChart').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: usuariosEstadoData.labels,
+            datasets: [{
+                data: usuariosEstadoData.values,
+                backgroundColor: ['#9c27b0','#e91e63','#607d8b','#ffc107']
+            }]
+        },
+        options: { responsive: true }
+    });
+    /*]]>*/
+</script>
 
 <footer class="footer">
     <div class="footer-container">
@@ -173,5 +218,6 @@
         <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y condiciones</a></p>
     </div>
 </footer>
+
 </body>
 </html>

@@ -56,11 +56,20 @@ public class ProductoController {
     }
 
     @GetMapping("/private/gestionar_productos")
-    public String gestionarProductos(HttpSession session, Model model) {
+    public String gestionarProductos(
+            @RequestParam(required = false) String criterio,
+            @RequestParam(required = false) String valor,
+            HttpSession session, Model model) {
+
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
 
-        List<Producto> listaProductos = productoService.obtenerProductosPorProductor(usuario);
+        List<Producto> listaProductos;
+        if (criterio != null && valor != null && !criterio.isEmpty() && !valor.isEmpty()) {
+            listaProductos = productoService.filtrarProductos(usuario, criterio, valor);
+        }else {
+            listaProductos = productoService.obtenerProductosPorProductor(usuario);
+        }
 
         model.addAttribute("listaProductos", listaProductos);
         model.addAttribute("usuario", usuario);
@@ -68,7 +77,6 @@ public class ProductoController {
 
         return "private/gestionar_productos";
     }
-
 
 
     @PostMapping("/producto/editar")
@@ -104,6 +112,16 @@ public class ProductoController {
             e.printStackTrace();
             return "redirect:/error";
         }
+    }
+
+    @GetMapping("/private/actualizarEstadoProducto")
+    public String actualizarEstadoProducto(@RequestParam("id") Long id, @RequestParam("estado") String estado) {
+        Producto producto = productoService.obtenerPorId(id);
+        if (producto != null) {
+            producto.setEstado(estado);
+            productoRepository.save(producto);
+        }
+        return "redirect:/private/gestionar_productos";
     }
 
 }
