@@ -16,7 +16,7 @@ public interface VentaService {
     List<Venta> sobtenerComprasPorUsuario(String documentoUsuario);
     List<Venta> obtenerTodas();
 
-    Double obtenerTotalVentas(); // suma de totalVenta
+    Long obtenerTotalVentas(); // suma de totalVenta
     Long obtenerCantidadProductosVendidos(); // suma de cantidadKg
     Long obtenerCantidadClientes(); // clientes distintos
 
