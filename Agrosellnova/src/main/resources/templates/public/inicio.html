@@ -91,7 +91,7 @@
                                 <h5 class="producto-nombre" th:text="${producto.nombre}"></h5>
                                 <p class="producto-descripcion" th:text="${producto.descripcion}"></p>
                                 <p class="producto-precio" th:text="'$' + ${producto.precio}"></p>
-                                <a href="#" class="producto-boton">Ver más</a>
+                                <a th:href="@{/public/productos}" class="producto-boton">Ver más</a>
                             </div>
                         </div>
                     </div>

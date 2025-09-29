@@ -2,9 +2,11 @@ package com.agrosellnova.Agrosellnova.controladores;
 
 import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.modelo.Reserva;
+import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.servicio.ProductoService;
 import com.agrosellnova.Agrosellnova.servicio.ReservaService;
+import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
 import jakarta.servlet.http.HttpSession;
@@ -31,6 +33,8 @@ import java.util.UUID;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.IOException;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.Date;
 
 
@@ -46,6 +50,9 @@ public class ReservaController {
     @Autowired
     private ProductoRepository productoRepository;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @GetMapping("/public/reservas")
     public String mostrarProductosReservables(HttpSession session, Model model) {
         String usuario = (String) session.getAttribute("usuario");
@@ -58,10 +65,43 @@ public class ReservaController {
     }
 
     @GetMapping("/formulario_reserva")
-    public String mostrarFormularioReserva(Model model) {
-        model.addAttribute("reserva", new Reserva());
+    public String mostrarFormularioReserva(@RequestParam("id") Long idProducto,
+                                           Model model,
+                                           HttpSession session,
+                                           RedirectAttributes redirectAttributes) {
+        // Verificar si hay usuario en sesión
+        String usuario = (String) session.getAttribute("usuario");
+        if (usuario == null) {
+            redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para reservar un producto.");
+            return "redirect:/public/index"; // redirige al login
+        }
+
+        // Buscar el producto
+        Producto producto = productoService.obtenerPorId(idProducto);
+        if (producto == null) {
+            throw new IllegalArgumentException("Producto no encontrado con id: " + idProducto);
+        }
+
+        // Crear la reserva y rellenar datos del usuario si están disponibles
+        Reserva reserva = new Reserva();
+        reserva.setUsuarioCliente(usuario);
+
+        // Si tienes una entidad Usuario en BD, puedes cargar más datos:
+        Usuario usuarioEntidad = usuarioService.buscarPorNombreUsuario(usuario);
+        if (usuarioEntidad != null) {
+            reserva.setUsuarioCorreo(usuarioEntidad.getCorreo());
+            reserva.setUsuarioDocumento(usuarioEntidad.getDocumento());
+        }
+
+        // Pasar al modelo
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("reserva", reserva);
+        model.addAttribute("producto", producto);
+
         return "/forms/formulario_reserva";
     }
+
+
 
     @PostMapping("/public/registrarReserva")
     public String guardarReserva(@ModelAttribute("reserva") Reserva reserva, HttpSession session) {
