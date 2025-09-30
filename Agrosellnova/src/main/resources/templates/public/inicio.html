@@ -7,6 +7,346 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+    <style>
+        .sipsa-trading-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .sipsa-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .sipsa-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sipsa-title h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        .sipsa-title .live-indicator {
+            width: 10px;
+            height: 10px;
+            background: #27ae60;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .sipsa-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .sipsa-controls select,
+        .sipsa-controls button,
+        .sipsa-controls input {
+            padding: 10px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .sipsa-controls select:hover,
+        .sipsa-controls input:hover {
+            border-color: #667eea;
+        }
+
+        .sipsa-controls button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+
+        .sipsa-controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .filters-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 8px 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-filter {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .btn-filter:hover {
+            background: #5568d3;
+        }
+
+        .btn-clear {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .btn-clear:hover {
+            background: #c0392b;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .chart-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .price-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .price-stat {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+
+        .price-stat.up {
+            border-left-color: #27ae60;
+        }
+
+        .price-stat.down {
+            border-left-color: #e74c3c;
+        }
+
+        .price-stat-label {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .price-stat-value {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .price-stat-value.up {
+            color: #27ae60;
+        }
+
+        .price-stat-value.down {
+            color: #e74c3c;
+        }
+
+        .price-change {
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .price-change.up {
+            color: #27ae60;
+        }
+
+        .price-change.down {
+            color: #e74c3c;
+        }
+
+        .data-table-compact {
+            margin-top: 25px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+        }
+
+        .data-table-compact table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table-compact thead {
+            position: sticky;
+            top: 0;
+            background: #f8f9fa;
+            z-index: 5;
+        }
+
+        .data-table-compact th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            border-bottom: 2px solid #e1e8ed;
+            font-size: 0.9em;
+        }
+
+        .data-table-compact td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f1f3f5;
+            font-size: 0.9em;
+        }
+
+        .data-table-compact tr:hover {
+            background: #f8f9fa;
+        }
+
+        .product-cell {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .price-cell {
+            font-weight: 700;
+        }
+
+        .price-cell.up {
+            color: #27ae60;
+        }
+
+        .price-cell.down {
+            color: #e74c3c;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+
+        .loading-spinner i {
+            font-size: 2em;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .view-toggle {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 4px;
+            gap: 2px;
+        }
+
+        .view-toggle button {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #7f8c8d;
+        }
+
+        .view-toggle button.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .sipsa-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .chart-container {
+                height: 300px;
+            }
+
+            .price-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filters-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+        }
+    </style>
+
 </head>
 <body>
 
@@ -98,23 +438,127 @@
                 </div>
         </section>
 
-        <div class="practicas-seccion">
-            <div class="practicas-info">
-                <h2 class="practicas-titulo">Buenas Prácticas</h2>
-                <p>
-                    Aplicar buenas prácticas en los procesos agrícolas garantiza la sostenibilidad,
-                    calidad de los productos y respeto por el medio ambiente. Estas prácticas incluyen
-                    el uso adecuado de recursos, manejo responsable de residuos y mejora continua en
-                    los procesos de producción.
-                </p>
-                <p>
-                    Asegúrate de implementar métodos seguros y sostenibles en tus cultivos, contribuyendo
-                    así al bienestar de todos.
-                </p>
+        <div class="sipsa-trading-section">
+
+            <!-- Header con controles principales -->
+            <div class="sipsa-header">
+                <div class="sipsa-title">
+                    <h2>
+                        <i class="fas fa-chart-line"></i>
+                        <span th:text="${tituloSeccion != null ? tituloSeccion : 'Mercado Agrícola SIPSA'}">Mercado Agrícola SIPSA</span>
+                    </h2>
+                    <span class="live-indicator"></span>
+                </div>
+
+                <div class="sipsa-controls">
+                    <form th:action="@{/public/inicio}" method="get" style="display: flex; gap: 10px; margin: 0;">
+                        <select name="tipoConsulta" onchange="this.form.submit()">
+                            <option value="ciudad" th:selected="${tipoConsultaActual == 'ciudad'}">Precios por Ciudad</option>
+                            <option value="mensual" th:selected="${tipoConsultaActual == 'mensual'}">Datos Mensuales</option>
+                            <option value="semanal" th:selected="${tipoConsultaActual == 'semanal'}">Datos Semanales</option>
+                            <option value="abastecimiento" th:selected="${tipoConsultaActual == 'abastecimiento'}">Abastecimiento</option>
+                        </select>
+                    </form>
+
+                    <div class="view-toggle">
+                        <button class="active" onclick="cambiarVista('grafico')">
+                            <i class="fas fa-chart-line"></i> Gráfico
+                        </button>
+                        <button onclick="cambiarVista('tabla')">
+                            <i class="fas fa-table"></i> Tabla
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="practicas-img">
-                <img src="/img/inicio_buenas_practicas.jpg" alt="Buenas Prácticas" class="img-practicas">
+
+            <!-- Filtros -->
+            <div class="filters-section">
+                <div class="filter-group">
+                    <label><i class="fas fa-seedling"></i> Producto:</label>
+                    <input type="text" id="filterProducto" placeholder="Ej: Tomate">
+                </div>
+
+                <div class="filter-group">
+                    <label><i class="fas fa-map-marker-alt"></i> Ciudad:</label>
+                    <input type="text" id="filterCiudad" placeholder="Ej: Bogotá">
+                </div>
+
+                <div class="filter-group">
+                    <label><i class="fas fa-calendar"></i> Desde:</label>
+                    <input type="date" id="filterFechaDesde">
+                </div>
+
+                <div class="filter-group">
+                    <label><i class="fas fa-calendar"></i> Hasta:</label>
+                    <input type="date" id="filterFechaHasta">
+                </div>
+
+                <button class="btn-filter" onclick="aplicarFiltros()">
+                    <i class="fas fa-filter"></i> Aplicar
+                </button>
+
+                <button class="btn-clear" onclick="limpiarFiltros()">
+                    <i class="fas fa-times"></i> Limpiar
+                </button>
             </div>
+
+            <!-- Estadísticas rápidas -->
+            <div class="price-stats">
+                <div class="price-stat up">
+                    <div class="price-stat-label">Precio Máximo</div>
+                    <div class="price-stat-value up" id="precioMax">$0</div>
+                </div>
+
+                <div class="price-stat">
+                    <div class="price-stat-label">Precio Promedio</div>
+                    <div class="price-stat-value" id="precioPromedio">$0</div>
+                </div>
+
+                <div class="price-stat down">
+                    <div class="price-stat-label">Precio Mínimo</div>
+                    <div class="price-stat-value down" id="precioMin">$0</div>
+                </div>
+
+                <div class="price-stat">
+                    <div class="price-stat-label">Registros Filtrados</div>
+                    <div class="price-stat-value" id="registrosFiltrados">0</div>
+                </div>
+            </div>
+
+            <!-- Mensaje si no hay datos -->
+            <div th:if="${datosSipsa == null or datosSipsa.empty}" class="loading-spinner">
+                <i class="fas fa-inbox"></i>
+                <p th:text="${descripcionSeccion}">Los datos se actualizan automáticamente cada hora.</p>
+            </div>
+
+            <!-- Gráfico -->
+            <div class="chart-container" id="chartContainer" th:if="${datosSipsa != null and !datosSipsa.empty}">
+                <canvas id="tradingChart" class="chart-canvas"></canvas>
+            </div>
+
+            <!-- Tabla compacta -->
+            <div class="data-table-compact" id="dataTable" style="display: none;" th:if="${datosSipsa != null and !datosSipsa.empty}">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Ciudad/Fuente</th>
+                        <th>Precio/Cantidad</th>
+                        <th>Fecha</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    <!-- Se llena dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <p th:if="${totalDatos != null and totalDatos > 0}" style="margin-top: 15px; color: #7f8c8d; text-align: center; font-size: 0.9em;">
+                <i class="fas fa-info-circle"></i> Total de registros: <strong th:text="${totalDatos}"></strong>
+            </p>
+
+        </div>
+
         </div>
     </section>
 </main>
@@ -157,6 +601,7 @@
     </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
     document.getElementById('notificationButton').addEventListener('click', function() {
         alert("No tienes notificaciones pendientes");
@@ -190,6 +635,270 @@
         menuBar.classList.toggle('active');
     });
 </script>
+<script th:inline="javascript">
+    // Obtener datos desde Thymeleaf
+    const datosSipsaOriginales = /*[[${datosSipsa}]]*/ [];
 
+    let tradingChart = null;
+    let datosFiltrados = [...datosSipsaOriginales];
+
+    // Inicializar al cargar
+    document.addEventListener('DOMContentLoaded', function() {
+        if (datosSipsaOriginales && datosSipsaOriginales.length > 0) {
+            aplicarFiltros();
+        }
+    });
+
+    function aplicarFiltros() {
+        const filterProducto = document.getElementById('filterProducto').value.toLowerCase();
+        const filterCiudad = document.getElementById('filterCiudad').value.toLowerCase();
+        let filterFechaDesde = document.getElementById('filterFechaDesde').value;
+        let filterFechaHasta = document.getElementById('filterFechaHasta').value;
+
+        // Si no hay filtros de fecha, limitar automáticamente al último mes
+        const ahora = new Date();
+        const unMesAtras = new Date();
+        unMesAtras.setMonth(unMesAtras.getMonth() - 1);
+
+        datosFiltrados = datosSipsaOriginales.filter(dato => {
+            // Filtro por producto
+            if (filterProducto && !dato.producto.toLowerCase().includes(filterProducto)) {
+                return false;
+            }
+
+            // Filtro por ciudad
+            const ciudadOFuente = dato.ciudad || dato.fuente || '';
+            if (filterCiudad && !ciudadOFuente.toLowerCase().includes(filterCiudad)) {
+                return false;
+            }
+
+            // Filtro por fecha (con límite automático de 1 mes si no hay filtros)
+            const fechaDato = new Date(dato.fechaCaptura);
+
+            // Si no hay filtros de fecha, aplicar límite de 1 mes automáticamente
+            if (!filterFechaDesde && !filterFechaHasta) {
+                if (fechaDato < unMesAtras) return false;
+            } else {
+                // Si hay filtros, usarlos
+                if (filterFechaDesde) {
+                    const fechaDesde = new Date(filterFechaDesde);
+                    if (fechaDato < fechaDesde) return false;
+                }
+
+                if (filterFechaHasta) {
+                    const fechaHasta = new Date(filterFechaHasta);
+                    fechaHasta.setHours(23, 59, 59);
+                    if (fechaDato > fechaHasta) return false;
+                }
+            }
+
+            return true;
+        });
+
+        actualizarVista();
+    }
+
+    function limpiarFiltros() {
+        document.getElementById('filterProducto').value = '';
+        document.getElementById('filterCiudad').value = '';
+        document.getElementById('filterFechaDesde').value = '';
+        document.getElementById('filterFechaHasta').value = '';
+
+        datosFiltrados = [...datosSipsaOriginales];
+        actualizarVista();
+    }
+
+    function actualizarVista() {
+        calcularEstadisticas();
+        crearGrafico();
+        renderizarTabla();
+    }
+
+    function crearGrafico() {
+        const ctx = document.getElementById('tradingChart');
+        if (!ctx) return;
+
+        if (tradingChart) {
+            tradingChart.destroy();
+        }
+
+        // Agrupar datos por producto
+        const productoMap = {};
+        datosFiltrados.forEach(dato => {
+            const prod = dato.producto;
+            if (!productoMap[prod]) productoMap[prod] = [];
+
+            productoMap[prod].push({
+                fecha: dato.fechaCaptura,
+                precio: dato.precioPromedio || dato.cantidadKg || 0,
+                ciudad: dato.ciudad || dato.fuente
+            });
+        });
+
+        // Tomar los 5 productos con más datos
+        const topProductos = Object.entries(productoMap)
+            .sort((a, b) => b[1].length - a[1].length)
+            .slice(0, 5);
+
+        // Crear datasets
+        const datasets = topProductos.map((item, index) => {
+            const [producto, datos] = item;
+            const datosOrdenados = datos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
+            const precios = datosOrdenados.map(d => d.precio);
+            const promedio = precios.reduce((a, b) => a + b, 0) / precios.length;
+            const ultimoPrecio = precios[precios.length - 1];
+            const esAlcista = ultimoPrecio >= promedio;
+
+            return {
+                label: producto,
+                data: datosOrdenados.map((d, i) => ({
+                    x: i,
+                    y: d.precio,
+                    fecha: d.fecha
+                })),
+                borderColor: esAlcista ? '#27ae60' : '#e74c3c',
+                backgroundColor: esAlcista ? 'rgba(39, 174, 96, 0.1)' : 'rgba(231, 76, 60, 0.1)',
+                pointBackgroundColor: datosOrdenados.map(d => {
+                    return d.precio >= promedio ? '#27ae60' : '#e74c3c';
+                }),
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                tension: 0.4,
+                fill: false
+            };
+        });
+
+        tradingChart = new Chart(ctx, {
+            type: 'line',
+            data: { datasets: datasets },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15,
+                            font: { size: 12, weight: 'bold' }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: { size: 14, weight: 'bold' },
+                        bodyFont: { size: 13 },
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) label += ': ';
+                                label += '$' + Number(context.parsed.y).toLocaleString();
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'linear',
+                        ticks: {
+                            callback: function(value) {
+                                return 'Dato ' + (parseInt(value) + 1);
+                            }
+                        },
+                        grid: { display: false }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + Number(value).toLocaleString();
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function calcularEstadisticas() {
+        const precios = datosFiltrados
+            .filter(d => d.precioPromedio)
+            .map(d => d.precioPromedio);
+
+        if (precios.length === 0) {
+            document.getElementById('precioMax').textContent = '$0';
+            document.getElementById('precioMin').textContent = '$0';
+            document.getElementById('precioPromedio').textContent = '$0';
+            document.getElementById('registrosFiltrados').textContent = '0';
+            return;
+        }
+
+        const max = Math.max(...precios);
+        const min = Math.min(...precios);
+        const promedio = precios.reduce((a, b) => a + b, 0) / precios.length;
+
+        document.getElementById('precioMax').textContent = '$' + Number(max).toLocaleString();
+        document.getElementById('precioMin').textContent = '$' + Number(min).toLocaleString();
+        document.getElementById('precioPromedio').textContent = '$' + Number(promedio.toFixed(0)).toLocaleString();
+        document.getElementById('registrosFiltrados').textContent = datosFiltrados.length;
+    }
+
+    function renderizarTabla() {
+        const tbody = document.getElementById('tableBody');
+        if (!tbody) return;
+
+        const precios = datosFiltrados.filter(d => d.precioPromedio).map(d => d.precioPromedio);
+        const promedio = precios.length > 0 ? precios.reduce((a, b) => a + b, 0) / precios.length : 0;
+
+        tbody.innerHTML = datosFiltrados.slice(0, 100).map(dato => {
+            const precio = dato.precioPromedio || 0;
+            const colorClass = precio >= promedio ? 'up' : 'down';
+            const fecha = new Date(dato.fechaCaptura);
+            const fechaFormateada = fecha.toLocaleDateString('es-CO');
+
+            return `
+                <tr>
+                    <td class="product-cell">${dato.producto}</td>
+                    <td>${dato.ciudad || dato.fuente || '-'}</td>
+                    <td class="price-cell ${colorClass}">
+                        ${dato.precioPromedio ? '$' + Number(dato.precioPromedio).toLocaleString() : ''}
+                        ${dato.cantidadKg ? Number(dato.cantidadKg).toFixed(2) + ' kg' : ''}
+                    </td>
+                    <td>${fechaFormateada}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function cambiarVista(vista) {
+        const chartContainer = document.getElementById('chartContainer');
+        const dataTable = document.getElementById('dataTable');
+        const buttons = document.querySelectorAll('.view-toggle button');
+
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        if (vista === 'grafico') {
+            chartContainer.style.display = 'block';
+            dataTable.style.display = 'none';
+            buttons[0].classList.add('active');
+        } else {
+            chartContainer.style.display = 'none';
+            dataTable.style.display = 'block';
+            buttons[1].classList.add('active');
+        }
+    }
+</script>
 </body>
 </html>
