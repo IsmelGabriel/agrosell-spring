@@ -61,7 +61,7 @@ public class PaginaController {
             return "redirect:/error";
         }
 
-        return "redirect:forms/" + pagina;
+        return "forms/" + pagina;
     }
 
     @GetMapping("/private/{pagina}")
