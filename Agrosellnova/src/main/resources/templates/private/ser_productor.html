@@ -36,6 +36,7 @@
             <ul>
                 <!-- CLIENTE -->
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}"><i class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver Productos</a></li>
