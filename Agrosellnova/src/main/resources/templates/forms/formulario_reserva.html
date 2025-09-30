@@ -70,41 +70,46 @@
 
             <div class="reservar-form">
                 <label for="USUARIO_DOCUMENTO">Número de documento</label>
-                <input type="text" id="USUARIO_DOCUMENTO" name="usuarioDocumento" class="form-control" maxlength="10" minlength="7" required />
-                <div class="invalid-feedback">Por favor, ingrese su número de documento.</div>
+                <input type="text" id="USUARIO_DOCUMENTO" name="usuarioDocumento"
+                       class="form-control"
+                       th:value="${reserva.usuarioDocumento}" required />
             </div>
 
             <div class="reservar-form">
                 <label for="USUARIO_TELEFONO">Teléfono</label>
-                <input type="tel" id="USUARIO_TELEFONO" name="usuarioTelefono" class="form-control" maxlength="10" minlength="10" required />
-                <div class="invalid-feedback">Por favor, ingrese su número de teléfono.</div>
+                <input type="tel" id="USUARIO_TELEFONO" name="usuarioTelefono"
+                       class="form-control"
+                       th:value="0000000000" maxlength="10" minlength="10" required />
             </div>
 
             <div class="reservar-form">
                 <label for="USUARIO_CORREO">Correo electrónico</label>
-                <input type="email" id="USUARIO_CORREO" name="usuarioCorreo" class="form-control" required />
-                <div class="invalid-feedback">Por favor, ingrese un correo electrónico válido.</div>
+                <input type="email" id="USUARIO_CORREO" name="usuarioCorreo"
+                       class="form-control"
+                       th:value="${reserva.usuarioCorreo}" required />
             </div>
+
 
             <div class="reservar-form">
                 <label for="PRODUCTO">Producto</label>
-                <select id="PRODUCTO" name="producto" class="form-control" required>
-                    <option value="">Seleccione un producto</option>
-                    <option value="Cebolla">Cebolla</option>
-                    <option value="Tomate">Tomate</option>
-                    <option value="Zanahoria">Zanahoria</option>
-                    <option value="Fresa">Fresa</option>
-                    <option value="Mango">Mango</option>
-                    <option value="Manzana">Manzana</option>
-                </select>
-                <div class="invalid-feedback">Por favor, seleccione un producto.</div>
+                <input type="text" id="PRODUCTO" name="productoNombre"
+                       class="form-control" th:value="${producto.nombre}" readonly />
+
+                <!-- Este campo oculto guarda el ID real -->
+                <input type="hidden" name="productoId" th:value="${producto.id}" />
             </div>
+
 
             <div class="reservar-form">
                 <label for="CANTIDAD_KG">Cantidad (kg)</label>
-                <input type="number" id="CANTIDAD_KG" name="cantidadKg" class="form-control" required />
+                <input type="number" id="CANTIDAD_KG" name="cantidadKg"
+                       class="form-control"
+                       th:attr="max=${producto.stock}"
+                       required />
+                <small>Disponible: <span th:text="${producto.stock}"></span> kg</small>
                 <div class="invalid-feedback">Por favor, ingrese una cantidad válida.</div>
             </div>
+
 
             <div class="formulario-pago">
                 <label for="metodoPago" class="form-label">Método de Pago</label>

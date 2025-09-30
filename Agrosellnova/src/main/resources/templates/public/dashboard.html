@@ -11,6 +11,7 @@
 <body>
 <header class="top-bar">
     <div class="header-content">
+        <!--suppress HtmlUnknownTarget -->
         <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
         <h1 class="menu-title">AGROSELL NOVA</h1>
 
@@ -50,7 +51,7 @@
     <ul id="menu-items">
         <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
         <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
-        <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
+<!--        <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>-->
         <li><a th:href="@{/public/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
         <li><a th:href="@{/public/about_us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
         <li><a th:href="@{/public/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
@@ -64,24 +65,25 @@
             <i class="fas fa-dollar-sign"></i>
             <div class="stat-info">
                 <h3>Ventas Totales</h3>
-                <p>$75,450.000</p>
+                <p th:text="${#numbers.formatDecimal(totalVentas, 1, 'COMMA', 2, 'POINT')} + ' $'">$0.00</p>
             </div>
         </div>
         <div class="stat-item">
             <i class="fas fa-box"></i>
             <div class="stat-info">
                 <h3>Productos Vendidos</h3>
-                <p>500</p>
+                <p th:text="${totalProductos} + ' kg'">0 kg</p>
             </div>
         </div>
         <div class="stat-item">
             <i class="fas fa-users"></i>
             <div class="stat-info">
                 <h3>Clientes</h3>
-                <p>200</p>
+                <p th:text="${totalClientes}">0</p>
             </div>
         </div>
     </section>
+
 
     <section class="charts">
         <div class="chart">
@@ -99,7 +101,7 @@
         <table>
             <thead>
             <tr>
-                <th>ID Orden</th>
+                <th>Orden</th>
                 <th>Cliente</th>
                 <th>Producto</th>
                 <th>Cantidad</th>
@@ -107,26 +109,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>#001</td>
-                <td>Juan Pérez</td>
-                <td>Tomates</td>
-                <td>10</td>
-                <td>$50</td>
-            </tr>
-            <tr>
-                <td>#002</td>
-                <td>Maria López</td>
-                <td>Lechuga</td>
-                <td>5</td>
-                <td>$25</td>
-            </tr>
-            <tr>
-                <td>#003</td>
-                <td>Carlos García</td>
-                <td>Zanahorias</td>
-                <td>8</td>
-                <td>$40</td>
+            <tr th:each="venta : ${ventasRecientes}">
+                <td th:text="'#' + ${venta.idVenta}"></td>
+                <td th:text="${venta.comprador.nombre}"></td>
+                <td th:text="${venta.producto.nombre}"></td>
+                <td th:text="${venta.cantidadKg}"></td>
+                <td th:text="${#numbers.formatDecimal(venta.totalVenta, 1, 'COMMA', '2', 'POINT')} + ' $'"></td>
+
             </tr>
             </tbody>
         </table>
@@ -142,7 +131,7 @@
             <h3>Enlaces rápidos</h3>
             <ul>
                 <li><a th:href="@{/public/inicio}">Inicio</a></li>
-                <li><a th:href="@{/public/categorias}">Categorías</a></li>
+                <!--                <li><a th:href="@{/public/categorias}">Categorías</a></li>-->
                 <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
                 <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
                 <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>

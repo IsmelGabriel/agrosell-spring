@@ -1,6 +1,7 @@
 package com.agrosellnova.Agrosellnova.servicio;
 
 import com.agrosellnova.Agrosellnova.modelo.Productor;
+import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.repositorio.ProductorRepository;
 import com.agrosellnova.Agrosellnova.repositorio.ResenaRepository;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
@@ -20,6 +21,8 @@ public class ProductorService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private EmailService emailService;
 
     public Productor crearOActualizarSolicitudProductor(Productor productor) {
 
@@ -45,6 +48,10 @@ public class ProductorService {
                 productorExistente.setEstadoSolicitud(Productor.EstadoSolicitud.Pendiente);
                 productorExistente.setFechaActualizacion(LocalDateTime.now());
 
+                emailService.sendProducerApplicationEmail(
+                        usuarioRepository.findById(Long.valueOf(productor.getIdUsuario())).get().getCorreo(),
+                        usuarioRepository.findById(Long.valueOf(productor.getIdUsuario())).get().getNombreUsuario()
+                );
                 return productorRepository.save(productorExistente);
             } else {
 
@@ -108,6 +115,7 @@ public class ProductorService {
 
     public Productor aprobarSolicitud(Long idProductor) {
         Optional<Productor> productorOpt = productorRepository.findById(idProductor);
+        Optional<Usuario> usuarioOpt = usuarioRepository.findById(idProductor);
         if (productorOpt.isEmpty()) {
             throw new RuntimeException("Solicitud de productor no encontrada");
         }
@@ -115,6 +123,7 @@ public class ProductorService {
         Productor productor = productorOpt.get();
         productor.setEstadoSolicitud(Productor.EstadoSolicitud.Aprobado);
         productor.setFechaActualizacion(LocalDateTime.now());
+        emailService.sendAcceptedProducerEmail(usuarioOpt.get().getCorreo(), usuarioOpt.get().getNombreUsuario());
 
         return productorRepository.save(productor);
     }
@@ -129,6 +138,10 @@ public class ProductorService {
         Productor productor = productorOpt.get();
         productor.setEstadoSolicitud(Productor.EstadoSolicitud.Rechazado);
         productor.setFechaActualizacion(LocalDateTime.now());
+        emailService.sendRejectedProducerEmail(
+                usuarioRepository.findById(Long.valueOf(productor.getIdUsuario())).get().getCorreo(),
+                usuarioRepository.findById(Long.valueOf(productor.getIdUsuario())).get().getNombreUsuario()
+        );
 
         return productorRepository.save(productor);
     }

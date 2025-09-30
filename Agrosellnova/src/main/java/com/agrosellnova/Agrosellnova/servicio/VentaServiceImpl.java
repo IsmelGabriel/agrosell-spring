@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VentaServiceImpl implements VentaService {
@@ -165,4 +166,61 @@ public class VentaServiceImpl implements VentaService {
     public List<Venta> obtenerTodas() {
         return List.of();
     }
+
+
+    @Override
+    public Long obtenerTotalVentas() {
+        return ventaRepository.findAll()
+                .stream()
+                .mapToLong(v -> v.getTotalVenta() != null ? v.getTotalVenta().longValue() : 0)
+                .sum();
+    }
+
+    @Override
+    public Long obtenerCantidadProductosVendidos() {
+        return ventaRepository.findAll()
+                .stream()
+                .mapToLong(v -> v.getCantidadKg() != null ? v.getCantidadKg().longValue() : 0)
+                .sum();
+    }
+
+    @Override
+    public Long obtenerCantidadClientes() {
+        return ventaRepository.findAll()
+                .stream()
+                .map(v -> v.getComprador().getNombreUsuario())
+                .distinct()
+                .count();
+    }
+
+    @Override
+    public List<Object[]> obtenerVentasPorMes() {
+        return ventaRepository.findAll()
+                .stream()
+                .collect(Collectors.groupingBy(
+                        v -> v.getFechaVenta().getMonth(),
+                        Collectors.summingDouble(Venta::getTotalVenta)
+                ))
+                .entrySet()
+                .stream()
+                .map(e -> new Object[]{e.getKey(), e.getValue()})
+                .toList();
+    }
+
+    @Override
+    public List<Object[]> obtenerProductosMasVendidos() {
+        return ventaRepository.findAll()
+                .stream()
+                .collect(Collectors.groupingBy(
+                        v -> v.getProducto().getNombre(),
+                        Collectors.summingDouble(Venta::getCantidadKg)
+                ))
+                .entrySet()
+                .stream()
+                .sorted((a, b) -> Double.compare(b.getValue(), a.getValue()))
+                .map(e -> new Object[]{e.getKey(), e.getValue()})
+                .limit(5) // top 5
+                .toList();
+    }
+
 }

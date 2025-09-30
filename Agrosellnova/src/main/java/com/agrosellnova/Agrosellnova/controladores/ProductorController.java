@@ -5,6 +5,8 @@ import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.modelo.Venta;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
+import com.agrosellnova.Agrosellnova.servicio.EmailService;
+import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
 import com.agrosellnova.Agrosellnova.servicio.ProductoService;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +38,9 @@ public class ProductorController {
     private ProductorService productorService;
 
     @Autowired
+    private UsuarioServiceImpl usuarioService;
+
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
@@ -42,6 +48,9 @@ public class ProductorController {
 
     @Autowired
     private ProductoRepository productoRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     private Long obtenerIdUsuario(HttpSession session, String nombreUsuario) {
         Long idUsuario = (Long) session.getAttribute("ID_USUARIO");
@@ -132,15 +141,15 @@ public class ProductorController {
             nuevoProductor.setProductos(productos != null ? productos.trim() : null);
             nuevoProductor.setDescripcion(descripcion != null ? descripcion.trim() : null);
 
-
             productorService.crearOActualizarSolicitudProductor(nuevoProductor);
 
-            Optional<Productor> solicitudExistente = productorService.obtenerPorUsuario(idUsuario.intValue());
-            String mensaje = "¡Solicitud enviada exitosamente! Te contactaremos pronto.";
+            Usuario usuarioEntity = usuarioRepository.findById(Long.valueOf(idUsuario)).orElseThrow(
+                    () -> new RuntimeException("Usuario no encontrado")
+            );
+            emailService.sendProducerApplicationEmail(usuarioEntity.getCorreo(), usuarioEntity.getNombreUsuario());
 
-            if (solicitudExistente.isPresent() && solicitudExistente.get().getFechaRegistro().isBefore(LocalDateTime.now().minusMinutes(1))) {
-                mensaje = "¡Solicitud actualizada exitosamente! Tu solicitud ha sido enviada nuevamente para revisión.";
-            }
+            redirectAttributes.addFlashAttribute("success", "¡Solicitud enviada exitosamente! Te contactaremos pronto.");
+
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al procesar la solicitud: " + e.getMessage());
         }
@@ -148,41 +157,13 @@ public class ProductorController {
         return "redirect:/private/ser_productor";
     }
 
-    @GetMapping("/mi_solicitud_productor")
-    public String verMiSolicitud(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
 
-        String usuario = (String) session.getAttribute("usuario");
-        String rol = (String) session.getAttribute("rol");
-        Long idUsuario = obtenerIdUsuario(session, usuario);
-
-        if (usuario == null || rol == null) {
-            return "redirect:/public/index";
-        }
-
-        if (idUsuario == null) {
-            redirectAttributes.addFlashAttribute("error", "Error de sesión. Inicia sesión nuevamente");
-            return "redirect:/public/index";
-        }
-
-        Optional<Productor> productor = productorService.obtenerPorUsuario(idUsuario.intValue());
-        if (productor.isEmpty()) {
-            redirectAttributes.addFlashAttribute("error", "No tienes solicitud de productor");
-            return "redirect:/private/ser_productor";
-        }
-
-        model.addAttribute("productor", productor.get());
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("rol", rol);
-
-        return "mi_solicitud_productor";
-    }
 
     @GetMapping("/gestionar_productores")
     public String gestionarProductores(
             @RequestParam(value = "estado", required = false) String estado,
             @RequestParam(value = "buscar", required = false) String buscar,
             HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-
 
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
@@ -198,7 +179,6 @@ public class ProductorController {
 
         List<Productor> productores;
 
-
         if (estado != null && !estado.isEmpty()) {
             try {
                 Productor.EstadoSolicitud estadoEnum = Productor.EstadoSolicitud.valueOf(estado);
@@ -207,18 +187,38 @@ public class ProductorController {
                 productores = productorService.obtenerTodos();
             }
         }
-
         else if (buscar != null && !buscar.trim().isEmpty()) {
             String termino = buscar.trim();
-            productores = productorService.buscarPorNombreFinca(termino);
-            // Se podrían agregar más criterios de búsqueda aquí
+            List<Productor> porFinca = productorService.buscarPorNombreFinca(termino);
+            List<Productor> porUbicacion = productorService.buscarPorUbicacion(termino);
+            List<Productor> porProductos = productorService.buscarPorProductos(termino);
+            productores = new ArrayList<>(porFinca);
+            for (Productor p : porUbicacion) {
+                if (!productores.contains(p)) {
+                    productores.add(p);
+                }
+            }
+            for (Productor p : porProductos) {
+                if (!productores.contains(p)) {
+                    productores.add(p);
+                }
+            }
         }
-
         else {
             productores = productorService.obtenerTodos();
         }
+        productores.sort((p1, p2) -> {
+            if (p1.getEstadoSolicitud() == Productor.EstadoSolicitud.Pendiente &&
+                    p2.getEstadoSolicitud() == Productor.EstadoSolicitud.Pendiente) {
+                return p1.getFechaRegistro().compareTo(p2.getFechaRegistro());
+            }
+            if (p1.getEstadoSolicitud() == Productor.EstadoSolicitud.Pendiente) return -1;
+            if (p2.getEstadoSolicitud() == Productor.EstadoSolicitud.Pendiente) return 1;
 
-        // Estadísticas
+            return p2.getFechaRegistro().compareTo(p1.getFechaRegistro());
+        });
+
+
         long pendientes = productorService.contarPorEstado(Productor.EstadoSolicitud.Pendiente);
         long aprobados = productorService.contarPorEstado(Productor.EstadoSolicitud.Aprobado);
         long rechazados = productorService.contarPorEstado(Productor.EstadoSolicitud.Rechazado);
@@ -232,14 +232,17 @@ public class ProductorController {
         model.addAttribute("usuario", usuario);
         model.addAttribute("rol", rol);
 
-        return "gestionar_productores";
+
+        return "private/gestionar_productores";
     }
 
     @PostMapping("/aprobar_productor/{id}")
-    public String aprobarProductor(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
-        // Verificar sesión de administrador siguiendo el patrón
+    public String aprobarProductor(@PathVariable Long id, @RequestParam("id_usuario") Long idUsuario,
+                                   HttpSession session, RedirectAttributes redirectAttributes, Model model) {
+
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
+        model.addAttribute("usuario", usuario);
 
         if (usuario == null || rol == null) {
             return "redirect:/public/index";
@@ -252,6 +255,12 @@ public class ProductorController {
 
         try {
             productorService.aprobarSolicitud(id);
+            usuarioService.actualizarRol(idUsuario, "productor");
+
+            Usuario usuarioEntity = usuarioRepository.findById(idUsuario)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            emailService.sendAcceptedProducerEmail(usuarioEntity.getCorreo(), usuarioEntity.getNombreUsuario());
             redirectAttributes.addFlashAttribute("exito", "Solicitud aprobada exitosamente");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al aprobar solicitud: " + e.getMessage());
@@ -261,8 +270,11 @@ public class ProductorController {
     }
 
 
+
     @PostMapping("/rechazar_productor/{id}")
-    public String rechazarProductor(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String rechazarProductor(@PathVariable Long id,
+                                    HttpSession session, RedirectAttributes redirectAttributes) {
+
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
 
@@ -276,7 +288,16 @@ public class ProductorController {
         }
 
         try {
+            // Obtener la solicitud para sacar el idUsuario
+            Productor solicitud = productorService.obtenerPorId(id)
+                    .orElseThrow(() -> new RuntimeException("Solicitud no encontrada"));
+
             productorService.rechazarSolicitud(id);
+
+            Usuario usuarioEntity = usuarioRepository.findById((long) solicitud.getIdUsuario())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            emailService.sendRejectedProducerEmail(usuarioEntity.getCorreo(), usuarioEntity.getNombreUsuario());
             redirectAttributes.addFlashAttribute("exito", "Solicitud rechazada");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al rechazar solicitud: " + e.getMessage());
@@ -288,7 +309,6 @@ public class ProductorController {
 
     @GetMapping("/ver_productor/{id}")
     public String verProductor(@PathVariable Long id, HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        // Verificar sesión siguiendo el patrón
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
 
@@ -373,6 +393,7 @@ public class ProductorController {
 
         document.close();
     }
+
     private void addCellToTable(PdfPTable table, String content, Font font, boolean isHeader, int rowIndex) {
         PdfPCell cell = new PdfPCell(new Phrase(content, font));
         if (isHeader) {

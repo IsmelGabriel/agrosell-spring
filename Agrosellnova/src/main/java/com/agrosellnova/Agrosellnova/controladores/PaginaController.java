@@ -1,9 +1,11 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
 import com.agrosellnova.Agrosellnova.modelo.Producto;
+import com.agrosellnova.Agrosellnova.modelo.Productor;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.servicio.ProductoService;
+import com.agrosellnova.Agrosellnova.servicio.ProductorService;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,13 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
 public class PaginaController {
+    @Autowired
+    private ProductorService productorService;
 
     @Autowired
     private UsuarioServiceImpl usuarioService;
@@ -78,6 +83,13 @@ public class PaginaController {
         model.addAttribute("usuario", nombreUsuario);
         model.addAttribute("rol", rol);
         model.addAttribute("user", user);
+        if ("productor".equals(rol) && user != null) {
+            Optional<Productor> productorOpt = productorService.obtenerPorUsuario(user.getId().intValue());
+
+            if (productorOpt.isPresent()) {
+                model.addAttribute("productor", productorOpt.get());
+            }
+        }
 
         return "private/" + pagina;
     }

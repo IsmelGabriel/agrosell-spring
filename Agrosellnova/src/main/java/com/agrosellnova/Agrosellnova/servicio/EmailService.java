@@ -51,4 +51,42 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    public void sendAcceptedProducerEmail(String to, String username) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("¡Felicidades! Eres un productor aceptado en AgroSell Nova");
+        message.setText("Hola " + username + ",\n\n" +
+                "¡Felicidades! Tu solicitud para ser productor en AgroSell Nova ha sido aceptada. 🌾\n\n" +
+                "Ahora puedes comenzar a publicar tus productos y llegar a más clientes.\n\n" +
+                "Saludos,\nEl equipo de AgroSell Nova");
+
+        mailSender.send(message);
+    }
+
+    public void sendRejectedProducerEmail(String to, String username) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Actualización sobre tu solicitud de productor en AgroSell Nova");
+        message.setText("Hola " + username + ",\n\n" +
+                "Lamentamos informarte que tu solicitud para ser productor en AgroSell Nova ha sido rechazada. ❌\n\n" +
+                "\n\n" +
+                "Si tienes alguna pregunta o deseas más información, no dudes en contactarnos.\n\n" +
+                "Saludos,\nEl equipo de AgroSell Nova");
+
+        mailSender.send(message);
+    }
+
+    public void sendProducerApplicationEmail(String to, String username) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Solicitud de productor recibida en AgroSell Nova");
+        message.setText("Hola " + username + ",\n\n" +
+                "Hemos recibido tu solicitud para ser productor en AgroSell Nova. 🌱\n\n" +
+                "Nuestro equipo revisará tu solicitud y te notificaremos una vez que haya sido procesada.\n\n" +
+                "Gracias por tu interés en unirte a nuestra comunidad.\n\n" +
+                "Saludos,\nEl equipo de AgroSell Nova");
+
+        mailSender.send(message);
+    }
+
 }
