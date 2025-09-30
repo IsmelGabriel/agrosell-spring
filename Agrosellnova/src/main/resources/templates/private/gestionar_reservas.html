@@ -47,26 +47,26 @@
 
     <main class="panel-content">
         <h1>Reservas registradas en el sistema para: <span th:text="${usuario}"></span></h1>
+        <div class="table-actions">
+            <div class="filtro-reservas">
+                <form th:action="@{/private/gestionar_reservas}" method="get" class="filtro-form">
+                    <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+                    <select name="criterio" class="filtro-select">
+                        <option value="">Selecciona un criterio</option>
+                        <option value="id">ID de Reserva</option>
+                        <option value="producto">Producto</option>
+                        <option value="fecha">Fecha (YYYY-MM-DD)</option>
+                    </select>
+                    <button type="submit" class="filtro-btn">Filtrar</button>
+                </form>
+            </div>
 
-        <div class="filtro-reservas">
-            <form th:action="@{/private/gestionar_reservas}" method="get" class="filtro-form">
-                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
-                <select name="criterio" class="filtro-select">
-                    <option value="">Selecciona un criterio</option>
-                    <option value="id">ID de Reserva</option>
-                    <option value="producto">Producto</option>
-                    <option value="fecha">Fecha (YYYY-MM-DD)</option>
-                </select>
-                <button type="submit" class="filtro-btn">Filtrar</button>
+            <form th:action="@{/export/gestionar_reservas}" method="get">
+                <button type="submit" class="export-btn btn-danger">
+                    <i class="fas fa-file-pdf"></i> Exportar PDF
+                </button>
             </form>
         </div>
-
-        <form th:action="@{/export/reporte_reservas}" method="get">
-            <button type="submit" class="export-btn btn-danger">
-                <i class="fas fa-file-pdf"></i> Exportar PDF
-            </button>
-        </form>
-
         <table border="1">
             <thead>
             <tr>

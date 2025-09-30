@@ -152,7 +152,7 @@
     <main class="panel-content">
         <h1>Compras registradas en el sistema para: <span th:text="${usuario}"></span></h1>
 
-        <div class="filtro-reservas">
+        <div class="table-actions">
             <form th:action="@{/private/gestionar_compra}" method="get" class="filtro-form">
                 <label>
                     <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
@@ -169,7 +169,7 @@
                 <button type="submit" class="filtro-btn">Filtrar</button>
             </form>
 
-            <form th:action="@{/export/reporte_compras}" method="get">
+            <form th:action="@{/private/export/gestionar_compra}" method="get">
                 <button type="submit" class="export-btn btn-danger">
                     <i class="fas fa-file-pdf"></i> Exportar PDF
                 </button>

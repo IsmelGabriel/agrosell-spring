@@ -169,10 +169,10 @@ public class VentaServiceImpl implements VentaService {
 
 
     @Override
-    public Double obtenerTotalVentas() {
+    public Long obtenerTotalVentas() {
         return ventaRepository.findAll()
                 .stream()
-                .mapToDouble(v -> v.getTotalVenta() != null ? v.getTotalVenta() : 0.0)
+                .mapToLong(v -> v.getTotalVenta() != null ? v.getTotalVenta().longValue() : 0)
                 .sum();
     }
 
