@@ -23,5 +23,7 @@ public interface VentaService {
     List<Object[]> obtenerVentasPorMes(); // mes - total
     List<Object[]> obtenerProductosMasVendidos(); // producto - cantidad
 
+    List<Object[]> obtenerVentasMensuales();
+
 }
 

@@ -4,14 +4,20 @@ import com.agrosellnova.Agrosellnova.modelo.Venta;
 import com.agrosellnova.Agrosellnova.repositorio.VentaRepository;
 import com.agrosellnova.Agrosellnova.servicio.ProductoService;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
+import com.agrosellnova.Agrosellnova.servicio.VentaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -26,6 +32,9 @@ public class DashboardController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private VentaService ventaService;
 
     @RequestMapping("/public/dashboard")
     public String dashboard(HttpSession session, Model model) {
@@ -52,4 +61,36 @@ public class DashboardController {
 
         return "public/dashboard";
     }
+
+    @GetMapping("/dashboard/ventas-mensuales")
+    @ResponseBody
+    public List<Map<String, Object>> obtenerVentasMensuales() {
+        List<Object[]> resultados = ventaService.obtenerVentasMensuales();
+        List<Map<String, Object>> datos = new ArrayList<>();
+
+        for (Object[] fila : resultados) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("mes", fila[0]);     // número de mes (1–12)
+            map.put("total", fila[1]);   // total vendido
+            datos.add(map);
+        }
+        return datos;
+    }
+
+    @GetMapping("/dashboard/productos-mas-vendidos")
+    @ResponseBody
+    public List<Map<String, Object>> obtenerProductosMasVendidos() {
+        List<Object[]> resultados = ventaService.obtenerProductosMasVendidos();
+        List<Map<String, Object>> datos = new ArrayList<>();
+
+        for (Object[] fila : resultados) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("producto", fila[0]);
+            map.put("cantidad", fila[1]);
+            datos.add(map);
+        }
+        return datos;
+    }
+
+
 }
