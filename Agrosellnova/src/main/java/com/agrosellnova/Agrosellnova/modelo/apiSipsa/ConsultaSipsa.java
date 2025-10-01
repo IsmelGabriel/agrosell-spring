@@ -1,4 +1,4 @@
-package com.agrosellnova.Agrosellnova.modelo;
+package com.agrosellnova.Agrosellnova.modelo.apiSipsa;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

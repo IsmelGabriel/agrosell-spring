@@ -1,6 +1,6 @@
 package com.agrosellnova.Agrosellnova.repositorio;
 
-import com.agrosellnova.Agrosellnova.modelo.ConsultaSipsa;
+import com.agrosellnova.Agrosellnova.modelo.apiSipsa.ConsultaSipsa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
