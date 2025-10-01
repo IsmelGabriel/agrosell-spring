@@ -197,6 +197,9 @@
                 </a>
             </div>
         </div>
+        <div th:if="${#lists.isEmpty(productos)}">
+            <p>No se encontraron productos disponibles para mostrar.</p>
+        </div>
     </section>
 
     <!-- Contenedor de toasts -->

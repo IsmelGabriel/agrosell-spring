@@ -128,13 +128,13 @@ public class PaginaController {
     ) {
         try {
             String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
-            String rutaAbsoluta = new File("Agrosellnova/src/main/resources/static/img").getAbsolutePath();
+            String rutaAbsoluta = new File("Agrosellnova/src/main/resources/static/img/productos").getAbsolutePath();
 
             // Crear carpeta si no existe
             Files.createDirectories(Paths.get(rutaAbsoluta));
             Path path = Paths.get(rutaAbsoluta, nombreArchivo);
             Files.write(path, imagen.getBytes());
-            String rutaRelativa = "../img/" + nombreArchivo;
+            String rutaRelativa = "../img/productos/" + nombreArchivo;
 
             Producto producto = new Producto();
             producto.setUsuarioCampesino(nombreUsuario);
