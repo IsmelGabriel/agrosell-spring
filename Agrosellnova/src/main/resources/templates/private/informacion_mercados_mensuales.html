@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos Mensuales SIPSA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/panel.css}">
+    <link rel="stylesheet" th:href="@{/css/Sipsa.css}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+
+</head>
+<body>
+<header class="Bienvenido">
+    <div class="header-left">
+        <img src="/img/logo.png" alt="Logo Agrosellnova" class="logo">
+        <span class="project-name">AGROSELLNOVA</span>
+    </div>
+
+    <div class="header-right">
+        <div class="user-info">
+            <p><strong th:text="'Bienvenido, ' + ${usuario}">Bienvenido, Usuario</strong></p>
+            <p><span th:text="'Rol: ' + ${rol}">Rol: Productor</span></p>
+        </div>
+        <div class="icons">
+            <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
+            <a th:href="@{/private/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+        </div>
+    </div>
+</header>
+
+<div class="panel-container">
+    <aside class="sidebar">
+        <div class="lateral-content">
+            <ul>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}"><i class="fas fa-seedling"></i> Publicar Producto</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/reservar_producto}"><i class="fas fa-seedling"></i>Ofertar proximos a salir</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}"><i class="fas fa-boxes"></i> Gestionar Productos</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}"><i class="fas fa-cash-register"></i> Gestionar Ventas</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/informacion_mercados}" class="active"><i class="fas fa-chart-line"></i> Informacion mercado</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/buenas_practicas}"><i class="fas fa-leaf"></i> Buenas Prácticas</a></li>
+                <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- Mensajes de notificación -->
+        <div th:if="${mensaje}" th:class="${'alert alert-' + tipoMensaje}">
+            <i class="fas" th:classappend="${tipoMensaje == 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'}"></i>
+            <span th:text="${mensaje}">Mensaje</span>
+        </div>
+
+        <!-- Header -->
+        <div class="sipsa-header">
+            <h2>
+                <i class="fas fa-calendar-alt"></i>
+                Datos Mensuales - Mayoristas
+            </h2>
+            <p>Promedios mensuales de precios por kilogramo en mercados mayoristas</p>
+        </div>
+
+        <!-- Botón volver -->
+        <div style="margin-bottom: 20px;">
+            <a th:href="@{/private/informacion_mercados}" class="btn-volver">
+                <i class="fas fa-arrow-left"></i> Volver al menú principal
+            </a>
+        </div>
+
+        <!-- Formulario de actualización -->
+        <div class="filters-section">
+            <div class="filters-title">
+                <i class="fas fa-sync-alt"></i>
+                Actualizar Datos desde SIPSA
+            </div>
+            <form th:action="@{/private/informacion_mercados/mensuales/consultar}" method="post">
+                <button type="submit" class="btn-filter">
+                    <i class="fas fa-download"></i> Actualizar Datos Mensuales
+                </button>
+            </form>
+        </div>
+
+        <!-- Filtros de búsqueda -->
+        <div class="filters-section">
+            <div class="filters-title">
+                <i class="fas fa-filter"></i>
+                Filtros de Búsqueda
+            </div>
+            <form th:action="@{/private/informacion_mercados/mensuales/buscar}" method="get">
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label><i class="fas fa-seedling"></i> Producto:</label>
+                        <input type="text" name="producto" placeholder="Ej: Tomate, Papa..."
+                               th:value="${filtroProducto}">
+                    </div>
+
+                    <div class="filter-group">
+                        <label><i class="fas fa-warehouse"></i> Fuente:</label>
+                        <input type="text" name="fuente" placeholder="Ej: Corabastos..."
+                               th:value="${filtroFuente}">
+                    </div>
+
+                    <div class="filter-group">
+                        <label><i class="fas fa-calendar"></i> Fecha Desde:</label>
+                        <input type="datetime-local" name="fechaDesde">
+                    </div>
+
+                    <div class="filter-group">
+                        <label><i class="fas fa-calendar"></i> Fecha Hasta:</label>
+                        <input type="datetime-local" name="fechaHasta">
+                    </div>
+
+                    <div class="filter-actions">
+                        <button type="submit" class="btn-filter">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                        <a th:href="@{/private/informacion_mercados/mensuales}" class="btn-clear">
+                            <i class="fas fa-times"></i> Limpiar
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="stats-grid">
+
+
+            <div class="stat-card green">
+                <div class="stat-icon"><i class="fas fa-arrow-up"></i></div>
+                <div class="stat-value"><span th:text="${#numbers.formatDecimal(stats.promedioMax, 0, 'COMMA', 2, 'POINT')}">0</span> Kg</div>
+                <div class="stat-label">Promedio Máximo</div>
+            </div>
+
+            <div class="stat-card red">
+                <div class="stat-icon"><i class="fas fa-arrow-down"></i></div>
+                <div class="stat-value"><span th:text="${#numbers.formatDecimal(stats.promedioMin, 0, 'COMMA', 2, 'POINT')}">0</span> Kg</div>
+                <div class="stat-label">Promedio Mínimo</div>
+            </div>
+
+            <div class="stat-card blue">
+                <div class="stat-icon"><i class="fas fa-chart-bar"></i></div>
+                <div class="stat-value"><span th:text="${#numbers.formatDecimal(stats.promedioGeneral, 0, 'COMMA', 2, 'POINT')}">0</span> Kg</div>
+                <div class="stat-label">Promedio General</div>
+            </div>
+        </div>
+
+        <!-- Gráfico -->
+        <div class="chart-section">
+            <div class="chart-header">
+                <div class="chart-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Cantidades Mensuales por Producto (Top 10)
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="chartMensuales"></canvas>
+            </div>
+        </div>
+
+        <!-- Tabla -->
+        <div class="table-section">
+            <div class="table-header">
+                <h3>Datos Detallados - Mensuales</h3>
+                <div class="search-box">
+                    <input type="text" id="searchTable" placeholder="Buscar en tabla..." onkeyup="filtrarTabla()">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="tableMensuales">
+                    <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Fuente</th>
+                        <th>Promedio (Kg)</th>
+                        <th>Máximo</th>
+                        <th>Mínimo</th>
+                        <th>Fecha</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${#lists.isEmpty(datosMensuales)}">
+                        <td colspan="6" class="no-data">
+                            <i class="fas fa-inbox"></i>
+                            <p>No hay datos mensuales disponibles. Haz clic en "Actualizar Datos Mensuales".</p>
+                        </td>
+                    </tr>
+                    <tr th:each="dato : ${datosMensuales}">
+                        <td><span class="badge badge-producto" th:text="${dato.producto}">Producto</span></td>
+                        <td th:text="${dato.fuente}">Fuente</td>
+                        <td th:text="${#numbers.formatDecimal(dato.promedioKg, 0, 'COMMA', 2, 'POINT')}">0.00</td>
+                        <td th:text="${#numbers.formatDecimal(dato.maximoKg, 0, 'COMMA', 2, 'POINT')}">0.00</td>
+                        <td th:text="${#numbers.formatDecimal(dato.minimoKg, 0, 'COMMA', 2, 'POINT')}">0.00</td>
+                        <td th:text="${#temporals.format(dato.fechaMesInicio, 'dd/MM/yyyy')}">Fecha</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const datosMensuales = /*[[${datosMensuales}]]*/ [];
+
+    // Filtrar tabla en tiempo real
+    function filtrarTabla() {
+        const input = document.getElementById('searchTable');
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById('tableMensuales');
+        const tr = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < tr.length; i++) {
+            let txtValue = tr[i].textContent || tr[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+            } else {
+                tr[i].style.display = 'none';
+            }
+        }
+    }
+
+    // Inicializar gráfico
+    window.addEventListener('load', function() {
+        if (datosMensuales && datosMensuales.length > 0) {
+            const ctx = document.getElementById('chartMensuales');
+            const productos = datosMensuales.slice(0, 10).map(d => d.producto);
+            const promedios = datosMensuales.slice(0, 10).map(d => d.promedioKg);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: productos,
+                    datasets: [{
+                        label: 'Promedio Kg',
+                        data: promedios,
+                        backgroundColor: 'rgba(39, 174, 96, 0.8)',
+                        borderColor: 'rgba(39, 174, 96, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    });
+    /*]]>*/
+</script>
+</body>
+</html>
