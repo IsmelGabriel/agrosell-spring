@@ -53,6 +53,7 @@
             <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}"><i class="fas fa-envelope-open-text"></i> Reporte de PQRS</a></li>
             <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}"><i class="fas fa-user-cog"></i> Actualizar Roles</a></li>
             <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}"><i class="fas fa-users"></i> Usuarios Registrados</a></li>
+            <li th:if="${rol == 'administrador'}"><a th:href="@{/private/dashboard}"><i class ="fas fa-chart-line"></i> Reporte general</a></li>
 
             <!-- PRODUCTOR -->
             <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
