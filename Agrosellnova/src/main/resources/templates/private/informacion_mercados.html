@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información de Mercado SIPSA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/panel.css}">
+    <style>
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+
+        .sipsa-header {
+            background-color: #2E7D32;
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .sipsa-header h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .sipsa-header p {
+            margin: 0;
+            opacity: 0.95;
+            font-size: 0.95em;
+        }
+
+        .opciones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .opcion-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            color: inherit;
+            transition: all 0.3s;
+            border: 1px solid #e0e0e0;
+        }
+
+        .opcion-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .opcion-card.mensuales {
+            border-left: 3px solid #4CAF50;
+        }
+
+        .opcion-card.semanales {
+            border-left: 3px solid #2196F3;
+        }
+
+        .opcion-card.abastecimiento {
+            border-left: 3px solid #FF5722;
+        }
+
+        .opcion-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #2E7D32;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .opcion-card.mensuales .opcion-icon {
+            background-color: #4CAF50;
+        }
+
+        .opcion-card.semanales .opcion-icon {
+            background-color: #2196F3;
+        }
+
+        .opcion-card.abastecimiento .opcion-icon {
+            background-color: #FF5722;
+        }
+
+        .opcion-titulo {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .opcion-descripcion {
+            color: #7f8c8d;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .opcion-btn {
+            background-color: #2E7D32;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .opcion-btn:hover {
+            background-color: #1B5E20;
+            transform: translateX(5px);
+        }
+
+        .opcion-card.mensuales .opcion-btn {
+            background-color: #4CAF50;
+        }
+
+        .opcion-card.mensuales .opcion-btn:hover {
+            background-color: #388E3C;
+        }
+
+        .opcion-card.semanales .opcion-btn {
+            background-color: #2196F3;
+        }
+
+        .opcion-card.semanales .opcion-btn:hover {
+            background-color: #1976D2;
+        }
+
+        .opcion-card.abastecimiento .opcion-btn {
+            background-color: #FF5722;
+        }
+
+        .opcion-card.abastecimiento .opcion-btn:hover {
+            background-color: #E64A19;
+        }
+
+        .stats-generales-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .stats-titulo {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2E7D32;
+            margin: 0 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-generales-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-general-card {
+            background: #F9FAF9;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2E7D32;
+            display: flex;
+            gap: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+
+        .stat-general-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .stat-general-card.mensual {
+            border-left-color: #4CAF50;
+        }
+
+        .stat-general-card.mensual .stat-general-icon {
+            background-color: #4CAF50;
+        }
+
+        .stat-general-card.semanal {
+            border-left-color: #2196F3;
+        }
+
+        .stat-general-card.semanal .stat-general-icon {
+            background-color: #2196F3;
+        }
+
+        .stat-general-card.abastecimiento {
+            border-left-color: #FF5722;
+        }
+
+        .stat-general-card.abastecimiento .stat-general-icon {
+            background-color: #FF5722;
+        }
+
+        .stat-general-card.total {
+            border-left-color: #9C27B0;
+        }
+
+        .stat-general-card.total .stat-general-icon {
+            background-color: #9C27B0;
+        }
+
+        .stat-general-icon {
+            width: 55px;
+            height: 55px;
+            background-color: #2E7D32;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+
+        .stat-general-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stat-general-titulo {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .stat-general-valor {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #2E7D32;
+        }
+
+        .stat-general-card.mensual .stat-general-valor {
+            color: #4CAF50;
+        }
+
+        .stat-general-card.semanal .stat-general-valor {
+            color: #2196F3;
+        }
+
+        .stat-general-card.abastecimiento .stat-general-valor {
+            color: #FF5722;
+        }
+
+        .stat-general-card.total .stat-general-valor {
+            color: #9C27B0;
+        }
+
+        .stat-general-detalle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .detalle-label {
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .detalle-valor {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .badge-estado {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .badge-estado.activo {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-estado.inactivo {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .seccion-titulo {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2E7D32;
+            margin: 30px 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .opciones-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-generales-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-general-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="Bienvenido">
+    <div class="header-left">
+        <img src="/img/logo.png" alt="Logo Agrosellnova" class="logo">
+        <span class="project-name">AGROSELLNOVA</span>
+    </div>
+
+    <div class="header-right">
+        <div class="user-info">
+            <p><strong th:text="'Bienvenido, ' + ${usuario}">Bienvenido, Usuario</strong></p>
+            <p><span th:text="'Rol: ' + ${rol}">Rol: Productor</span></p>
+        </div>
+        <div class="icons">
+            <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
+            <a th:href="@{/private/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+        </div>
+    </div>
+</header>
+
+<div class="panel-container">
+    <aside class="sidebar">
+        <div class="lateral-content">
+            <ul>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}"><i class="fas fa-seedling"></i> Publicar Producto</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/reservar_producto}"><i class="fas fa-seedling"></i>Ofertar proximos a salir</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}"><i class="fas fa-boxes"></i> Gestionar Productos</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}"><i class="fas fa-cash-register"></i> Gestionar Ventas</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/informacion_mercados}" class="active"><i class="fas fa-chart-line"></i> Informacion mercado</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/buenas_practicas}"><i class="fas fa-leaf"></i> Buenas Prácticas</a></li>
+                <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="sipsa-header">
+            <h2>
+                <i class="fas fa-chart-line"></i>
+                Información de Mercado
+            </h2>
+            <p>Sistema de Información de Precios y Abastecimiento del Sector Agropecuario - DANE</p>
+        </div>
+
+        <div class="stats-generales-section">
+            <h3 class="stats-titulo">
+                <i class="fas fa-chart-bar"></i>
+                Resumen General
+            </h3>
+            <div class="stats-generales-grid">
+                <div class="stat-general-card mensual">
+                    <div class="stat-general-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-general-content">
+                        <div class="stat-general-titulo">Resumen Mensual</div>
+                        <span class="badge-estado" th:classappend="${estadisticas.totalGeneral > 0 ? 'activo' : 'inactivo'}"
+                              th:text="${estadisticas.totalGeneral > 0 ? 'Activo' : 'Sin datos'}">-</span>
+                        <div class="stat-general-detalle">
+                            <span class="detalle-label">Última actualización:</span>
+                            <span class="detalle-valor" th:text="${estadisticas.ultimaActualizacionMensual != null ? #temporals.format(estadisticas.ultimaActualizacionMensual, 'dd/MM/yyyy HH:mm') : 'Sin datos'}">-</span>
+                        </div>
+                        <div class="stat-general-detalle" th:if="${estadisticas.productoMayorPromedioMensual != null}">
+                            <span class="detalle-label">Mayor promedio:</span>
+                            <span class="detalle-valor" th:text="${estadisticas.productoMayorPromedioMensual}">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-general-card semanal">
+                    <div class="stat-general-icon">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                    <div class="stat-general-content">
+                        <div class="stat-general-titulo">Resumen Semanal</div>
+                        <span class="badge-estado" th:classappend="${estadisticas.totalGeneral > 0 ? 'activo' : 'inactivo'}"
+                              th:text="${estadisticas.totalGeneral > 0 ? 'Activo' : 'Sin datos'}">-</span>
+                        <div class="stat-general-detalle">
+                            <span class="detalle-label">Última actualización:</span>
+                            <span class="detalle-valor" th:text="${estadisticas.ultimaActualizacionSemanal != null ? #temporals.format(estadisticas.ultimaActualizacionSemanal, 'dd/MM/yyyy HH:mm') : 'Sin datos'}">-</span>
+                        </div>
+                        <div class="stat-general-detalle" th:if="${estadisticas.productoMayorPromedioSemanal != null}">
+                            <span class="detalle-label">Mayor promedio:</span>
+                            <span class="detalle-valor" th:text="${estadisticas.productoMayorPromedioSemanal}">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-general-card abastecimiento">
+                    <div class="stat-general-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="stat-general-content">
+                        <div class="stat-general-titulo">Abastecimiento</div>
+                        <span class="badge-estado" th:classappend="${estadisticas.totalGeneral > 0 ? 'activo' : 'inactivo'}"
+                              th:text="${estadisticas.totalGeneral > 0 ? 'Activo' : 'Sin datos'}">-</span>
+                        <div class="stat-general-detalle">
+                            <span class="detalle-label">Última actualización:</span>
+                            <span class="detalle-valor" th:text="${estadisticas.ultimaActualizacionAbastecimiento != null ? #temporals.format(estadisticas.ultimaActualizacionAbastecimiento, 'dd/MM/yyyy HH:mm') : 'Sin datos'}">-</span>
+                        </div>
+                        <div class="stat-general-detalle" th:if="${estadisticas.productoMayorAbastecimiento != null}">
+                            <span class="detalle-label">Mayor cantidad:</span>
+                            <span class="detalle-valor" th:text="${estadisticas.productoMayorAbastecimiento}">-</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <h3 class="seccion-titulo">
+            <i class="fas fa-compass"></i>
+            Informacion detallada
+        </h3>
+
+        <div class="opciones-grid">
+            <div class="opcion-card mensuales">
+                <div class="opcion-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="opcion-titulo">ver resumen Mensual</div>
+                <div class="opcion-descripcion">
+                    Consulta los promedios mensuales de precios por kilogramo de productos agrícolas en mercados mayoristas.
+                </div>
+                <a th:href="@{/private/informacion_mercados/mensuales}" class="opcion-btn">
+                    Ver información <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="opcion-card semanales">
+                <div class="opcion-icon">
+                    <i class="fas fa-calendar-week"></i>
+                </div>
+                <div class="opcion-titulo">ver resumen Semanal</div>
+                <div class="opcion-descripcion">
+                    Revisa las variaciones semanales de precios y cantidades en mercados mayoristas del país.
+                </div>
+                <a th:href="@{/private/informacion_mercados/semanales}" class="opcion-btn">
+                    Ver información <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="opcion-card abastecimiento">
+                <div class="opcion-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="opcion-titulo">ver resumen de Abastecimiento</div>
+                <div class="opcion-descripcion">
+                    Información sobre el abastecimiento mensual de productos agrícolas en toneladas por fuente.
+                </div>
+                <a th:href="@{/private/informacion_mercados/abastecimiento}" class="opcion-btn">
+                    Ver información <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

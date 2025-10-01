@@ -1,0 +1,448 @@
+/* ========== ESTILOS GENERALES ========== */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background: #f5f7fa;
+}
+
+/* ========== HEADERS BASE ========== */
+.sipsa-header {
+    background-color: #2E7D32;
+    color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.sipsa-header h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.8em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.sipsa-header p {
+    margin: 0;
+    opacity: 0.95;
+    font-size: 0.95em;
+}
+
+/* ========== HEADERS ESPECÍFICOS POR TIPO ========== */
+
+/* Header Mensual - Verde */
+.sipsa-header.mensual {
+    background-color: #4CAF50;
+    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
+}
+
+/* Header Semanal - Azul */
+.sipsa-header.semanal {
+    background-color: #2196F3;
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
+}
+
+/* Header Abastecimiento - Rojo/Naranja */
+.sipsa-header.abastecimiento {
+    background-color: #FF5722;
+    box-shadow: 0 2px 8px rgba(255, 87, 34, 0.2);
+}
+
+/* ========== SECCIÓN DE FILTROS ========== */
+.filters-section {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.filters-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2E7D32;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    align-items: end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-group label {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    font-weight: 600;
+}
+
+.filter-group input,
+.filter-group select {
+    padding: 10px;
+    border: 2px solid #e1e8ed;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+    outline: none;
+    border-color: #2E7D32;
+}
+
+/* Focus específico por tipo */
+.sipsa-header.mensual ~ .filters-section .filter-group input:focus,
+.sipsa-header.mensual ~ .filters-section .filter-group select:focus {
+    border-color: #4CAF50;
+}
+
+.sipsa-header.semanal ~ .filters-section .filter-group input:focus {
+    border-color: #2196F3;
+}
+
+.sipsa-header.abastecimiento ~ .filters-section .filter-group input:focus {
+    border-color: #FF5722;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* ========== BOTONES ========== */
+
+/* Botón base de filtro */
+.btn-filter {
+    padding: 10px 20px;
+    background: #2E7D32;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-filter:hover {
+    background: #1B5E20;
+    transform: translateY(-2px);
+}
+
+/* Botones específicos por tipo */
+.btn-filter.mensual {
+    background-color: #4CAF50;
+}
+
+.btn-filter.mensual:hover {
+    background-color: #388E3C;
+}
+
+.btn-filter.semanal {
+    background-color: #2196F3;
+}
+
+.btn-filter.semanal:hover {
+    background-color: #1976D2;
+}
+
+.btn-filter.abastecimiento {
+    background-color: #FF5722;
+}
+
+.btn-filter.abastecimiento:hover {
+    background-color: #E64A19;
+}
+
+/* Botón limpiar */
+.btn-clear {
+    padding: 10px 20px;
+    background: #95a5a6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-clear:hover {
+    background: #7f8c8d;
+}
+
+/* Botón volver */
+.btn-volver {
+    padding: 10px 20px;
+    background: #95a5a6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-volver:hover {
+    background: #7f8c8d;
+}
+
+/* ========== TARJETAS DE ESTADÍSTICAS ========== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-left: 4px solid #2E7D32;
+}
+
+.stat-card.green {
+    border-left-color: #4CAF50;
+}
+
+.stat-card.red {
+    border-left-color: #e74c3c;
+}
+
+.stat-card.blue {
+    border-left-color: #2196F3;
+}
+
+.stat-card.orange {
+    border-left-color: #FF9800;
+}
+
+/* Iconos de estadísticas */
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    background: #2E7D32;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.stat-icon.mensual {
+    background-color: #4CAF50;
+}
+
+.stat-icon.semanal {
+    background-color: #2196F3;
+}
+
+.stat-icon.abastecimiento {
+    background-color: #FF5722;
+}
+
+.stat-value {
+    font-size: 2em;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    color: #7f8c8d;
+    font-size: 0.9em;
+}
+
+/* ========== SECCIÓN DE GRÁFICOS ========== */
+.chart-section {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.chart-title {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.chart-container {
+    height: 400px;
+    position: relative;
+}
+
+/* ========== SECCIÓN DE TABLAS ========== */
+.table-section {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.table-header {
+    padding: 20px;
+    background: #f8f9fa;
+    border-bottom: 2px solid #e1e8ed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-header h3 {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box input {
+    padding: 8px 35px 8px 12px;
+    border: 2px solid #e1e8ed;
+    border-radius: 8px;
+    width: 250px;
+}
+
+.search-box i {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f8c8d;
+}
+
+.table-container {
+    overflow-x: auto;
+    max-height: 500px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    background: #f8f9fa;
+    z-index: 10;
+}
+
+th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 2px solid #e1e8ed;
+}
+
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+tbody tr:hover {
+    background: #f8f9fa;
+}
+
+/* ========== BADGES ========== */
+.badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.badge-producto {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.badge-producto.mensual {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.badge-producto.semanal {
+    background: #E3F2FD;
+    color: #1565C0;
+}
+
+.badge-producto.abastecimiento {
+    background: #FFE0B2;
+    color: #E65100;
+}
+
+/* ========== ESTADO SIN DATOS ========== */
+.no-data {
+    text-align: center;
+    padding: 60px 20px;
+    color: #7f8c8d;
+}
+
+.no-data i {
+    font-size: 4em;
+    margin-bottom: 20px;
+    opacity: 0.3;
+}
+
+/* ========== ALERTAS ========== */
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .filters-grid {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .chart-container {
+        height: 300px;
+    }
+}
