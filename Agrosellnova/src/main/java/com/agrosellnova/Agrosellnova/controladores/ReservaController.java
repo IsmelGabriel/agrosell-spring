@@ -8,6 +8,7 @@ import com.agrosellnova.Agrosellnova.servicio.ProductoService;
 import com.agrosellnova.Agrosellnova.servicio.ReservaService;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,7 +150,7 @@ public class ReservaController {
     private ReservaRepository reservaRepository;
 
 
-    @GetMapping("/editar_reserva")
+    @GetMapping("private/editar_reserva")
     public String mostrarFormularioEdicion(@RequestParam("id") Long id, HttpSession session, Model model) {
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
@@ -237,8 +238,8 @@ public class ReservaController {
         // 📌 Obtener usuario logueado desde sesión
         String documentoUsuario = (String) session.getAttribute("usuarioDocumento");
 
-        // 📌 Consultar reservas SOLO de ese usuario
-        List<Reserva> reservas = reservaService.findByUsuarioDocumento(documentoUsuario);
+        // 📌 Consultar reservas
+        List<Reserva> reservas = reservaService.obtenerTodasLasReservas();
 
         Document document = new Document(PageSize.A4.rotate());
         PdfWriter.getInstance(document, response.getOutputStream());
@@ -258,30 +259,32 @@ public class ReservaController {
         document.add(new Paragraph(" "));
 
         // 📌 Tabla con columnas
-        PdfPTable table = new PdfPTable(8);
+        PdfPTable table = new PdfPTable(9);
         table.setWidthPercentage(100);
 
-        float[] columnWidths = {1f, 2f, 2f, 3f, 2.5f, 1.5f, 2f, 2f};
+        float[] columnWidths = {1f, 2f, 2f, 3f, 2.5f, 1.5f, 2f, 2f, 2f};
         table.setWidths(columnWidths);
 
         int rowIndex = 0;
         Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
 
-        addCellToTable(table, "ID Reserva", headerFont, true, rowIndex);
+        addCellToTable(table, "ID", headerFont, true, rowIndex);
+        addCellToTable(table, "Usuario", headerFont, true, rowIndex);
         addCellToTable(table, "Documento", headerFont, true, rowIndex);
         addCellToTable(table, "Teléfono", headerFont, true, rowIndex);
         addCellToTable(table, "Correo", headerFont, true, rowIndex);
         addCellToTable(table, "Producto", headerFont, true, rowIndex);
-        addCellToTable(table, "Cantidad (Kg)", headerFont, true, rowIndex);
-        addCellToTable(table, "Método de Pago", headerFont, true, rowIndex);
-        addCellToTable(table, "Fecha de Reserva", headerFont, true, rowIndex);
+        addCellToTable(table, "Cantidad", headerFont, true, rowIndex);
+        addCellToTable(table, "Método Pago", headerFont, true, rowIndex);
+        addCellToTable(table, "Fecha Reser", headerFont, true, rowIndex);
 
         // 📌 Datos
-        Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 8);
+        Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 9);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         for (Reserva reserva : reservas) {
             addCellToTable(table, String.valueOf(reserva.getIdReserva()), dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getUsuarioCliente() != null ? reserva.getUsuarioCliente() : "", dataFont, false, rowIndex);
             addCellToTable(table, reserva.getUsuarioDocumento() != null ? reserva.getUsuarioDocumento() : "", dataFont, false, rowIndex);
             addCellToTable(table, reserva.getUsuarioTelefono() != null ? reserva.getUsuarioTelefono() : "", dataFont, false, rowIndex);
             addCellToTable(table, reserva.getUsuarioCorreo() != null ? reserva.getUsuarioCorreo() : "", dataFont, false, rowIndex);
@@ -302,9 +305,98 @@ public class ReservaController {
         document.close();
     }
 
-    private void addCellToTable(PdfPTable table, String s, Font dataFont, boolean b, int rowIndex) {
+    @GetMapping("/export/gestionar_reservas")
+    public void exportGestionarReservasToPdf(HttpServletResponse response, HttpSession session)
+            throws IOException, DocumentException {
+
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=gestionar_reservas.pdf");
+
+        // 📌 Obtener usuario logueado desde sesión
+        String usuario = (String) session.getAttribute("usuario");
+
+        // 📌 Consultar reservas del usuario
+        List<Reserva> reservas = reservaService.obtenerReservasPorUsuario(usuario);
+
+        Document document = new Document(PageSize.A4.rotate());
+        PdfWriter.getInstance(document, response.getOutputStream());
+        document.open();
+
+        // 📌 Título
+        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, new BaseColor(34,139,34));
+        Paragraph title = new Paragraph("Lista de RESERVAs Registrados",titleFont);
+        title.setAlignment(Element.ALIGN_CENTER);
+        document.add(title);
+        document.add(new Paragraph(" "));
+
+        // 📌 Fecha de generación
+        Paragraph fecha = new Paragraph("Fecha de generación: " + new Date().toString());
+        fecha.setAlignment(Element.ALIGN_RIGHT);
+        document.add(fecha);
+        document.add(new Paragraph(" "));
+
+        // 📌 Tabla con columnas
+        PdfPTable table = new PdfPTable(8);
+        table.setWidthPercentage(100);
+
+        float[] columnWidths = {1f, 2f, 2f, 3f, 2.5f, 1.5f, 2f, 2f};
+        table.setWidths(columnWidths);
+
+        int rowIndex = 0;
+        Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+
+        addCellToTable(table, "ID", headerFont, true, rowIndex);
+        addCellToTable(table, "Documento", headerFont, true, rowIndex);
+        addCellToTable(table, "Teléfono", headerFont, true, rowIndex);
+        addCellToTable(table, "Correo", headerFont, true, rowIndex);
+        addCellToTable(table, "Producto", headerFont, true, rowIndex);
+        addCellToTable(table, "Cantidad", headerFont, true, rowIndex);
+        addCellToTable(table, "Método Pago", headerFont, true, rowIndex);
+        addCellToTable(table, "Fecha Reser", headerFont, true, rowIndex);
+
+        // 📌 Datos
+        Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 9);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for (Reserva reserva : reservas) {
+            addCellToTable(table, String.valueOf(reserva.getIdReserva()), dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getUsuarioDocumento() != null ? reserva.getUsuarioDocumento() : "", dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getUsuarioTelefono() != null ? reserva.getUsuarioTelefono() : "", dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getUsuarioCorreo() != null ? reserva.getUsuarioCorreo() : "", dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getProducto() != null ? reserva.getProducto() : "", dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getCantidadKg() != null ? String.valueOf(reserva.getCantidadKg()) : "", dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getMetodoPago() != null ? reserva.getMetodoPago() : "", dataFont, false, rowIndex);
+            addCellToTable(table, reserva.getFechaReserva() != null ? reserva.getFechaReserva().format(formatter) : "", dataFont, false, rowIndex);
+            rowIndex++;
+        }
+
+        document.add(table);
+        document.add(new Paragraph(" "));
+        Paragraph footer = new Paragraph("Total de Reservas: " + reservas.size());
+        footer.setAlignment(Element.ALIGN_CENTER);
+        document.add(footer);
+
+        document.close();
     }
 
+
+
+    private void addCellToTable(PdfPTable table, String content, Font font, boolean isHeader, int rowIndex) {
+        PdfPCell cell = new PdfPCell(new Phrase(content, font));
+        if (isHeader) {
+            cell.setBackgroundColor(new BaseColor(200, 230, 200)); // verde claro
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setBorderColor(new BaseColor(180, 220, 180)); // bordes verdes suaves
+        } else {
+            if (rowIndex % 2 == 0) {
+                cell.setBackgroundColor(new BaseColor(235, 250, 235)); // verde muy suave
+            }
+            cell.setBorderColor(new BaseColor(220, 240, 220));
+
+            cell.setBorderColor(new BaseColor(220, 240, 220)); // bordes más claros para datos
+        }
+        cell.setPadding(5);
+        table.addCell(cell);
+    }
 }
 
 

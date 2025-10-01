@@ -139,6 +139,7 @@
             <ul>
                 <!-- CLIENTE -->
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}"><i class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver Productos</a></li>
@@ -152,7 +153,7 @@
     <main class="panel-content">
         <h1>Compras registradas en el sistema para: <span th:text="${usuario}"></span></h1>
 
-        <div class="filtro-reservas">
+        <div class="table-actions">
             <form th:action="@{/private/gestionar_compra}" method="get" class="filtro-form">
                 <label>
                     <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
@@ -169,7 +170,7 @@
                 <button type="submit" class="filtro-btn">Filtrar</button>
             </form>
 
-            <form th:action="@{/export/reporte_compras}" method="get">
+            <form th:action="@{/private/export/gestionar_compra}" method="get">
                 <button type="submit" class="export-btn btn-danger">
                     <i class="fas fa-file-pdf"></i> Exportar PDF
                 </button>

@@ -5,6 +5,7 @@ import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.modelo.Venta;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
+import com.agrosellnova.Agrosellnova.servicio.EmailService;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
 import com.agrosellnova.Agrosellnova.servicio.ProductoService;
 import com.itextpdf.text.*;
@@ -47,6 +48,9 @@ public class ProductorController {
 
     @Autowired
     private ProductoRepository productoRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     private Long obtenerIdUsuario(HttpSession session, String nombreUsuario) {
         Long idUsuario = (Long) session.getAttribute("ID_USUARIO");
@@ -137,15 +141,15 @@ public class ProductorController {
             nuevoProductor.setProductos(productos != null ? productos.trim() : null);
             nuevoProductor.setDescripcion(descripcion != null ? descripcion.trim() : null);
 
-
             productorService.crearOActualizarSolicitudProductor(nuevoProductor);
 
-            Optional<Productor> solicitudExistente = productorService.obtenerPorUsuario(idUsuario.intValue());
-            String mensaje = "¡Solicitud enviada exitosamente! Te contactaremos pronto.";
+            Usuario usuarioEntity = usuarioRepository.findById(Long.valueOf(idUsuario)).orElseThrow(
+                    () -> new RuntimeException("Usuario no encontrado")
+            );
+            emailService.sendProducerApplicationEmail(usuarioEntity.getCorreo(), usuarioEntity.getNombreUsuario());
 
-            if (solicitudExistente.isPresent() && solicitudExistente.get().getFechaRegistro().isBefore(LocalDateTime.now().minusMinutes(1))) {
-                mensaje = "¡Solicitud actualizada exitosamente! Tu solicitud ha sido enviada nuevamente para revisión.";
-            }
+            redirectAttributes.addFlashAttribute("success", "¡Solicitud enviada exitosamente! Te contactaremos pronto.");
+
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al procesar la solicitud: " + e.getMessage());
         }
@@ -231,12 +235,14 @@ public class ProductorController {
 
         return "private/gestionar_productores";
     }
+
     @PostMapping("/aprobar_productor/{id}")
-    public String aprobarProductor(@PathVariable Long id,@RequestParam("id_usuario") Long idUsuario, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String aprobarProductor(@PathVariable Long id, @RequestParam("id_usuario") Long idUsuario,
+                                   HttpSession session, RedirectAttributes redirectAttributes, Model model) {
 
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
-
+        model.addAttribute("usuario", usuario);
 
         if (usuario == null || rol == null) {
             return "redirect:/public/index";
@@ -250,8 +256,12 @@ public class ProductorController {
         try {
             productorService.aprobarSolicitud(id);
             usuarioService.actualizarRol(idUsuario, "productor");
-            redirectAttributes.addFlashAttribute("exito", "Solicitud aprobada exitosamente");
 
+            Usuario usuarioEntity = usuarioRepository.findById(idUsuario)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            emailService.sendAcceptedProducerEmail(usuarioEntity.getCorreo(), usuarioEntity.getNombreUsuario());
+            redirectAttributes.addFlashAttribute("exito", "Solicitud aprobada exitosamente");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al aprobar solicitud: " + e.getMessage());
         }
@@ -260,8 +270,11 @@ public class ProductorController {
     }
 
 
+
     @PostMapping("/rechazar_productor/{id}")
-    public String rechazarProductor(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String rechazarProductor(@PathVariable Long id,
+                                    HttpSession session, RedirectAttributes redirectAttributes) {
+
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");
 
@@ -275,7 +288,16 @@ public class ProductorController {
         }
 
         try {
+            // Obtener la solicitud para sacar el idUsuario
+            Productor solicitud = productorService.obtenerPorId(id)
+                    .orElseThrow(() -> new RuntimeException("Solicitud no encontrada"));
+
             productorService.rechazarSolicitud(id);
+
+            Usuario usuarioEntity = usuarioRepository.findById((long) solicitud.getIdUsuario())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            emailService.sendRejectedProducerEmail(usuarioEntity.getCorreo(), usuarioEntity.getNombreUsuario());
             redirectAttributes.addFlashAttribute("exito", "Solicitud rechazada");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al rechazar solicitud: " + e.getMessage());
@@ -371,6 +393,7 @@ public class ProductorController {
 
         document.close();
     }
+
     private void addCellToTable(PdfPTable table, String content, Font font, boolean isHeader, int rowIndex) {
         PdfPCell cell = new PdfPCell(new Phrase(content, font));
         if (isHeader) {

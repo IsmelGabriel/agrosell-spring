@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de control - Usuarios Registrados</title>
-    <link rel="stylesheet" th:href="@{/css/panel.css}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/panel.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 </head>
 <body class="panel-control">
 
@@ -33,12 +33,19 @@
         <div class="lateral-content">
             <ul>
                 <!-- ADMINISTRADOR -->
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_ventas}"><i class="fas fa-chart-line"></i> Reporte de Ventas</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}"><i class="fas fa-calendar-check"></i> Reporte de Reservas</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}"><i class="fas fa-envelope-open-text"></i> Reporte de PQRS</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}"><i class="fas fa-user-cog"></i> Actualizar Roles</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}"><i class="fas fa-users"></i> Usuarios Registrados</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a>
+                </li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_ventas}"><i
+                        class="fas fa-chart-line"></i> Reporte de Ventas</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}"><i
+                        class="fas fa-calendar-check"></i> Reporte de Reservas</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}"><i
+                        class="fas fa-envelope-open-text"></i> Reporte de PQRS</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}"><i
+                        class="fas fa-user-cog"></i> Actualizar Roles</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}"><i
+                        class="fas fa-users"></i> Usuarios Registrados</a></li>
                 <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </div>
@@ -67,50 +74,52 @@
             </form>
         </div>
 
-        <table border="1">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Documento</th>
-                <th>Ubicación</th>
-                <th>Correo</th>
-                <th>Método de pago</th>
-                <th>Fecha de nacimiento</th>
-                <th>Rol</th>
-                <th>Estado</th>
-                <th>Acción</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="usuario : ${usuarios}">
-                <td th:text="${usuario.Id}">1</td>
-                <td th:text="${usuario.nombreUsuario}">jdoe</td>
-                <td th:text="${usuario.documento}">123456789</td>
-                <td th:text="${usuario.direccion}">Calle Falsa 123</td>
-                <td th:text="${usuario.correo}">correo@example.com</td>
-                <td th:text="${usuario.metodoPago}">Nequi</td>
-                <td th:text="${usuario.fechaNacimiento}">1990-01-01</td>
-                <td th:text="${usuario.rol}">Cliente</td>
-                <td th:text="${usuario.Estado}">Estado</td>
-                <td>
-                    <form th:action="@{/private/actualizarEstado}" method="get">
-                        <input type="hidden" name="idUsuario" th:value="${usuario.id}" />
-                        <select name="estado" class="form-control" required>
-                            <option disabled selected value="">Seleccionar</option>
-                            <option value="Deshabilitado">Deshabilitar</option>
-                            <option value="Habilitado">Habilitar</option>
-                        </select>
-                        <button type="submit">Actualizar</button>
-                    </form>
-                </td>
+        <section class="info-table">
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Documento</th>
+                    <th>Ubicación</th>
+                    <th>Correo</th>
+                    <th>Método de pago</th>
+                    <th>Fecha de nacimiento</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="usuario : ${usuarios}">
+                    <td th:text="${usuario.Id}">1</td>
+                    <td th:text="${usuario.nombreUsuario}">jdoe</td>
+                    <td th:text="${usuario.documento}">123456789</td>
+                    <td th:text="${usuario.direccion}">Calle Falsa 123</td>
+                    <td th:text="${usuario.correo}">correo@example.com</td>
+                    <td th:text="${usuario.metodoPago}">Nequi</td>
+                    <td th:text="${usuario.fechaNacimiento}">1990-01-01</td>
+                    <td th:text="${usuario.rol}">Cliente</td>
+                    <td th:text="${usuario.Estado}">Estado</td>
+                    <td>
+                        <form th:action="@{/private/actualizarEstado}" method="get">
+                            <input type="hidden" name="idUsuario" th:value="${usuario.id}"/>
+                            <select name="estado" class="form-control" required>
+                                <option disabled selected value="">Seleccionar</option>
+                                <option value="Deshabilitado">Deshabilitar</option>
+                                <option value="Habilitado">Habilitar</option>
+                            </select>
+                            <button type="submit">Actualizar</button>
+                        </form>
+                    </td>
 
-            </tr>
-            <tr th:if="${#lists.isEmpty(usuarios)}">
-                <td colspan="9">No hay usuarios registrados</td>
-            </tr>
-            </tbody>
-        </table>
+                </tr>
+                <tr th:if="${#lists.isEmpty(usuarios)}">
+                    <td colspan="9">No hay usuarios registrados</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
     </main>
 </div>
 

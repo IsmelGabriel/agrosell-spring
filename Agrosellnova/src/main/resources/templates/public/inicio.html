@@ -51,6 +51,7 @@
     <ul id="menu-items">
         <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
         <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
+        <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
         <li><a th:href="@{/public/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
         <li><a th:href="@{/public/about_us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
         <li><a th:href="@{/public/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
@@ -82,19 +83,19 @@
             <div class="destacados-inicio-titulo">
                 PRODUCTOS MÁS DESTACADOS
             </div>
-            <div class="productos-grid">
-                <div class="producto-item" th:each="producto : ${productosDestacados}">
-                    <div class="producto-card">
-                        <img th:src="@{|/images/${producto.imagen}|}" class="producto-imagen" th:alt="${producto.nombre}">
-                        <div class="producto-info">
-                            <h5 class="producto-nombre" th:text="${producto.nombre}"></h5>
-                            <p class="producto-descripcion" th:text="${producto.descripcion}"></p>
-                            <p class="producto-precio" th:text="'$' + ${producto.precio}"></p>
-                            <a th:href="@{/public/productos}" class="producto-boton">Ver más</a>
+                <div class="productos-grid">
+                    <div class="producto-item" th:each="producto : ${productosDestacados}">
+                        <div class="producto-card">
+                            <img th:src="@{|/images/${producto.imagen}|}" class="producto-imagen" th:alt="${producto.nombre}">
+                            <div class="producto-info">
+                                <h5 class="producto-nombre" th:text="${producto.nombre}"></h5>
+                                <p class="producto-descripcion" th:text="${producto.descripcion}"></p>
+                                <p class="producto-precio" th:text="'$' + ${producto.precio}"></p>
+                                <a th:href="@{/public/productos}" class="producto-boton">Ver más</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
         <section class="opiniones">
             <h2>Opiniones de nuestros clientes</h2>
@@ -252,7 +253,6 @@
     <div class="footer-bottom">
         <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y condiciones</a></p>
     </div>
-
 </footer>
 
 <script>

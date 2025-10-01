@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Sobre nosotros - Agrosell nova</title>
 
-    <!-- Mantengo tu referencia a estilos (añadí href fallback para que VSCode no marque tanto) -->
     <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"/>
@@ -89,7 +88,6 @@
 
 <main>
 
-    <!-- Sección: Nuestra Misión -->
     <section class="nuestra-mision">
         <h1 class="mision-title">NUESTRA MISIÓN</h1>
     </section>
@@ -100,7 +98,7 @@
           justify-content: center;
           align-items: center;
           padding: 100px 20px;
-          background: #f5fdf5; /* verde claro de fondo */
+          background: #f5fdf5;
         }
 
         .mision-title {
@@ -129,53 +127,113 @@
         }
     </style>
 
+    <img src="/img/campo5.jpg" alt="Nuestra Misión" class="imagen-full">
+
+    <style>
+        .imagen-full {
+          width: 100%;
+          height: 350px; /* ajusta la altura según lo que necesites */
+          object-fit: cover; /* recorta la imagen para que no se deforme */
+          display: block;
+        }
+    </style>
 
 
 
-    <!-- =========================
-       SECCIÓN 2: SOBRE NOSOTROS
-       Imagen izquierda que ocupa TODO el alto de la sección
-       Texto + botón a la derecha, centrado verticalmente
-       ========================= -->
-    <section class="sobre-nosotros"
-             style="display:flex; align-items:stretch; min-height:40vh; width:100%; overflow:hidden;">
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sobre Nosotros</title>
+        <style>
+            body {
+              margin: 0;
+              font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+              background: #ffffff;
+            }
 
-        <!-- columna izquierda: imagen (ocupa toda la altura de la sección) -->
-        <div class="col-left" style="flex:1 1 50%; min-width:250px;">
-            <img
-                    th:src="@{/img/about_us_img.jpg}"
-                    src="/img/about_us_img.jpg"
-                    alt="Campesino en el campo"
-                    style="width:100%; height:100%; display:block; object-fit:cover;"
-            />
+            /* SECCIÓN SOBRE NOSOTROS */
+            .sobre-nosotros {
+              background: #f9f9f9;
+              padding: 60px 20px;
+              text-align: center;
+            }
+
+            .sobre-nosotros .contenedor {
+              max-width: 900px;
+              margin: auto;
+            }
+
+            .sobre-nosotros h2 {
+              font-size: 2.5em;
+              margin-bottom: 20px;
+              color: #2e7d32;
+              font-weight: bold;
+              position: relative;
+            }
+
+            .sobre-nosotros h2::after {
+              content: "";
+              width: 80px;
+              height: 4px;
+              background: #4caf50;
+              display: block;
+              margin: 10px auto 0;
+              border-radius: 5px;
+            }
+
+            .sobre-nosotros p {
+              font-size: 1.1em;
+              line-height: 1.8;
+              color: #444;
+              margin-bottom: 20px;
+              text-align: justify;
+            }
+        </style>
+    </head>
+    <body>
+
+
+    <section class="sobre-nosotros">
+        <div class="contenedor">
+            <h2>Sobre Nosotros</h2>
+            <p>
+                En <strong>Agrosell Nova</strong> creemos en el poder de la tierra y en la
+                dedicación de cada campesino que día a día cultiva con esfuerzo y amor los
+                productos que llegan a tu mesa. Nuestro propósito es construir un puente
+                directo entre productores y consumidores, eliminando los intermediarios
+                para que quienes trabajan el campo reciban un pago justo por su esfuerzo y
+                las familias disfruten de alimentos frescos, naturales y de la mejor
+                calidad.
+            </p>
+            <p>
+                Somos una comunidad comprometida con el desarrollo sostenible, donde cada
+                venta no solo es una transacción, sino una oportunidad para apoyar la
+                economía local, promover el cuidado del medio ambiente y rescatar el valor
+                de la agricultura tradicional. Nos mueve la transparencia, la confianza y
+                el deseo de transformar el futuro del agro a través de la tecnología.
+            </p>
+            <p>
+                Nuestro compromiso va más allá de ofrecer un espacio digital de ventas.
+                Queremos ser una red de apoyo que permita a los campesinos crecer, innovar
+                y compartir su conocimiento con las nuevas generaciones. Cada producto que
+                se vende en nuestra plataforma lleva consigo una historia, un esfuerzo y
+                un sueño que ahora puedes conocer y respaldar.
+            </p>
+            <p>
+                En Agrosell Nova, trabajamos para que el campo florezca, los campesinos
+                prosperen y los consumidores se acerquen nuevamente a sus raíces,
+                disfrutando de lo mejor que nuestra tierra nos ofrece.
+            </p>
         </div>
-
-        <!-- columna derecha: texto centrado verticalmente -->
-        <div class="col-right" style="flex:1 1 50%; display:flex; align-items:center; justify-content:flex-start;">
-            <div style="padding:48px; max-width:720px;">
-                <h2 style="font-size:2.4rem; margin:0 0 16px; color:#2e7d32;">Sobre nosotros</h2>
-
-                <p style="font-size:1.05rem; line-height:1.6; color:#333; margin-bottom:16px;">
-                    En <strong>Agrosell Nova</strong> creemos en el valor de la tierra y en el trabajo de nuestros campesinos.
-                    Somos una plataforma que conecta directamente a los pequeños productores agrícolas con los consumidores,
-                    asegurando precios justos y alimentos frescos y de calidad.
-                </p>
-
-                <p style="font-size:1.05rem; line-height:1.6; color:#333; margin-bottom:20px;">
-                    Nuestra misión es apoyar a los agricultores, reducir la brecha con el mercado y llevar hasta tu mesa lo mejor del campo colombiano.
-                </p>
-
-                <a href="/public/contactanos"
-                   class="btn btn-success"
-                   style="background-color:#2e7d32; border:none; padding:10px 22px; border-radius:24px; color:#fff; text-decoration:none;">
-                    Conócenos más
-                </a>
-            </div>
-        </div>
-
     </section>
 
-    <!-- Estilos de apoyo (responsive) -->
+    </body>
+    </html>
+
+
+
     <style>
         /* En pantallas pequeñas apilamos: imagen arriba, texto abajo */
         @media (max-width: 767px) {
@@ -188,152 +246,215 @@
         /* .sobre-nosotros { min-height: calc(40vh - 80px); } */
     </style>
 
-    <!-- Sección 3: Carrusel de opiniones -->
-    <section class="opiniones">
-        <h2>Opiniones de nuestros clientes</h2>
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sobre Nosotros</title>
+        <style>
+            body {
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 0;
+              background: #f8f9fa;
+              color: #333;
+            }
 
-        <div class="carousel">
-            <div class="carousel-item active">
-                <p>"Excelente plataforma, pude vender mis productos sin intermediarios y con pago justo."</p>
-                <span>- Carlos, productor de café</span>
-            </div>
+            .section {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 40px;
+              padding: 80px 10%;
+            }
 
-            <div class="carousel-item">
-                <p>"La calidad de los alimentos es increíble, todo muy fresco y llego rápido."</p>
-                <span>- María, consumidora</span>
-            </div>
+            /* Imagen izquierda / texto derecha */
+            .section-left {
+              flex-direction: row;
+              background: #ffffff;
+            }
 
-            <div class="carousel-item">
-                <p>"Gracias a Agrosell Nova recibo un pago justo por mi trabajo y más clientes directos."</p>
-                <span>- Andrés, agricultor</span>
-            </div>
+            /* Texto izquierda / imagen derecha */
+            .section-right {
+              flex-direction: row-reverse;
+              background: #f0f4f8;
+            }
+
+            .text-wrap {
+              flex: 1;
+            }
+
+            .text-wrap h2 {
+              font-size: 2rem;
+              color: #2e7d32;
+              margin-bottom: 20px;
+            }
+
+            .text-wrap p {
+              font-size: 1.1rem;
+              line-height: 1.6;
+              text-align: justify;
+            }
+
+            .image-wrap {
+              flex: 0 0 550px;
+              max-width: 550px;
+              min-width: 280px;
+              display: block;
+            }
+
+            .image-wrap img {
+              width: 100%;
+              height: 360px;
+              object-fit: cover;
+              display: block;
+              border-radius: 14px;
+              box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+              border: 4px solid rgba(255,255,255,0.6);
+              background: #ddd;
+            }
+
+            /* Responsive */
+            @media (max-width: 880px) {
+              .section {
+                flex-direction: column !important;
+                gap: 20px;
+                padding: 40px 5%;
+              }
+              .image-wrap {
+                max-width: 100%;
+              }
+              .image-wrap img {
+                height: 260px;
+              }
+            }
+        </style>
+    </head>
+    <body>
+
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sobre Nosotros</title>
+        <style>
+            body {
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 0;
+              background: #f8f9fa;
+              color: #333;
+            }
+
+            .section {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 40px;
+              padding: 80px 10%;
+            }
+
+            /* Imagen izquierda / texto derecha */
+            .section-left {
+              flex-direction: row;
+              background: #ffffff;
+            }
+
+            /* Texto izquierda / imagen derecha */
+            .section-right {
+              flex-direction: row;
+              background: #f0f4f8;
+            }
+
+            .text-wrap {
+              flex: 1;
+            }
+
+            .text-wrap h2 {
+              font-size: 2rem;
+              color: #2e7d32;
+              margin-bottom: 20px;
+            }
+
+            .text-wrap p {
+              font-size: 1.1rem;
+              line-height: 1.6;
+              text-align: justify;
+            }
+
+            .image-wrap {
+              flex: 0 0 550px;
+              max-width: 550px;
+              min-width: 280px;
+              display: block;
+            }
+
+            .image-wrap img {
+              width: 100%;
+              height: 360px;
+              object-fit: cover;
+              display: block;
+              border-radius: 14px;
+              box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+              border: 4px solid rgba(255,255,255,0.6);
+              background: #ddd;
+            }
+
+            /* Responsive */
+            @media (max-width: 880px) {
+              .section {
+                flex-direction: column !important;
+                gap: 20px;
+                padding: 40px 5%;
+              }
+              .image-wrap {
+                max-width: 100%;
+              }
+              .image-wrap img {
+                height: 260px;
+              }
+            }
+        </style>
+    </head>
+    <body>
+
+
+    <section class="section section-left">
+        <div class="image-wrap">
+            <img src="/img/campo3.jpg" alt="Ventajas de estar con nosotros">
         </div>
-
-        <div class="carousel-controls">
-            <button id="prevBtn" aria-label="Anterior">&#10094;</button>
-            <button id="nextBtn" aria-label="Siguiente">&#10095;</button>
-        </div>
-
-        <div class="carousel-dots" id="dots">
-            <!-- dots se crean por JS -->
+        <div class="text-wrap">
+            <h2>Ventajas de estar con nosotros</h2>
+            <p>
+                Al unirte a AgroSell Nova te beneficias de una comunidad que respalda a los pequeños agricultores,
+                garantizando que sus productos lleguen de forma directa a los consumidores. Nuestra plataforma facilita
+                la comercialización sin intermediarios, lo que se traduce en precios justos, mayores ingresos para los
+                productores y alimentos de calidad para las familias. Con nosotros, la innovación se combina con la tradición
+                para asegurar un futuro más sostenible.
+            </p>
         </div>
     </section>
 
-    <style>
-        /* Sección de Opiniones */
-        .opiniones {
-            text-align: center;
-            padding: 60px 20px;
-            background-color: #f4f9f4;
-        }
 
-        .opiniones h2 {
-            font-size: 2rem;
-            margin-bottom: 30px;
-            color: #2e7d32; /* verde oscuro */
-        }
-
-        .carousel {
-            position: relative;
-            max-width: 700px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-
-        .carousel-item {
-            display: none;
-            font-size: 1.2rem;
-            color: #333;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        .carousel-item.active {
-            display: block;
-        }
-
-        .carousel-item p {
-            font-style: italic;
-            margin-bottom: 10px;
-            color: #2e7d32; /* verde oscuro */
-        }
-
-        .carousel-item span {
-            display: block;
-            font-size: 0.95rem;
-            font-weight: bold;
-            color: #1b5e20; /* verde aún más oscuro */
-        }
-
-        /* Botones */
-        .carousel-controls {
-            margin-top: 20px;
-        }
-
-        .carousel-controls button {
-            background-color: #2e7d32; /* verde oscuro */
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 8px 14px;
-            border-radius: 50%;
-            margin: 0 8px;
-            transition: background 0.3s;
-        }
-
-        .carousel-controls button:hover {
-            background-color: #1b5e20;
-        }
-
-        /* Dots */
-        .carousel-dots {
-            margin-top: 15px;
-        }
-
-        .carousel-dots span {
-            display: inline-block;
-            height: 12px;
-            width: 12px;
-            margin: 0 5px;
-            background-color: #c8e6c9; /* verde clarito */
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .carousel-dots .active {
-            background-color: #2e7d32; /* verde oscuro */
-        }
-    </style>
-
-
-
-    <!-- Sección 3: Imagen central + métricas (como tu referencia) -->
-    <section class="about-team">
-        <div class="team-image">
-            <img th:src="@{/img/team.jpg}" src="/img/team.jpg" alt="Nuestro equipo"/>
+    <section class="section section-right">
+        <div class="text-wrap">
+            <h2>¿Por qué nos creamos?</h2>
+            <p>
+                AgroSell Nova nació con la visión de transformar la manera en que los pequeños agricultores venden sus productos,
+                acercando el campo a la ciudad. Queremos reducir la desigualdad y darles voz a quienes trabajan la tierra con esfuerzo,
+                ofreciendo una plataforma digital segura, accesible y pensada para ellos. Somos el reflejo de un futuro más humano,
+                donde la tecnología se pone al servicio de quienes más lo necesitan.
+            </p>
         </div>
-
-        <div class="team-stats">
-            <div class="stat">
-                <h3>2011</h3>
-                <p>Fundamos AGROSELL NOVA, conectando productores y consumidores.</p>
-            </div>
-            <div class="stat">
-                <h3>+12,000</h3>
-                <p>Clientes satisfechos comprando directamente del campo.</p>
-            </div>
-            <div class="stat">
-                <h3>+950MM</h3>
-                <p>Conversaciones y transacciones exitosas en la plataforma.</p>
-            </div>
+        <div class="image-wrap">
+            <img src="/img/campo2.jpg" alt="Por qué nos creamos">
         </div>
     </section>
 
-
-
-
-
+    </body>
+    </html>
 
 </main>
 
@@ -408,55 +529,6 @@
         menuBar.classList.toggle('active');
     });
 
-    /* Carrusel: manual + automático cada 5s */
-    (function(){
-        const items = Array.from(document.querySelectorAll('.carousel-item'));
-        const prev = document.getElementById('prevBtn');
-        const next = document.getElementById('nextBtn');
-        const dotsContainer = document.getElementById('dots');
-        let current = 0;
-        let interval = null;
-        const AUTO_MS = 5000;
-
-        function goTo(index) {
-            items[current].classList.remove('active');
-            dotsContainer.children[current].classList.remove('active');
-            current = (index + items.length) % items.length;
-            items[current].classList.add('active');
-            dotsContainer.children[current].classList.add('active');
-        }
-
-        function nextItem(){ goTo(current+1); }
-        function prevItem(){ goTo(current-1); }
-
-        // Crear dots
-        items.forEach((_, i) => {
-            const d = document.createElement('span');
-            d.classList.add('dot');
-            if(i===0) d.classList.add('active');
-            d.addEventListener('click', () => { goTo(i); resetAuto(); });
-            dotsContainer.appendChild(d);
-        });
-
-        next.addEventListener('click', () => { nextItem(); resetAuto(); });
-        prev.addEventListener('click', () => { prevItem(); resetAuto(); });
-
-        function startAuto(){
-            interval = setInterval(nextItem, AUTO_MS);
-        }
-        function stopAuto(){
-            if(interval) clearInterval(interval);
-            interval = null;
-        }
-        function resetAuto(){ stopAuto(); startAuto(); }
-
-        // Inicia
-        startAuto();
-        // pausa si el usuario pasa el mouse por el carrusel
-        const carousel = document.querySelector('.carousel');
-        carousel.addEventListener('mouseenter', stopAuto);
-        carousel.addEventListener('mouseleave', startAuto);
-    })();
 </script>
 
 </body>

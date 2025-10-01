@@ -1,6 +1,5 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
-import com.agrosellnova.Agrosellnova.modelo.Reserva;
 import com.agrosellnova.Agrosellnova.modelo.Venta;
 import com.agrosellnova.Agrosellnova.servicio.VentaService;
 import com.itextpdf.text.*;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -84,11 +82,10 @@ public class VentaController {
     }
 
     @GetMapping("/export/gestionar_ventas")
-    public void exportUsersToPdf(HttpServletResponse response, HttpSession session, Model model) throws IOException, DocumentException {
+    public void exportUsersToPdf(HttpServletResponse response, HttpSession session) throws IOException, DocumentException {
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=Ventas.pdf");
         String usuario = (String) session.getAttribute("usuario");
-        String rol = (String) session.getAttribute("rol");
 
 
         List<Venta> ventas = ventaService.obtenerVentasPorProductor(usuario);
@@ -213,7 +210,6 @@ public class VentaController {
             rowIndex++;
         }
 
-
         document.add(table);
 
         document.add(new Paragraph(" "));
@@ -223,45 +219,65 @@ public class VentaController {
 
         document.close();
     }
-    @RequestMapping("/export")
-    public class ReporteComprasController {
 
-        @Autowired
-        private VentaService ventaService; // servicio para acceder a las ventas
+    @GetMapping("/export/gestionar_compra")
+    public void exportGestionarCompraToPdf(HttpSession session, HttpServletResponse response) throws IOException, DocumentException {
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=Gestionar_compra.pdf");
 
-        @GetMapping("/reporte_ventas")
-        public void exportarVentasPDF(HttpServletResponse response) throws Exception {
-            response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "attachment; filename=ventas.pdf");
+        String usuario = (String) session.getAttribute("usuario");
 
-            List<Venta> listaVentas = ventaService.obtenerTodas();
+        List<Venta> ventas = ventaService.findByComprador_NombreUsuario(usuario);
 
-            Document documento = new Document();
-            PdfWriter.getInstance(documento, response.getOutputStream());
-            documento.open();
+        Document document = new Document(PageSize.A4.rotate());
+        PdfWriter.getInstance(document, response.getOutputStream());
+        document.open();
 
-            documento.add(new Paragraph("Reporte de Compras / Ventas\n\n"));
+        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, new BaseColor(34,139,34));
+        Paragraph title = new Paragraph("Lista de Ventas Registrados ",titleFont);
+        title.setAlignment(Element.ALIGN_CENTER);
+        document.add(title);
+        document.add(new Paragraph(" "));
 
-            // Crear tabla con columnas
-            PdfPTable tabla = new PdfPTable(6);
-            tabla.addCell("ID Venta");
-            tabla.addCell("Vendedor");
-            tabla.addCell("Producto");
-            tabla.addCell("Cantidad (Kg)");
-            tabla.addCell("Total ($)");
-            tabla.addCell("Fecha");
+        Paragraph fecha = new Paragraph("Fecha de generación: " + new Date().toString());
+        fecha.setAlignment(Element.ALIGN_RIGHT);
+        document.add(fecha);
+        document.add(new Paragraph(" "));
 
-            for (Venta venta : listaVentas) {
-                tabla.addCell(String.valueOf(venta.getIdVenta()));
-                tabla.addCell(venta.getVendedor().getNombreUsuario());
-                tabla.addCell(venta.getProducto().getNombre());
-                tabla.addCell(String.valueOf(venta.getCantidadKg()));
-                tabla.addCell(String.valueOf(venta.getTotalVenta()));
-                tabla.addCell(String.valueOf(venta.getFechaVenta()));
-            }
+        PdfPTable table = new PdfPTable(6);
+        table.setWidthPercentage(100);
 
-            documento.add(tabla);
-            documento.close();
+        float[] columnWidths = {1f, 2f, 1.5f, 2f, 2.5f, 1.5f};
+        table.setWidths(columnWidths);
+        int rowIndex = 0;
+        Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+        addCellToTable(table, "ID", headerFont, true, rowIndex);
+        addCellToTable(table, "Vendedor", headerFont, true, rowIndex);
+        addCellToTable(table, "Producto", headerFont, true, rowIndex);
+        addCellToTable(table, "Cantidad", headerFont, true, rowIndex);
+        addCellToTable(table, "Total", headerFont, true, rowIndex);
+        addCellToTable(table, "Fecha venta", headerFont, true, rowIndex);
+
+        Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 8);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        for (Venta venta : ventas) {
+            addCellToTable(table, String.valueOf(venta.getIdVenta()), dataFont, false, rowIndex);
+            addCellToTable(table, (venta.getVendedor() != null && venta.getVendedor().getNombreUsuario() != null) ? venta.getVendedor().getNombreUsuario() : "", dataFont, false, rowIndex);
+            addCellToTable(table, (venta.getProducto() != null && venta.getProducto().getNombre() != null) ? venta.getProducto().getNombre() : "", dataFont, false, rowIndex);
+            addCellToTable(table, venta.getCantidadKg() != null ? String.valueOf(venta.getCantidadKg()) : "", dataFont, false, rowIndex);
+            addCellToTable(table, venta.getTotalVenta() != null ? String.valueOf(venta.getTotalVenta()) : "", dataFont, false, rowIndex);
+            addCellToTable(table, venta.getFechaVenta() != null ? venta.getFechaVenta().format(formatter) : "", dataFont, false, rowIndex);
+            rowIndex++;
         }
+
+        document.add(table);
+
+        document.add(new Paragraph(" "));
+        Paragraph footer = new Paragraph("Total de compras: " + ventas.size());
+        footer.setAlignment(Element.ALIGN_CENTER);
+        document.add(footer);
+
+        document.close();
     }
 }

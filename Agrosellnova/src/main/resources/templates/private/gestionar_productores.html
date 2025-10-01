@@ -34,6 +34,7 @@
         <div class="lateral-content">
             <ul>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_ventas}"><i class="fas fa-chart-line"></i> Reporte de Ventas</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}"><i class="fas fa-calendar-check"></i> Reporte de Reservas</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}"><i class="fas fa-envelope-open-text"></i> Reporte de PQRS</a></li>

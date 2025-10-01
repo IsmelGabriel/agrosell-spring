@@ -33,6 +33,7 @@
             <ul>
                 <!-- ADMINISTRADOR -->
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_ventas}"><i class="fas fa-chart-line"></i> Reporte de Ventas</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}"><i class="fas fa-calendar-check"></i> Reporte de Reservas</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}"><i class="fas fa-envelope-open-text"></i> Reporte de PQRS</a></li>
@@ -48,7 +49,7 @@
     <main class="panel-content">
         <h1>Registro de PQRS</h1>
         <div class="table-actions">
-            <form th:action="@{/export/reporte_pqrs}" method="get" class="filtro-form">
+            <form th:action="@{/private/reporte_pqrs}" method="get" class="filtro-form">
                 <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
                 <select name="criterio" class="filtro-select">
                     <option value="">Selecciona un criterio</option>
@@ -60,7 +61,7 @@
                 <button type="submit" class="filtro-btn">Filtrar</button>
             </form>
 
-            <form th:action="@{/export/reporte_pqrs}" method="get" class="export-form">
+            <form th:action="@{/public/export/reporte_pqrs}" method="get" class="export-form">
                 <button type="submit" class="export-btn btn-danger">
                     <i class="fas fa-file-pdf"></i> Exportar PDF
                 </button>
