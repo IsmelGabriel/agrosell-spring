@@ -7,7 +7,8 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"
+          rel="stylesheet">
 </head>
 
 <body>
@@ -52,7 +53,7 @@
     <ul id="menu-items">
         <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
         <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
-        <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>
+        <!--        <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>-->
         <li><a th:href="@{/public/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
         <li><a th:href="@{/public/about_us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
         <li><a th:href="@{/public/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
@@ -76,7 +77,8 @@
             </div>
             <div class="formulario-pago">
                 <label for="telefono" class="form-label">Número de Teléfono</label>
-                <input type="tel" class="form-control" id="telefono" name="telefono" maxlength="10" minlength="10" required>
+                <input type="tel" class="form-control" id="telefono" name="telefono" maxlength="10" minlength="10"
+                       required>
                 <div class="invalid-feedback">Por favor, ingrese un número de teléfono válido (10 dígitos).</div>
             </div>
             <div class="formulario-pago">
@@ -155,14 +157,20 @@
 
             <div class="formulario-pago">
                 <label for="direccion" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccion" name="direccion" th:value="${direccion}" required>
+                <input type="text" class="form-control" id="direccion" name="direccion" th:value="${direccion}"
+                       required>
                 <div class="invalid-feedback">Por favor, ingrese su dirección.</div>
+            </div>
+
+            <div class="formulario-pago">
+                <label for="resumenProductos" class="form-label">Productos en el pedido</label>
+                <textarea id="resumenProductos" class="form-control" readonly></textarea>
             </div>
 
             <input type="hidden" id="carrito" name="carrito">
             <button type="submit" class="confirmar-pago-btn">Confirmar pago</button>
 
-            
+
         </form>
 
     </div>
@@ -174,7 +182,7 @@
             <h3>Enlaces rápidos</h3>
             <ul>
                 <li><a th:href="@{/public/inicio}">Inicio</a></li>
-                <li><a th:href="@{/public/categorias}">Categorías</a></li>
+                <!--                <li><a th:href="@{/public/categorias}">Categorías</a></li>-->
                 <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
                 <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
                 <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
@@ -202,7 +210,8 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y condiciones</a></p>
+        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y
+            condiciones</a></p>
     </div>
 </footer>
 
@@ -212,6 +221,7 @@
         const menuBar = document.querySelector(".menu-bar");
         menuBar.classList.toggle("scrolled", window.scrollY > 50);
     });
+
     (() => {
         'use strict';
         document.querySelectorAll('.needs-validation').forEach(form => {
@@ -229,6 +239,23 @@
         const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
         document.getElementById("carrito").value = JSON.stringify(carrito);
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+        // si está vacío redirigir al carrito
+        if (carrito.length === 0) {
+            alert("Tu carrito está vacío. Agrega productos antes de pagar.");
+            window.location.href = "/public/productos";
+            return;
+        }
+
+        // si hay productos, mostrar en el resumen
+        const resumenInput = document.getElementById("resumenProductos");
+        const productosTexto = carrito.map(item => `(${item.nombre} '${item.cantidad}')`).join(" ");
+        resumenInput.value = productosTexto;
+    });
+
 
     const toggleButton = document.getElementById('menu-toggle');
     const menuBar = document.getElementById('menu-bar');
