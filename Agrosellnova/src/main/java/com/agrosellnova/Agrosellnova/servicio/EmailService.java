@@ -3,7 +3,10 @@ package com.agrosellnova.Agrosellnova.servicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class EmailService {
@@ -88,5 +91,30 @@ public class EmailService {
 
         mailSender.send(message);
     }
+
+
+    // Enviar a un solo correo
+    public void sendNewProductNotification(String to, String productName, Double productPrice) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Nuevo producto disponible en AgroSell Nova");
+        message.setText("Hola,\n\n" +
+                "¡Tenemos un nuevo producto disponible en AgroSell Nova! 🌟\n\n" +
+                "Producto: " + productName + "\n" +
+                "Precio: " + productPrice + "\n\n" +
+                "Visita nuestra plataforma para más detalles y realizar tu compra.\n\n" +
+                "Saludos,\nEl equipo de AgroSell Nova");
+
+        mailSender.send(message);
+    }
+
+    // Enviar a todos los clientes (asíncrono para no bloquear la publicación del producto)
+    @Async
+    public void sendNewProductNotificationToAll(List<String> correos, String productName, Double ProductPrice) {
+        for (String correo : correos) {
+            sendNewProductNotification(correo, productName, ProductPrice);
+        }
+    }
+
 
 }

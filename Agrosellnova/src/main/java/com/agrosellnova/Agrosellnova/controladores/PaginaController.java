@@ -116,47 +116,6 @@ public class PaginaController {
         return "forms/formulario_pago";
     }
 
-    @PostMapping("/guardar_producto")
-    public String guardarProductoReserva(
-            @RequestParam("usuario") String nombreUsuario,
-            @RequestParam("productoImagen") MultipartFile imagen,
-            @RequestParam("nombreProducto") String nombre,
-            @RequestParam("precio") double precio,
-            @RequestParam("descripcion") String descripcion,
-            @RequestParam("pesoKg") double pesoKg,
-            @RequestParam("stock") int stock
-    ) {
-        try {
-            String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
-            String rutaAbsoluta = new File("Agrosellnova/src/main/resources/static/img/productos").getAbsolutePath();
-
-            // Crear carpeta si no existe
-            Files.createDirectories(Paths.get(rutaAbsoluta));
-            Path path = Paths.get(rutaAbsoluta, nombreArchivo);
-            Files.write(path, imagen.getBytes());
-            String rutaRelativa = "../img/productos/" + nombreArchivo;
-
-            Producto producto = new Producto();
-            producto.setUsuarioCampesino(nombreUsuario);
-            producto.setImagen(rutaRelativa);
-            producto.setNombre(nombre);
-            producto.setPrecio(precio);
-            producto.setDescripcion(descripcion);
-            producto.setPesoKg(pesoKg);
-            producto.setStock(stock);
-            producto.setEstado("Disponible");
-            producto.setFechaCosecha(LocalDate.now());
-
-            productoRepository.save(producto);
-
-            return "redirect:/private/gestionar_productos";
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/error";
-        }
-    }
-
 
     @GetMapping("/forms/editar_producto")
     public String mostrarFormularioEdicion(@RequestParam("id") Long id, HttpSession session, Model model) {
