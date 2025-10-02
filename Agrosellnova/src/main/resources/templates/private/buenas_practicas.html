@@ -119,10 +119,12 @@
             <ul>
                 <!-- PRODUCTOR -->
                 <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}"><i class="fas fa-seedling"></i> Publicar Producto</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/reservar_producto}"><i class="fas fa-seedling"></i>Ofertar proximos a salir</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}"><i class="fas fa-boxes"></i> Gestionar Productos</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}"><i class="fas fa-cash-register"></i> Gestionar Ventas</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/informacion_mercados}" class="active"><i class="fas fa-chart-line"></i> Informacion mercado</a></li>
                 <li th:if="${rol == 'productor'}"><a th:href="@{/private/buenas_practicas}"><i class="fas fa-leaf"></i> Buenas Prácticas</a></li>
                 <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>

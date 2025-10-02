@@ -98,11 +98,11 @@ public class ProductoController {
 
             if (nuevaImagen != null && !nuevaImagen.isEmpty()) {
                 String nombreArchivo = UUID.randomUUID().toString() + "_" + nuevaImagen.getOriginalFilename();
-                String rutaAbsoluta = new File("src/main/resources/static/img").getAbsolutePath();
+                String rutaAbsoluta = new File("src/main/resources/static/img/productos").getAbsolutePath();
                 Path path = Paths.get(rutaAbsoluta + File.separator + nombreArchivo);
                 Files.write(path, nuevaImagen.getBytes());
 
-                existente.setImagen("../img/" + nombreArchivo);
+                existente.setImagen("../img/productos/" + nombreArchivo);
             }
 
             productoRepository.save(existente);

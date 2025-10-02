@@ -47,22 +47,27 @@
         <ul>
             <!-- ADMINISTRADOR -->
             <li th:if="${rol == 'administrador'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+            <li th:if="${rol == 'administrador'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
             <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_ventas}"><i class="fas fa-chart-line"></i> Reporte de Ventas</a></li>
             <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}"><i class="fas fa-calendar-check"></i> Reporte de Reservas</a></li>
             <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}"><i class="fas fa-envelope-open-text"></i> Reporte de PQRS</a></li>
             <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}"><i class="fas fa-user-cog"></i> Actualizar Roles</a></li>
             <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}"><i class="fas fa-users"></i> Usuarios Registrados</a></li>
+            <li th:if="${rol == 'administrador'}"><a th:href="@{/private/dashboard}"><i class ="fas fa-chart-line"></i> Reporte general</a></li>
 
             <!-- PRODUCTOR -->
             <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+            <li th:if="${rol == 'productor'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
             <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}"><i class="fas fa-seedling"></i> Publicar Producto</a></li>
             <li th:if="${rol == 'productor'}"><a th:href="@{/private/reservar_producto}"><i class="fas fa-seedling"></i>Ofertar proximos a salir</a></li>
             <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}"><i class="fas fa-boxes"></i> Gestionar Productos</a></li>
             <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}"><i class="fas fa-cash-register"></i> Gestionar Ventas</a>
+            <li th:if="${rol == 'productor'}"><a th:href="@{/private/informacion_mercados}" class="active"><i class="fas fa-chart-line"></i> Informacion mercado</a></li>
             <li th:if="${rol == 'productor'}"><a th:href="@{/private/buenas_practicas}"><i class="fas fa-leaf"></i> Buenas Prácticas</a></li>
 
             <!-- CLIENTE -->
             <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+            <li th:if="${rol == 'cliente'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
             <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}"><i class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
             <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
             <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver Productos</a></li>

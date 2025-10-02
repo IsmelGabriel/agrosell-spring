@@ -223,4 +223,9 @@ public class VentaServiceImpl implements VentaService {
                 .toList();
     }
 
+    public List<Object[]> obtenerVentasMensuales() {
+        return ventaRepository.obtenerVentasMensuales();
+    }
+
+
 }

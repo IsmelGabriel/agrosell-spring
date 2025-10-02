@@ -97,25 +97,123 @@
                     </div>
                 </div>
         </section>
+        <section class="opiniones">
+            <h2>Opiniones de nuestros clientes</h2>
 
-        <div class="practicas-seccion">
-            <div class="practicas-info">
-                <h2 class="practicas-titulo">Buenas Prácticas</h2>
-                <p>
-                    Aplicar buenas prácticas en los procesos agrícolas garantiza la sostenibilidad,
-                    calidad de los productos y respeto por el medio ambiente. Estas prácticas incluyen
-                    el uso adecuado de recursos, manejo responsable de residuos y mejora continua en
-                    los procesos de producción.
-                </p>
-                <p>
-                    Asegúrate de implementar métodos seguros y sostenibles en tus cultivos, contribuyendo
-                    así al bienestar de todos.
-                </p>
+            <div class="carousel">
+                <div class="carousel-item active">
+                    <p>"Excelente plataforma, pude vender mis productos sin intermediarios y con pago justo."</p>
+                    <span>- Carlos, productor de café</span>
+                </div>
+
+                <div class="carousel-item">
+                    <p>"La calidad de los alimentos es increíble, todo muy fresco y llego rápido."</p>
+                    <span>- María, consumidora</span>
+                </div>
+
+                <div class="carousel-item">
+                    <p>"Gracias a Agrosell Nova recibo un pago justo por mi trabajo y más clientes directos."</p>
+                    <span>- Andrés, agricultor</span>
+                </div>
             </div>
-            <div class="practicas-img">
-                <img src="/img/inicio_buenas_practicas.jpg" alt="Buenas Prácticas" class="img-practicas">
+
+            <div class="carousel-controls">
+                <button id="prevBtn" aria-label="Anterior">&#10094;</button>
+                <button id="nextBtn" aria-label="Siguiente">&#10095;</button>
             </div>
-        </div>
+
+            <div class="carousel-dots" id="dots">
+                <!-- dots se crean por JS -->
+            </div>
+        </section>
+
+        <style>
+            /* Sección de Opiniones */
+            .opiniones {
+                text-align: center;
+                padding: 60px 20px;
+                background-color: #f4f9f4;
+            }
+
+            .opiniones h2 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+                color: #2e7d32; /* verde oscuro */
+            }
+
+            .carousel {
+                position: relative;
+                max-width: 700px;
+                margin: 0 auto;
+                overflow: hidden;
+            }
+
+            .carousel-item {
+                display: none;
+                font-size: 1.2rem;
+                color: #333;
+                transition: opacity 0.5s ease-in-out;
+            }
+
+            .carousel-item.active {
+                display: block;
+            }
+
+            .carousel-item p {
+                font-style: italic;
+                margin-bottom: 10px;
+                color: #2e7d32; /* verde oscuro */
+            }
+
+            .carousel-item span {
+                display: block;
+                font-size: 0.95rem;
+                font-weight: bold;
+                color: #1b5e20; /* verde aún más oscuro */
+            }
+
+            /* Botones */
+            .carousel-controls {
+                margin-top: 20px;
+            }
+
+            .carousel-controls button {
+                background-color: #2e7d32; /* verde oscuro */
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 8px 14px;
+                border-radius: 50%;
+                margin: 0 8px;
+                transition: background 0.3s;
+            }
+
+            .carousel-controls button:hover {
+                background-color: #1b5e20;
+            }
+
+            /* Dots */
+            .carousel-dots {
+                margin-top: 15px;
+            }
+
+            .carousel-dots span {
+                display: inline-block;
+                height: 12px;
+                width: 12px;
+                margin: 0 5px;
+                background-color: #c8e6c9; /* verde clarito */
+                border-radius: 50%;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+
+            .carousel-dots .active {
+                background-color: #2e7d32; /* verde oscuro */
+            }
+        </style>
+
     </section>
 </main>
 

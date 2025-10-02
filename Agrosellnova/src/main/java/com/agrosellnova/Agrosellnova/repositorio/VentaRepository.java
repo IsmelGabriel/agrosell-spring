@@ -34,5 +34,18 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
     @Query("SELECT COUNT(DISTINCT v.comprador.id) FROM Venta v")
     Long totalClientes();
 
+    @Query("SELECT MONTH(v.fechaVenta), SUM(v.totalVenta) " +
+            "FROM Venta v " +
+            "GROUP BY MONTH(v.fechaVenta) " +
+            "ORDER BY MONTH(v.fechaVenta)")
+    List<Object[]> obtenerVentasMensuales();
+
+    @Query("SELECT v.producto.nombre, SUM(v.cantidadKg) " +
+            "FROM Venta v " +
+            "GROUP BY v.producto.nombre " +
+            "ORDER BY SUM(v.cantidadKg) DESC")
+    List<Object[]> obtenerProductosMasVendidos();
+
+
 }
 

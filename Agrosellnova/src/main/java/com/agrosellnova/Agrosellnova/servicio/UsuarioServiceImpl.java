@@ -41,6 +41,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (usuario.getRol() == null || usuario.getRol().isBlank()) {
             usuario.setRol("cliente");
         }
+        if (usuario.getEstado() == null || usuario.getEstado().isBlank()) {
+            usuario.setEstado("Habilitado");
+        }
 
         usuarioRepository.save(usuario);
 

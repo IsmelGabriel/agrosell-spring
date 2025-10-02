@@ -150,7 +150,7 @@ public class ReservaController {
     private ReservaRepository reservaRepository;
 
 
-    @GetMapping("/editar_reserva")
+    @GetMapping("private/editar_reserva")
     public String mostrarFormularioEdicion(@RequestParam("id") Long id, HttpSession session, Model model) {
         String usuario = (String) session.getAttribute("usuario");
         String rol = (String) session.getAttribute("rol");

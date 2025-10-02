@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrosell Nova - Recuperar contraseña</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <script th:src="@{/js/mostrarNombre.js}" defer></script>
+</head>
+
+<body>
+
+<header class="top-bar">
+    <div class="header-content">
+        <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
+        <h1 class="menu-title">AGROSELL NOVA</h1>
+
+        <div class="panel-option">
+            <button id="panelControl">
+                <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+            </button>
+        </div>
+
+        <a th:href="@{/public/carrito}" class="menu-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </a>
+
+        <span class="menu-notification">
+            <button id="notificationButton">
+                <i class="fas fa-bell menu-icon"></i>
+            </button>
+        </span>
+
+        <span class="username">
+            <th:block th:if="${usuario != null}">
+                <a th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
+            </th:block>
+            <th:block th:unless="${usuario != null}">
+                <a th:href="@{/public/index}">Iniciar sesión</a>
+            </th:block>
+        </span>
+
+        <a th:href="@{/private/perfil}" class="menu-icon">
+            <i class="bi bi-person-circle" style="font-size: 30px;"></i>
+        </a>
+    </div>
+</header>
+
+<nav class="menu-bar">
+    <ul>
+        <li>Bienvenido a Agrosell Nova. Actualmente estás cambiando tu contraseña.</li>
+    </ul>
+</nav>
+
+<main class="recuperar-contraseña-container">
+    <div class="recuperar-contraseña-form">
+        <h2>Recuperar Contraseña</h2>
+        <form id="recoveryForm" class="needs-validation" th:action="@{/recuperar_contraseña}" method="post" novalidate>
+            <div class="recuperar-contraseña-formulario">
+                <label for="usuario" class="index-text">Usuario</label>
+                <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Ingresa tu usuario" required>
+                <div class="invalid-feedback">Por favor, ingresa el usuario a recuperar.</div>
+            </div>
+
+            <div class="recuperar-contraseña-formulario">
+                <label for="email" class="index-text">Correo Electrónico</label>
+                <input type="email" id="email" name="correo" class="form-control" placeholder="Ingresa tu correo." required>
+                <div class="invalid-feedback">Por favor, ingresa tu correo electrónico.</div>
+            </div>
+
+            <label for="password" class="recuperar-contraseña-formulario">Contraseña</label>
+            <input type="password" name="password" class="form-control" id="password"
+                   placeholder="Crea una contraseña" minlength="8" required>
+            <div class="invalid-feedback">
+                La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, un número y un carácter especial.
+            </div>
+
+            <label for="confirmPassword" class="recuperar-contraseña-formulario">Repite la contraseña</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Repite tu contraseña" required>
+            <div class="invalid-feedback">
+                Las contraseñas no coinciden.
+            </div>
+
+            <div class="recuperar-contraseña-formulario">
+                <button type="submit" class="recuperar-contraseña-btn">Recuperar Contraseña</button>
+                <a th:href="@{/public/index}" class="btn btn-link text-success">Volver a iniciar sesión</a>
+            </div>
+
+            <div th:if="${mensaje}" class="alert alert-success" role="alert" th:text="${mensaje}"></div>
+            <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+        </form>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>Enlaces rápidos</h3>
+            <ul>
+                <li><a th:href="@{/public/inicio}">Inicio</a></li>
+                <li><a th:href="@{/public/categorias}">Categorías</a></li>
+                <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
+                <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
+                <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
+                <li><a th:href="@{/public/404}">Error 404</a></li>
+                <li><a th:href="@{/public/500}">Error 500</a></li>
+                <li><a th:href="@{/public/dashboard}">Dashboard</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Contacto</h3>
+            <p>📍 Dirección: Calle Principal #123</p>
+            <p>📞 Teléfono: +57 123 456 789</p>
+            <p>📧 Email: <a href="mailto:info@agrosellnova.com">info@agrosellnova.com</a></p>
+        </div>
+
+        <div class="footer-column">
+            <h3>Síguenos</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y condiciones</a></p>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    (function () {
+        'use strict';
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,}$/;
+
+                if (!form.checkValidity() || !passwordRegex.test(password) || password !== confirmPassword) {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    if (!passwordRegex.test(password)) {
+                        document.getElementById('password').setCustomValidity("La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, un número y un carácter especial.");
+                    } else {
+                        document.getElementById('password').setCustomValidity("");
+                    }
+
+                    if (password !== confirmPassword) {
+                        document.getElementById('confirmPassword').setCustomValidity("Las contraseñas no coinciden.");
+                    } else {
+                        document.getElementById('confirmPassword').setCustomValidity("");
+                    }
+                }
+
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func.apply(this, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    window.addEventListener("scroll", debounce(function () {
+        const menuBar = document.querySelector(".menu-bar");
+        if (window.scrollY > 50) {
+            menuBar.classList.add("scrolled");
+        } else {
+            menuBar.classList.remove("scrolled");
+        }
+    }, 100));
+
+    const toggleButton = document.getElementById('menu-toggle');
+    const menuBar = document.getElementById('menu-bar');
+
+    toggleButton.addEventListener('click', () => {
+        menuBar.classList.toggle('active');
+    });
+
+    const toggleButton = document.getElementById('menu-toggle');
+    const menuBar = document.getElementById('menu-bar');
+
+    toggleButton.addEventListener('click', () => {
+        menuBar.classList.toggle('active');
+    });
+</script>
+</body>
+
+</html>
