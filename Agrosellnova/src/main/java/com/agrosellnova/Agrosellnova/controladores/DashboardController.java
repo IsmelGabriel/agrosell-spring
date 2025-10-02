@@ -36,8 +36,9 @@ public class DashboardController {
     @Autowired
     private VentaService ventaService;
 
-    @RequestMapping("/public/dashboard")
+    @RequestMapping("/private/dashboard")
     public String dashboard(HttpSession session, Model model) {
+        String rol= (String)  session.getAttribute("rol");
         String usuario = (String) session.getAttribute("usuario");
 
         // Top 4 ventas recientes
@@ -54,12 +55,15 @@ public class DashboardController {
         model.addAttribute("totalVentas", totalVentas);
         model.addAttribute("totalProductos", totalProductos);
         model.addAttribute("totalClientes", totalClientes);
+        model.addAttribute("rol", rol);
+
+
 
         System.out.println("Total Ventas: " + totalVentas);
         System.out.println("Total Productos Vendidos: " + totalProductos);
         System.out.println("Total Clientes: " + totalClientes);
 
-        return "public/dashboard";
+        return "private/dashboard";
     }
 
     @GetMapping("/dashboard/ventas-mensuales")

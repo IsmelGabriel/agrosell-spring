@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - AGROSELLNOVA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/panel.css}">
+
+</head>
+<body>
+
+<header class="Bienvenido">
+    <div class="header-left">
+        <img src="/img/logo.png" alt="Logo Agrosellnova" class="logo">
+        <span class="project-name">AGROSELLNOVA</span>
+    </div>
+
+    <div class="header-right">
+        <div class="user-info">
+            <p><strong th:text="'Bienvenido, ' + ${usuario}">Bienvenido, Usuario</strong></p>
+            <p><span th:text="'Rol: ' + ${rol}">Rol: Cliente</span></p>
+        </div>
+        <div class="icons">
+            <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
+            <a th:href="@{/private/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+        </div>
+    </div>
+</header>
+
+
+<div class="panel-container">
+
+    <aside class="sidebar">
+        <ul>
+            <!-- ADMINISTRADOR -->
+            <li th:if="${rol == 'administrador'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a>
+            </li>
+            <li th:if="${rol == 'administrador'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i>
+                Mi informacion</a></li>
+            <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_ventas}"><i
+                    class="fas fa-chart-line"></i> Reporte de Ventas</a></li>
+            <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}"><i
+                    class="fas fa-calendar-check"></i> Reporte de Reservas</a></li>
+            <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}"><i
+                    class="fas fa-envelope-open-text"></i> Reporte de PQRS</a></li>
+            <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}"><i
+                    class="fas fa-user-cog"></i> Actualizar Roles</a></li>
+            <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}"><i
+                    class="fas fa-users"></i> Usuarios Registrados</a></li>
+            <li th:if="${rol == 'administrador'}"><a th:href="@{/private/dashboard}"><i class ="fas fa-chart-line"></i> Reporte general</a></li>
+            <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+
+        </ul>
+    </aside>
+    <main class="main-content">
+        <section class="stats">
+            <div class="stat-item">
+                <i class="fas fa-dollar-sign"></i>
+                <div class="stat-info">
+                    <h3>Ventas Totales</h3>
+                    <p th:text="${#numbers.formatDecimal(totalVentas, 1, 'COMMA', 2, 'POINT')} + ' $'">$0.00</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-box"></i>
+                <div class="stat-info">
+                    <h3>Productos Vendidos</h3>
+                    <p th:text="${totalProductos} + ' kg'">0 kg</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-users"></i>
+                <div class="stat-info">
+                    <h3>Clientes</h3>
+                    <p th:text="${totalClientes}">0</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="charts">
+            <div class="chart">
+                <h3>Ventas Mensuales</h3>
+                <canvas id="monthlySalesChart"></canvas>
+            </div>
+            <div class="chart">
+                <h3>Productos Más Vendidos</h3>
+                <canvas id="topProductsChart"></canvas>
+            </div>
+        </section>
+
+        <section class="recent-orders">
+            <h3>Órdenes Recientes</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Orden</th>
+                    <th>Cliente</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="venta : ${ventasRecientes}">
+                    <td th:text="'#' + ${venta.idVenta}"></td>
+                    <td th:text="${venta.comprador.nombre}"></td>
+                    <td th:text="${venta.producto.nombre}"></td>
+                    <td th:text="${venta.cantidadKg}"></td>
+                    <td th:text="${#numbers.formatDecimal(venta.totalVenta, 1, 'COMMA', '2', 'POINT')} + ' $'"></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:src="@{/js/dashboard-charts.js}"></script>
+
+</div>
+<script>
+    document.getElementById('notificationButton').addEventListener('click', function() {
+        alert("No tienes notificaciones pendientes");
+    });
+
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func.apply(this, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    window.addEventListener("scroll", debounce(function () {
+        const menuBar = document.querySelector(".menu-bar");
+        if (window.scrollY > 50) {
+            menuBar.classList.add("scrolled");
+        } else {
+            menuBar.classList.remove("scrolled");
+        }
+    }, 100));
+
+    const toggleButton = document.getElementById('menu-toggle');
+    const menuBar = document.getElementById('menu-bar');
+
+    toggleButton.addEventListener('click', () => {
+        menuBar.classList.toggle('active');
+    });
+</script>
+</body>
+</html>
