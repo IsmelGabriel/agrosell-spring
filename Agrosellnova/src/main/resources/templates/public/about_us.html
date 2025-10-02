@@ -1,49 +1,163 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Sobre nosotros - Agrosell nova</title>
 
-    <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"/>
 
     <style>
         /* Estilos mínimos adicionales (no reemplazan tu styles.css) */
-        .about-hero img { width:100%; max-height:420px; object-fit:cover; display:block; }
-        .about-section { display:flex; gap:30px; align-items:center; padding:60px 20px; flex-wrap:wrap; }
-        .about-us-info { flex:1; min-width:280px; }
-        .about-imagen { flex:1; min-width:280px; }
-        .about-imagen img { width:100%; border-radius:8px; object-fit:cover; }
+        .about-hero img {
+            width: 100%;
+            max-height: 420px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .about-section {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            padding: 60px 20px;
+            flex-wrap: wrap;
+        }
+
+        .about-us-info {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .about-imagen {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .about-imagen img {
+            width: 100%;
+            border-radius: 8px;
+            object-fit: cover;
+        }
 
         /* Sección tipo referencia */
-        .about-team { background:#0a1841; color:#fff; padding:50px 20px; text-align:center; }
-        .team-image img { width:90%; max-width:1100px; margin:0 auto 30px; display:block; border-radius:8px; }
-        .team-stats { display:flex; justify-content:space-around; gap:20px; flex-wrap:wrap; max-width:1200px; margin:0 auto; }
-        .team-stats .stat { flex:1; min-width:200px; padding:20px; }
-        .team-stats h3 { font-size:2.2rem; margin-bottom:8px; color:#cfc9ff; }
+        .about-team {
+            background: #0a1841;
+            color: #fff;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .team-image img {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto 30px;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .team-stats {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-stats .stat {
+            flex: 1;
+            min-width: 200px;
+            padding: 20px;
+        }
+
+        .team-stats h3 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            color: #cfc9ff;
+        }
 
         /* Carrusel de opiniones */
-        .opiniones { padding:50px 20px; background:#f6f6f7; text-align:center; }
-        .carousel { max-width:760px; margin:0 auto; position:relative; }
-        .carousel-item { display:none; padding:20px 30px; border-radius:8px; background:#fff; box-shadow:0 6px 18px rgba(0,0,0,.08); }
-        .carousel-item.active { display:block; }
-        .carousel-item p { font-size:1.05rem; margin-bottom:12px; }
-        .carousel-item span { display:block; font-weight:600; color:#333; }
+        .opiniones {
+            padding: 50px 20px;
+            background: #f6f6f7;
+            text-align: center;
+        }
 
-        .carousel-controls { margin-top:18px; display:flex; justify-content:center; gap:10px; }
-        .carousel-controls button { border:none; background:#0a1841; color:#fff; padding:10px 14px; border-radius:999px; cursor:pointer; }
-        .carousel-dots { margin-top:12px; display:flex; justify-content:center; gap:8px; }
-        .dot { width:12px; height:12px; border-radius:50%; background:#ddd; display:inline-block; cursor:pointer; }
-        .dot.active { background:#0a1841; }
+        .carousel {
+            max-width: 760px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .carousel-item {
+            display: none;
+            padding: 20px 30px;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+        }
+
+        .carousel-item.active {
+            display: block;
+        }
+
+        .carousel-item p {
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+        }
+
+        .carousel-item span {
+            display: block;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .carousel-controls {
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .carousel-controls button {
+            border: none;
+            background: #0a1841;
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+        }
+
+        .carousel-dots {
+            margin-top: 12px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: #0a1841;
+        }
     </style>
 </head>
 <body>
 
 <header class="top-bar">
     <div class="header-content">
-        <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="Agrosell Nova" class="logo" />
+        <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="Agrosell Nova" class="logo"/>
         <h1 class="menu-title">AGROSELL NOVA</h1>
 
         <div class="panel-option">
@@ -93,36 +207,36 @@
 
     <style>
         .nuestra-mision {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 100px 20px;
-          background: #f5fdf5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 20px;
+            background: #f5fdf5;
         }
 
         .mision-title {
-          font-size: 6rem;
-          font-weight: 900;
-          text-transform: uppercase;
-          text-align: center;
-          margin: 0;
+            font-size: 6rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-align: center;
+            margin: 0;
 
-          /* Imagen dentro de las letras */
-          background: url("/img/campo.jpg") center/cover no-repeat;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          color: transparent;
+            /* Imagen dentro de las letras */
+            background: url("/img/campo.jpg") center/cover no-repeat;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
 
-          /* Contorno verde */
-          -webkit-text-stroke: 3px #2e7d32;
-          letter-spacing: 5px;
+            /* Contorno verde */
+            -webkit-text-stroke: 3px #2e7d32;
+            letter-spacing: 5px;
         }
 
         @media (max-width: 768px) {
-          .mision-title {
-            font-size: 3rem;
-            -webkit-text-stroke: 2px #2e7d32;
-          }
+            .mision-title {
+                font-size: 3rem;
+                -webkit-text-stroke: 2px #2e7d32;
+            }
         }
     </style>
 
@@ -130,13 +244,12 @@
 
     <style>
         .imagen-full {
-          width: 100%;
-          height: 350px; /* ajusta la altura según lo que necesites */
-          object-fit: cover; /* recorta la imagen para que no se deforme */
-          display: block;
+            width: 100%;
+            height: 350px; /* ajusta la altura según lo que necesites */
+            object-fit: cover; /* recorta la imagen para que no se deforme */
+            display: block;
         }
     </style>
-
 
 
     <!DOCTYPE html>
@@ -147,47 +260,47 @@
         <title>Sobre Nosotros</title>
         <style>
             body {
-              margin: 0;
-              font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-              background: #ffffff;
+                margin: 0;
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                background: #ffffff;
             }
 
             /* SECCIÓN SOBRE NOSOTROS */
             .sobre-nosotros {
-              background: #f9f9f9;
-              padding: 60px 20px;
-              text-align: center;
+                background: #f9f9f9;
+                padding: 60px 20px;
+                text-align: center;
             }
 
             .sobre-nosotros .contenedor {
-              max-width: 900px;
-              margin: auto;
+                max-width: 900px;
+                margin: auto;
             }
 
             .sobre-nosotros h2 {
-              font-size: 2.5em;
-              margin-bottom: 20px;
-              color: #2e7d32;
-              font-weight: bold;
-              position: relative;
+                font-size: 2.5em;
+                margin-bottom: 20px;
+                color: #2e7d32;
+                font-weight: bold;
+                position: relative;
             }
 
             .sobre-nosotros h2::after {
-              content: "";
-              width: 80px;
-              height: 4px;
-              background: #4caf50;
-              display: block;
-              margin: 10px auto 0;
-              border-radius: 5px;
+                content: "";
+                width: 80px;
+                height: 4px;
+                background: #4caf50;
+                display: block;
+                margin: 10px auto 0;
+                border-radius: 5px;
             }
 
             .sobre-nosotros p {
-              font-size: 1.1em;
-              line-height: 1.8;
-              color: #444;
-              margin-bottom: 20px;
-              text-align: justify;
+                font-size: 1.1em;
+                line-height: 1.8;
+                color: #444;
+                margin-bottom: 20px;
+                text-align: justify;
             }
         </style>
     </head>
@@ -232,13 +345,22 @@
     </html>
 
 
-
     <style>
         /* En pantallas pequeñas apilamos: imagen arriba, texto abajo */
         @media (max-width: 767px) {
-          .sobre-nosotros { flex-direction: column; min-height: auto; }
-          .sobre-nosotros .col-left img { height: 40vh !important; } /* alto moderado para móvil */
-          .sobre-nosotros .col-right { padding: 20px !important; }
+            .sobre-nosotros {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .sobre-nosotros .col-left img {
+                height: 40vh !important;
+            }
+
+            /* alto moderado para móvil */
+            .sobre-nosotros .col-right {
+                padding: 20px !important;
+            }
         }
 
         /* Si tu header es fijo y tapa parte de la sección, reduce la altura */
@@ -253,80 +375,82 @@
         <title>Sobre Nosotros</title>
         <style>
             body {
-              font-family: Arial, sans-serif;
-              margin: 0;
-              padding: 0;
-              background: #f8f9fa;
-              color: #333;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background: #f8f9fa;
+                color: #333;
             }
 
             .section {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              gap: 40px;
-              padding: 80px 10%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 40px;
+                padding: 80px 10%;
             }
 
             /* Imagen izquierda / texto derecha */
             .section-left {
-              flex-direction: row;
-              background: #ffffff;
+                flex-direction: row;
+                background: #ffffff;
             }
 
             /* Texto izquierda / imagen derecha */
             .section-right {
-              flex-direction: row-reverse;
-              background: #f0f4f8;
+                flex-direction: row-reverse;
+                background: #f0f4f8;
             }
 
             .text-wrap {
-              flex: 1;
+                flex: 1;
             }
 
             .text-wrap h2 {
-              font-size: 2rem;
-              color: #2e7d32;
-              margin-bottom: 20px;
+                font-size: 2rem;
+                color: #2e7d32;
+                margin-bottom: 20px;
             }
 
             .text-wrap p {
-              font-size: 1.1rem;
-              line-height: 1.6;
-              text-align: justify;
+                font-size: 1.1rem;
+                line-height: 1.6;
+                text-align: justify;
             }
 
             .image-wrap {
-              flex: 0 0 550px;
-              max-width: 550px;
-              min-width: 280px;
-              display: block;
+                flex: 0 0 550px;
+                max-width: 550px;
+                min-width: 280px;
+                display: block;
             }
 
             .image-wrap img {
-              width: 100%;
-              height: 360px;
-              object-fit: cover;
-              display: block;
-              border-radius: 14px;
-              box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-              border: 4px solid rgba(255,255,255,0.6);
-              background: #ddd;
+                width: 100%;
+                height: 360px;
+                object-fit: cover;
+                display: block;
+                border-radius: 14px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+                border: 4px solid rgba(255, 255, 255, 0.6);
+                background: #ddd;
             }
 
             /* Responsive */
             @media (max-width: 880px) {
-              .section {
-                flex-direction: column !important;
-                gap: 20px;
-                padding: 40px 5%;
-              }
-              .image-wrap {
-                max-width: 100%;
-              }
-              .image-wrap img {
-                height: 260px;
-              }
+                .section {
+                    flex-direction: column !important;
+                    gap: 20px;
+                    padding: 40px 5%;
+                }
+
+                .image-wrap {
+                    max-width: 100%;
+                }
+
+                .image-wrap img {
+                    height: 260px;
+                }
             }
         </style>
     </head>
@@ -340,80 +464,82 @@
         <title>Sobre Nosotros</title>
         <style>
             body {
-              font-family: Arial, sans-serif;
-              margin: 0;
-              padding: 0;
-              background: #f8f9fa;
-              color: #333;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background: #f8f9fa;
+                color: #333;
             }
 
             .section {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              gap: 40px;
-              padding: 80px 10%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 40px;
+                padding: 80px 10%;
             }
 
             /* Imagen izquierda / texto derecha */
             .section-left {
-              flex-direction: row;
-              background: #ffffff;
+                flex-direction: row;
+                background: #ffffff;
             }
 
             /* Texto izquierda / imagen derecha */
             .section-right {
-              flex-direction: row;
-              background: #f0f4f8;
+                flex-direction: row;
+                background: #f0f4f8;
             }
 
             .text-wrap {
-              flex: 1;
+                flex: 1;
             }
 
             .text-wrap h2 {
-              font-size: 2rem;
-              color: #2e7d32;
-              margin-bottom: 20px;
+                font-size: 2rem;
+                color: #2e7d32;
+                margin-bottom: 20px;
             }
 
             .text-wrap p {
-              font-size: 1.1rem;
-              line-height: 1.6;
-              text-align: justify;
+                font-size: 1.1rem;
+                line-height: 1.6;
+                text-align: justify;
             }
 
             .image-wrap {
-              flex: 0 0 550px;
-              max-width: 550px;
-              min-width: 280px;
-              display: block;
+                flex: 0 0 550px;
+                max-width: 550px;
+                min-width: 280px;
+                display: block;
             }
 
             .image-wrap img {
-              width: 100%;
-              height: 360px;
-              object-fit: cover;
-              display: block;
-              border-radius: 14px;
-              box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-              border: 4px solid rgba(255,255,255,0.6);
-              background: #ddd;
+                width: 100%;
+                height: 360px;
+                object-fit: cover;
+                display: block;
+                border-radius: 14px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+                border: 4px solid rgba(255, 255, 255, 0.6);
+                background: #ddd;
             }
 
             /* Responsive */
             @media (max-width: 880px) {
-              .section {
-                flex-direction: column !important;
-                gap: 20px;
-                padding: 40px 5%;
-              }
-              .image-wrap {
-                max-width: 100%;
-              }
-              .image-wrap img {
-                height: 260px;
-              }
+                .section {
+                    flex-direction: column !important;
+                    gap: 20px;
+                    padding: 40px 5%;
+                }
+
+                .image-wrap {
+                    max-width: 100%;
+                }
+
+                .image-wrap img {
+                    height: 260px;
+                }
             }
         </style>
     </head>
@@ -430,7 +556,8 @@
                 Al unirte a AgroSell Nova te beneficias de una comunidad que respalda a los pequeños agricultores,
                 garantizando que sus productos lleguen de forma directa a los consumidores. Nuestra plataforma facilita
                 la comercialización sin intermediarios, lo que se traduce en precios justos, mayores ingresos para los
-                productores y alimentos de calidad para las familias. Con nosotros, la innovación se combina con la tradición
+                productores y alimentos de calidad para las familias. Con nosotros, la innovación se combina con la
+                tradición
                 para asegurar un futuro más sostenible.
             </p>
         </div>
@@ -441,9 +568,12 @@
         <div class="text-wrap">
             <h2>¿Por qué nos creamos?</h2>
             <p>
-                AgroSell Nova nació con la visión de transformar la manera en que los pequeños agricultores venden sus productos,
-                acercando el campo a la ciudad. Queremos reducir la desigualdad y darles voz a quienes trabajan la tierra con esfuerzo,
-                ofreciendo una plataforma digital segura, accesible y pensada para ellos. Somos el reflejo de un futuro más humano,
+                AgroSell Nova nació con la visión de transformar la manera en que los pequeños agricultores venden sus
+                productos,
+                acercando el campo a la ciudad. Queremos reducir la desigualdad y darles voz a quienes trabajan la
+                tierra con esfuerzo,
+                ofreciendo una plataforma digital segura, accesible y pensada para ellos. Somos el reflejo de un futuro
+                más humano,
                 donde la tecnología se pone al servicio de quienes más lo necesitan.
             </p>
         </div>
@@ -454,12 +584,8 @@
 
     </body>
     </html>
-<<<<<<< HEAD
-    
-=======
     </body>
     </html>
->>>>>>> f739ddcff99754b1fefac7bacfb08733760c9502
 </main>
 
 <footer class="footer">
@@ -495,7 +621,8 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}" href="/terminos">Términos y condiciones</a></p>
+        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}" href="/terminos">Términos
+            y condiciones</a></p>
     </div>
 </footer>
 
@@ -506,7 +633,7 @@
 
     function debounce(func, wait) {
         let timeout;
-        return function(...args) {
+        return function (...args) {
             const later = () => {
                 clearTimeout(timeout);
                 func.apply(this, args);
