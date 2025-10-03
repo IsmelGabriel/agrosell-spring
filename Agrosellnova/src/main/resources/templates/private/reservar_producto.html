@@ -75,10 +75,11 @@
     </aside>
 
     <main class="ofertar-container">
-        <h2 class="ofertar-titulo">Ofertar Producto Proximo a Salir</h2>
+        <h2 class="ofertar-titulo">Ofertar Producto Próximo a Salir</h2>
         <form th:action="@{/private/guardarProductoReserva}" method="post"
               class="needs-validation" novalidate enctype="multipart/form-data">
 
+            <!-- Imagen -->
             <div class="ofertar-form">
                 <label for="productoImagen" class="form-label">Foto del Producto</label>
                 <input type="file"
@@ -88,8 +89,10 @@
                        accept="image/png, image/jpeg"
                        required>
                 <div class="invalid-feedback">Por favor, selecciona una foto en formato JPG o PNG.</div>
+                <div class="image-preview" id="preview">Vista previa de la imagen</div>
             </div>
 
+            <!-- Nombre -->
             <div class="ofertar-form">
                 <label for="nombreProducto" class="form-label">Nombre del producto</label>
                 <input type="text" name="nombreProducto" id="nombreProducto"
@@ -97,13 +100,41 @@
                 <div class="invalid-feedback">Por favor, escribe un nombre.</div>
             </div>
 
-            <div class="ofertar-form">
-                <label for="precio" class="form-label">Precio estimado - POR Kg</label>
-                <input type="number" name="precio" id="precio" class="form-control"
-                       placeholder="Ingrese el precio" step="0.01" required>
-                <div class="invalid-feedback">Por favor, ingrese un precio.</div>
+            <!-- Precio y Peso -->
+            <div class="form-grid">
+                <div class="ofertar-form">
+                    <label for="precio" class="form-label">Precio estimado - POR Kg</label>
+                    <input type="number" name="precio" id="precio" class="form-control"
+                           placeholder="Ingrese el precio" step="0.01" required>
+                    <div class="invalid-feedback">Por favor, ingrese un precio.</div>
+                </div>
+
+                <div class="ofertar-form">
+                    <label for="pesoKg" class="form-label">Peso por unidad (Kg)</label>
+                    <input type="number" name="pesoKg" id="pesoKg" class="form-control"
+                           placeholder="Ejemplo: 2.5" step="0.01" required>
+                    <div class="invalid-feedback">Por favor, ingrese el peso.</div>
+                </div>
             </div>
 
+            <!-- Stock y Fecha -->
+            <div class="form-grid">
+                <div class="ofertar-form">
+                    <label for="stock" class="form-label">Stock disponible (Kg)</label>
+                    <input type="number" name="stock" id="stock" class="form-control"
+                           placeholder="Ejemplo: 100" required>
+                    <div class="invalid-feedback">Por favor, ingrese el stock.</div>
+                </div>
+
+                <div class="ofertar-form">
+                    <label for="fechaCosecha" class="form-label">Fecha estimada de cosecha</label>
+                    <input type="date" name="fechaCosecha" id="fechaCosecha"
+                           class="form-control" required>
+                    <div class="invalid-feedback">Por favor, seleccione la fecha de cosecha.</div>
+                </div>
+            </div>
+
+            <!-- Descripción -->
             <div class="ofertar-form">
                 <label for="descripcion" class="form-label">Descripción</label>
                 <textarea name="descripcion" id="descripcion" class="form-control"
@@ -111,63 +142,53 @@
                 <div class="invalid-feedback">Por favor, ingrese una descripción.</div>
             </div>
 
-            <div class="ofertar-form">
-                <label for="pesoKg" class="form-label">Peso por unidad (Kg)</label>
-                <input type="number" name="pesoKg" id="pesoKg" class="form-control"
-                       placeholder="Ejemplo: 2.5" step="0.1" required>
-                <div class="invalid-feedback">Por favor, ingrese el peso.</div>
-            </div>
-
-            <div class="ofertar-form">
-                <label for="stock" class="form-label">Stock disponible (Kg)</label>
-                <input type="number" name="stock" id="stock" class="form-control"
-                       placeholder="Ejemplo: 100" required>
-                <div class="invalid-feedback">Por favor, ingrese el stock.</div>
-            </div>
-
-            <div class="ofertar-form">
-                <label for="fechaCosecha" class="form-label">Fecha estimada de cosecha</label>
-                <input type="date" name="fechaCosecha" id="fechaCosecha"
-                       class="form-control" required>
-                <div class="invalid-feedback">Por favor, seleccione la fecha de cosecha.</div>
-            </div>
-
+            <!-- Botón -->
             <button type="submit" class="confirmar-oferta-btn">
                 Guardar Producto en Reserva
             </button>
         </form>
         <div id="toast-container"></div>
-
     </main>
 </div>
 
-<script>
+    <script>
+        // Validación de imagen
+        document.getElementById("productoImagen").addEventListener("change", function () {
+            const file = this.files[0];
+            const preview = document.getElementById("preview");
 
-    document.getElementById("productoImagen").addEventListener("change", function () {
-    const file = this.files[0];
-    if (file) {
-      const validTypes = ["image/jpeg", "image/png"];
-      if (!validTypes.includes(file.type)) {
-        alert("Solo se permiten imágenes en formato JPG o PNG.");
-        this.value = "";
-      }
-    }
-  });
-
-    (function () {
-        'use strict';
-        const forms = document.querySelectorAll('.needs-validation');
-        Array.from(forms).forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
+            if (file) {
+                const validTypes = ["image/jpeg", "image/png"];
+                if (!validTypes.includes(file.type)) {
+                    alert("Solo se permiten imágenes en formato JPG o PNG.");
+                    this.value = "";
+                    preview.innerHTML = "Vista previa de la imagen";
+                } else {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.innerHTML = `<img src="${e.target.result}"
+                        style="max-width: 200px; min-height: 200px; margin-top: 10px; border-radius: 10px;" />`;
+                    }
+                    reader.readAsDataURL(file);
                 }
-                form.classList.add('was-validated');
-            }, false);
+            }
         });
-    })();
 
-</script>
+        // Validación de formulario estilo Bootstrap
+        (function () {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+
 </body>
 </html>

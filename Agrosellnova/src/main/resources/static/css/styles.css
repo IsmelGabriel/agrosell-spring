@@ -497,15 +497,16 @@ footer {
 /* pagina productos */
 
 .producto-titulo {
-    align-items: center;
-    padding: 10px 30px;
-    background-color: #327c28;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #327c28, #45a049);
     text-align: center;
-    font-size: 2em;
-    margin: 10px;
+    font-size: 2rem;
+    font-weight: bold;
     color: #ffffff;
-    border-radius: 50px;
-    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    width: fit-content;
 }
 
 .filtra-productos {
@@ -1037,68 +1038,87 @@ footer {
 /* seccion reservas.html */
 
 .titulo-reservas {
-    align-items: center;
-    padding: 10px 30px;
-    background-color: #327c28;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #327c28, #45a049);
     text-align: center;
-    font-size: 2em;
-    margin: 10px;
+    font-size: 2rem;
+    font-weight: bold;
     color: #ffffff;
-    border-radius: 50px;
-    box-shadow: 2px 4px 8px;
+    border-radius: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    width: fit-content;
+}
+
+.reserva-info-section {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 0 15px;
 }
 
 .producto-reserva {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 8px;
+    background: #ffffff;
+    border: none;
+    border-radius: 15px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 250px;
+}
+
+.producto-reserva:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .producto-imagen-reserva {
-    max-width: 150px;
-    max-height: 150px;
-    min-width: 150px;
-    min-height: 150px;
-    border-radius: 8px;
-    margin-bottom: 10px; 
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.producto-reserva:hover .producto-imagen-reserva {
+    transform: scale(1.05);
+}
+
+.producto-reserva h3 {
+    font-size: 1.3rem;
+    color: #2e7d32;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.producto-reserva p {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 10px;
+    line-height: 1.4;
 }
 
 .btn-reserva {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #23A026;
-    color: white;
+    background: #23A026;
+    color: #fff;
     text-decoration: none;
-    border-radius: 5px;
-    margin-top: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .btn-reserva:hover {
-    background-color: #1e8122;
+    background: #1e8122;
+    transform: scale(1.05);
 }
 
-.reserva-info-section {
-    margin-top: 50px;
-    display: flex;
-    gap: 35px;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
-}
 
-.producto-reserva h3 {
-    font-size: 22px;
-    margin-top: 15px;
-}
-
-.producto-reserva p {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 15px;
-}
 
 /* seccion about_us.html */
 
@@ -1171,14 +1191,16 @@ footer {
 /* seccion contactanos.html */
 
 .contactanos-titulo h2 {
-    color: #f7f7f7;
-    align-items: center;
-    padding: 18px 20px;
-    border-radius: 15px;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #327c28, #45a049);
     text-align: center;
-    background-color: #327c28;
-    font-size: 30px;
-    margin: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffffff;
+    border-radius: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    width: fit-content;
 }
 
 .contactanos-descripcion h1 {

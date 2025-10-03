@@ -87,6 +87,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public List<Usuario> obtenerTodosLosUsuariosOrdenPorIdDesc() {
+        return usuarioRepository.findAllByOrderByIdDesc();
+    }
+
+    @Override
     public void eliminarUsuarioPorId(Long idUsuario) {
         usuarioRepository.deleteById(idUsuario);
     }

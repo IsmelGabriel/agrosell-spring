@@ -69,7 +69,7 @@
         <div class="producto-reserva" th:each="producto : ${productos}">
             <img th:src="${producto.imagen}" th:alt="${producto.nombre}" class="producto-imagen-reserva">
             <h3 th:text="${producto.nombre}">Nombre del producto</h3>
-            <p>Precio: $<span th:text="${producto.precio}">0</span></p>
+            <p>Precio: $<span th:text="${#numbers.formatDecimal(producto.precio, 1, 'COMMA', '2', 'POINT')}">0</span></p>
             <p><span th:text="${producto.descripcion}">Descripcion del producto</span> </p>
             <p>Disponible desde: <span th:text="${producto.fechaCosecha}">00/00/0000</span></p>
 

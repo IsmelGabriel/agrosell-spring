@@ -116,5 +116,28 @@ public class EmailService {
         }
     }
 
+    public void sendBookingConfirmationEmail(String to, String username, String producto, String bookingDate) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Confirmación de reserva en AgroSell Nova");
+        message.setText("Hola " + username + ",\n\n" +
+                "Tu reserva para el producto '" + producto + "' ha sido confirmada para la fecha: " + bookingDate + ". 📅\n\n" +
+                "Gracias por confiar en AgroSell Nova.\n\n" +
+                "Saludos,\nEl equipo de AgroSell Nova");
+
+        mailSender.send(message);
+    }
+
+    public void sendPaymentConfirmationEmail(String to, String username, String paymentDate, Double amount) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Confirmación de pago en AgroSell Nova");
+        message.setText("Hola " + username + ",\n\n" +
+                "Tu pago de $" + amount + " ha sido recibido con éxito el " + paymentDate + ". 💳\n\n" +
+                "Gracias por tu compra en AgroSell Nova.\n\n" +
+                "Saludos,\nEl equipo de AgroSell Nova");
+
+        mailSender.send(message);
+    }
 
 }

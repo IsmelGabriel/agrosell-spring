@@ -21,6 +21,9 @@ public class VentaServiceImpl implements VentaService {
     @Autowired
     private VentaRepository ventaRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public List<Venta> obtenerTodasLasVentas() {
         return ventaRepository.findAll();
@@ -41,6 +44,7 @@ public class VentaServiceImpl implements VentaService {
                     productoBD.setStock(stockActual - cantidadVendida);
                     productoRepository.save(productoBD);
                     ventaRepository.save(venta);
+                    emailService.sendPaymentConfirmationEmail(venta.getComprador().getCorreo(), venta.getComprador().getNombreUsuario(), venta.getFechaVenta().toString(), venta.getTotalVenta());
                 } else {
                     throw new RuntimeException("Stock insuficiente para realizar la venta. Stock disponible: "
                             + stockActual + ", solicitado: " + cantidadVendida);

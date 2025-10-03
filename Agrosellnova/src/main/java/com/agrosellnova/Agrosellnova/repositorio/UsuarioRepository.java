@@ -20,4 +20,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Usuario> findCorreoByRol(String rol);
     long countByRol(String rol);
     long countByEstado(String estado);
+    List<Usuario> findAllByOrderByIdDesc();
 }

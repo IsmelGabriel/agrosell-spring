@@ -20,6 +20,9 @@ public class ReservaServiceImpl implements ReservaService {
     private ProductoRepository productoRepository;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     public ReservaServiceImpl(ReservaRepository reservaRepository) {
         this.reservaRepository = reservaRepository;
     }
@@ -34,6 +37,7 @@ public class ReservaServiceImpl implements ReservaService {
         System.out.println("Recibido en servicio: " + reserva.getUsuarioCliente());
         reserva.setFechaReserva(LocalDate.now());
         reservaRepository.save(reserva);
+        emailService.sendBookingConfirmationEmail(reserva.getUsuarioCorreo(), reserva.getUsuarioCliente(), reserva.getProducto(), reserva.getFechaReserva().toString());
     }
 
     public List<Producto> obtenerProductosParaReserva() {

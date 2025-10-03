@@ -39,7 +39,9 @@
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}"><i class="fas fa-calendar-check"></i> Reporte de Reservas</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}"><i class="fas fa-envelope-open-text"></i> Reporte de PQRS</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}"><i class="fas fa-user-cog"></i> Actualizar Roles</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/gestionar_productores}"><i class="fas fa-tractor"></i> Gestionar Productores</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}"><i class="fas fa-users"></i> Usuarios Registrados</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/dashboard}"><i class ="fas fa-chart-line"></i> Reporte general</a></li>
                 <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </div>
@@ -59,12 +61,6 @@
                 <div class="estadistica-numero" th:text="${cantidadRechazados ?: 0}">0</div>
                 <div>Rechazados</div>
             </div>
-        </div>
-        <div class="botones-accion">
-            <a th:href="@{/private/actualizar_roles}" class="btn-gestionar">
-                <i class="fas fa-user-cog"></i>
-                Actualizar Roles
-            </a>
         </div>
         <form th:action="@{/private/gestionar_productores}" method="get" class="filtro-form">
             <input type="text" name="buscar" th:value="${terminoBusqueda}" placeholder="Buscar por finca, ubicación o productos..." class="filtro-input">

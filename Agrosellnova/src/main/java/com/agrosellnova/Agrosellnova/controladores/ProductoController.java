@@ -74,7 +74,7 @@ public class ProductoController {
         if (criterio != null && valor != null && !criterio.isEmpty() && !valor.isEmpty()) {
             listaProductos = productoService.filtrarProductos(usuario, criterio, valor);
         }else {
-            listaProductos = productoService.obtenerProductosPorProductor(usuario);
+            listaProductos = productoRepository.findByUsuarioCampesinoOrderByIdDesc(usuario);
         }
 
         model.addAttribute("listaProductos", listaProductos);

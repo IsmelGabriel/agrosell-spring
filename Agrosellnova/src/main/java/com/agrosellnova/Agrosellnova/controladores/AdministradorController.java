@@ -72,7 +72,7 @@ public class AdministradorController {
                     usuarios = usuarioService.obtenerTodosLosUsuarios();
             }
         } else {
-            usuarios = usuarioService.obtenerTodosLosUsuarios();
+            usuarios = usuarioService.obtenerTodosLosUsuariosOrdenPorIdDesc();
         }
 
         model.addAttribute("usuarios", usuarios);
@@ -211,7 +211,7 @@ public class AdministradorController {
                     usuarios = usuarioService.obtenerTodosLosUsuarios();
             }
         } else {
-            usuarios = usuarioService.obtenerTodosLosUsuarios();
+            usuarios = usuarioService.obtenerTodosLosUsuariosOrdenPorIdDesc();
         }
 
         model.addAttribute("usuarios", usuarios);
