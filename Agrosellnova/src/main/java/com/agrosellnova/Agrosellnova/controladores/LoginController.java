@@ -28,6 +28,7 @@ public class LoginController {
         Usuario usuarioAutenticado = usuarioService.autenticarUsuario(usuario, password);
 
         if (usuarioAutenticado != null) {
+            session.setAttribute("idUsuario", usuarioAutenticado.getId());
             session.setAttribute("usuario", usuarioAutenticado.getNombreUsuario());
             session.setAttribute("rol", usuarioAutenticado.getRol());
             System.out.println("Inicio de sesión exitoso:");
