@@ -11,6 +11,7 @@ public interface UsuarioService {
     Usuario autenticarUsuario(String usuario, String passwordPlano);
     void actualizarRolUsuario(Long Id, String nuevoRol);
     List<Usuario> obtenerTodosLosUsuarios();
+    List<Usuario> obtenerTodosLosUsuariosOrdenPorIdDesc();
     void eliminarUsuarioPorId(Long idUsuario);
     void actualizarRol(Long idUsuario, String nuevoRol);
     void actualizarPerfil(Usuario usuario);

@@ -48,49 +48,53 @@
 
     <main class="ofertar-container">
         <h2 class="ofertar-titulo">Publicar Producto</h2>
-        <form th:action="@{/guardar_producto}" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
 
+        <form th:action="@{/guardar_producto}" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
             <input type="hidden" name="usuario" id="usuario" th:value="${usuario}" />
 
+            <!-- Foto con vista previa -->
             <div class="ofertar-form">
                 <label for="productoImagen" class="form-label">Foto del Producto</label>
-                <input type="file" name="productoImagen" id="productoImagen" class="form-control" accept="image/*" required>
+                <input type="file" name="productoImagen" id="productoImagen" class="form-control" accept="image/*" required onchange="previewImage(event)">
                 <div class="invalid-feedback">Por favor, selecciona una foto.</div>
+                <div id="imagePreview" class="image-preview">📷 Vista previa aquí</div>
             </div>
 
-
+            <!-- Nombre -->
             <div class="ofertar-form">
                 <label for="nombreProducto" class="form-label">Nombre del producto</label>
-                <input type="text" name="nombreProducto" id="nombreProducto" class="form-control" placeholder="Nombre del producto" required>
+                <input type="text" name="nombreProducto" id="nombreProducto" class="form-control" placeholder="Ejemplo: Tomate Chonto" required>
                 <div class="invalid-feedback">Por favor, escribe un nombre.</div>
             </div>
 
+            <!-- Grid: precio y peso -->
+            <div class="form-grid">
+                <div class="ofertar-form">
+                    <label for="precio" class="form-label">Precio por Kg</label>
+                    <input type="number" step="0.01" name="precio" id="precio" class="form-control" placeholder="Ejemplo: 2500" required>
+                    <div class="invalid-feedback">Por favor, ingrese un precio.</div>
+                </div>
 
-            <div class="ofertar-form">
-                <label for="precio" class="form-label">Precio del producto - POR Kg</label>
-                <input type="number" name="precio" id="precio" class="form-control" placeholder="Ingrese el precio del producto" required>
-                <div class="invalid-feedback">Por favor, ingrese un precio.</div>
+                <div class="ofertar-form">
+                    <label for="pesoKg" class="form-label">Peso en KG</label>
+                    <input type="number" step="0.01" name="pesoKg" id="pesoKg" class="form-control" placeholder="Ejemplo: 10" required>
+                    <div class="invalid-feedback">Por favor, ingrese un peso.</div>
+                </div>
             </div>
 
+            <!-- Grid: stock y descripción -->
+            <div class="form-grid">
+                <div class="ofertar-form">
+                    <label for="stock" class="form-label">Stock</label>
+                    <input type="number" step="0.1" name="stock" id="stock" class="form-control" placeholder="Ejemplo: 50" required>
+                    <div class="invalid-feedback">Por favor, ingrese el Stock.</div>
+                </div>
 
-            <div class="ofertar-form">
-                <label for="descripcion" class="form-label">Descripción</label>
-                <textarea name="descripcion" id="descripcion" class="form-control" placeholder="Describa la oferta" required></textarea>
-                <div class="invalid-feedback">Por favor, ingrese una descripción.</div>
-            </div>
-
-
-            <div class="ofertar-form">
-                <label for="pesoKg" class="form-label">Peso en KG</label>
-                <input type="number" name="pesoKg" id="pesoKg" class="form-control" placeholder="Ingrese el peso en KG" required>
-                <div class="invalid-feedback">Por favor, ingrese un peso.</div>
-            </div>
-
-
-            <div class="ofertar-form">
-                <label for="stock" class="form-label">Stock</label>
-                <input type="number" name="stock" id="stock" class="form-control" placeholder="Ingrese el Stock del producto" required>
-                <div class="invalid-feedback">Por favor, ingrese el Stock.</div>
+                <div class="ofertar-form">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea name="descripcion" id="descripcion" class="form-control" placeholder="Ejemplo: Tomates frescos, cosechados hoy." required></textarea>
+                    <div class="invalid-feedback">Por favor, ingrese una descripción.</div>
+                </div>
             </div>
 
             <button type="submit" class="confirmar-oferta-btn">Guardar Oferta</button>
@@ -98,21 +102,34 @@
     </main>
 </div>
 
-<script>
+    <script>
+        // Previsualización de imagen
+        function previewImage(event) {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(event.target.files[0]);
+            img.style.maxWidth = "200px";
+            img.style.borderRadius = "10px";
+            img.style.marginTop = "10px";
+            preview.appendChild(img);
+        }
 
-    (function () {
-        'use strict';
-        const forms = document.querySelectorAll('.needs-validation');
-        Array.from(forms).forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
-        });
-    })();
-</script>
+        // Validación
+        (function () {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+
 </body>
 </html>

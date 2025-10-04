@@ -115,7 +115,6 @@ public class ProductorService {
 
     public Productor aprobarSolicitud(Long idProductor) {
         Optional<Productor> productorOpt = productorRepository.findById(idProductor);
-        Optional<Usuario> usuarioOpt = usuarioRepository.findById(idProductor);
         if (productorOpt.isEmpty()) {
             throw new RuntimeException("Solicitud de productor no encontrada");
         }
@@ -123,7 +122,10 @@ public class ProductorService {
         Productor productor = productorOpt.get();
         productor.setEstadoSolicitud(Productor.EstadoSolicitud.Aprobado);
         productor.setFechaActualizacion(LocalDateTime.now());
-        emailService.sendAcceptedProducerEmail(usuarioOpt.get().getCorreo(), usuarioOpt.get().getNombreUsuario());
+        emailService.sendAcceptedProducerEmail(
+                usuarioRepository.findById(Long.valueOf(productor.getIdUsuario())).get().getCorreo(),
+                usuarioRepository.findById(Long.valueOf(productor.getIdUsuario())).get().getNombreUsuario()
+        );
 
         return productorRepository.save(productor);
     }

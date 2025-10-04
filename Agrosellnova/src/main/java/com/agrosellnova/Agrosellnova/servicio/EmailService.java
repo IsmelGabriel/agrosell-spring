@@ -3,7 +3,10 @@ package com.agrosellnova.Agrosellnova.servicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class EmailService {
@@ -84,6 +87,54 @@ public class EmailService {
                 "Hemos recibido tu solicitud para ser productor en AgroSell Nova. 🌱\n\n" +
                 "Nuestro equipo revisará tu solicitud y te notificaremos una vez que haya sido procesada.\n\n" +
                 "Gracias por tu interés en unirte a nuestra comunidad.\n\n" +
+                "Saludos,\nEl equipo de AgroSell Nova");
+
+        mailSender.send(message);
+    }
+
+
+    // Enviar a un solo correo
+    public void sendNewProductNotification(String to, String productName, Double productPrice) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Nuevo producto disponible en AgroSell Nova");
+        message.setText("Hola,\n\n" +
+                "¡Tenemos un nuevo producto disponible en AgroSell Nova! 🌟\n\n" +
+                "Producto: " + productName + "\n" +
+                "Precio: " + productPrice + "\n\n" +
+                "Visita nuestra plataforma para más detalles y realizar tu compra.\n\n" +
+                "Saludos,\nEl equipo de AgroSell Nova");
+
+        mailSender.send(message);
+    }
+
+    // Enviar a todos los clientes (asíncrono para no bloquear la publicación del producto)
+    @Async
+    public void sendNewProductNotificationToAll(List<String> correos, String productName, Double ProductPrice) {
+        for (String correo : correos) {
+            sendNewProductNotification(correo, productName, ProductPrice);
+        }
+    }
+
+    public void sendBookingConfirmationEmail(String to, String username, String producto, String bookingDate) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Confirmación de reserva en AgroSell Nova");
+        message.setText("Hola " + username + ",\n\n" +
+                "Tu reserva para el producto '" + producto + "' ha sido confirmada para la fecha: " + bookingDate + ". 📅\n\n" +
+                "Gracias por confiar en AgroSell Nova.\n\n" +
+                "Saludos,\nEl equipo de AgroSell Nova");
+
+        mailSender.send(message);
+    }
+
+    public void sendPaymentConfirmationEmail(String to, String username, String paymentDate, Double amount) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Confirmación de pago en AgroSell Nova");
+        message.setText("Hola " + username + ",\n\n" +
+                "Tu pago de $" + amount + " ha sido recibido con éxito el " + paymentDate + ". 💳\n\n" +
+                "Gracias por tu compra en AgroSell Nova.\n\n" +
                 "Saludos,\nEl equipo de AgroSell Nova");
 
         mailSender.send(message);

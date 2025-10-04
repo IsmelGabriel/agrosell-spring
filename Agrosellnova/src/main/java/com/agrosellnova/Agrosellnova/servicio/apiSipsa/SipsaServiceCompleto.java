@@ -35,29 +35,41 @@ public class SipsaServiceCompleto {
         LocalDateTime unMesAtras = LocalDateTime.now().minusMonths(6);
         eliminarDatosMensualesAntiguos(unMesAtras);
 
+        int registrosGuardados = 0;
+        int registrosDescartados = 0;
         for (Map<String, Object> dato : datos) {
             try {
-                SipsaDatoMensual mensual = new SipsaDatoMensual();
-                mensual.setProducto((String) dato.get("artiNombre"));
-                mensual.setCodigoProducto((Integer) dato.get("artiId"));
-                mensual.setFuente((String) dato.get("fuenNombre"));
-                mensual.setPromedioKg((Double) dato.get("promedioKg"));
-                mensual.setMinimoKg((Double) dato.get("minimoKg"));
-                mensual.setMaximoKg((Double) dato.get("maximoKg"));
 
                 String fechaStr = (String) dato.get("fechaMesIni");
+                LocalDateTime fechaMesInicio = null;
+
                 if (fechaStr != null && !fechaStr.isEmpty()) {
-                    mensual.setFechaMesInicio(parsearFecha(fechaStr));
+                    fechaMesInicio = parsearFecha(fechaStr);
                 }
 
-                datoMensualRepository.save(mensual);
-            } catch (Exception e) {
-                System.err.println("Error guardando dato mensual: " + e.getMessage());
-            }
-        }
+                if (fechaMesInicio != null && fechaMesInicio.isAfter(unMesAtras)) {
+                    SipsaDatoMensual mensual = new SipsaDatoMensual();
+                    mensual.setProducto((String) dato.get("artiNombre"));
+                    mensual.setCodigoProducto((Integer) dato.get("artiId"));
+                    mensual.setFuente((String) dato.get("fuenNombre"));
+                    mensual.setPromedioKg((Double) dato.get("promedioKg"));
+                    mensual.setMinimoKg((Double) dato.get("minimoKg"));
+                    mensual.setMaximoKg((Double) dato.get("maximoKg"));
+                    mensual.setFechaMesInicio(fechaMesInicio);
 
-        return datoMensualRepository.findRecientes(unMesAtras);
+                    datoMensualRepository.save(mensual);
+                    registrosGuardados++;
+                } else {
+                    registrosDescartados++;
+                }
+                } catch (Exception e) {
+            System.err.println("Error guardando dato mensual: " + e.getMessage());
+        }
     }
+
+        System.out.println("Datos mensuales: " + registrosGuardados + " guardados, " + registrosDescartados + " descartados (antiguos)");
+        return datoMensualRepository.findRecientes(unMesAtras);
+}
 
     public List<SipsaDatoMensual> obtenerDatosMensuales() {
         LocalDateTime unMesAtras = LocalDateTime.now().minusMonths(6);
@@ -85,27 +97,39 @@ public class SipsaServiceCompleto {
         LocalDateTime unMesAtras = LocalDateTime.now().minusMonths(1);
         eliminarDatosSemanalesAntiguos(unMesAtras);
 
+        int registrosGuardados = 0;
+        int registrosDescartados = 0;
+
         for (Map<String, Object> dato : datos) {
             try {
-                SipsaDatoSemanal semanal = new SipsaDatoSemanal();
-                semanal.setProducto((String) dato.get("artiNombre"));
-                semanal.setCodigoProducto((Integer) dato.get("artiId"));
-                semanal.setFuente((String) dato.get("fuenNombre"));
-                semanal.setPromedioKg((Double) dato.get("promedioKg"));
-                semanal.setMinimoKg((Double) dato.get("minimoKg"));
-                semanal.setMaximoKg((Double) dato.get("maximoKg"));
-
                 String fechaStr = (String) dato.get("fechaIni");
+                LocalDateTime fechaInicioSemana = null;
+
                 if (fechaStr != null && !fechaStr.isEmpty()) {
-                    semanal.setFechaInicioSemana(parsearFecha(fechaStr));
+                    fechaInicioSemana = parsearFecha(fechaStr);
                 }
 
-                datoSemanalRepository.save(semanal);
+                if (fechaInicioSemana != null && fechaInicioSemana.isAfter(unMesAtras)) {
+                    SipsaDatoSemanal semanal = new SipsaDatoSemanal();
+                    semanal.setProducto((String) dato.get("artiNombre"));
+                    semanal.setCodigoProducto((Integer) dato.get("artiId"));
+                    semanal.setFuente((String) dato.get("fuenNombre"));
+                    semanal.setPromedioKg((Double) dato.get("promedioKg"));
+                    semanal.setMinimoKg((Double) dato.get("minimoKg"));
+                    semanal.setMaximoKg((Double) dato.get("maximoKg"));
+                    semanal.setFechaInicioSemana(fechaInicioSemana);
+
+                    datoSemanalRepository.save(semanal);
+                    registrosGuardados++;
+                } else {
+                    registrosDescartados++;
+                }
             } catch (Exception e) {
                 System.err.println("Error guardando dato semanal: " + e.getMessage());
             }
         }
 
+        System.out.println("Datos semanales: " + registrosGuardados + " guardados, " + registrosDescartados + " descartados (antiguos)");
         return datoSemanalRepository.findRecientes(unMesAtras);
     }
 
@@ -136,25 +160,38 @@ public class SipsaServiceCompleto {
         LocalDateTime unMesAtras = LocalDateTime.now().minusMonths(6);
         eliminarAbastecimientoAntiguo(unMesAtras);
 
+        int registrosGuardados = 0;
+        int registrosDescartados = 0;
+
         for (Map<String, Object> dato : datos) {
             try {
-                SipsaAbastecimiento abastecimiento = new SipsaAbastecimiento();
-                abastecimiento.setProducto((String) dato.get("artiNombre"));
-                abastecimiento.setCodigoProducto((Integer) dato.get("artiId"));
-                abastecimiento.setFuente((String) dato.get("fuenNombre"));
-                abastecimiento.setCantidadToneladas((Double) dato.get("cantidadTon"));
 
                 String fechaStr = (String) dato.get("fechaMesIni");
+                LocalDateTime fechaMesInicio = null;
+
                 if (fechaStr != null && !fechaStr.isEmpty()) {
-                    abastecimiento.setFechaMesInicio(parsearFecha(fechaStr));
+                    fechaMesInicio = parsearFecha(fechaStr);
                 }
 
-                abastecimientoRepository.save(abastecimiento);
+                if (fechaMesInicio != null && fechaMesInicio.isAfter(unMesAtras)) {
+                    SipsaAbastecimiento abastecimiento = new SipsaAbastecimiento();
+                    abastecimiento.setProducto((String) dato.get("artiNombre"));
+                    abastecimiento.setCodigoProducto((Integer) dato.get("artiId"));
+                    abastecimiento.setFuente((String) dato.get("fuenNombre"));
+                    abastecimiento.setCantidadToneladas((Double) dato.get("cantidadTon"));
+                    abastecimiento.setFechaMesInicio(fechaMesInicio);
+
+                    abastecimientoRepository.save(abastecimiento);
+                    registrosGuardados++;
+                } else {
+                    registrosDescartados++;
+                }
             } catch (Exception e) {
                 System.err.println("Error guardando abastecimiento: " + e.getMessage());
             }
         }
 
+        System.out.println("Abastecimiento: " + registrosGuardados + " guardados, " + registrosDescartados + " descartados (antiguos)");
         return abastecimientoRepository.findRecientes(unMesAtras);
     }
 

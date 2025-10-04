@@ -41,6 +41,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (usuario.getRol() == null || usuario.getRol().isBlank()) {
             usuario.setRol("cliente");
         }
+        if (usuario.getEstado() == null || usuario.getEstado().isBlank()) {
+            usuario.setEstado("Habilitado");
+        }
 
         usuarioRepository.save(usuario);
 
@@ -81,6 +84,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<Usuario> obtenerTodosLosUsuarios() {
         return usuarioRepository.findAll();
+    }
+
+    @Override
+    public List<Usuario> obtenerTodosLosUsuariosOrdenPorIdDesc() {
+        return usuarioRepository.findAllByOrderByIdDesc();
     }
 
     @Override

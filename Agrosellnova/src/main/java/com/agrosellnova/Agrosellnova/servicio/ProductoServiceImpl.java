@@ -1,7 +1,9 @@
 package com.agrosellnova.Agrosellnova.servicio;
 
 import com.agrosellnova.Agrosellnova.modelo.Producto;
+import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
+import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,26 @@ public class ProductoServiceImpl implements ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @Override
     public void guardarProducto(Producto producto) {
         productoRepository.save(producto);
+
+        List<Usuario> clientes = usuarioRepository.findCorreoByRol("cliente");
+        List<String> correos = clientes.stream()
+                .map(Usuario::getCorreo)
+                .collect(Collectors.toList());
+
+        if (!correos.isEmpty()) {
+            emailService.sendNewProductNotificationToAll(correos, producto.getNombre(), producto.getPrecio());
+        }
     }
+
 
     @Override
     public List<Producto> obtenerTodosLosProductos() {

@@ -39,6 +39,7 @@
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}"><i class="fas fa-calendar-check"></i> Reporte de Reservas</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}"><i class="fas fa-envelope-open-text"></i> Reporte de PQRS</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}"><i class="fas fa-user-cog"></i> Actualizar Roles</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/gestionar_productores}"><i class="fas fa-tractor"></i> Gestionar Productores</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}"><i class="fas fa-users"></i> Usuarios Registrados</a></li>
                 <li th:if="${rol == 'administrador'}"><a th:href="@{/private/dashboard}"><i class ="fas fa-chart-line"></i> Reporte general</a></li>
                 <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
@@ -70,6 +71,7 @@
             </form>
         </div>
 
+        <section class="info-table">
         <table border="1">
             <thead>
             <tr>
@@ -89,7 +91,7 @@
                 <td th:text="${venta.vendedor.nombreUsuario}">vendedor456</td>
                 <td th:text="${venta.producto.nombre}">Papa</td>
                 <td th:text="${venta.cantidadKg}">10</td>
-                <td th:text="${venta.totalVenta}">50000</td>
+                <td th:text="'$'+${#numbers.formatDecimal(venta.totalVenta, 1, 'COMMA', 2, 'POINT')}">50000</td>
                 <td th:text="${#temporals.format(venta.fechaVenta, 'yyyy-MM-dd')}">2024-06-01</td>
             </tr>
             <tr th:if="${#lists.isEmpty(ventas)}">
@@ -97,6 +99,7 @@
             </tr>
             </tbody>
         </table>
+        </section>
     </main>
 </div>
 </body>

@@ -7,6 +7,8 @@ import com.agrosellnova.Agrosellnova.repositorio.CalificacionesRepository;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
 import com.agrosellnova.Agrosellnova.servicio.CalificacionesService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,13 +32,16 @@ public class CalificacionesController {
     public String guardarCalificacion(@RequestParam("idVenta") Long idVenta,
                                       @RequestParam("productoId") Long productoId,
                                       @RequestParam("estrellas") int estrellas,
-                                      @RequestParam("comentario") String comentario) {
+                                      @RequestParam("comentario") String comentario,
+                                      HttpSession session) {
+
+        Long IdUsuario = (Long) session.getAttribute("idUsuario");
 
         Producto producto = productoRepository.findById(productoId)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
 
-        Usuario usuario = usuarioRepository.findById(1L)
+        Usuario usuario = usuarioRepository.findById(IdUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         Calificaciones calificacion = new Calificaciones();

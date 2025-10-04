@@ -497,15 +497,16 @@ footer {
 /* pagina productos */
 
 .producto-titulo {
-    align-items: center;
-    padding: 10px 30px;
-    background-color: #327c28;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #327c28, #45a049);
     text-align: center;
-    font-size: 2em;
-    margin: 10px;
+    font-size: 2rem;
+    font-weight: bold;
     color: #ffffff;
-    border-radius: 50px;
-    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    width: fit-content;
 }
 
 .filtra-productos {
@@ -542,35 +543,37 @@ footer {
 .productos-section {
     margin-top: 50px;
     display: flex;
-    gap: 35px;
+    gap: 25px;
     justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
 }
 
 .productos-imagenes {
-    margin: 15px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
+    width: 250px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    padding: 15px;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .productos-imagenes img {
-    max-height: 200px;
-    max-width: 200px;
-    min-width: 200px;
-    min-height: 200px;
-    border-radius: 15px;
-    transition: transform 0.3s ease;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
 }
 
 .productos-imagenes:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .productos-imagenes img:hover {
@@ -578,29 +581,42 @@ footer {
 }
 
 .productos-texto h3 {
-    color: #327c28;
-    margin-top: 15px;
-    font-size: 1.2em;
+    color: #2f6f2f;
+    margin: 10px 0 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.productos-texto .precio {
+    color: #000;
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-bottom: 10px;
 }
 
 .productos-texto p {
-    max-width: 170px;
-    font-size: 15px;
-    color: #666;
-    margin: 10px 0;
+    font-size: 0.9em;
+    color: #777;
+    margin: 10px auto;
+    max-width: 90%;
 }
 
 .btn-añadir-carrito {
-    margin-bottom: 15px;
-    background-color: #28a745;
-    padding: 10px;
-    border-radius: 10px;
-    color: #f7f7f7;
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #28a745, #34ce57);
+    padding: 12px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
     text-decoration: none;
+    letter-spacing: 1px;
+    transition: background 0.3s ease;
+    margin-top: auto;
 }
 
-/* seccion carrito de compras */
-
+/* pagina carrito de compras */
 .carrito-compra{
     margin-top: 100px;
 }
@@ -624,36 +640,41 @@ footer {
 }
 
 .total-carrito {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
-    margin-bottom: 20px;
-    padding: 20px;
+    color: #333;
+    text-align: right;
+    margin: 20px 0;
 }
 
 .boton-pago {
     display: block;
     width: 100%;
-    padding: 12px;
-    background-color: #4CAF50;
+    padding: 15px;
+    background: linear-gradient(135deg, #28a745, #34ce57);
     color: white;
     text-align: center;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 18px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .boton-pago:hover {
-    background-color: #45a049;
+    background: linear-gradient(135deg, #218838, #28a745);
+    transform: scale(1.02);
 }
 
 .boton-eliminar-carrito {
     background-color: #e74c3c;
-    color: white;
     border: none;
-    padding: 8px 16px;
-    font-size: 14px;
-    border-radius: 5px;
+    padding: 10px 12px;
+    border-radius: 8px;
     cursor: pointer;
+    color: white;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 .boton-eliminar-carrito:hover {
@@ -662,19 +683,25 @@ footer {
 
 .producto-carrito {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    background-color: #f9f9f9;
+    background-color: #fff;
     padding: 15px;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-bottom: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+}
+
+.producto-carrito:hover {
+    transform: scale(1.02);
 }
 
 .producto-carrito img {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .producto-imagen-carrito {
@@ -689,13 +716,22 @@ footer {
 .info-producto-carrito {
     flex-grow: 1;
     margin-left: 15px;
+    text-align: left;
 }
 
+
 .info-producto-carrito p {
-    display:block;
-    margin: 5px 0;
+    margin: 4px 0;
+    font-size: 15px;
+    color: #444;
+}
+
+.info-producto-carrito .precio {
+    font-weight: bold;
+    color: #2f6f2f;
     font-size: 16px;
 }
+
 
 
 
@@ -1002,68 +1038,87 @@ footer {
 /* seccion reservas.html */
 
 .titulo-reservas {
-    align-items: center;
-    padding: 10px 30px;
-    background-color: #327c28;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #327c28, #45a049);
     text-align: center;
-    font-size: 2em;
-    margin: 10px;
+    font-size: 2rem;
+    font-weight: bold;
     color: #ffffff;
-    border-radius: 50px;
-    box-shadow: 2px 4px 8px;
+    border-radius: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    width: fit-content;
+}
+
+.reserva-info-section {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 0 15px;
 }
 
 .producto-reserva {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 8px;
+    background: #ffffff;
+    border: none;
+    border-radius: 15px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 250px;
+}
+
+.producto-reserva:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .producto-imagen-reserva {
-    max-width: 150px;
-    max-height: 150px;
-    min-width: 150px;
-    min-height: 150px;
-    border-radius: 8px;
-    margin-bottom: 10px; 
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.producto-reserva:hover .producto-imagen-reserva {
+    transform: scale(1.05);
+}
+
+.producto-reserva h3 {
+    font-size: 1.3rem;
+    color: #2e7d32;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.producto-reserva p {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 10px;
+    line-height: 1.4;
 }
 
 .btn-reserva {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #23A026;
-    color: white;
+    background: #23A026;
+    color: #fff;
     text-decoration: none;
-    border-radius: 5px;
-    margin-top: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .btn-reserva:hover {
-    background-color: #1e8122;
+    background: #1e8122;
+    transform: scale(1.05);
 }
 
-.reserva-info-section {
-    margin-top: 50px;
-    display: flex;
-    gap: 35px;
-    justify-content: center;
-    align-items: flex-start;
-    flex-wrap: wrap;
-}
 
-.producto-reserva h3 {
-    font-size: 22px;
-    margin-top: 15px;
-}
-
-.producto-reserva p {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 15px;
-}
 
 /* seccion about_us.html */
 
@@ -1136,14 +1191,16 @@ footer {
 /* seccion contactanos.html */
 
 .contactanos-titulo h2 {
-    color: #f7f7f7;
-    align-items: center;
-    padding: 18px 20px;
-    border-radius: 15px;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #327c28, #45a049);
     text-align: center;
-    background-color: #327c28;
-    font-size: 30px;
-    margin: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffffff;
+    border-radius: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    width: fit-content;
 }
 
 .contactanos-descripcion h1 {

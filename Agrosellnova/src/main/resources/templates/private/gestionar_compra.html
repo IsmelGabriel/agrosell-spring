@@ -9,34 +9,40 @@
 
     <style>
         .btn-icon {
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
         }
+
         .btn-icon:hover {
-         transform: scale(1.2);
-         }
+            transform: scale(1.2);
+        }
+
         .modal {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 999;
         }
+
         .modal-content {
             background: #fff;
             padding: 25px 30px;
             border-radius: 12px;
             width: 500px;
             max-width: 90%;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             position: relative;
             animation: fadeIn 0.3s ease-in-out;
         }
+
         .modal-title {
             text-align: center;
             margin-bottom: 20px;
@@ -44,6 +50,7 @@
             font-weight: bold;
             color: #2e7d32;
         }
+
         .cerrar {
             position: absolute;
             top: 15px;
@@ -52,19 +59,23 @@
             cursor: pointer;
             color: #666;
         }
+
         .form-calificacion {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
+
         .form-group {
             display: flex;
             flex-direction: column;
         }
+
         .form-group label {
             font-weight: bold;
             margin-bottom: 5px;
         }
+
         .form-group select,
         .form-group textarea {
             padding: 10px;
@@ -72,9 +83,11 @@
             border-radius: 6px;
             font-size: 14px;
         }
+
         .form-group textarea {
             resize: none;
         }
+
         .modal-actions {
             display: flex;
             justify-content: flex-end;
@@ -91,9 +104,11 @@
             cursor: pointer;
             transition: 0.2s;
         }
+
         .btn-cancelar:hover {
             background: #d32f2f;
         }
+
         .btn-guardar {
             background: #4caf50;
             color: #fff;
@@ -103,12 +118,20 @@
             cursor: pointer;
             transition: 0.2s;
         }
+
         .btn-guardar:hover {
             background: #2e7d32;
         }
+
         @keyframes fadeIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -138,13 +161,20 @@
         <div class="lateral-content">
             <ul>
                 <!-- CLIENTE -->
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}"><i class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver Productos</a></li>
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}"><i class="fas fa-plus-circle"></i> Realizar Reserva</a></li>
-                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/ser_productor}"><i class="fas fa-tractor"></i> Ser Productor</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a>
+                </li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi
+                    informacion</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}"><i
+                        class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i
+                        class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver
+                    Productos</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}"><i class="fas fa-plus-circle"></i>
+                    Realizar Reserva</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/ser_productor}"><i class="fas fa-tractor"></i>
+                    Ser Productor</a></li>
                 <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </div>
@@ -178,40 +208,42 @@
 
         </div>
 
-        <table border="1">
-            <thead>
-            <tr>
-                <th>ID Venta</th>
-                <th>Vendedor</th>
-                <th>Producto</th>
-                <th>Cantidad (Kg)</th>
-                <th>Total ($)</th>
-                <th>Fecha</th>
-                <th>Calificación</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="venta : ${listaCompra}">
-                <td th:text="${venta.idVenta}">1</td>
-                <td th:text="${venta.vendedor.nombreUsuario}">vendedor456</td>
-                <td th:text="${venta.producto.nombre}">Papa</td>
-                <td th:text="${venta.cantidadKg}">10</td>
-                <td th:text="${venta.totalVenta}">50000</td>
-                <td th:text="${#temporals.format(venta.fechaVenta, 'yyyy-MM-dd')}">2024-06-01</td>
-                <td>
-                    <button type="button"
-                            th:onclick="|abrirModal(${venta.idVenta}, ${venta.producto.id})|"
-                            class="btn-icon">
-                        🥕
-                    </button>
-                </td>
+        <section class="info-table">
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>ID Venta</th>
+                    <th>Vendedor</th>
+                    <th>Producto</th>
+                    <th>Cantidad (Kg)</th>
+                    <th>Total ($)</th>
+                    <th>Fecha</th>
+                    <th>Calificación</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="venta : ${listaCompra}">
+                    <td th:text="${venta.idVenta}">1</td>
+                    <td th:text="${venta.vendedor.nombreUsuario}">vendedor456</td>
+                    <td th:text="${venta.producto.nombre}">Papa</td>
+                    <td th:text="${venta.cantidadKg}">10</td>
+                    <td th:text="${venta.totalVenta}">50000</td>
+                    <td th:text="${#temporals.format(venta.fechaVenta, 'yyyy-MM-dd')}">2024-06-01</td>
+                    <td>
+                        <button type="button"
+                                th:onclick="|abrirModal(${venta.idVenta}, ${venta.producto.id})|"
+                                class="btn-icon">
+                            🥕
+                        </button>
+                    </td>
 
-            </tr>
-            <tr th:if="${#lists.isEmpty(listaCompra)}">
-                <td colspan="10">No tienes compras registradas en este momento.</td>
-            </tr>
-            </tbody>
-        </table>
+                </tr>
+                <tr th:if="${#lists.isEmpty(listaCompra)}">
+                    <td colspan="10">No tienes compras registradas en este momento.</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
     </main>
 
     <!-- MODAL PARA CALIFICACIÓN -->

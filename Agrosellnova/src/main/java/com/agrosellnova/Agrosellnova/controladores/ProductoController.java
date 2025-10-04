@@ -2,6 +2,8 @@ package com.agrosellnova.Agrosellnova.controladores;
 
 import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
+import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
+import com.agrosellnova.Agrosellnova.servicio.EmailService;
 import com.agrosellnova.Agrosellnova.servicio.ProductoService;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +35,10 @@ public class ProductoController {
     private ProductoRepository productoRepository;
 
     @Autowired
-    private UsuarioServiceImpl usuarioService;
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/public/productos")
     public String mostrarProductos(
@@ -68,7 +74,7 @@ public class ProductoController {
         if (criterio != null && valor != null && !criterio.isEmpty() && !valor.isEmpty()) {
             listaProductos = productoService.filtrarProductos(usuario, criterio, valor);
         }else {
-            listaProductos = productoService.obtenerProductosPorProductor(usuario);
+            listaProductos = productoRepository.findByUsuarioCampesinoOrderByIdDesc(usuario);
         }
 
         model.addAttribute("listaProductos", listaProductos);
@@ -76,6 +82,47 @@ public class ProductoController {
         model.addAttribute("rol", rol);
 
         return "private/gestionar_productos";
+    }
+
+    @PostMapping("/guardar_producto")
+    public String guardarProductoReserva(
+            @RequestParam("usuario") String nombreUsuario,
+            @RequestParam("productoImagen") MultipartFile imagen,
+            @RequestParam("nombreProducto") String nombre,
+            @RequestParam("precio") double precio,
+            @RequestParam("descripcion") String descripcion,
+            @RequestParam("pesoKg") double pesoKg,
+            @RequestParam("stock") int stock
+    ) {
+        try {
+            String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
+            String rutaAbsoluta = new File("Agrosellnova/src/main/resources/static/img/productos").getAbsolutePath();
+
+            Files.createDirectories(Paths.get(rutaAbsoluta));
+            Path path = Paths.get(rutaAbsoluta, nombreArchivo);
+            Files.write(path, imagen.getBytes());
+            String rutaRelativa = "../img/productos/" + nombreArchivo;
+
+            Producto producto = new Producto();
+            producto.setUsuarioCampesino(nombreUsuario);
+            producto.setImagen(rutaRelativa);
+            producto.setNombre(nombre);
+            producto.setPrecio(precio);
+            producto.setDescripcion(descripcion);
+            producto.setPesoKg(pesoKg);
+            producto.setStock(stock);
+            producto.setEstado("Disponible");
+            producto.setFechaCosecha(LocalDate.now());
+
+            // Solo delega al servicio
+            productoService.guardarProducto(producto);
+
+            return "redirect:/private/gestionar_productos";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/error";
+        }
     }
 
 
@@ -98,11 +145,11 @@ public class ProductoController {
 
             if (nuevaImagen != null && !nuevaImagen.isEmpty()) {
                 String nombreArchivo = UUID.randomUUID().toString() + "_" + nuevaImagen.getOriginalFilename();
-                String rutaAbsoluta = new File("src/main/resources/static/img").getAbsolutePath();
+                String rutaAbsoluta = new File("src/main/resources/static/img/productos").getAbsolutePath();
                 Path path = Paths.get(rutaAbsoluta + File.separator + nombreArchivo);
                 Files.write(path, nuevaImagen.getBytes());
 
-                existente.setImagen("../img/" + nombreArchivo);
+                existente.setImagen("../img/productos/" + nombreArchivo);
             }
 
             productoRepository.save(existente);
