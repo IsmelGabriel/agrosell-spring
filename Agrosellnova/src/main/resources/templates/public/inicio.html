@@ -97,122 +97,230 @@
                     </div>
                 </div>
         </section>
-        <section class="opiniones">
-            <h2>Opiniones de nuestros clientes</h2>
 
-            <div class="carousel">
-                <div class="carousel-item active">
-                    <p>"Excelente plataforma, pude vender mis productos sin intermediarios y con pago justo."</p>
-                    <span>- Carlos, productor de café</span>
-                </div>
 
-                <div class="carousel-item">
-                    <p>"La calidad de los alimentos es increíble, todo muy fresco y llego rápido."</p>
-                    <span>- María, consumidora</span>
-                </div>
+        <section class="noticias">
+            <h2 class="titulo-seccion">📰 Últimas Noticias del Campo</h2>
+            <p class="subtitulo">Mantente informado sobre las novedades del sector agrícola y nuestras iniciativas</p>
 
-                <div class="carousel-item">
-                    <p>"Gracias a Agrosell Nova recibo un pago justo por mi trabajo y más clientes directos."</p>
-                    <span>- Andrés, agricultor</span>
-                </div>
-            </div>
+            <div class="contenedor-noticias">
 
-            <div class="carousel-controls">
-                <button id="prevBtn" aria-label="Anterior">&#10094;</button>
-                <button id="nextBtn" aria-label="Siguiente">&#10095;</button>
-            </div>
+                <article class="noticia">
+                    <img src="https://blog.aepla.es/wp-content/uploads/2020/07/principios-agricultura-sostenible-fao-aepla.jpg" alt="Agricultura sostenible">
+                    <div class="contenido-noticia">
+                        <h3>Avanza la agricultura sostenible en el Caribe colombiano</h3>
+                        <p>Productores locales implementan nuevas técnicas ecológicas para mejorar la calidad del suelo y proteger el medio ambiente.</p>
+                        <a href="#" class="boton-leer">Leer más</a>
+                    </div>
+                </article>
 
-            <div class="carousel-dots" id="dots">
-                <!-- dots se crean por JS -->
+
+                <article class="noticia">
+                    <img src="https://tse2.mm.bing.net/th/id/OIP._ZSP9UI052VdsSucHeYpawHaF2?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Feria agrícola">
+                    <div class="contenido-noticia">
+                        <h3>Agrosell Nova participó en la Feria Agroexpo 2025</h3>
+                        <p>La plataforma presentó sus avances en conexión directa entre campesinos y compradores, impulsando el comercio justo.</p>
+                        <a href="#" class="boton-leer">Leer más</a>
+                    </div>
+                </article>
+
+
+                <article class="noticia">
+                    <img src="https://tse1.mm.bing.net/th/id/OIP.5BUFjg4Fizbau0r7lQmziQHaEK?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Exportaciones">
+                    <div class="contenido-noticia">
+                        <h3>Aumentan las exportaciones de productos orgánicos</h3>
+                        <p>Colombia logra posicionar nuevos productos agrícolas en mercados internacionales gracias al trabajo de pequeños productores.</p>
+                        <a href="#" class="boton-leer">Leer más</a>
+                    </div>
+                </article>
             </div>
         </section>
 
         <style>
-            /* Sección de Opiniones */
+.noticias {
+  background-color: #f8f9fa;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.titulo-seccion {
+  font-size: 2rem;
+  color: #2e7d32;
+  margin-bottom: 10px;
+}
+
+.subtitulo {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.contenedor-noticias {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.noticia {
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.noticia:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.noticia img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.contenido-noticia {
+  padding: 20px;
+  text-align: left;
+}
+
+.contenido-noticia h3 {
+  font-size: 1.2rem;
+  color: #2e7d32;
+  margin-bottom: 10px;
+}
+
+.contenido-noticia p {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+}
+
+.boton-leer {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: #2e7d32;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.boton-leer:hover {
+  background-color: #1b5e20;
+}
+   </style>
+
+
+        <section class="opiniones">
+            <h2 class="titulo-seccion">Opiniones de Nuestros Usuarios</h2>
+
+            <div class="carrusel-opiniones">
+                <div class="opinion active">
+                    <p>"Gracias a esta plataforma, puedo vender mis productos directamente y obtener mejores ganancias."</p>
+                    <h4>- Juan Pérez, Productor de Café</h4>
+                </div>
+                <div class="opinion">
+                    <p>"Me encanta la calidad de los productos y la rapidez en las entregas. Todo muy fresco."</p>
+                    <h4>- María González, Compradora</h4>
+                </div>
+                <div class="opinion">
+                    <p>"Es una gran iniciativa que apoya al campo y promueve el comercio justo."</p>
+                    <h4>- Luis Rodríguez, Agricultor</h4>
+                </div>
+                <div class="opinion">
+                    <p>"Desde que uso esta plataforma, mis ventas han aumentado y tengo contacto directo con mis clientes."</p>
+                    <h4>- Ana Torres, Productora de Frutas</h4>
+                </div>
+                <div class="opinion">
+                    <p>"Excelente experiencia. Todo es muy intuitivo y los productos son de excelente calidad."</p>
+                    <h4>- Pedro Martínez, Cliente frecuente</h4>
+                </div>
+            </div>
+
+            <div class="controles">
+                <button class="prev">&#10094;</button>
+                <button class="next">&#10095;</button>
+            </div>
+        </section>
+
+        <style>
+
             .opiniones {
-                text-align: center;
-                padding: 60px 20px;
-                background-color: #f4f9f4;
+              background: linear-gradient(#e8f5e9, #e4f2e7, #d9ede0); /* degradado suave verde claro */
+              padding: 50px 0 30px 0; /* reduce el espacio inferior */
+              margin: 0;
+              border: none;
+              box-shadow: none;
+              text-align: center;
+              transition: background 0.3s ease-in-out;
             }
 
-            .opiniones h2 {
-                font-size: 2rem;
-                margin-bottom: 30px;
-                color: #2e7d32; /* verde oscuro */
+
+            footer {
+              margin-top: 0 !important;
+              padding-top: 0 !important;
             }
 
-            .carousel {
-                position: relative;
-                max-width: 700px;
-                margin: 0 auto;
-                overflow: hidden;
+
+            .carrusel-opiniones {
+              position: relative;
+              max-width: 700px;
+              margin: 0 auto;
+              overflow: hidden;
             }
 
-            .carousel-item {
-                display: none;
-                font-size: 1.2rem;
-                color: #333;
-                transition: opacity 0.5s ease-in-out;
+            .opinion {
+              display: none;
+              opacity: 0;
+              transition: opacity 0.6s ease;
             }
 
-            .carousel-item.active {
-                display: block;
+            .opinion.active {
+              display: block;
+              opacity: 1;
             }
 
-            .carousel-item p {
-                font-style: italic;
-                margin-bottom: 10px;
-                color: #2e7d32; /* verde oscuro */
+            .opinion p {
+              font-size: 1.1rem;
+              color: #333;
+              margin-bottom: 15px;
+              line-height: 1.5;
             }
 
-            .carousel-item span {
-                display: block;
-                font-size: 0.95rem;
-                font-weight: bold;
-                color: #1b5e20; /* verde aún más oscuro */
+            .opinion h4 {
+              color: #2e7d32;
+              font-weight: 600;
             }
 
-            /* Botones */
-            .carousel-controls {
-                margin-top: 20px;
+            /* ===== Botones del carrusel ===== */
+            .controles {
+              margin-top: 25px;
             }
 
-            .carousel-controls button {
-                background-color: #2e7d32; /* verde oscuro */
-                border: none;
-                color: white;
-                font-size: 1.5rem;
-                cursor: pointer;
-                padding: 8px 14px;
-                border-radius: 50%;
-                margin: 0 8px;
-                transition: background 0.3s;
+            .controles button {
+              background-color: #28a745;
+              color: white;
+              border: none;
+              padding: 10px 16px;
+              margin: 0 8px;
+              border-radius: 50%;
+              font-size: 18px;
+              cursor: pointer;
+              transition: background 0.3s ease;
             }
 
-            .carousel-controls button:hover {
-                background-color: #1b5e20;
-            }
-
-            /* Dots */
-            .carousel-dots {
-                margin-top: 15px;
-            }
-
-            .carousel-dots span {
-                display: inline-block;
-                height: 12px;
-                width: 12px;
-                margin: 0 5px;
-                background-color: #c8e6c9; /* verde clarito */
-                border-radius: 50%;
-                cursor: pointer;
-                transition: background 0.3s;
-            }
-
-            .carousel-dots .active {
-                background-color: #2e7d32; /* verde oscuro */
+            .controles button:hover {
+              background-color: #1e7e34;
             }
         </style>
+
+
+
 
     </section>
 </main>
@@ -288,6 +396,27 @@
         menuBar.classList.toggle('active');
     });
 </script>
+
+<script>
+    let indice = 0;
+    const opiniones = document.querySelectorAll(".opinion");
+    const prevBtn = document.querySelector(".prev");
+    const nextBtn = document.querySelector(".next");
+
+    function mostrarOpinion(nueva) {
+      opiniones[indice].classList.remove("active");
+      indice = (nueva + opiniones.length) % opiniones.length;
+      opiniones[indice].classList.add("active");
+    }
+
+    prevBtn.addEventListener("click", () => mostrarOpinion(indice - 1));
+    nextBtn.addEventListener("click", () => mostrarOpinion(indice + 1));
+
+    // Cambio automático cada 6 segundos
+    setInterval(() => mostrarOpinion(indice + 1), 6000);
+</script>
+
+
 
 </body>
 </html>
