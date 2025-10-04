@@ -78,7 +78,9 @@
                 <th>Nombre</th>
                 <th>Correo</th>
                 <th>Telefono</th>
+                <th>Tipo</th>
                 <th>Mensaje</th>
+                <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -87,7 +89,11 @@
                 <td th:text="${pqrs.nombre}">Nombre</td>
                 <td th:text="${pqrs.correo}">correo@correo.com</td>
                 <td th:text="${pqrs.telefono}">3001234567</td>
+                <td th:text="${pqrs.tipo}">Tipo</td>
                 <td th:text="${pqrs.mensaje}">Mensaje</td>
+                <td>
+                    <button class="btn-ver">Gestionar</button>
+                </td>
             </tr>
 
             <tr th:if="${#lists.isEmpty(pqrsList)}">

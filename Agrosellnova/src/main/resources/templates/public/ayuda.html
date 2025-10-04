@@ -127,6 +127,17 @@
             <input type="text" class="form-control" id="TELEFONO" name="telefono" placeholder="Ingresa tu número de teléfono" maxlength="10" required />
             <div class="invalid-feedback">Por favor ingresa tu número de teléfono.</div>
           </div>
+            <div class="mb-3">
+                <label for="TIPO" class="form-label">Tipo de consulta</label>
+                <select class="form-select" id="TIPO" name="tipo" required>
+                    <option value="" disabled selected>Selecciona un tipo</option>
+                    <option value="Consulta">Consulta</option>
+                    <option value="Queja">Queja</option>
+                    <option value="Reclamo">Reclamo</option>
+                    <option value="Sugerencia">Sugerencia</option>
+                </select>
+                <div class="invalid-feedback">Por favor selecciona un tipo de consulta.</div>
+            </div>
           <div class="mb-3">
             <label for="MENSAJE" class="form-label">Consulta o solicitud</label>
             <textarea class="form-control" id="MENSAJE" name="mensaje" rows="4" placeholder="Describe tu consulta o solicitud" required></textarea>

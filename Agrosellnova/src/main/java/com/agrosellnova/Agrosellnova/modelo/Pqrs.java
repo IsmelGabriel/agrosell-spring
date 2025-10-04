@@ -20,6 +20,9 @@ public class Pqrs {
     @Column(name = "TELEFONO")
     private String telefono;
 
+    @Column(name = "TIPO")
+    private String tipo;
+
     @Column(name = "MENSAJE", length = 1000)
     private String mensaje;
 
@@ -51,6 +54,13 @@ public class Pqrs {
     }
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getMensaje() {
