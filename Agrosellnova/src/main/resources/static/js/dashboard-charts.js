@@ -67,3 +67,30 @@ fetch('/dashboard/productos-mas-vendidos')
             }
         });
     });
+
+function exportarReporteCompleto() {
+    const chart1 = document.getElementById('monthlySalesChart').toDataURL('image/png');
+    const chart2 = document.getElementById('topProductsChart').toDataURL('image/png');
+
+    const formData = new FormData();
+    formData.append('chart1', chart1);
+    formData.append('chart2', chart2);
+
+    fetch('/private/export/reporte-completo', {
+        method: 'POST',
+        body: formData
+    })
+        .then(resp => {
+            if (resp.ok) return resp.blob();
+            else throw new Error('Error al generar el PDF');
+        })
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Reporte_Completo_AgroSell.pdf';
+            a.click();
+        })
+        .catch(err => console.error(err));
+}
+
