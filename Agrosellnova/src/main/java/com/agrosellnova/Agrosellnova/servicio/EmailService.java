@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -109,7 +110,7 @@ public class EmailService {
     }
 
     // Enviar a todos los clientes (asíncrono para no bloquear la publicación del producto)
-    @Async
+    @Async("taskExecutor")
     public void sendNewProductNotificationToAll(List<String> correos, String productName, Double ProductPrice) {
         for (String correo : correos) {
             sendNewProductNotification(correo, productName, ProductPrice);

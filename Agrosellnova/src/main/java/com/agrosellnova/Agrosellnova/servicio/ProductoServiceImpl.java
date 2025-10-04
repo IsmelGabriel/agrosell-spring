@@ -5,6 +5,7 @@ import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,6 +24,9 @@ public class ProductoServiceImpl implements ProductoService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private NotificacionAsyncService notificacionAsyncService;
+
     @Override
     public void guardarProducto(Producto producto) {
         productoRepository.save(producto);
@@ -33,7 +37,7 @@ public class ProductoServiceImpl implements ProductoService {
                 .collect(Collectors.toList());
 
         if (!correos.isEmpty()) {
-            emailService.sendNewProductNotificationToAll(correos, producto.getNombre(), producto.getPrecio());
+            notificacionAsyncService.enviarCorreosAsync(correos, producto.getNombre(), producto.getPrecio());
         }
     }
 
