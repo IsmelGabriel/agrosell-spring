@@ -103,7 +103,7 @@
                     <td th:text="${pqrs.telefono}">3001234567</td>
                     <td th:text="${pqrs.tipo}">Tipo</td>
                     <td th:text="${pqrs.estado}">Estado</td>
-                    <td th:text="${pqrs.mensaje}">Mensaje</td>
+                    <td class="td-mensaje-pqrs" th:text="${pqrs.mensaje}">Mensaje</td>
                     <td>
                         <button class="btn-ver" onclick="abrirModal(this)"
                                 th:data-id="${pqrs.idPqrs}"
