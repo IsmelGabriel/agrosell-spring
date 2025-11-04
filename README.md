@@ -46,7 +46,7 @@ El sistema está diseñado para diferentes roles de usuario (administrador, camp
 
 Antes de ejecutar el proyecto asegúrate de tener instalado:
 
-- [Java 17 o superior]([https://adoptium.net/](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html))
+- [Java 17 o superior](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 - [MySQL](https://dev.mysql.com/downloads/)
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/)
 - [Maven](https://maven.apache.org/)
