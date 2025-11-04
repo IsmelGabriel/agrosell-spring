@@ -249,22 +249,20 @@ public class AdministradorController {
         List<Pqrs> lista;
 
         if (criterio != null && valor != null && !valor.isBlank()) {
-            switch (criterio) {
-                case "id":
-                    lista = pqrsRepository.findAllByIdPqrs(Long.parseLong(valor));
-                    break;
-                case "usuario":
-                    lista = pqrsRepository.findByNombreContainingIgnoreCase(valor);
-                    break;
-                case "correo":
-                    lista = pqrsRepository.findByCorreoContainingIgnoreCase(valor);
-                    break;
-                case "telefono":
-                    lista = pqrsRepository.findByTelefonoContainingIgnoreCase(valor);
-                    break;
-                default:
-                    lista = pqrsRepository.findAll();
+            if (criterio.equals("estado") && valor.toUpperCase().startsWith("R")) {
+                valor = "RESUELTO";
+            }else if (criterio.equals("estado") && valor.toUpperCase().startsWith("P")) {
+                valor = "PENDIENTE";
             }
+
+            lista = switch (criterio) {
+                case "id" -> pqrsRepository.findAllByIdPqrs(Long.parseLong(valor));
+                case "usuario" -> pqrsRepository.findByNombreContainingIgnoreCase(valor);
+                case "correo" -> pqrsRepository.findByCorreoContainingIgnoreCase(valor);
+                case "telefono" -> pqrsRepository.findByTelefonoContainingIgnoreCase(valor);
+                case "estado" -> pqrsRepository.findByEstado(Pqrs.Estado.valueOf(valor));
+                default -> pqrsRepository.findAll();
+            };
         } else {
             lista = pqrsRepository.findAll();
         }
