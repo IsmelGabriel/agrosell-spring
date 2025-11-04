@@ -1,6 +1,8 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
 import com.agrosellnova.Agrosellnova.modelo.Pqrs;
+import com.agrosellnova.Agrosellnova.repositorio.PqrsRepository;
+import com.agrosellnova.Agrosellnova.servicio.EmailService;
 import com.agrosellnova.Agrosellnova.servicio.PqrsService;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -8,6 +10,8 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -15,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/public")
@@ -22,6 +27,12 @@ public class PqrsController {
 
     @Autowired
     private PqrsService pqrsService;
+
+    @Autowired
+    private PqrsRepository pqrsRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/registrarPQRS")
     public String registrarPqrs(@ModelAttribute Pqrs pqrs, RedirectAttributes redirectAttrs) {
@@ -103,4 +114,35 @@ public class PqrsController {
         cell.setPadding(5);
         table.addCell(cell);
     }
+
+    @PostMapping("/private/gestionar_pqrs/responder/{idPqrs}")
+    @ResponseBody
+    public ResponseEntity<?> responderPqrs(
+            @PathVariable Long idPqrs,
+            @RequestParam("respuesta") String respuesta) {
+
+        Pqrs pqrs = pqrsService.obtenerPorId(idPqrs);
+
+        if (pqrs == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "PQRS no encontrada"));
+        }
+
+        // Cambiar el estado a RESUELTO
+        pqrs.setEstado(Pqrs.Estado.RESUELTO);
+        pqrsService.guardar(pqrs);
+
+        try {
+            // Enviar correo con la respuesta escrita por el administrador
+            emailService.sendResponsePqrsEmail(pqrs.getCorreo(), pqrs.getNombre(), respuesta);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "PQRS resuelta pero falló el envío del correo."));
+        }
+
+        return ResponseEntity.ok(Map.of("mensaje", "PQRS resuelta y correo enviado correctamente"));
+    }
+
+
 }

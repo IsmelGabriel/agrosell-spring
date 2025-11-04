@@ -141,4 +141,17 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    public void sendResponsePqrsEmail(String to, String username, String respuesta) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Respuesta a tu PQRS en AgroSell Nova");
+        message.setText("Hola " + username + ",\n\n" +
+                "Hemos respondido a tu PQRS:\n\n" +
+                respuesta + "\n\n" +
+                "Gracias por contactarnos.\n\n" +
+                "Saludos,\nEl equipo de AgroSell Nova");
+
+        mailSender.send(message);
+    }
+
 }

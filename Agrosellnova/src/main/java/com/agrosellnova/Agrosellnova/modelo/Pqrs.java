@@ -6,6 +6,11 @@ import jakarta.persistence.*;
 @Table(name = "pqrs")
 public class Pqrs {
 
+    public enum Estado {
+        PENDIENTE,
+        RESUELTO
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_PQRS")
@@ -24,7 +29,8 @@ public class Pqrs {
     private String tipo;
 
     @Column(name = "ESTADO")
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
 
     @Column(name = "MENSAJE", length = 1000)
     private String mensaje;
@@ -66,10 +72,10 @@ public class Pqrs {
         this.tipo = tipo;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
 

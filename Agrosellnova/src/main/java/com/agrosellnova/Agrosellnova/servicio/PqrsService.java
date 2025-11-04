@@ -12,6 +12,10 @@ public class PqrsService {
 
     @Autowired
     private PqrsRepository pqrsRepository;
+
+    public Pqrs obtenerPorId(Long id) {
+        return pqrsRepository.findById(id).orElse(null);
+    }
     public List<Pqrs> listarTodas() {
         return pqrsRepository.findAll();
     }
