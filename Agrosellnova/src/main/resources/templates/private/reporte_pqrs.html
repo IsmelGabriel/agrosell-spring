@@ -52,7 +52,9 @@
         <h1>Registro de PQRS</h1>
         <div class="table-actions">
             <form th:action="@{/private/reporte_pqrs}" method="get" class="filtro-form">
-                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+                <label>
+                    <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+                </label>
                 <select name="criterio" class="filtro-select">
                     <option value="">Selecciona un criterio</option>
                     <option value="id">ID Pqrs</option>
@@ -74,22 +76,22 @@
         <table border="1">
             <thead>
             <tr>
-                <th>ID</th>
                 <th>Nombre</th>
                 <th>Correo</th>
                 <th>Telefono</th>
                 <th>Tipo</th>
+                <th>Estado</th>
                 <th>Mensaje</th>
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="pqrs : ${pqrsList}">
-                <td th:text="${pqrs.idPqrs}">1</td>
                 <td th:text="${pqrs.nombre}">Nombre</td>
                 <td th:text="${pqrs.correo}">correo@correo.com</td>
                 <td th:text="${pqrs.telefono}">3001234567</td>
                 <td th:text="${pqrs.tipo}">Tipo</td>
+                <td th:text="${pqrs.estado}">Estado</td>
                 <td th:text="${pqrs.mensaje}">Mensaje</td>
                 <td>
                     <button class="btn-ver">Gestionar</button>
