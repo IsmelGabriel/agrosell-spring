@@ -62,6 +62,583 @@
 </nav>
 
 
+<!-- ====== SECCIÓN PRINCIPAL: EN QUÉ PODEMOS AYUDARTE ====== -->
+<section class="help-hero">
+    <div class="help-title">
+        <h1>¿En qué podemos ayudarte?</h1>
+    </div>
+
+
+</section>
+
+<style>
+    /* ====== SECCIÓN PRINCIPAL ====== */
+    .help-hero {
+      width: 100%;
+      background-color: #ffffff; /* fondo blanco general */
+      display: flex;
+      flex-direction: column;
+      padding-top: 120px;
+      align-items: center;
+    }
+
+    /* ====== TÍTULO SUPERIOR ====== */
+    .help-title {
+      width: 100%;
+      background-color: #ffffff; /* verde corporativo */
+      color: #2b7034;
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
+    .help-title h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: 1px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    /* ====== ANIMACIÓN ====== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ====== RESPONSIVE ====== */
+    @media (max-width: 768px) {
+      .help-title h1 {
+        font-size: 2rem;
+      }
+
+      .search-box {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .search-box button {
+        width: 100%;
+      }
+    }
+</style>
+
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Ayuda</title>
+    <style>
+        body {
+          font-family: 'Poppins', sans-serif;
+          background-color: #ffffff;
+          margin: 0;
+          padding: 0;
+        }
+
+        .container {
+          max-width: 1200px;
+          margin: 60px auto;
+          padding: 0 20px;
+        }
+
+        h2 {
+          text-align: center;
+          font-size: 2rem;
+          color: #2b7034;
+          margin-bottom: 40px;
+          font-weight: 700;
+        }
+
+        /* === GRID TARJETAS === */
+        .card-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 25px;
+        }
+
+        /* === TARJETAS === */
+        .card {
+          background: #fff;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+          transition: transform 0.3s, box-shadow 0.3s;
+          cursor: pointer;
+        }
+
+        .card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+
+        .card img {
+          width: 100%;
+          height: 180px;
+          object-fit: cover;
+        }
+
+        .card-content {
+          padding: 18px 22px;
+        }
+
+        .card-content h3 {
+          font-size: 1.3rem;
+          font-weight: 700;
+          color: #111;
+          margin-bottom: 8px;
+        }
+
+        .card-content p {
+          font-size: 0.95rem;
+          color: #555;
+          line-height: 1.5;
+        }
+
+        /* === MODAL === */
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 999;
+          left: 0; top: 0;
+          width: 100%; height: 100%;
+          background: rgba(0,0,0,0.5);
+          justify-content: center;
+          align-items: center;
+        }
+
+        .modal-content {
+          background: #fff;
+          border-radius: 16px;
+          padding: 30px;
+          width: 90%;
+          max-width: 500px;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+          position: relative;
+          animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+          from { transform: scale(0.95); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+
+        .close {
+          position: absolute;
+          top: 10px;
+          right: 15px;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: #333;
+        }
+
+        .modal-content h3 {
+          margin-bottom: 15px;
+          font-weight: 600;
+          color: #2b7034;
+        }
+
+        .modal-content form {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+          padding: 10px;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+          font-size: 1rem;
+        }
+
+        .modal-content button {
+          background: #2b7034;
+          color: #fff;
+          border: none;
+          padding: 12px;
+          border-radius: 8px;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: background 0.3s;
+        }
+
+        .modal-content button:hover {
+          background: #24602c;
+        }
+
+        iframe {
+          width: 100%;
+          height: 300px;
+          border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Centro de Ayuda</h2>
+
+    <div class="card-grid">
+        <!-- Card 1 -->
+        <div class="card" id="card-pqrs">
+            <img src="https://cdn-icons-png.flaticon.com/512/1256/1256650.png" alt="PQRS">
+            <div class="card-content">
+                <h3>Registrar PQRS</h3>
+                <p>Envía una petición, queja, reclamo o sugerencia fácilmente.</p>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card" id="card-manual">
+            <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="Manual de Usuario">
+            <div class="card-content">
+                <h3>Manual de Usuario</h3>
+                <p>Descarga el manual completo en formato PDF.</p>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card" id="card-video">
+            <img src="https://cdn-icons-png.flaticon.com/512/2203/2203124.png" alt="Video Tutorial">
+            <div class="card-content">
+                <h3>Video Tutorial</h3>
+                <p>Aprende cómo usar la plataforma paso a paso.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal PQRS -->
+<div class="modal" id="modal-pqrs">
+    <div class="modal-content">
+        <span class="close" id="close-pqrs">&times;</span>
+        <h3>Registrar PQRS</h3>
+        <form>
+            <input type="text" placeholder="Nombre completo" required>
+            <input type="email" placeholder="Correo electrónico" required>
+            <textarea rows="4" placeholder="Describe tu solicitud..." required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Video -->
+<div class="modal" id="modal-video">
+    <div class="modal-content">
+        <span class="close" id="close-video">&times;</span>
+        <h3>Video Tutorial</h3>
+        <iframe src="https://www.youtube.com/embed/ysz5S6PUM-U" allowfullscreen></iframe>
+    </div>
+</div>
+
+<script>
+    // Abrir modal PQRS
+    document.getElementById("card-pqrs").onclick = () => {
+      document.getElementById("modal-pqrs").style.display = "flex";
+    };
+
+    // Cerrar modal PQRS
+    document.getElementById("close-pqrs").onclick = () => {
+      document.getElementById("modal-pqrs").style.display = "none";
+    };
+
+    // Descargar manual PDF
+    document.getElementById("card-manual").onclick = () => {
+      const link = document.createElement("a");
+      link.href = "manual-usuario.pdf"; // Cambia por tu archivo real
+      link.download = "Manual_Usuario.pdf";
+      link.click();
+    };
+
+    // Abrir modal video
+    document.getElementById("card-video").onclick = () => {
+      document.getElementById("modal-video").style.display = "flex";
+    };
+
+    // Cerrar modal video
+    document.getElementById("close-video").onclick = () => {
+      document.getElementById("modal-video").style.display = "none";
+    };
+
+    // Cerrar al hacer clic fuera del modal
+    window.onclick = (e) => {
+      if (e.target.classList.contains("modal")) {
+        e.target.style.display = "none";
+      }
+    };
+</script>
+
+</body>
+</html>
+
+
+<!-- ======= SECCIÓN FAQ ======= -->
+<section class="faq-section">
+    <h2>Preguntas frecuentes</h2>
+
+    <div class="faq-container">
+        <!-- Columna Izquierda: Clientes -->
+        <div class="faq-column">
+            <h3>Clientes</h3>
+
+            <div class="faq-item">
+                <button class="faq-question">¿Cómo puedo registrarme en Agrosell Nova?</button>
+                <div class="faq-answer">
+                    <p>Puedes registrarte haciendo clic en “Crear cuenta” en la parte superior de la página y completando el formulario con tus datos personales.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">¿Dónde puedo ver mis pedidos?</button>
+                <div class="faq-answer">
+                    <p>En el menú principal, selecciona “Mis pedidos” para ver el historial de compras, estados y detalles de cada pedido.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">¿Cómo contacto al soporte?</button>
+                <div class="faq-answer">
+                    <p>Puedes comunicarte a través del formulario PQRS disponible en la sección de ayuda o por correo a soporte@agrosellnova.com.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">¿Qué debo hacer si no recibí confirmación de mi pedido?</button>
+                <div class="faq-answer">
+                    <p>Verifica en tu correo no deseado o bandeja de entrada la confirmación. Si no aparece, comunícate con nosotros desde la sección “Contáctanos”.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">¿Puedo modificar o cancelar una reserva?</button>
+                <div class="faq-answer">
+                    <p>Sí. Accede a tu cuenta, entra a “Mis Reservas” y selecciona la opción “Modificar” o “Cancelar” según corresponda.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna Derecha: Productores -->
+        <div class="faq-column">
+            <h3>Productores</h3>
+
+            <div class="faq-item">
+                <button class="faq-question">¿Cómo publico mis productos?</button>
+                <div class="faq-answer">
+                    <p>Desde tu cuenta, entra a la sección “Mis productos” y selecciona “Agregar producto”. Completa la información y sube las imágenes correspondientes.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">¿Cuándo recibo mis pagos?</button>
+                <div class="faq-answer">
+                    <p>Los pagos se procesan automáticamente una vez confirmado el envío y recibido el pedido por parte del cliente.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">¿Puedo editar la información de mis productos?</button>
+                <div class="faq-answer">
+                    <p>Sí, puedes editar el nombre, precio, descripción e imágenes desde tu panel de control en cualquier momento.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">¿Dónde puedo encontrar guías o tutoriales para productores?</button>
+                <div class="faq-answer">
+                    <p>En el Centro de Ayuda, bajo la sección de productores, podrás ver tutoriales y descargas sobre cómo gestionar tus productos y pedidos.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">¿Cómo puedo actualizar el inventario de mis productos?</button>
+                <div class="faq-answer">
+                    <p>Desde tu panel de control, dirígete a “Mis Productos” y ajusta la cantidad disponible en cada uno de ellos.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    /* ===== FAQ ===== */
+    .faq-section {
+      background: #fff;
+      padding: 80px 20px;
+      margin-top: 50px;
+    }
+
+    .faq-section h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: #2d3748;
+      margin-bottom: 50px;
+    }
+
+    .faq-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .faq-column h3 {
+      font-size: 1.4rem;
+      color: #2f855a;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .faq-item {
+      background: #f8fafc;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      background: none;
+      border: none;
+      outline: none;
+      width: 100%;
+      text-align: left;
+      padding: 18px 20px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #2d3748;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .faq-question::after {
+      content: "+";
+      position: absolute;
+      right: 20px;
+      font-size: 1.4rem;
+      color: #2f855a;
+      transition: transform 0.3s;
+    }
+
+    .faq-item.active .faq-question::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      padding: 0 20px;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding: 15px 20px 20px;
+    }
+
+    .faq-answer p {
+      color: #4a5568;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .faq-section {
+        padding: 60px 15px;
+      }
+
+      .faq-section h2 {
+        font-size: 1.8rem;
+      }
+
+      .faq-column h3 {
+        font-size: 1.2rem;
+      }
+    }
+</style>
+
+<script>
+    // Interactividad de FAQ
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      item.querySelector('.faq-question').addEventListener('click', () => {
+        item.classList.toggle('active');
+      });
+    });
+</script>
+
+<!-- ======= SECCIÓN DE CONTACTO ======= -->
+<section class="contact-section">
+    <div class="contact-content">
+        <h2>¿No te pudimos ayudar?</h2>
+        <p>Si no encontraste la respuesta que buscabas, puedes contactarte directamente con nuestro equipo de soporte.</p>
+        <a href="mailto:info@agrosellnova.com" class="contact-btn">
+            📧 Contáctanos
+        </a>
+    </div>
+</section>
+
+<style>
+    /* ===== CONTACTO ===== */
+    .contact-section {
+      background: linear-gradient(135deg, #e8f8ec 0%, #f7fff9 100%);
+      padding: 80px 20px;
+      text-align: center;
+      margin-top: 60px;
+      border-top: 1px solid #d4e8d6;
+    }
+
+    .contact-content {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .contact-section h2 {
+      font-size: 2rem;
+      color: #276749;
+      margin-bottom: 15px;
+    }
+
+    .contact-section p {
+      font-size: 1.05rem;
+      color: #4a5568;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .contact-btn {
+      display: inline-block;
+      padding: 14px 28px;
+      background-color: #38a169;
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .contact-btn:hover {
+      background-color: #2f855a;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .contact-section h2 {
+        font-size: 1.7rem;
+      }
+      .contact-section p {
+        font-size: 1rem;
+      }
+    }
+</style>
+
 <main>
   <section class="ayuda-section">
     <div class="ayuda-info">
