@@ -16,10 +16,16 @@ public class PqrsService {
     public Pqrs obtenerPorId(Long id) {
         return pqrsRepository.findById(id).orElse(null);
     }
+
     public List<Pqrs> listarTodas() {
         return pqrsRepository.findAll();
     }
+
     public void guardar(Pqrs pqrs) {
         pqrsRepository.save(pqrs);
+    }
+
+    public List<Pqrs> obtenerPorUsuario(String usuario) {
+        return pqrsRepository.findByNombre(usuario);
     }
 }

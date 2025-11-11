@@ -257,7 +257,7 @@ public class AdministradorController {
 
             lista = switch (criterio) {
                 case "id" -> pqrsRepository.findAllByIdPqrs(Long.parseLong(valor));
-                case "usuario" -> pqrsRepository.findByNombreContainingIgnoreCase(valor);
+                case "usuario" -> pqrsRepository.findByNombre(valor);
                 case "correo" -> pqrsRepository.findByCorreoContainingIgnoreCase(valor);
                 case "telefono" -> pqrsRepository.findByTelefonoContainingIgnoreCase(valor);
                 case "estado" -> pqrsRepository.findByEstado(Pqrs.Estado.valueOf(valor));
