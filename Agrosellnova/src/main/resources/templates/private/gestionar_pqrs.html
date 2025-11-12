@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de control</title>
-    <link rel="stylesheet" th:href="@{/css/panel.css?v=1}">
+    <link rel="stylesheet" th:href="@{/css/panel.css}">
+    <link rel="stylesheet" th:href="@{/css/pqrs_modal.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
@@ -113,7 +114,7 @@
                     </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(pqrsList)}">
-                    <td colspan="4">No hay PQRS registradas.</td>
+                    <td colspan="7">No hay PQRS registradas.</td>
                 </tr>
                 </tbody>
             </table>
@@ -153,9 +154,9 @@
                 <strong>Mensaje:</strong><br>
                 <span id="modal-mensaje"></span>
             </div>
-            <div class="info-item" id="respuesta-section">
+            <div class="info-item">
                 <strong>Respuesta:</strong><br>
-                <span id="respuesta"></span>
+                <span id="respuesta-pqrs">No hay respuesta registrada.</span>
             </div>
             <input type="hidden" id="pqrs-id" value="">
             <div class="modal-buttons"></div>
@@ -171,44 +172,20 @@
         modal.style.display = "block";
         currentPqrsId = button.getAttribute("data-id");
 
-        // Actualizar información en el modal
         document.getElementById("modal-nombre").innerText = button.getAttribute("data-nombre");
         document.getElementById("modal-correo").innerText = button.getAttribute("data-correo");
         document.getElementById("modal-telefono").innerText = button.getAttribute("data-telefono");
         document.getElementById("modal-tipo").innerText = button.getAttribute("data-tipo");
+        document.getElementById("modal-estado").innerText = button.getAttribute("data-estado");
         document.getElementById("modal-mensaje").innerText = button.getAttribute("data-mensaje");
 
-        // Estado actual
-        const estadoSelect = document.getElementById("modal-estado-select");
-        estadoSelect.value = button.getAttribute("data-estado");
-
-        // Limpiar o establecer valores
-        document.getElementById("pqrs-id").value = currentPqrsId;
-
         const estado = button.getAttribute("data-estado");
-        const acciones = document.querySelector(".modal-buttons");
-        const respuestaSection = document.getElementById("respuesta-section");
+        const respuesta = button.getAttribute("data-respuesta") || "No hay respuesta registrada.";
 
-        if (estado === "PENDIENTE") {
-            // Si está pendiente
-            respuestaSection.innerHTML = `
-                <strong>Respuesta:</strong><br>
-                <span id="respuesta-pqrs">No hay respuesta registrada.</span>
-            `;
-            acciones.innerHTML = `
-                <button onclick="cerrarModal()" class="btn-secondary">Cerrar</button>
-            `;
-        } else {
-            // Si ya está resuelta → mostrar respuesta guardada
-            const respuesta = button.getAttribute("data-respuesta") || "No hay respuesta registrada.";
-            respuestaSection.innerHTML = `
-                <strong>Respuesta:</strong><br>
-                <p>${respuesta}</p>
-            `;
-            acciones.innerHTML = `
-                <button onclick="cerrarModal()" class="btn-secondary">Cerrar</button>
-            `;
-        }
+        document.getElementById("respuesta-pqrs").inerText = respuesta;
+
+        const acciones = document.querySelector(".modal-buttons");
+        acciones.innerHTML = `<button type="button" onclick="cerrarModal()" class="btn-secondary">Cerrar</button>`;
     }
 
     function cerrarModal() {
