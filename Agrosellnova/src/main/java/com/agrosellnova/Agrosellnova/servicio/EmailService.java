@@ -15,6 +15,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Async("taskExecutor")
     public void sendWelcomeEmail(String to, String username) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -26,6 +27,7 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    @Async("taskExecutor")
     public void sendCustomEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -35,6 +37,7 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    @Async("taskExecutor")
     public void sendRoleUpdateEmail(String to, String username, String nuevoRol) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -45,6 +48,7 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    @Async("taskExecutor")
     public void sendEstadoUpdateEmail(String to, String username, String nuevoEstado) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -55,6 +59,7 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    @Async("taskExecutor")
     public void sendAcceptedProducerEmail(String to, String username) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -67,6 +72,7 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    @Async("taskExecutor")
     public void sendRejectedProducerEmail(String to, String username) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -80,7 +86,8 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void sendProducerApplicationEmail(String to, String username) {
+    @Async("taskExecutor")
+     public void sendProducerApplicationEmail(String to, String username) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject("Solicitud de productor recibida en AgroSell Nova");
@@ -95,6 +102,7 @@ public class EmailService {
 
 
     // Enviar a un solo correo
+    @Async("taskExecutor")
     public void sendNewProductNotification(String to, String productName, Double productPrice) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -117,6 +125,7 @@ public class EmailService {
         }
     }
 
+    @Async("taskExecutor")
     public void sendBookingConfirmationEmail(String to, String username, String producto, String bookingDate) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -129,6 +138,7 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    @Async("taskExecutor")
     public void sendPaymentConfirmationEmail(String to, String username, String paymentDate, Double amount) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -141,6 +151,7 @@ public class EmailService {
         mailSender.send(message);
     }
 
+    @Async("taskExecutor")
     public void sendResponsePqrsEmail(String to, String username, String respuesta) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
