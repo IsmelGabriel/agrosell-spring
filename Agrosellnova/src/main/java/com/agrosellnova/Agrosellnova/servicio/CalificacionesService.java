@@ -9,4 +9,5 @@ public interface CalificacionesService {
     Calificaciones guardar(Calificaciones calificacion);
     List<Calificaciones> listarPorProducto(Producto producto);
     List<Calificaciones> listarPorUsuario(Long usuarioId);
+
 }
