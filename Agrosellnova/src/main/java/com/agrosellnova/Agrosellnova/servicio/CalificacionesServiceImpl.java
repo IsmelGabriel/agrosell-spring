@@ -30,4 +30,9 @@ public class CalificacionesServiceImpl implements CalificacionesService {
     public List<Calificaciones> listarPorUsuario(Long usuarioId) {
         return calificacionesRepository.findByUsuarioId(usuarioId);
     }
+
+    public Double ObtenerPromedioByProducto(Long productoId){
+        Double promedio = calificacionesRepository.ObtenerPromedioByProducto(productoId);
+        return promedio != null ? promedio : 0.0;
+    }
 }
