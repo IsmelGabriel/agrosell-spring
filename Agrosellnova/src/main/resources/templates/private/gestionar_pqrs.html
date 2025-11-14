@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de control</title>
+    <link rel="stylesheet" th:href="@{/css/panel.css}">
+    <link rel="stylesheet" th:href="@{/css/pqrs_modal.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body class="panel-control">
+
+<header class="Bienvenido">
+    <div class="header-left">
+        <img src="/img/logo.png" alt="Logo Agrosellnova" class="logo">
+        <span class="project-name">AGROSELLNOVA</span>
+    </div>
+
+    <div class="header-right">
+        <div class="user-info">
+            <p><strong th:text="'Bienvenido, ' + ${usuario}">Bienvenido, Usuario</strong></p>
+            <p><span th:text="'Rol: ' + ${rol}">Rol: Cliente</span></p>
+        </div>
+        <div class="icons">
+            <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
+            <a th:href="@{/private/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+        </div>
+    </div>
+</header>
+
+
+<div class="panel-container">
+
+    <aside class="sidebar">
+        <div class="lateral-content">
+            <ul>
+                <!-- CLIENTE -->
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a>
+                </li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi
+                    informacion</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}"><i
+                        class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i
+                        class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver
+                    Productos</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}"><i class="fas fa-plus-circle"></i>
+                    Realizar Reserva</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/ser_productor}"><i class="fas fa-tractor"></i>
+                    Ser Productor</a></li>
+                <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="panel-content">
+        <h1>Registro de PQRS</h1>
+        <div class="table-actions">
+            <form th:action="@{/private/gestionar_pqrs}" method="get" class="filtro-form">
+                <label>
+                    <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+                </label>
+                <label>
+                    <select name="criterio" class="filtro-select">
+                        <option value="">Selecciona un criterio</option>
+                        <option value="estado">Estado</option>
+                    </select>
+                </label>
+                <button type="submit" class="filtro-btn">Filtrar</button>
+            </form>
+
+            <form th:action="@{/public/export/reporte_pqrs}" method="get" class="export-form">
+                <button type="submit" class="export-btn btn-danger">
+                    <i class="fas fa-file-pdf"></i> Exportar PDF
+                </button>
+            </form>
+        </div>
+
+        <section class="info-table">
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Telefono</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                    <th>Mensaje</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="pqrs : ${pqrsList}">
+                    <td th:text="${pqrs.nombre}">Nombre</td>
+                    <td th:text="${pqrs.correo}">correo@correo.com</td>
+                    <td th:text="${pqrs.telefono}">3001234567</td>
+                    <td th:text="${pqrs.tipo}">Tipo</td>
+                    <td th:text="${pqrs.estado}">Estado</td>
+                    <td class="td-mensaje-pqrs" th:text="${pqrs.mensaje}">Mensaje</td>
+                    <td>
+                        <button class="btn-ver" onclick="abrirModal(this)"
+                                th:data-id="${pqrs.idPqrs}"
+                                th:data-nombre="${pqrs.nombre}"
+                                th:data-correo="${pqrs.correo}"
+                                th:data-telefono="${pqrs.telefono}"
+                                th:data-tipo="${pqrs.tipo}"
+                                th:data-estado="${pqrs.estado}"
+                                th:data-mensaje="${pqrs.mensaje}"
+                                th:data-respuesta="${pqrs.respuesta}">
+                            <i class="fas fa-envelope-open-text"></i> Gestionar
+                        </button>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(pqrsList)}">
+                    <td colspan="7">No hay PQRS registradas.</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+
+<!-- Modal de gestión de PQRS -->
+<div id="modal-pqrs" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h2 style="color: #2E7D32">Detalles del PQRS</h2>
+        <div class="modal-info">
+            <div class="info-section">
+                <div class="info-item">
+                    <strong>Nombre:</strong><br>
+                    <span id="modal-nombre"></span>
+                </div>
+                <div class="info-item">
+                    <strong>Correo:</strong><br>
+                    <span id="modal-correo"></span>
+                </div>
+                <div class="info-item">
+                    <strong>Telefono:</strong><br>
+                    <span id="modal-telefono"></span>
+                </div>
+                <div class="info-item">
+                    <strong>Tipo de PQRS:</strong><br>
+                    <span id="modal-tipo"></span>
+                </div>
+                <div class="info-item">
+                    <strong>Estado:</strong><br>
+                    <span id="modal-estado"></span>
+                </div>
+            </div>
+            <div class="info-item">
+                <strong>Mensaje:</strong><br>
+                <span id="modal-mensaje"></span>
+            </div>
+            <div class="info-item">
+                <strong>Respuesta:</strong><br>
+                <span id="respuesta-pqrs">No hay respuesta registrada.</span>
+            </div>
+            <input type="hidden" id="pqrs-id" value="">
+            <div class="modal-buttons"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById("modal-pqrs");
+    let currentPqrsId = null;
+
+    function abrirModal(button) {
+        modal.style.display = "block";
+        currentPqrsId = button.getAttribute("data-id");
+
+        document.getElementById("modal-nombre").innerText = button.getAttribute("data-nombre");
+        document.getElementById("modal-correo").innerText = button.getAttribute("data-correo");
+        document.getElementById("modal-telefono").innerText = button.getAttribute("data-telefono");
+        document.getElementById("modal-tipo").innerText = button.getAttribute("data-tipo");
+        document.getElementById("modal-estado").innerText = button.getAttribute("data-estado");
+        document.getElementById("modal-mensaje").innerText = button.getAttribute("data-mensaje");
+
+        const estado = button.getAttribute("data-estado");
+        const respuesta = button.getAttribute("data-respuesta") || "No hay respuesta registrada.";
+
+        document.getElementById("respuesta-pqrs").inerText = respuesta;
+
+        const acciones = document.querySelector(".modal-buttons");
+        acciones.innerHTML = `<button type="button" onclick="cerrarModal()" class="btn-secondary">Cerrar</button>`;
+    }
+
+    function cerrarModal() {
+        modal.style.display = "none";
+        currentPqrsId = null;
+    }
+
+    // Cerrar modal si se hace clic fuera
+    window.onclick = function(event) {
+        if (event.target === modal) cerrarModal();
+    };
+</script>
+
+</body>
+</html>

@@ -1,41 +1,75 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
 import com.agrosellnova.Agrosellnova.modelo.Pqrs;
+import com.agrosellnova.Agrosellnova.repositorio.PqrsRepository;
+import com.agrosellnova.Agrosellnova.servicio.EmailService;
 import com.agrosellnova.Agrosellnova.servicio.PqrsService;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/public")
+@RequestMapping()
 public class PqrsController {
 
     @Autowired
     private PqrsService pqrsService;
 
-    @PostMapping("/registrarPQRS")
-    public String registrarPqrs(@ModelAttribute Pqrs pqrs, RedirectAttributes redirectAttrs) {
+    @Autowired
+    private PqrsRepository pqrsRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    @PostMapping("/public/registrarPQRS")
+    public String registrarPqrs(@ModelAttribute Pqrs pqrs, RedirectAttributes redirectAttrs, HttpSession session) {
+
+        String nombreUsuario = (String) session.getAttribute("usuario");
+        if (nombreUsuario == null) {
+            session.setAttribute("pqrsTemp", pqrs);
+            return "redirect:/public/index";
+        }
+
+        pqrs.setEstado(Pqrs.Estado.PENDIENTE);
+        pqrs.setNombre(nombreUsuario);
         pqrsService.guardar(pqrs);
         redirectAttrs.addFlashAttribute("mensaje", "PQRS registrada correctamente");
-        return "redirect:/public/ayuda";
+        return "redirect:/public/pqrs_exitosa";
     }
 
-    @GetMapping("/export/reporte_pqrs")
-    public void exportPqrsToPdf(HttpServletResponse response) throws IOException, DocumentException {
+    @GetMapping("/public/export/reporte_pqrs")
+    public void exportPqrsToPdf(
+            HttpSession session,
+            HttpServletResponse response) throws IOException, DocumentException {
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=PQRSs.pdf");
 
-        List<Pqrs> pqrs = pqrsService.listarTodas();
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        List<Pqrs> pqrs;
+
+        if (rol.equals("administrador")) {
+            pqrs = pqrsService.listarTodas();
+        } else {
+            pqrs = pqrsService.obtenerPorUsuario(usuario);
+        }
+
         Document document = new Document(PageSize.A4.rotate());
         PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
@@ -51,26 +85,28 @@ public class PqrsController {
         document.add(fecha);
         document.add(new Paragraph(" "));
 
-        PdfPTable table = new PdfPTable(5);
+        PdfPTable table = new PdfPTable(6);
         table.setWidthPercentage(100);
 
-        float[] columnWidths = {1f, 2f, 1.5f, 2f, 2.5f};
+        float[] columnWidths = {1f, 1.5f, 1.5f, 1f, 1.5f, 4f};
         table.setWidths(columnWidths);
         int rowIndex = 0;
         Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
-        addCellToTable(table, "ID", headerFont, true, rowIndex);
         addCellToTable(table, "Nombre", headerFont, true, rowIndex);
         addCellToTable(table, "Correo", headerFont, true, rowIndex);
         addCellToTable(table, "Telefono", headerFont, true, rowIndex);
+        addCellToTable(table, "Tipo", headerFont, true, rowIndex);
+        addCellToTable(table, "Estado", headerFont, true, rowIndex);
         addCellToTable(table, "Mensaje", headerFont, true, rowIndex);
 
         Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 8);
 
         for (Pqrs pqrss: pqrs) {
-            addCellToTable(table, String.valueOf(pqrss.getIdPqrs()), dataFont, false, rowIndex);
             addCellToTable(table, pqrss.getNombre() != null ? pqrss.getNombre() : "", dataFont, false, rowIndex);
             addCellToTable(table, pqrss.getCorreo() != null ? pqrss.getCorreo() : "", dataFont, false, rowIndex);
             addCellToTable(table, pqrss.getTelefono() != null ? pqrss.getTelefono() : "", dataFont, false, rowIndex);
+            addCellToTable(table, pqrss.getTipo() != null ? pqrss.getTipo() : "", dataFont, false, rowIndex);
+            addCellToTable(table, pqrss.getEstado() != null ? pqrss.getEstado().toString() : "", dataFont, false, rowIndex);
             addCellToTable(table, pqrss.getMensaje() != null ? pqrss.getMensaje() : "", dataFont, false, rowIndex);
 
             rowIndex++;
@@ -103,4 +139,54 @@ public class PqrsController {
         cell.setPadding(5);
         table.addCell(cell);
     }
+
+    @PostMapping("/public/private/gestionar_pqrs/responder/{idPqrs}")
+    @ResponseBody
+    public ResponseEntity<?> responderPqrs(
+            @PathVariable Long idPqrs,
+            @RequestParam("respuesta") String respuesta) {
+
+        Pqrs pqrs = pqrsService.obtenerPorId(idPqrs);
+
+        if (pqrs == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "PQRS no encontrada"));
+        }
+
+        // Cambiar el estado a RESUELTO
+        pqrs.setEstado(Pqrs.Estado.RESUELTO);
+        pqrs.setRespuesta(respuesta);
+        pqrsService.guardar(pqrs);
+
+        try {
+            emailService.sendResponsePqrsEmail(pqrs.getCorreo(), pqrs.getNombre(), respuesta);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "PQRS resuelta pero falló el envío del correo."));
+        }
+
+        return ResponseEntity.ok(Map.of("mensaje", "PQRS resuelta y correo enviado correctamente"));
+    }
+
+    @GetMapping("/private/gestionar_pqrs")
+    public String gestionarPqrs(Model model, HttpSession session) {
+        String usuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
+
+        if (usuario == null) {
+            return "redirect:/public/index";
+        }
+
+        // Obtener PQRS solo del usuario actual
+        List<Pqrs> pqrsList = pqrsService.obtenerPorUsuario(usuario);
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("rol", rol);
+        model.addAttribute("pqrsList", pqrsList);
+
+        return "private/gestionar_pqrs";
+    }
+
+
 }

@@ -1,6 +1,8 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
+import com.agrosellnova.Agrosellnova.modelo.Pqrs;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
+import com.agrosellnova.Agrosellnova.servicio.PqrsService;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ public class LoginController {
 
     @Autowired
     private UsuarioServiceImpl usuarioService;
+    @Autowired
+    private PqrsService pqrsService;
 
     @GetMapping("/public/index")
     public String mostrarLogin() {
@@ -34,6 +38,15 @@ public class LoginController {
             System.out.println("Inicio de sesión exitoso:");
             System.out.println("Nombre de usuario en sesión: " + session.getAttribute("usuario"));
             System.out.println("Rol en sesión: " + session.getAttribute("rol"));
+
+            Pqrs pqrsTemp = (Pqrs) session.getAttribute("pqrsTemp");
+            if (pqrsTemp != null) {
+                pqrsTemp.setNombre(usuarioAutenticado.getNombreUsuario());
+                pqrsService.guardar(pqrsTemp);
+                session.removeAttribute("pqrsTemp");
+                return "redirect:/public/pqrs_exitosa";
+            }
+
             return "redirect:/public/inicio";
         }
 

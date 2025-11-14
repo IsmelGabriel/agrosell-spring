@@ -6,6 +6,11 @@ import jakarta.persistence.*;
 @Table(name = "pqrs")
 public class Pqrs {
 
+    public enum Estado {
+        PENDIENTE,
+        RESUELTO
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_PQRS")
@@ -23,8 +28,15 @@ public class Pqrs {
     @Column(name = "TIPO")
     private String tipo;
 
+    @Column(name = "ESTADO")
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
+
     @Column(name = "MENSAJE", length = 1000)
     private String mensaje;
+
+    @Column(name = "RESPUESTA", length = 1000)
+    private String respuesta;
 
     // Getters y Setters
     public Long getIdPqrs() {
@@ -63,10 +75,25 @@ public class Pqrs {
         this.tipo = tipo;
     }
 
+    public Estado getEstado() {
+        return estado;
+    }
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+
     public String getMensaje() {
         return mensaje;
     }
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
+
+    public String getRespuesta() {
+        return respuesta;
+    }
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
+    }
+
 }

@@ -300,96 +300,6 @@ tr:last-child td[colspan] {
     cursor: pointer;
 }
 
-@media (max-width: 768px) {
-    .topbar, header.Bienvenido {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 15px;
-        text-align: left;
-    }
-
-    .logo {
-        margin: auto;
-    }
-
-    .header-left,
-    .header-right {
-        width: 100%;
-        justify-content: space-between;
-        gap: 10px;
-        font-size: 18px;
-    }
-
-    .panel-container {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-        display: flex;
-        padding: 3px;
-        background-color: #1B5E20;
-        flex-direction: column;
-    }
-
-    .sidebar ul {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        padding: 0 10px;
-    }
-
-    .sidebar li {
-        margin: 0;
-    }
-
-    .sidebar a {
-        font-size: 14px;
-        padding: 10px;
-        text-align: center;
-        white-space: nowrap;
-    }
-
-    .main-content,
-    .panel-content {
-        padding: 20px 15px;
-    }
-
-    .user-card {
-        max-width: 100%;
-        padding: 20px;
-    }
-
-    .info-table {
-        margin: 12px 10px;
-        padding: 12px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .info-table table {
-        width: 100%;
-        min-width: 640px;
-    }
-
-    .info-table th, .info-table td {
-        padding: 10px 8px;
-    }
-
-    .header-right .icons a {
-        font-size: 18px;
-        margin-left: 8px;
-    }
-
-    .project-name {
-        font-size: 20px;
-    }
-
-    .user-card p {
-        padding: 5px;
-    }
-}
-
 /* Contenedor principal */
 .ofertar-container {
     max-width: 850px;
@@ -591,49 +501,139 @@ tr:last-child td[colspan] {
     background-color: #f4f4f4;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    .topbar, header.Bienvenido {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+        text-align: left;
+    }
+
+    .logo {
+        margin: auto;
+    }
+
+    .header-left,
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 18px;
+    }
+
+    .panel-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        display: flex;
+        padding: 3px;
+        background-color: #1B5E20;
+        flex-direction: column;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .sidebar li {
+        margin: 0;
+    }
+
+    .sidebar a {
+        font-size: 14px;
+        padding: 10px;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .main-content,
+    .panel-content {
+        padding: 20px 15px;
+    }
+
+    .user-card {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .info-table {
+        margin: 12px 10px;
+        padding: 12px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .info-table table {
+        width: 100%;
+        min-width: 640px;
+    }
+
+    .info-table th, .info-table td {
+        padding: 10px 8px;
+    }
+
+    .td-mensaje-pqrs{
+        min-width: 350px;
+    }
+
+    .header-right .icons a {
+        font-size: 18px;
+        margin-left: 8px;
+    }
+
+    .project-name {
+        font-size: 20px;
+    }
+
+    .user-card p {
+        padding: 5px;
+    }
 
     /* Pagina dashboard */
-        .stats, .charts {
-            flex-direction: column;
-            align-items: stretch;
-        }
+    .stats, .charts {
+        flex-direction: column;
+        align-items: stretch;
+    }
 
-        .stat-item {
-            flex: 1 1 100%;
-            margin: 10px 16px;
-            padding: 14px;
-        }
+    .stat-item {
+        flex: 1 1 100%;
+        margin: 10px 16px;
+        padding: 14px;
+    }
 
-        .chart {
-            max-width: 100%;
-            margin: 10px 0;
-            padding: 14px;
-        }
+    .chart {
+        max-width: 100%;
+        margin: 10px 0;
+        padding: 14px;
+    }
 
-        .chart canvas {
-            width: 100% !important;
-            height: auto !important;
-            max-height: 320px;
-            display: block;
-        }
+    .chart canvas {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 320px;
+        display: block;
+    }
 
-        .recent-orders {
-            margin: 12px 10px;
-            padding: 12px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
+    .recent-orders {
+        margin: 12px 10px;
+        padding: 12px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 
-        .recent-orders table {
-            width: 100%;
-            min-width: 640px;
-        }
+    .recent-orders table {
+        width: 100%;
+        min-width: 640px;
+    }
 
-        .recent-orders th, .recent-orders td {
-            padding: 10px 8px;
-        }
+    .recent-orders th, .recent-orders td {
+        padding: 10px 8px;
+    }
 
     .ofertar-container {
         padding: 1rem;
@@ -642,6 +642,4 @@ tr:last-child td[colspan] {
     .confirmar-oferta-btn {
         font-size: 0.95rem;
     }
-
-
 }

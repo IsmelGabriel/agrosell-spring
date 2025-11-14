@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de control - PQRS</title>
-    <link rel="stylesheet" th:href="@{/css/panel.css}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/panel.css}"/>
+    <link rel="stylesheet" th:href="@{/css/pqrs_modal.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 </head>
 <body class="panel-control">
 
@@ -32,15 +33,24 @@
         <div class="lateral-content">
             <ul>
                 <!-- ADMINISTRADOR -->
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_ventas}"><i class="fas fa-chart-line"></i> Reporte de Ventas</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}"><i class="fas fa-calendar-check"></i> Reporte de Reservas</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}"><i class="fas fa-envelope-open-text"></i> Reporte de PQRS</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}"><i class="fas fa-user-cog"></i> Actualizar Roles</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/gestionar_productores}"><i class="fas fa-tractor"></i> Gestionar Productores</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}"><i class="fas fa-users"></i> Usuarios Registrados</a></li>
-                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/dashboard}"><i class ="fas fa-chart-line"></i> Reporte general</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a>
+                </li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/panel_control}"><i
+                        class="fas fa-person"></i> Mi informacion</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_ventas}"><i
+                        class="fas fa-chart-line"></i> Reporte de Ventas</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_reservas}"><i
+                        class="fas fa-calendar-check"></i> Reporte de Reservas</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/reporte_pqrs}"><i
+                        class="fas fa-envelope-open-text"></i> Reporte de PQRS</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/actualizar_roles}"><i
+                        class="fas fa-user-cog"></i> Actualizar Roles</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/gestionar_productores}"><i
+                        class="fas fa-tractor"></i> Gestionar Productores</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/usuarios_registrados}"><i
+                        class="fas fa-users"></i> Usuarios Registrados</a></li>
+                <li th:if="${rol == 'administrador'}"><a th:href="@{/private/dashboard}"><i
+                        class="fas fa-chart-line"></i> Reporte general</a></li>
                 <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
 
             </ul>
@@ -52,14 +62,17 @@
         <h1>Registro de PQRS</h1>
         <div class="table-actions">
             <form th:action="@{/private/reporte_pqrs}" method="get" class="filtro-form">
-                <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
-                <select name="criterio" class="filtro-select">
-                    <option value="">Selecciona un criterio</option>
-                    <option value="id">ID Pqrs</option>
-                    <option value="usuario">Usuario</option>
-                    <option value="correo">Correo</option>
-                    <option value="telefono">Teléfono</option>
-                </select>
+                <label>
+                    <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
+                </label>
+                <label>
+                    <select name="criterio" class="filtro-select">
+                        <option value="">Selecciona un criterio</option>
+                        <option value="usuario">Usuario</option>
+                        <option value="correo">Correo</option>
+                        <option value="estado">Estado</option>
+                    </select>
+                </label>
                 <button type="submit" class="filtro-btn">Filtrar</button>
             </form>
 
@@ -71,39 +84,183 @@
         </div>
 
         <section class="info-table">
-        <table border="1">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Telefono</th>
-                <th>Tipo</th>
-                <th>Mensaje</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="pqrs : ${pqrsList}">
-                <td th:text="${pqrs.idPqrs}">1</td>
-                <td th:text="${pqrs.nombre}">Nombre</td>
-                <td th:text="${pqrs.correo}">correo@correo.com</td>
-                <td th:text="${pqrs.telefono}">3001234567</td>
-                <td th:text="${pqrs.tipo}">Tipo</td>
-                <td th:text="${pqrs.mensaje}">Mensaje</td>
-                <td>
-                    <button class="btn-ver">Gestionar</button>
-                </td>
-            </tr>
-
-            <tr th:if="${#lists.isEmpty(pqrsList)}">
-                <td colspan="4">No hay PQRS registradas.</td>
-            </tr>
-            </tbody>
-        </table>
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Telefono</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                    <th>Mensaje</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="pqrs : ${pqrsList}">
+                    <td th:text="${pqrs.nombre}">Nombre</td>
+                    <td th:text="${pqrs.correo}">correo@correo.com</td>
+                    <td th:text="${pqrs.telefono}">3001234567</td>
+                    <td th:text="${pqrs.tipo}">Tipo</td>
+                    <td th:text="${pqrs.estado}">Estado</td>
+                    <td class="td-mensaje-pqrs" th:text="${pqrs.mensaje}">Mensaje</td>
+                    <td>
+                        <button class="btn-ver" onclick="abrirModal(this)"
+                                th:data-id="${pqrs.idPqrs}"
+                                th:data-nombre="${pqrs.nombre}"
+                                th:data-correo="${pqrs.correo}"
+                                th:data-telefono="${pqrs.telefono}"
+                                th:data-tipo="${pqrs.tipo}"
+                                th:data-estado="${pqrs.estado}"
+                                th:data-mensaje="${pqrs.mensaje}"
+                                th:data-respuesta="${pqrs.respuesta}">
+                            <i class="fas fa-envelope-open-text"></i> Gestionar
+                        </button>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(pqrsList)}">
+                    <td colspan="4">No hay PQRS registradas.</td>
+                </tr>
+                </tbody>
+            </table>
         </section>
     </main>
 </div>
+
+<!-- Modal de gestión de PQRS -->
+<div id="modal-pqrs" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h2 style="color: #2E7D32">Detalles del PQRS</h2>
+        <div class="modal-info">
+            <div class="info-section">
+                <div class="info-item">
+                    <strong>Nombre:</strong><br>
+                    <span id="modal-nombre"></span>
+                </div>
+                <div class="info-item">
+                    <strong>Correo:</strong><br>
+                    <span id="modal-correo"></span>
+                </div>
+                <div class="info-item">
+                    <strong>Telefono:</strong><br>
+                    <span id="modal-telefono"></span>
+                </div>
+                <div class="info-item">
+                    <strong>Tipo de PQRS:</strong><br>
+                    <span id="modal-tipo"></span>
+                </div>
+                <div class="info-item">
+                    <strong>Estado:</strong><br>
+                    <label for="modal-estado-select">
+                        <select id="modal-estado-select">
+                            <option value="PENDIENTE">PENDIENTE</option>
+                            <option value="RESUELTO">RESUELTO</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="info-item">
+                <strong>Mensaje:</strong><br>
+                <span id="modal-mensaje"></span>
+            </div>
+            <div class="info-item" id="respuesta-section">
+                <strong>Respuesta:</strong><br>
+                <span id="respuesta"></span>
+            </div>
+            <input type="hidden" id="pqrs-id" value="">
+            <div class="modal-buttons"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById("modal-pqrs");
+    let currentPqrsId = null;
+
+    function abrirModal(button) {
+        modal.style.display = "block";
+        currentPqrsId = button.getAttribute("data-id");
+
+        // Actualizar información en el modal
+        document.getElementById("modal-nombre").innerText = button.getAttribute("data-nombre");
+        document.getElementById("modal-correo").innerText = button.getAttribute("data-correo");
+        document.getElementById("modal-telefono").innerText = button.getAttribute("data-telefono");
+        document.getElementById("modal-tipo").innerText = button.getAttribute("data-tipo");
+        document.getElementById("modal-mensaje").innerText = button.getAttribute("data-mensaje");
+
+        // Estado actual
+        const estadoSelect = document.getElementById("modal-estado-select");
+        estadoSelect.value = button.getAttribute("data-estado");
+
+        // Limpiar o establecer valores
+        document.getElementById("pqrs-id").value = currentPqrsId;
+
+        const estado = button.getAttribute("data-estado");
+        const acciones = document.querySelector(".modal-buttons");
+        const respuestaSection = document.getElementById("respuesta-section");
+
+        if (estado === "PENDIENTE") {
+            // Si está pendiente → mostrar textarea
+            respuestaSection.innerHTML = `
+                <strong>Respuesta:</strong><br>
+                <textarea id="respuesta-pqrs" rows="4" cols="50" placeholder="Escribe la respuesta aquí..."></textarea>
+            `;
+            acciones.innerHTML = `
+                <button onclick="enviarRespuesta(${currentPqrsId})" class="btn-primary">Enviar Respuesta</button>
+                <button onclick="cerrarModal()" class="btn-secondary">Cerrar</button>
+            `;
+        } else {
+            // Si ya está resuelta → mostrar respuesta guardada
+            const respuesta = button.getAttribute("data-respuesta") || "No hay respuesta registrada.";
+            respuestaSection.innerHTML = `
+                <strong>Respuesta:</strong><br>
+                <p>${respuesta}</p>
+            `;
+            acciones.innerHTML = `
+                <p>Esta PQRS ya ha sido resuelta.</p>
+                <button onclick="cerrarModal()" class="btn-secondary">Cerrar</button>
+            `;
+        }
+    }
+
+    function cerrarModal() {
+        modal.style.display = "none";
+        currentPqrsId = null;
+    }
+
+    function enviarRespuesta(idPqrs) {
+        if (confirm('¿Enviar esta respuesta y marcar la PQRS como resuelta?')) {
+            const respuesta = document.getElementById("respuesta-pqrs").value.trim();
+            if (!respuesta) {
+                alert("Por favor escribe una respuesta antes de enviar.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("respuesta", respuesta);
+
+            fetch(`/public/private/gestionar_pqrs/responder/${idPqrs}`, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.mensaje || data.error);
+                    cerrarModal();
+                    location.reload(); // Recargar la tabla
+                })
+                .catch(err => {
+                    alert("Error al enviar la respuesta: " + err);
+                });
+        }
+    }
+
+    // Cerrar modal si se hace clic fuera
+    window.onclick = function(event) {
+        if (event.target === modal) cerrarModal();
+    };
+</script>
 
 </body>
 </html>

@@ -1,11 +1,10 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
 import com.agrosellnova.Agrosellnova.modelo.Producto;
+import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
-import com.agrosellnova.Agrosellnova.servicio.EmailService;
-import com.agrosellnova.Agrosellnova.servicio.ProductoService;
-import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
+import com.agrosellnova.Agrosellnova.servicio.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,11 +21,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
 public class ProductoController {
+
+    @Autowired
+    private CalificacionesService calificacionesService;
 
     @Autowired
     private ProductoService productoService;
@@ -50,6 +54,7 @@ public class ProductoController {
         String usuario = (String) session.getAttribute("usuario");
         model.addAttribute("usuario", usuario);
 
+
         List<Producto> productos;
         if (nombre != null || !orden.isBlank()) {
             productos = productoService.buscarProductosFiltrados(nombre, orden);
@@ -57,8 +62,27 @@ public class ProductoController {
             productos = productoService.obtenerProductosDisponibles();
         }
 
+        Map<Long, Usuario> productores= new HashMap<>();
+        Map<Long,Double >promedios=new HashMap<>();
+
+        for (Producto p : productos)
+        {
+            Usuario prod=usuarioRepository.findByNombreUsuario(p.getUsuarioCampesino());
+            if (prod!= null)
+            {
+                productores.put(p.getId(),prod);
+            }
+            promedios.put(p.getId(),calificacionesService.ObtenerPromedioByProducto(p.getId()));
+        }
+
+
+
         model.addAttribute("productos", productos);
+        model.addAttribute("productores",productores);
+        model.addAttribute("promedios",promedios);
+
         return "public/productos";
+
     }
 
     @GetMapping("/private/gestionar_productos")

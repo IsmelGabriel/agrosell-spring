@@ -1,0 +1,114 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #F9FAF9;
+    margin: 3% auto;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    width: 75%;
+    max-width: 650px;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.modal-info {
+    display: grid;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.info-item {
+    margin-bottom: 10px;
+    background-color: #E8F5E9;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border-left: 3px solid #2E7D32;
+    font-size: 13px;
+}
+.info-item strong {
+    color: #1B5E20;
+    font-size: 12px;
+}
+
+.info-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.mensaje-section, .respuesta-section {
+    margin-top: 15px;
+
+}
+
+.mensaje-contenido {
+    background-color: white;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+#respuesta-pqrs {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#modal-estado-select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
