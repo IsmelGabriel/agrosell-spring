@@ -72,55 +72,60 @@
 </section>
 
 <style>
-    /* ====== SECCIÓN PRINCIPAL ====== */
-    .help-hero {
-      width: 100%;
-      background-color: #ffffff; /* fondo blanco general */
-      display: flex;
-      flex-direction: column;
-      padding-top: 120px;
-      align-items: center;
-    }
 
-    /* ====== TÍTULO SUPERIOR ====== */
-    .help-title {
+    .help-hero {
+   width: 100%;
+   background-color: #e8f8ec; /* mismo verde */
+   flex-direction: column;
+   padding-top: 120px;
+   align-items: center;
+ }
+
+
+     /* ====== TÍTULO SUPERIOR ====== */
+      .help-title {
       width: 100%;
-      background-color: #ffffff; /* verde corporativo */
+      background-color: #e8f8ec; /* mismo verde clarito que la parte inferior */
       color: #2b7034;
       text-align: center;
-      padding: 40px 20px 20px;
+      padding: 40px 20px 40px;
+      border-bottom: 3px solid #cbe8d1;  /* solo la línea inferior */
+      /* border-top eliminado */
     }
 
-    .help-title h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin: 0;
-      letter-spacing: 1px;
-      animation: fadeIn 1s ease-in-out;
-    }
 
-    /* ====== ANIMACIÓN ====== */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+     .help-title h1 {
+       font-size: 2.2rem; /* mismo tamaño visual del título inferior */
+       font-weight: 700;
+       margin: 0;
+       color: #2b7034;
+       letter-spacing: 1px;
+       animation: fadeIn 1s ease-in-out;
+     }
 
-    /* ====== RESPONSIVE ====== */
-    @media (max-width: 768px) {
-      .help-title h1 {
-        font-size: 2rem;
-      }
+     /* ====== ANIMACIÓN ====== */
+     @keyframes fadeIn {
+       from { opacity: 0; transform: translateY(20px); }
+       to { opacity: 1; transform: translateY(0); }
+     }
 
-      .search-box {
-        flex-direction: column;
-        gap: 12px;
-      }
+     /* ====== RESPONSIVE ====== */
+     @media (max-width: 768px) {
+       .help-title h1 {
+         font-size: 2rem;
+       }
 
-      .search-box button {
-        width: 100%;
-      }
-    }
+       .search-box {
+         flex-direction: column;
+         gap: 12px;
+       }
+
+       .search-box button {
+         width: 100%;
+       }
+     }
 </style>
+
 
 
 
@@ -313,16 +318,60 @@
 </div>
 
 <!-- Modal PQRS -->
+<!-- Modal PQRS -->
 <div class="modal" id="modal-pqrs">
     <div class="modal-content">
         <span class="close" id="close-pqrs">&times;</span>
-        <h3>Registrar PQRS</h3>
-        <form>
-            <input type="text" placeholder="Nombre completo" required>
-            <input type="email" placeholder="Correo electrónico" required>
-            <textarea rows="4" placeholder="Describe tu solicitud..." required></textarea>
-            <button type="submit">Enviar</button>
-        </form>
+
+        <div class="ayuda-form" id="ayuda-form">
+            <h3 class="text-center mb-4">Registrar PQRS</h3>
+
+            <form th:action="@{/public/registrarPQRS}" method="post" class="needs-validation" novalidate>
+
+                <div class="mb-3">
+                    <label for="NOMBRE" class="form-label">Nombre completo</label>
+                    <input type="text" class="form-control" id="NOMBRE" name="nombre"
+                           placeholder="Ingresa tu nombre" required />
+                    <div class="invalid-feedback">Por favor ingresa tu nombre completo.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="CORREO" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="CORREO" name="correo"
+                           placeholder="Ingresa tu correo" required />
+                    <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="TELEFONO" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" id="TELEFONO" name="telefono"
+                           placeholder="Ingresa tu número de teléfono" maxlength="10" required />
+                    <div class="invalid-feedback">Por favor ingresa tu número de teléfono.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="TIPO" class="form-label">Tipo de consulta</label>
+                    <select class="form-select" id="TIPO" name="tipo" required>
+                        <option value="" disabled selected>Selecciona un tipo</option>
+                        <option value="Consulta">Consulta</option>
+                        <option value="Queja">Queja</option>
+                        <option value="Reclamo">Reclamo</option>
+                        <option value="Sugerencia">Sugerencia</option>
+                    </select>
+                    <div class="invalid-feedback">Por favor selecciona un tipo de consulta.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="MENSAJE" class="form-label">Consulta o solicitud</label>
+                    <textarea class="form-control" id="MENSAJE" name="mensaje" rows="4"
+                              placeholder="Describe tu consulta o solicitud" required></textarea>
+                    <div class="invalid-feedback">Por favor describe tu consulta o solicitud.</div>
+                </div>
+
+                <button type="submit" class="ayuda-form-enviar">Enviar</button>
+            </form>
+
+        </div>
     </div>
 </div>
 
@@ -475,7 +524,7 @@
     .faq-section h2 {
       text-align: center;
       font-size: 2rem;
-      color: #2d3748;
+      color: #2b7034;
       margin-bottom: 50px;
     }
 
@@ -638,95 +687,6 @@
       }
     }
 </style>
-
-<main>
-  <section class="ayuda-section">
-    <div class="ayuda-info">
-      <div class="faq-section mb-5">
-        <h2 class="text-center mb-4">Preguntas Frecuentes</h2>
-        <div class="accordion" id="faqAccordion">
-
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true">
-                ¿Cómo puedo registrarme en el sitio?
-              </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-              <div class="accordion-body">
-                Para registrarte, haz clic en el botón "Registrarse" y completa el formulario.
-              </div>
-            </div>
-          </div>
-
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
-                ¿Cómo puedo recuperar mi contraseña?
-              </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-              <div class="accordion-body">
-                Haz clic en "Olvidé mi contraseña" y sigue las instrucciones.
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
-                ¿Cómo contacto al servicio de soporte?
-              </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-              <div class="accordion-body">
-                Puedes contactarnos utilizando el formulario de PQRS.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ayuda-form" id="ayuda-form">
-        <h3 class="text-center mb-4">Registrar PQRS</h3>
-        <form th:action="@{/public/registrarPQRS}" method="post" class="needs-validation" novalidate>
-          <div class="mb-3">
-            <label for="NOMBRE" class="form-label">Nombre completo</label>
-            <input type="text" class="form-control" id="NOMBRE" name="nombre" placeholder="Ingresa tu nombre" required />
-            <div class="invalid-feedback">Por favor ingresa tu nombre completo.</div>
-          </div>
-          <div class="mb-3">
-            <label for="CORREO" class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" id="CORREO" name="correo" placeholder="Ingresa tu correo" required />
-            <div class="invalid-feedback">Por favor ingresa un correo válido.</div>
-          </div>
-          <div class="mb-3">
-            <label for="TELEFONO" class="form-label">Teléfono</label>
-            <input type="text" class="form-control" id="TELEFONO" name="telefono" placeholder="Ingresa tu número de teléfono" maxlength="10" required />
-            <div class="invalid-feedback">Por favor ingresa tu número de teléfono.</div>
-          </div>
-            <div class="mb-3">
-                <label for="TIPO" class="form-label">Tipo de consulta</label>
-                <select class="form-select" id="TIPO" name="tipo" required>
-                    <option value="" disabled selected>Selecciona un tipo</option>
-                    <option value="Consulta">Consulta</option>
-                    <option value="Queja">Queja</option>
-                    <option value="Reclamo">Reclamo</option>
-                    <option value="Sugerencia">Sugerencia</option>
-                </select>
-                <div class="invalid-feedback">Por favor selecciona un tipo de consulta.</div>
-            </div>
-          <div class="mb-3">
-            <label for="MENSAJE" class="form-label">Consulta o solicitud</label>
-            <textarea class="form-control" id="MENSAJE" name="mensaje" rows="4" placeholder="Describe tu consulta o solicitud" required></textarea>
-            <div class="invalid-feedback">Por favor describe tu consulta o solicitud.</div>
-          </div>
-          <button type="submit" class="ayuda-form-enviar">Enviar</button>
-        </form>
-      </div>
-    </div>
-  </section>
-</main>
-
 
 <footer class="footer">
   <div class="footer-container">
