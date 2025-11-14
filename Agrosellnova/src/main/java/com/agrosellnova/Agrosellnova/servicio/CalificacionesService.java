@@ -10,5 +10,10 @@ public interface CalificacionesService {
     List<Calificaciones> listarPorProducto(Producto producto);
     List<Calificaciones> listarPorUsuario(Long usuarioId);
     Double ObtenerPromedioByProducto(Long productoId);
+    List<Calificaciones>listarPorProductoId(Long productoId);
+
+    Long contarCalificacionesPorProducto(Long productoId);
+
+
 
 }
