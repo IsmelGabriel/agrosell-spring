@@ -17,8 +17,13 @@ public interface CalificacionesRepository extends JpaRepository<Calificaciones, 
     // Buscar calificaciones por usuario
     List<Calificaciones> findByUsuarioId(Long usuarioId);
     List<Calificaciones>findByProductoId(Long productoId);
+
     //peticion
     @Query("SELECT AVG(c.calificacion) FROM Calificaciones c WHERE c.producto.id = :productoId")
     Double ObtenerPromedioByProducto(@Param("productoId")Long productoId);
+
+    @Query("SELECT COUNT(c) FROM Calificaciones c WHERE c.producto.id = :productoId")
+    long contarCalificacionesPorProducto(@Param("productoId") Long productoId);
+
 
 }

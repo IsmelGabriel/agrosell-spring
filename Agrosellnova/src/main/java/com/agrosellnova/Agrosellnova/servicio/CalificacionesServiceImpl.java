@@ -30,6 +30,14 @@ public class CalificacionesServiceImpl implements CalificacionesService {
     public List<Calificaciones> listarPorUsuario(Long usuarioId) {
         return calificacionesRepository.findByUsuarioId(usuarioId);
     }
+    @Override
+    public List<Calificaciones> listarPorProductoId(Long productoId){
+        return calificacionesRepository.findByProductoId(productoId);
+    }
+    @Override
+    public Long contarCalificacionesPorProducto(Long productoId){
+        return calificacionesRepository.contarCalificacionesPorProducto(productoId);
+    }
 
     public Double ObtenerPromedioByProducto(Long productoId){
         Double promedio = calificacionesRepository.ObtenerPromedioByProducto(productoId);

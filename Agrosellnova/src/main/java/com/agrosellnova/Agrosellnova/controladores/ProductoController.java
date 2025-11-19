@@ -1,5 +1,6 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
+import com.agrosellnova.Agrosellnova.modelo.Calificaciones;
 import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
@@ -63,7 +64,10 @@ public class ProductoController {
         }
 
         Map<Long, Usuario> productores= new HashMap<>();
-        Map<Long,Double >promedios=new HashMap<>();
+        Map<Long, Double >promedios=new HashMap<>();
+        Map<Long, List<Calificaciones>>resenas=new HashMap<>();
+        Map<Long, Long >totalCalificaciones=new HashMap<>();
+        Map<Long, String> ultimaResena = new HashMap<>();
 
         for (Producto p : productos)
         {
@@ -73,13 +77,25 @@ public class ProductoController {
                 productores.put(p.getId(),prod);
             }
             promedios.put(p.getId(),calificacionesService.ObtenerPromedioByProducto(p.getId()));
+            resenas.put(p.getId(),calificacionesService.listarPorProductoId(p.getId()));
+            totalCalificaciones.put(p.getId(),calificacionesService.contarCalificacionesPorProducto(p.getId()));
+
+            List<Calificaciones> lista = calificacionesService.listarPorProductoId(p.getId());
+            resenas.put(p.getId(), lista);
+
+            if (!lista.isEmpty()) {
+                ultimaResena.put(p.getId(), lista.get(lista.size() - 1).getComentario());
+            } else {
+                ultimaResena.put(p.getId(), "Sin reseñas");
+            }
         }
-
-
 
         model.addAttribute("productos", productos);
         model.addAttribute("productores",productores);
         model.addAttribute("promedios",promedios);
+        model.addAttribute("resenas",resenas);
+        model.addAttribute("totalCalificaciones",totalCalificaciones);
+        model.addAttribute("ultimaResena", ultimaResena);
 
         return "public/productos";
 

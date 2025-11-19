@@ -261,7 +261,9 @@
                    ${producto.stock},
                    '${productores[producto.id].nombre}',
                    '${productores[producto.id].correo}',
-                   ${promedios[producto.id] != null ? promedios[producto.id] : 0}
+                   ${promedios[producto.id] != null ? promedios[producto.id] : 0},
+                   ${totalCalificaciones[producto.id] != null ? totalCalificaciones[producto.id] : 0},
+                   '${ultimaResena[producto.id]}'
                    )|">
                     Añadir al carrito
                 </a>
@@ -304,7 +306,8 @@
 
                 <div class="modal-info-calificacion">
                     <p id="modal-calificaciones">Calificación: </p>
-                    <p id="modal-reseñas">Reseñas: 0</p>
+                    <p id="modal-totalResenas">Reseñas:  0</p>
+                    <p id="modal-resena">Ultima reseña: Sin reseñas </p>
                 </div>
             </div>
 
@@ -364,7 +367,7 @@
 
     let productoSeleccionado = {};
 
-    function agregarAlCarrito(id, nombre, descripcion, precio, imagen, stock, productor, correo, promedio) {
+    function agregarAlCarrito(id, nombre, descripcion, precio, imagen, stock, productor, correo, promedio, totalResenas, ultimaResena) {
         productoSeleccionado = { id, nombre, descripcion, precio, imagen, stock };
 
         document.getElementById("modal-nombre").textContent = nombre;
@@ -372,6 +375,7 @@
         document.getElementById("modal-precio").textContent = `Precio: $${precio} / Kg`;
         document.getElementById("modal-stock").textContent = `Stock disponible: ${stock}`;
         document.getElementById("modal-imagen").src = imagen;
+
         document.getElementById("modal-productor").textContent = `Nombre campesino: ${productor}`;
         document.getElementById("modal-productor-correo").textContent = `Contacto del campesino: ${correo}`;
 
@@ -379,11 +383,15 @@
         if (promedio && !isNaN(promedio) && Number(promedio) > 0) {
             textoCalificacion = Number(promedio).toFixed(1);
         }
-        document.getElementById("modal-calificaciones").textContent = `Calificación: ${textoCalificacion}`;
+
+        document.getElementById("modal-calificaciones").textContent = `Calificación: ${textoCalificacion} 🥕`;
+        document.getElementById("modal-totalResenas").textContent = `Total de reseñas: ${totalResenas}`;
+        document.getElementById("modal-resena").textContent = `Última reseña: ${ultimaResena}`;
 
         document.getElementById("modal-cantidad").value = 1;
         document.getElementById("carritoModal").style.display = "flex";
-    }
+}
+
 
 
     function cerrarModal() {
