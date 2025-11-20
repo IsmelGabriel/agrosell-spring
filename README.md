@@ -1,7 +1,7 @@
 # AgroSellNova
 
 AgroSellNova es una aplicación web desarrollada en **Spring Boot** para la gestión de productos, compras y reservas agrícolas.  
-El sistema está diseñado para diferentes roles de usuario (administrador, campesino y cliente) y permite centralizar las operaciones de forma segura y eficiente.
+El software está diseñado para diferentes roles de usuario (administrador, campesino y cliente) y permite centralizar las operaciones de forma segura y eficiente.
 
 ---
 

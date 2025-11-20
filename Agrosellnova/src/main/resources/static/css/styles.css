@@ -222,8 +222,8 @@ main {
 }
 
 footer {
+    margin-top: 50px;
     text-align: center;
-    margin-top: 100px;
     padding: 20px;
     background-color: #22525D;
     color: white;
@@ -1304,7 +1304,7 @@ footer {
 }
 
 .ayuda-form {
-    max-width: 500px;
+    width: 100%;
     align-items: center;
     margin: auto;
     box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1);
@@ -1951,6 +1951,14 @@ footer {
 
     .mapa-subitem .mapa-enlace {
         font-size: 13px;
+    }
+
+    .cuadro-pago h2{
+        margin-top: 100px;
+    }
+
+    .form-reserva h2 {
+        margin-top: 100px;
     }
 
 }

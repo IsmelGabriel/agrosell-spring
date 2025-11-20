@@ -82,7 +82,6 @@
             <table border="1">
                 <thead>
                 <tr>
-                    <th>Nombre</th>
                     <th>Correo</th>
                     <th>Telefono</th>
                     <th>Tipo</th>
@@ -93,7 +92,6 @@
                 </thead>
                 <tbody>
                 <tr th:each="pqrs : ${pqrsList}">
-                    <td th:text="${pqrs.nombre}">Nombre</td>
                     <td th:text="${pqrs.correo}">correo@correo.com</td>
                     <td th:text="${pqrs.telefono}">3001234567</td>
                     <td th:text="${pqrs.tipo}">Tipo</td>
@@ -156,7 +154,7 @@
             </div>
             <div class="info-item">
                 <strong>Respuesta:</strong><br>
-                <span id="respuesta-pqrs">No hay respuesta registrada.</span>
+                <span id="modal-respuesta">Sin respuesta</span>
             </div>
             <input type="hidden" id="pqrs-id" value="">
             <div class="modal-buttons"></div>
@@ -180,9 +178,7 @@
         document.getElementById("modal-mensaje").innerText = button.getAttribute("data-mensaje");
 
         const estado = button.getAttribute("data-estado");
-        const respuesta = button.getAttribute("data-respuesta") || "No hay respuesta registrada.";
-
-        document.getElementById("respuesta-pqrs").inerText = respuesta;
+        document.getElementById("modal-respuesta").innerText = button.getAttribute("data-respuesta" || "Sin respuesta.");
 
         const acciones = document.querySelector(".modal-buttons");
         acciones.innerHTML = `<button type="button" onclick="cerrarModal()" class="btn-secondary">Cerrar</button>`;

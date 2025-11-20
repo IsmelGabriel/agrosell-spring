@@ -1,0 +1,332 @@
+/* ============================================
+   ESTILOS PARA LA PÁGINA ABOUT US
+   ============================================ */
+
+/* Estilos mínimos adicionales (no reemplazan tu styles.css) */
+.about-hero img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    display: block;
+}
+
+.about-section {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    padding: 60px 20px;
+    flex-wrap: wrap;
+}
+
+.about-us-info {
+    flex: 1;
+    min-width: 280px;
+}
+
+.about-imagen {
+    flex: 1;
+    min-width: 280px;
+}
+
+.about-imagen img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* Sección tipo referencia */
+.about-team {
+    background: #0a1841;
+    color: #fff;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.team-image img {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto 30px;
+    display: block;
+    border-radius: 8px;
+}
+
+.team-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.team-stats .stat {
+    flex: 1;
+    min-width: 200px;
+    padding: 20px;
+}
+
+.team-stats h3 {
+    font-size: 2.2rem;
+    margin-bottom: 8px;
+    color: #cfc9ff;
+}
+
+/* Carrusel de opiniones */
+.opiniones {
+    padding: 50px 20px;
+    background: #f6f6f7;
+    text-align: center;
+}
+
+.carousel {
+    max-width: 760px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.carousel-item {
+    display: none;
+    padding: 20px 30px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+}
+
+.carousel-item.active {
+    display: block;
+}
+
+.carousel-item p {
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+}
+
+.carousel-item span {
+    display: block;
+    font-weight: 600;
+    color: #333;
+}
+
+.carousel-controls {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.carousel-controls button {
+    border: none;
+    background: #0a1841;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.carousel-dots {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ddd;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.dot.active {
+    background: #0a1841;
+}
+
+/* ============================================
+   SECCIÓN NUESTRA MISIÓN
+   ============================================ */
+
+.nuestra-mision {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px;
+    background: #f5fdf5;
+}
+
+.mision-title {
+    font-size: 6rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+
+    /* Imagen dentro de las letras */
+    background: url("/img/campo.jpg") center/cover no-repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    /* Contorno verde */
+    -webkit-text-stroke: 3px #2e7d32;
+    letter-spacing: 5px;
+}
+
+@media (max-width: 768px) {
+    .mision-title {
+        margin-top: 10px;
+        font-size: 3rem;
+        -webkit-text-stroke: 2px #2e7d32;
+    }
+}
+
+/* ============================================
+   IMAGEN FULL WIDTH
+   ============================================ */
+
+.imagen-full {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    display: block;
+}
+
+/* ============================================
+   SECCIÓN SOBRE NOSOTROS
+   ============================================ */
+
+.sobre-nosotros {
+    background: #f9f9f9;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.sobre-nosotros .contenedor {
+    max-width: 900px;
+    margin: auto;
+}
+
+.sobre-nosotros h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #2e7d32;
+    font-weight: bold;
+    position: relative;
+}
+
+.sobre-nosotros h2::after {
+    content: "";
+    width: 80px;
+    height: 4px;
+    background: #4caf50;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 5px;
+}
+
+.sobre-nosotros p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+/* ============================================
+   RESPONSIVE SOBRE NOSOTROS
+   ============================================ */
+
+@media (max-width: 767px) {
+    .sobre-nosotros {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .sobre-nosotros .col-left img {
+        height: 40vh !important;
+    }
+
+    .sobre-nosotros .col-right {
+        padding: 20px !important;
+    }
+}
+
+/* ============================================
+   SECCIONES ALTERNADAS (LEFT/RIGHT)
+   ============================================ */
+
+.section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 80px 10%;
+}
+
+/* Imagen izquierda / texto derecha */
+.section-left {
+    flex-direction: row;
+    background: #ffffff;
+}
+
+/* Texto izquierda / imagen derecha */
+.section-right {
+    flex-direction: row-reverse;
+    background: #f0f4f8;
+}
+
+.text-wrap {
+    flex: 1;
+}
+
+.text-wrap h2 {
+    font-size: 2rem;
+    color: #2e7d32;
+    margin-bottom: 20px;
+}
+
+.text-wrap p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.image-wrap {
+    flex: 0 0 auto;
+    max-width: 550px;
+    min-width: 280px;
+    display: block;
+}
+
+.image-wrap img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    display: block;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border: 4px solid rgba(255, 255, 255, 0.6);
+    background: #ddd;
+}
+
+/* ============================================
+   RESPONSIVE SECCIONES
+   ============================================ */
+
+@media (max-width: 880px) {
+    .section {
+        flex-direction: column !important;
+        gap: 20px;
+        padding: 40px 5%;
+    }
+
+    .image-wrap {
+        max-width: 100%;
+    }
+
+    .image-wrap img {
+        height: 260px;
+    }
+}
+
