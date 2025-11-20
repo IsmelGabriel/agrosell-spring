@@ -222,8 +222,8 @@ main {
 }
 
 footer {
+    margin-top: 50px;
     text-align: center;
-    margin-top: 100px;
     padding: 20px;
     background-color: #22525D;
     color: white;
@@ -1954,6 +1954,10 @@ footer {
     }
 
     .cuadro-pago h2{
+        margin-top: 100px;
+    }
+
+    .form-reserva h2 {
         margin-top: 100px;
     }
 
