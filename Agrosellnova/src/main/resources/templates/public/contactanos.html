@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
-<body>
+
 
 <header class="top-bar">
     <div class="header-content">
@@ -58,27 +58,274 @@
     </ul>
 </nav>
 
-<main>
-    <section id="contactactanos-section">
-        <div class="contactanos-titulo">
-            <h2>Contáctanos</h2>
-        </div>
-        <div class="contactanos-descripcion">
-            <h1>Si tienes alguna pregunta o inquietud, no dudes en ponerte en <a th:href="@{/public/ayuda#ayuda-form}"> contacto con nosotros.</a> Estaremos encantados de ayudarte.</h1>
+
+<body>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contáctanos - Agrosell Nova</title>
+
+    <style>
+        /* ======== SECCIÓN HERO ======== */
+        .contact-hero {
+            position: relative;
+            width: 100%;
+            height: 45vh;
+             background-image: url("/img/campo10.jpg");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .contact-hero .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+        }
+
+        .hero-content {
+            position: relative;
+            color: #fff;
+            z-index: 2;
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ======== HERO DE CONTACTO ======== -->
+<section class="contact-hero">
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h1>CONTÁCTANOS</h1>
+        <p>Estamos listos para ayudarte. Cuéntanos tu necesidad y trabajemos juntos
+            en una solución que impulse tu proyecto.</p>
+    </div>
+</section>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contáctanos</title>
+
+    <!-- Fuente Poppins (más cuadrada y moderna) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body{
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #ffffff;
+        }
+
+        .wrapper{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+            position: relative;
+        }
+
+        .container{
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            gap: 10px; /* MÁS PEGADITOS */
+            justify-content: flex-start;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        /* --- Tarjetas de información --- */
+        .info-cards{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px; /* MÁS PEGADITOS */
+            z-index: 10;
+            margin-right: -30px; /* SE MONTAN SOBRE EL FORMULARIO */
+            margin-top: 30px;
+        }
+
+        .card{
+            background: #ffffff;
+            border: 2px solid #dcdcdc;
+            padding: 25px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+            width: 200px;
+        }
+
+        .card img{
+            width: 40px;
+            margin-bottom: 10px;
+        }
+
+        .card h4{
+            margin: 5px 0 10px 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #2d6a4f;
+        }
+
+        .card p{
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* --- Formulario --- */
+        .contact-box{
+            background: #d8f3dc;
+            padding: 50px;
+            border-radius: 10px;
+            width: 60%;
+            box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+            position: relative;
+            left: -15px; /* PARA QUE LOS CUADROS SE MONTEN UN POCO MÁS */
+        }
+
+        /* TÍTULO DEL FORMULARIO CENTRADO Y CUADRADO */
+        .contact-box h2{
+            margin-top: 0;
+            font-size: 30px;
+            font-family: 'Poppins', sans-serif;  /* letra más cuadrada */
+            color: #1b4332;
+            margin-bottom: 25px;
+            text-align: center; /* CENTRADO */
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .contact-box input, .contact-box textarea{
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #95d5b2;
+            border-radius: 5px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .contact-box input:focus,
+        .contact-box textarea:focus{
+            border-color: #52b788;
+        }
+
+        .contact-box textarea{
+            height: 120px;
+            resize: none;
+        }
+
+        .btn{
+            background: #2d6a4f;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: .2s;
+            width: 100%;
+        }
+
+        .btn:hover{
+            background: #1b4332;
+        }
+
+        @media(max-width: 900px){
+            .container{
+                flex-direction: column;
+                align-items: center;
+            }
+            .contact-box{ width: 90%; left: 0; }
+            .info-cards{ grid-template-columns: 1fr 1fr; margin-right: 0; }
+        }
+
+        @media(max-width: 600px){
+            .info-cards{ grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="container">
+
+        <!-- Tarjetas de información -->
+        <div class="info-cards">
+            <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png">
+                <h4>NUESTRA OFICINA PRINCIPAL</h4>
+                <p>SoHo 94 Broadway St</p>
+                <p>New York, NY 1001</p>
+            </div>
+
+            <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png">
+                <h4>NÚMERO DE TELÉFONO</h4>
+                <p>324-654-5487</p>
+                <p>888-0123-4567 (llamada gratuita)</p>
+            </div>
+
+            <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/2991/2991121.png">
+                <h4>FAX</h4>
+                <p>1-234-567-8900</p>
+            </div>
+
+            <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png">
+                <h4>CORREO ELECTRÓNICO</h4>
+                <p>Agrosellnova@gmail.com</p>
+            </div>
         </div>
 
-        <div class="contactanos-mapa">
-            <h3>Visítanos</h3>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1143.7878161395195!2d-74.06338804765312!3d4.651966184651177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9a45d9f1654b%3A0x3d69138572d157f2!2sSENA%20-%20Centro%20De%20Servicios%20Financieros!5e1!3m2!1ses!2sco!4v1751056007747!5m2!1ses!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>        </div>
+        <!-- Formulario -->
+        <div class="contact-box">
+            <h2>Contáctenos</h2>
 
-        <div class="contactanos-info">
-            <h3>Información de contacto</h3>
-            <p>Dirección: Calle 65, Bogota, Colombia</p>
-            <p>Teléfono: +57 123 456 7890</p>
-            <p>Correo electrónico: contacto@agrosellnova.com</p>
+            <form action="#" method="POST">
+                <input type="text" placeholder="Ingrese su nombre" required>
+                <input type="email" placeholder="Ingrese un correo válido" required>
+                <textarea placeholder="Escriba su mensaje"></textarea>
+
+                <button class="btn" type="submit">ENVIAR</button>
+            </form>
         </div>
-    </section>
-</main>
+
+    </div>
+</div>
+
+</body>
+</html>
+
 
 <footer class="footer">
     <div class="footer-container">
