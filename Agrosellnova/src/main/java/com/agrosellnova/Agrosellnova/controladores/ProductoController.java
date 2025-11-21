@@ -136,7 +136,7 @@ public class ProductoController {
     ) {
         try {
             String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
-            String rutaAbsoluta = new File("Agrosellnova/src/main/resources/static/img/productos").getAbsolutePath();
+            String rutaAbsoluta = new File("src/main/resources/static/img/productos").getAbsolutePath();
 
             Files.createDirectories(Paths.get(rutaAbsoluta));
             Path path = Paths.get(rutaAbsoluta, nombreArchivo);
