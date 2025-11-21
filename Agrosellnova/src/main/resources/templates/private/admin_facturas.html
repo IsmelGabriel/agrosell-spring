@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Facturas - Agrosell Nova</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+
+<body>
+<header class="top-bar">
+    <div class="header-content">
+        <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
+        <h1 class="menu-title">AGROSELL NOVA - ADMIN</h1>
+
+        <div class="panel-option">
+            <button id="panelControl">
+                <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+            </button>
+        </div>
+
+        <span class="username">
+            <a th:text="${usuario.nombreUsuario}" th:href="@{/public/cerrar_sesion}"></a>
+        </span>
+
+        <a th:href="@{/private/perfil}" class="menu-icon">
+            <i class="bi bi-person-circle" style="font-size: 30px;"></i>
+        </a>
+    </div>
+</header>
+
+<nav class="menu-bar" id="menu-bar">
+    <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+    <ul id="menu-items">
+        <li><a th:href="@{/private/panel_control}"><i class="fas fa-tachometer-alt"></i> Panel Control</a></li>
+        <li><a th:href="@{/private/admin/todas}" class="active"><i class="fas fa-file-invoice-dollar"></i> Facturas</a></li>
+        <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+    </ul>
+</nav>
+
+<main class="container my-5">
+    <div class="admin-facturas-header">
+        <h2><i class="fas fa-file-invoice-dollar"></i> Administración de Facturas</h2>
+        <p class="text-muted">Gestiona todas las facturas del sistema</p>
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="stat-card stat-success">
+                <i class="fas fa-check-circle"></i>
+                <h4>Pagadas</h4>
+                <p class="stat-number">0</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card stat-warning">
+                <i class="fas fa-clock"></i>
+                <h4>Pendientes</h4>
+                <p class="stat-number">0</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card stat-danger">
+                <i class="fas fa-times-circle"></i>
+                <h4>Anuladas</h4>
+                <p class="stat-number">0</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card stat-info">
+                <i class="fas fa-file-invoice"></i>
+                <h4>Total</h4>
+                <p class="stat-number" th:text="${facturas.size()}">0</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de facturas -->
+    <div class="admin-facturas-tabla">
+        <div th:if="${facturas == null or facturas.isEmpty()}" class="alert alert-info">
+            <i class="fas fa-info-circle"></i> No hay facturas registradas en el sistema.
+        </div>
+
+        <div th:if="${facturas != null and !facturas.isEmpty()}">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Número</th>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="factura : ${facturas}">
+                        <td th:text="${factura.idFactura}"></td>
+                        <td><strong th:text="${factura.numeroFactura}"></strong></td>
+                        <td th:text="${factura.usuario.nombre}"></td>
+                        <td th:text="${#temporals.format(factura.fechaEmision, 'dd/MM/yyyy')}"></td>
+                        <td>$<span th:text="${#numbers.formatDecimal(factura.total, 0, 'COMMA', 2, 'POINT')}"></span></td>
+                        <td>
+                            <form th:action="@{/private/admin/cambiar-estado}" method="post" style="display: inline;">
+                                <input type="hidden" name="idFactura" th:value="${factura.idFactura}">
+                                <select name="nuevoEstado" class="form-select form-select-sm estado-select"
+                                        th:attr="data-estado=${factura.estadoFactura}"
+                                        onchange="this.form.submit()">
+                                    <option value="PAGADA" th:selected="${factura.estadoFactura == 'PAGADA'}">PAGADA</option>
+                                    <option value="PENDIENTE" th:selected="${factura.estadoFactura == 'PENDIENTE'}">PENDIENTE</option>
+                                    <option value="ANULADA" th:selected="${factura.estadoFactura == 'ANULADA'}">ANULADA</option>
+                                    <option value="ABONADO" th:selected="${factura.estadoFactura == 'ABONADO'}">ABONADO</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td>
+                            <a th:href="@{/private/detalle/{id}(id=${factura.idFactura})}"
+                               class="btn btn-sm btn-primary" title="Ver detalle">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <form th:action="@{/private/admin/anular/{id}(id=${factura.idFactura})}"
+                                  method="post" style="display: inline;"
+                                  onsubmit="return confirm('¿Estás seguro de anular esta factura?');">
+                                <button type="submit" class="btn btn-sm btn-danger" title="Anular"
+                                        th:disabled="${factura.estadoFactura == 'ANULADA'}">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>Enlaces rápidos</h3>
+            <ul>
+                <li><a th:href="@{/private/panel_control}">Panel Control</a></li>
+                <li><a th:href="@{/public/inicio}">Inicio</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+<script>
+    const toggleButton = document.getElementById('menu-toggle');
+    const menuBar = document.getElementById('menu-bar');
+    toggleButton.addEventListener('click', () => {
+        menuBar.classList.toggle('active');
+    });
+
+    // Colorear selects según el estado
+    document.querySelectorAll('.estado-select').forEach(select => {
+        const estado = select.getAttribute('data-estado');
+        if (estado === 'PAGADA') {
+            select.classList.add('bg-success', 'text-white');
+        } else if (estado === 'PENDIENTE') {
+            select.classList.add('bg-warning');
+        } else if (estado === 'ANULADA') {
+            select.classList.add('bg-danger', 'text-white');
+        } else if (estado === 'ABONADO') {
+            select.classList.add('bg-info', 'text-white');
+        }
+    });
+</script>
+
+<style>
+    .admin-facturas-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .admin-facturas-header h2 {
+        color: #2c5f2d;
+        font-weight: bold;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .stat-card i {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    .stat-card h4 {
+        font-size: 16px;
+        margin: 10px 0;
+    }
+
+    .stat-number {
+        font-size: 32px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .stat-success { border-left: 4px solid #28a745; }
+    .stat-success i, .stat-success .stat-number { color: #28a745; }
+
+    .stat-warning { border-left: 4px solid #ffc107; }
+    .stat-warning i, .stat-warning .stat-number { color: #ffc107; }
+
+    .stat-danger { border-left: 4px solid #dc3545; }
+    .stat-danger i, .stat-danger .stat-number { color: #dc3545; }
+
+    .stat-info { border-left: 4px solid #17a2b8; }
+    .stat-info i, .stat-info .stat-number { color: #17a2b8; }
+
+    .admin-facturas-tabla {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .estado-select {
+        width: 130px;
+        font-weight: bold;
+    }
+</style>
+</body>
+</html>

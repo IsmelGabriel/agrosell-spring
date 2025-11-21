@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Facturas - Agrosell Nova</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+
+<body>
+<header class="top-bar">
+    <div class="header-content">
+        <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
+        <h1 class="menu-title">AGROSELL NOVA</h1>
+
+        <div class="panel-option">
+            <button id="panelControl">
+                <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+            </button>
+        </div>
+
+        <a th:href="@{/public/carrito}" class="menu-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </a>
+
+        <span class="menu-notification">
+            <button id="notificationButton">
+                <i class="fas fa-bell menu-icon"></i>
+            </button>
+        </span>
+
+        <span class="username">
+            <th:block th:if="${usuario != null}">
+                <a th:text="${usuario.nombreUsuario}" th:href="@{/public/cerrar_sesion}"></a>
+            </th:block>
+            <th:block th:unless="${usuario != null}">
+                <a th:href="@{/public/index}">Iniciar sesión</a>
+            </th:block>
+        </span>
+
+        <a th:href="@{/private/perfil}" class="menu-icon">
+            <i class="bi bi-person-circle" style="font-size: 30px;"></i>
+        </a>
+    </div>
+</header>
+
+<nav class="menu-bar" id="menu-bar">
+    <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+    <ul id="menu-items">
+        <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+        <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
+        <li><a th:href="@{/public/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
+        <li><a th:href="@{/private/mis-facturas}" class="active"><i class="fas fa-file-invoice"></i> Mis Facturas</a></li>
+        <li><a th:href="@{/public/about_us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
+        <li><a th:href="@{/public/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
+        <li><a th:href="@{/public/ayuda}"><i class="fas fa-question-circle"></i> Ayuda</a></li>
+    </ul>
+</nav>
+
+<main class="container my-5">
+    <div class="facturas-header">
+        <h2><i class="fas fa-file-invoice-dollar"></i> Mis Facturas</h2>
+        <p class="text-muted">Consulta y gestiona todas tus facturas</p>
+    </div>
+
+    <!-- Filtros -->
+    <div class="filtros-facturas mb-4">
+        <form th:action="@{/private/filtrar}" method="get" class="row g-3">
+            <div class="col-md-4">
+                <select name="estado" class="form-select">
+                    <option value="">Todos los estados</option>
+                    <option value="PAGADA" th:selected="${estadoFiltro == 'PAGADA'}">Pagada</option>
+                    <option value="PENDIENTE" th:selected="${estadoFiltro == 'PENDIENTE'}">Pendiente</option>
+                    <option value="ANULADA" th:selected="${estadoFiltro == 'ANULADA'}">Anulada</option>
+                    <option value="ABONADO" th:selected="${estadoFiltro == 'ABONADO'}">Abonado</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-filter"></i> Filtrar
+                </button>
+            </div>
+        </form>
+
+        <form th:action="@{/private/buscar}" method="get" class="row g-3 mt-2">
+            <div class="col-md-4">
+                <input type="text" name="numeroFactura" class="form-control" placeholder="Buscar por número de factura">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-secondary">
+                    <i class="fas fa-search"></i> Buscar
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de facturas -->
+    <div class="facturas-lista">
+        <div th:if="${facturas == null or facturas.isEmpty()}" class="alert alert-info">
+            <i class="fas fa-info-circle"></i> No tienes facturas registradas aún.
+        </div>
+
+        <div th:if="${facturas != null and !facturas.isEmpty()}">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Número</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="factura : ${facturas}">
+                        <td><strong th:text="${factura.numeroFactura}"></strong></td>
+                        <td th:text="${#temporals.format(factura.fechaEmision, 'dd/MM/yyyy')}"></td>
+                        <td>$<span th:text="${#numbers.formatDecimal(factura.total, 0, 'COMMA', 2, 'POINT')}"></span></td>
+                        <td>
+                                <span th:class="'badge ' +
+                                    ${factura.estadoFactura == 'PAGADA' ? 'bg-success' :
+                                    (factura.estadoFactura == 'PENDIENTE' ? 'bg-warning' :
+                                    (factura.estadoFactura == 'ANULADA' ? 'bg-danger' : 'bg-info'))}"
+                                      th:text="${factura.estadoFactura}">
+                                </span>
+                        </td>
+                        <td>
+                            <a th:href="@{/private/detalle/{id}(id=${factura.idFactura})}"
+                               class="btn btn-sm btn-primary" title="Ver detalle">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a th:href="@{/private/descargar/{id}(id=${factura.idFactura})}"
+                               class="btn btn-sm btn-success" title="Descargar">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>Enlaces rápidos</h3>
+            <ul>
+                <li><a th:href="@{/public/inicio}">Inicio</a></li>
+                <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
+                <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Contacto</h3>
+            <p>📍 Dirección: Calle Principal #123</p>
+            <p>📞 Teléfono: +57 123 456 789</p>
+            <p>📧 Email: <a href="mailto:info@agrosellnova.com">info@agrosellnova.com</a></p>
+        </div>
+        <div class="footer-column">
+            <h3>Síguenos</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('notificationButton').addEventListener('click', () => alert("No tienes notificaciones pendientes"));
+
+    const toggleButton = document.getElementById('menu-toggle');
+    const menuBar = document.getElementById('menu-bar');
+    toggleButton.addEventListener('click', () => {
+        menuBar.classList.toggle('active');
+    });
+
+    window.addEventListener("scroll", () => {
+        const menuBar = document.querySelector(".menu-bar");
+        menuBar.classList.toggle("scrolled", window.scrollY > 50);
+    });
+</script>
+
+<style>
+    .facturas-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .facturas-header h2 {
+        color: #2c5f2d;
+        font-weight: bold;
+    }
+
+    .filtros-facturas {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .facturas-lista {
+        margin-top: 20px;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f3f5;
+    }
+</style>
+</body>
+</html>
