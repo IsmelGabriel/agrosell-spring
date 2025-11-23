@@ -6,13 +6,14 @@
     <title>Agrosell Nova</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
 </head>
 <body>
 
 <header class="top-bar">
     <div class="header-content">
-        <img src="/img/logo.png" alt="Agrosell Nova" class="logo">
+        <img src="https://i.ibb.co/CjJWMHJ/logo.png" alt="Agrosell Nova" class="logo">
         <h1 class="menu-title">AGROSELL NOVA</h1>
 
         <div class="panel-option">
@@ -27,7 +28,7 @@
 
         <span class="menu-notification">
             <button id="notificationButton">
-                <i class="fas fa-bell menu-icon"></i>
+            <!--<i class="fas fa-bell menu-icon"></i>-->
             </button>
         </span>
 
@@ -51,7 +52,7 @@
     <ul id="menu-items">
         <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
         <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
-<!--        <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>-->
+        <!--        <li><a th:href="@{/public/categorias}"><i class="fas fa-list"></i> Categorías</a></li>-->
         <li><a th:href="@{/public/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
         <li><a th:href="@{/public/about_us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
         <li><a th:href="@{/public/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
@@ -83,19 +84,20 @@
             <div class="destacados-inicio-titulo">
                 PRODUCTOS MÁS DESTACADOS
             </div>
-                <div class="productos-grid">
-                    <div class="producto-item" th:each="producto : ${productosDestacados}">
-                        <div class="producto-card">
-                            <img th:src="@{|/images/${producto.imagen}|}" class="producto-imagen" th:alt="${producto.nombre}">
-                            <div class="producto-info">
-                                <h5 class="producto-nombre" th:text="${producto.nombre}"></h5>
-                                <p class="producto-descripcion" th:text="${producto.descripcion}"></p>
-                                <p class="producto-precio" th:text="'$' + ${producto.precio}"></p>
-                                <a th:href="@{/public/productos}" class="producto-boton">Ver más</a>
-                            </div>
+            <div class="productos-grid">
+                <div class="producto-item" th:each="producto : ${productosDestacados}">
+                    <div class="producto-card">
+                        <img th:src="@{${producto.imagen}|}" class="producto-imagen"
+                             th:alt="${producto.nombre}">
+                        <div class="producto-info">
+                            <h5 class="producto-nombre" th:text="${producto.nombre}"></h5>
+                            <p class="producto-descripcion" th:text="${producto.descripcion}"></p>
+                            <p class="producto-precio" th:text="'$' + ${producto.precio}"></p>
+                            <a th:href="@{/public/productos}" class="producto-boton">Ver más</a>
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
 
 
@@ -106,30 +108,36 @@
             <div class="contenedor-noticias">
 
                 <article class="noticia">
-                    <img src="https://blog.aepla.es/wp-content/uploads/2020/07/principios-agricultura-sostenible-fao-aepla.jpg" alt="Agricultura sostenible">
+                    <img src="https://blog.aepla.es/wp-content/uploads/2020/07/principios-agricultura-sostenible-fao-aepla.jpg"
+                         alt="Agricultura sostenible">
                     <div class="contenido-noticia">
                         <h3>Avanza la agricultura sostenible en el Caribe colombiano</h3>
-                        <p>Productores locales implementan nuevas técnicas ecológicas para mejorar la calidad del suelo y proteger el medio ambiente.</p>
+                        <p>Productores locales implementan nuevas técnicas ecológicas para mejorar la calidad del suelo
+                            y proteger el medio ambiente.</p>
                         <a href="#" class="boton-leer">Leer más</a>
                     </div>
                 </article>
 
 
                 <article class="noticia">
-                    <img src="https://tse2.mm.bing.net/th/id/OIP._ZSP9UI052VdsSucHeYpawHaF2?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Feria agrícola">
+                    <img src="https://tse2.mm.bing.net/th/id/OIP._ZSP9UI052VdsSucHeYpawHaF2?rs=1&pid=ImgDetMain&o=7&rm=3"
+                         alt="Feria agrícola">
                     <div class="contenido-noticia">
                         <h3>Agrosell Nova participó en la Feria Agroexpo 2025</h3>
-                        <p>La plataforma presentó sus avances en conexión directa entre campesinos y compradores, impulsando el comercio justo.</p>
+                        <p>La plataforma presentó sus avances en conexión directa entre campesinos y compradores,
+                            impulsando el comercio justo.</p>
                         <a href="#" class="boton-leer">Leer más</a>
                     </div>
                 </article>
 
 
                 <article class="noticia">
-                    <img src="https://tse1.mm.bing.net/th/id/OIP.5BUFjg4Fizbau0r7lQmziQHaEK?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Exportaciones">
+                    <img src="https://tse1.mm.bing.net/th/id/OIP.5BUFjg4Fizbau0r7lQmziQHaEK?rs=1&pid=ImgDetMain&o=7&rm=3"
+                         alt="Exportaciones">
                     <div class="contenido-noticia">
                         <h3>Aumentan las exportaciones de productos orgánicos</h3>
-                        <p>Colombia logra posicionar nuevos productos agrícolas en mercados internacionales gracias al trabajo de pequeños productores.</p>
+                        <p>Colombia logra posicionar nuevos productos agrícolas en mercados internacionales gracias al
+                            trabajo de pequeños productores.</p>
                         <a href="#" class="boton-leer">Leer más</a>
                     </div>
                 </article>
@@ -137,83 +145,83 @@
         </section>
 
         <style>
-.noticias {
-  background-color: #f8f9fa;
-  padding: 60px 20px;
-  text-align: center;
-}
+            .noticias {
+                background-color: #f8f9fa;
+                padding: 60px 20px;
+                text-align: center;
+            }
 
-.titulo-seccion {
-  font-size: 2rem;
-  color: #2e7d32;
-  margin-bottom: 10px;
-}
+            .titulo-seccion {
+                font-size: 2rem;
+                color: #2e7d32;
+                margin-bottom: 10px;
+            }
 
-.subtitulo {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 40px;
-}
+            .subtitulo {
+                font-size: 1.1rem;
+                color: #555;
+                margin-bottom: 40px;
+            }
 
-.contenedor-noticias {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
+            .contenedor-noticias {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 25px;
+                max-width: 1100px;
+                margin: 0 auto;
+            }
 
-.noticia {
-  background: #fff;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+            .noticia {
+                background: #fff;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
 
-.noticia:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
+            .noticia:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            }
 
-.noticia img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
+            .noticia img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+            }
 
-.contenido-noticia {
-  padding: 20px;
-  text-align: left;
-}
+            .contenido-noticia {
+                padding: 20px;
+                text-align: left;
+            }
 
-.contenido-noticia h3 {
-  font-size: 1.2rem;
-  color: #2e7d32;
-  margin-bottom: 10px;
-}
+            .contenido-noticia h3 {
+                font-size: 1.2rem;
+                color: #2e7d32;
+                margin-bottom: 10px;
+            }
 
-.contenido-noticia p {
-  color: #666;
-  font-size: 0.95rem;
-  margin-bottom: 15px;
-}
+            .contenido-noticia p {
+                color: #666;
+                font-size: 0.95rem;
+                margin-bottom: 15px;
+            }
 
-.boton-leer {
-  display: inline-block;
-  padding: 8px 15px;
-  background-color: #2e7d32;
-  color: #fff;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
-}
+            .boton-leer {
+                display: inline-block;
+                padding: 8px 15px;
+                background-color: #2e7d32;
+                color: #fff;
+                border-radius: 8px;
+                text-decoration: none;
+                font-size: 0.9rem;
+                transition: background-color 0.3s ease;
+            }
 
-.boton-leer:hover {
-  background-color: #1b5e20;
-}
-   </style>
+            .boton-leer:hover {
+                background-color: #1b5e20;
+            }
+        </style>
 
 
         <section class="opiniones">
@@ -221,7 +229,8 @@
 
             <div class="carrusel-opiniones">
                 <div class="opinion active">
-                    <p>"Gracias a esta plataforma, puedo vender mis productos directamente y obtener mejores ganancias."</p>
+                    <p>"Gracias a esta plataforma, puedo vender mis productos directamente y obtener mejores
+                        ganancias."</p>
                     <h4>- Juan Pérez, Productor de Café</h4>
                 </div>
                 <div class="opinion">
@@ -233,7 +242,8 @@
                     <h4>- Luis Rodríguez, Agricultor</h4>
                 </div>
                 <div class="opinion">
-                    <p>"Desde que uso esta plataforma, mis ventas han aumentado y tengo contacto directo con mis clientes."</p>
+                    <p>"Desde que uso esta plataforma, mis ventas han aumentado y tengo contacto directo con mis
+                        clientes."</p>
                     <h4>- Ana Torres, Productora de Frutas</h4>
                 </div>
                 <div class="opinion">
@@ -251,75 +261,73 @@
         <style>
 
             .opiniones {
-              background: linear-gradient(#e8f5e9, #e4f2e7, #d9ede0); /* degradado suave verde claro */
-              padding: 50px 0 30px 0; /* reduce el espacio inferior */
-              margin: 0;
-              border: none;
-              box-shadow: none;
-              text-align: center;
-              transition: background 0.3s ease-in-out;
+                background: linear-gradient(#e8f5e9, #e4f2e7, #d9ede0); /* degradado suave verde claro */
+                padding: 50px 0 30px 0; /* reduce el espacio inferior */
+                margin: 0;
+                border: none;
+                box-shadow: none;
+                text-align: center;
+                transition: background 0.3s ease-in-out;
             }
 
 
             footer {
-              margin-top: 0 !important;
-              padding-top: 0 !important;
+                margin-top: 0 !important;
+                padding-top: 0 !important;
             }
 
 
             .carrusel-opiniones {
-              position: relative;
-              max-width: 700px;
-              margin: 0 auto;
-              overflow: hidden;
+                position: relative;
+                max-width: 700px;
+                margin: 0 auto;
+                overflow: hidden;
             }
 
             .opinion {
-              display: none;
-              opacity: 0;
-              transition: opacity 0.6s ease;
+                display: none;
+                opacity: 0;
+                transition: opacity 0.6s ease;
             }
 
             .opinion.active {
-              display: block;
-              opacity: 1;
+                display: block;
+                opacity: 1;
             }
 
             .opinion p {
-              font-size: 1.1rem;
-              color: #333;
-              margin-bottom: 15px;
-              line-height: 1.5;
+                font-size: 1.1rem;
+                color: #333;
+                margin-bottom: 15px;
+                line-height: 1.5;
             }
 
             .opinion h4 {
-              color: #2e7d32;
-              font-weight: 600;
+                color: #2e7d32;
+                font-weight: 600;
             }
 
             /* ===== Botones del carrusel ===== */
             .controles {
-              margin-top: 25px;
+                margin-top: 25px;
             }
 
             .controles button {
-              background-color: #28a745;
-              color: white;
-              border: none;
-              padding: 10px 16px;
-              margin: 0 8px;
-              border-radius: 50%;
-              font-size: 18px;
-              cursor: pointer;
-              transition: background 0.3s ease;
+                background-color: #28a745;
+                color: white;
+                border: none;
+                padding: 10px 16px;
+                margin: 0 8px;
+                border-radius: 50%;
+                font-size: 18px;
+                cursor: pointer;
+                transition: background 0.3s ease;
             }
 
             .controles button:hover {
-              background-color: #1e7e34;
+                background-color: #1e7e34;
             }
         </style>
-
-
 
 
     </section>
@@ -331,7 +339,7 @@
             <h3>Enlaces rápidos</h3>
             <ul>
                 <li><a th:href="@{/public/inicio}">Inicio</a></li>
-<!--                <li><a th:href="@{/public/categorias}">Categorías</a></li>-->
+                <!--                <li><a th:href="@{/public/categorias}">Categorías</a></li>-->
                 <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
                 <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
                 <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
@@ -359,18 +367,19 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y condiciones</a></p>
+        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y
+            condiciones</a></p>
     </div>
 </footer>
 
 <script>
-    document.getElementById('notificationButton').addEventListener('click', function() {
+    document.getElementById('notificationButton').addEventListener('click', function () {
         alert("No tienes notificaciones pendientes");
     });
 
     function debounce(func, wait) {
         let timeout;
-        return function(...args) {
+        return function (...args) {
             const later = () => {
                 clearTimeout(timeout);
                 func.apply(this, args);
@@ -404,9 +413,9 @@
     const nextBtn = document.querySelector(".next");
 
     function mostrarOpinion(nueva) {
-      opiniones[indice].classList.remove("active");
-      indice = (nueva + opiniones.length) % opiniones.length;
-      opiniones[indice].classList.add("active");
+        opiniones[indice].classList.remove("active");
+        indice = (nueva + opiniones.length) % opiniones.length;
+        opiniones[indice].classList.add("active");
     }
 
     prevBtn.addEventListener("click", () => mostrarOpinion(indice - 1));
@@ -415,7 +424,6 @@
     // Cambio automático cada 6 segundos
     setInterval(() => mostrarOpinion(indice + 1), 6000);
 </script>
-
 
 
 </body>

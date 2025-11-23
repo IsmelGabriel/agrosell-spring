@@ -44,6 +44,8 @@ public class ProductoController {
 
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private ImgBBService imgBBService;
 
     @GetMapping("/public/productos")
     public String mostrarProductos(
@@ -135,17 +137,11 @@ public class ProductoController {
             @RequestParam("stock") int stock
     ) {
         try {
-            String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
-            String rutaAbsoluta = new File("src/main/resources/static/img/productos").getAbsolutePath();
-
-            Files.createDirectories(Paths.get(rutaAbsoluta));
-            Path path = Paths.get(rutaAbsoluta, nombreArchivo);
-            Files.write(path, imagen.getBytes());
-            String rutaRelativa = "../img/productos/" + nombreArchivo;
+            String imagenUrl = imgBBService.uploadImage(imagen);
 
             Producto producto = new Producto();
             producto.setUsuarioCampesino(nombreUsuario);
-            producto.setImagen(rutaRelativa);
+            producto.setImagen(imagenUrl);
             producto.setNombre(nombre);
             producto.setPrecio(precio);
             producto.setDescripcion(descripcion);
