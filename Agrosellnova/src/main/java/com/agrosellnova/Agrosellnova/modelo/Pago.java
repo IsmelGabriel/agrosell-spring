@@ -2,6 +2,8 @@ package com.agrosellnova.Agrosellnova.modelo;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pagos")
@@ -18,6 +20,8 @@ public class Pago {
     private String direccion;
     private LocalDate fechaEmision;
 
+    @OneToMany(mappedBy = "pago", cascade = CascadeType.ALL)
+    private List<Factura> facturas = new ArrayList<>();
     // Getters y setters
     public Long getIdPago() { return idPago; }
     public void setIdPago(Long idPago) { this.idPago = idPago; }

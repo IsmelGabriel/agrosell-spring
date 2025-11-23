@@ -1,13 +1,11 @@
 package com.agrosellnova.Agrosellnova.controladores;
 
-import com.agrosellnova.Agrosellnova.modelo.Producto;
-import com.agrosellnova.Agrosellnova.modelo.Usuario;
-import com.agrosellnova.Agrosellnova.modelo.Venta;
-import com.agrosellnova.Agrosellnova.modelo.Pago;
+import com.agrosellnova.Agrosellnova.modelo.*;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
 import com.agrosellnova.Agrosellnova.repositorio.PagoRepository;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
 import com.agrosellnova.Agrosellnova.servicio.VentaService;
+import com.agrosellnova.Agrosellnova.servicio.FacturaService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +31,9 @@ public class PagoController {
 
     @Autowired
     private PagoRepository pagoRepository;
+
+    @Autowired
+    private FacturaService facturaService;
 
     @PostMapping("/registrarPago")
     public String procesarPago(
@@ -89,7 +90,13 @@ public class PagoController {
 
             pagoRepository.save(pago);
 
+            Factura factura = facturaService.crearFacturaDesdeCarrito(comprador, pago, carrito);
+
+            // Pasar la factura al modelo para mostrarla
             model.addAttribute("mensaje", "¡Pago exitoso! Gracias por tu compra.");
+            model.addAttribute("factura", factura);
+            model.addAttribute("numeroFactura", factura.getNumeroFactura());
+
             return "public/pago_exitoso";
 
         } catch (Exception e) {

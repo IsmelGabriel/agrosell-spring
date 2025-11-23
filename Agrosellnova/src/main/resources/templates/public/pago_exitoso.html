@@ -1,21 +1,130 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pago exitoso</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="page-exitoso">
 <div class="exito-container">
+    <div class="exito-icono">
+        <i class="fas fa-check-circle"></i>
+    </div>
+
     <h1 class="msj-exitoso">¡Pago exitoso!</h1>
-    <p>Los detalles de la compra será enviadas a su correo.</p>
-    <a th:href="@{/public/productos}" class="btn-exitoso">Volver a productos</a>
+
+    <div class="factura-info" th:if="${factura != null}">
+        <h3>Factura generada</h3>
+        <p><strong>Número de factura:</strong> <span th:text="${factura.numeroFactura}"></span></p>
+        <p><strong>Fecha de emisión:</strong> <span th:text="${#temporals.format(factura.fechaEmision, 'dd/MM/yyyy')}"></span></p>
+        <p><strong>Total:</strong> $<span th:text="${#numbers.formatDecimal(factura.total, 0, 'COMMA', 2, 'POINT')}"></span></p>
+        <p><strong>Estado:</strong> <span th:text="${factura.estadoFactura}"></span></p>
+    </div>
+
+    <p>Los detalles de la compra y la factura han sido enviados a su correo.</p>
+
+    <div class="acciones-exitoso">
+        <a th:href="@{/private/detalle/{id}(id=${factura.idFactura})}" class="btn-exitoso btn-ver-factura">
+            <i class="fas fa-file-invoice"></i> Ver factura completa
+        </a>
+        <a th:href="@{/private/mis-facturas}" class="btn-exitoso btn-mis-facturas">
+            <i class="fas fa-list"></i> Mis facturas
+        </a>
+        <a th:href="@{/public/productos}" class="btn-exitoso btn-productos">
+            <i class="fas fa-shopping-bag"></i> Volver a productos
+        </a>
+    </div>
 </div>
 
 <script>
     localStorage.removeItem("carrito");
-    alert("Gracias por tu compra. Tu carrito ha sido vaciado.");
+    console.log("Gracias por tu compra. Tu carrito ha sido vaciado.");
 </script>
+
+<style>
+    .exito-icono {
+        font-size: 80px;
+        color: #28a745;
+        margin-bottom: 20px;
+        animation: checkmark 0.5s ease-in-out;
+    }
+
+    @keyframes checkmark {
+        0% { transform: scale(0); opacity: 0; }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .factura-info {
+        background: #f8f9fa;
+        border: 2px solid #28a745;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+        text-align: left;
+    }
+
+    .factura-info h3 {
+        color: #28a745;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .factura-info p {
+        margin: 10px 0;
+        font-size: 16px;
+    }
+
+    .acciones-exitoso {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .btn-exitoso {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 30px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+    .btn-ver-factura {
+        background: #007bff;
+        color: white;
+    }
+
+    .btn-ver-factura:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+    }
+
+    .btn-mis-facturas {
+        background: #6c757d;
+        color: white;
+    }
+
+    .btn-mis-facturas:hover {
+        background: #545b62;
+        transform: translateY(-2px);
+    }
+
+    .btn-productos {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-productos:hover {
+        background: #218838;
+        transform: translateY(-2px);
+    }
+</style>
 </body>
 </html>

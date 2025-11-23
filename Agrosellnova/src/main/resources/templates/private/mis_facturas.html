@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Facturas</title>
+    <link rel="stylesheet" th:href="@{/css/panel.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .modal-content-factura {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 900px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: fadeIn 0.3s ease-in-out;
+            margin: 20px;
+        }
+
+        .cerrar-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.2s;
+        }
+
+        .cerrar-modal:hover {
+            color: #D32F2F;
+        }
+
+        .factura-header-modal {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #2E7D32;
+        }
+
+        .factura-header-modal h2 {
+            color: #2E7D32;
+            margin: 0 0 10px 0;
+        }
+
+        .factura-numero-grande {
+            font-size: 20px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .factura-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .info-section h5 {
+            color: #2E7D32;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border-bottom: 2px solid #E8F5E9;
+            padding-bottom: 8px;
+        }
+
+        .info-section p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .badge-estado {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .badge-pagada { background-color: #4CAF50; color: white; }
+        .badge-pendiente { background-color: #FFC107; color: #333; }
+        .badge-anulada { background-color: #D32F2F; color: white; }
+        .badge-abonado { background-color: #2196F3; color: white; }
+
+        .tabla-productos {
+            margin: 25px 0;
+        }
+
+        .tabla-productos table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .tabla-productos thead {
+            background-color: #E8F5E9;
+        }
+
+        .tabla-productos th {
+            padding: 12px;
+            text-align: left;
+            color: #2E7D32;
+            font-weight: bold;
+        }
+
+        .tabla-productos td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .totales-factura {
+            background: #F9FAF9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .totales-factura table {
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+        }
+
+        .totales-factura td {
+            padding: 8px;
+            border: none;
+        }
+
+        .total-final {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2E7D32;
+            background: #E8F5E9;
+            padding: 12px !important;
+        }
+
+        .modal-acciones {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        .btn-modal {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-imprimir {
+            background: #2E7D32;
+            color: white;
+        }
+
+        .btn-imprimir:hover {
+            background: #1B5E20;
+        }
+
+        .btn-cerrar-modal {
+            background: #757575;
+            color: white;
+        }
+
+        .btn-cerrar-modal:hover {
+            background: #616161;
+        }
+
+        @keyframes fadeIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .modal-content-factura, .modal-content-factura * {
+                visibility: visible;
+            }
+            .modal-content-factura {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+            }
+            .cerrar-modal, .modal-acciones {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="panel-control">
+<header class="Bienvenido">
+    <div class="header-left">
+        <img src="/img/logo.png" alt="Logo Agrosellnova" class="logo">
+        <span class="project-name">AGROSELLNOVA</span>
+    </div>
+
+    <div class="header-right">
+        <div class="user-info">
+            <p><strong>Bienvenido, <span th:text="${usuario.nombreUsuario}">Usuario</span></strong></p>
+            <p><span>Rol: <span th:text="${usuario.rol}">Cliente</span></span></p>
+        </div>
+        <div class="icons">
+            <a th:href="@{/notificaciones}" title="Notificaciones"><i class="fas fa-bell"></i></a>
+            <a th:href="@{/private/perfil}" title="Perfil"><i class="fas fa-user-circle"></i></a>
+        </div>
+    </div>
+</header>
+
+<div class="panel-container">
+    <aside class="sidebar">
+        <div class="lateral-content">
+            <ul>
+                <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi información</a></li>
+                <li><a th:href="@{/private/gestionar_reservas}"><i class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
+                <li><a th:href="@{/private/gestionar_compra}"><i class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
+                <li><a th:href="@{/private/mis-facturas}" style="background-color: #388E3C;"><i class="fas fa-file-invoice-dollar"></i> Mis Facturas</a></li>
+                <li><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver Productos</a></li>
+                <li><a th:href="@{/public/reservas}"><i class="fas fa-plus-circle"></i> Realizar Reserva</a></li>
+                <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="panel-content">
+        <h1>Facturas registradas para: <span th:text="${usuario.nombreUsuario}">Usuario</span></h1>
+
+        <div class="table-actions">
+            <form th:action="@{/private/filtrar}" method="get" class="filtro-form">
+                <label>
+                    <input type="text" name="numeroFactura" placeholder="Buscar número de factura..." class="filtro-input">
+                </label>
+                <label>
+                    <select name="estado" class="filtro-select">
+                        <option value="">Todos los estados</option>
+                        <option value="PAGADA" th:selected="${estadoFiltro == 'PAGADA'}">Pagada</option>
+                        <option value="PENDIENTE" th:selected="${estadoFiltro == 'PENDIENTE'}">Pendiente</option>
+                        <option value="ANULADA" th:selected="${estadoFiltro == 'ANULADA'}">Anulada</option>
+                        <option value="ABONADO" th:selected="${estadoFiltro == 'ABONADO'}">Abonado</option>
+                    </select>
+                </label>
+                <button type="submit" class="filtro-btn">Filtrar</button>
+            </form>
+
+            <form th:action="@{/private/export/facturas}" method="get">
+                <button type="submit" class="export-btn">
+                    <i class="fas fa-file-pdf"></i> Exportar PDF
+                </button>
+            </form>
+        </div>
+
+        <section class="info-table">
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>Número Factura</th>
+                    <th>Fecha Emisión</th>
+                    <th>Total ($)</th>
+                    <th>Estado</th>
+                    <th>Método de Pago</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="factura : ${facturas}">
+                    <td><strong th:text="${factura.numeroFactura}">FAC-2024-00001</strong></td>
+                    <td th:text="${#temporals.format(factura.fechaEmision, 'dd/MM/yyyy')}">20/11/2024</td>
+                    <td th:text="${#numbers.formatDecimal(factura.total, 0, 'COMMA', 2, 'POINT')}">50000</td>
+                    <td>
+                            <span th:class="'badge-estado badge-' + ${factura.estadoFactura.toLowerCase()}"
+                                  th:text="${factura.estadoFactura}">PAGADA</span>
+                    </td>
+                    <td th:text="${factura.pago.metodoPago}">Tarjeta</td>
+                    <td>
+                        <button type="button" class="btn-ver" th:data-id="${factura.idFactura}" onclick="abrirModal(this.dataset.id)" title="Ver detalle">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </td>
+                </tr>
+                <tr th:if="${facturas == null or facturas.isEmpty()}">
+                    <td colspan="6" style="text-align: center; padding: 30px;">
+                        <i class="fas fa-inbox" style="font-size: 48px; color: #ccc;"></i>
+                        <p style="margin-top: 15px; color: #888;">No tienes facturas registradas aún.</p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <div id="modalFactura" class="modal" style="display:none;">
+        <div class="modal-content-factura">
+            <span class="cerrar-modal" onclick="cerrarModalFactura()">&times;</span>
+
+            <div class="factura-header-modal">
+                <h2><i class="fas fa-file-invoice"></i> FACTURA</h2>
+                <p class="factura-numero-grande">N° <span id="modalNumeroFactura"></span></p>
+            </div>
+
+            <div class="factura-info-grid">
+                <div class="info-section">
+                    <h5>Información del Cliente</h5>
+                    <p><strong>Nombre:</strong> <span id="modalClienteNombre"></span></p>
+                    <p><strong>Documento:</strong> <span id="modalClienteDocumento"></span></p>
+                    <p><strong>Correo:</strong> <span id="modalClienteCorreo"></span></p>
+                    <p><strong>Dirección:</strong> <span id="modalClienteDireccion"></span></p>
+                    <p><strong>Teléfono:</strong> <span id="modalClienteTelefono"></span></p>
+                </div>
+
+                <div class="info-section">
+                    <h5>Información de la Factura</h5>
+                    <p><strong>Fecha de emisión:</strong> <span id="modalFechaEmision"></span></p>
+                    <p><strong>Método de pago:</strong> <span id="modalMetodoPago"></span></p>
+                    <p><strong>Estado:</strong> <span id="modalEstado"></span></p>
+                </div>
+            </div>
+
+            <div class="tabla-productos">
+                <h5 style="color: #2E7D32; margin-bottom: 15px;">Detalle de Productos</h5>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad (Kg)</th>
+                        <th>Precio Unitario</th>
+                        <th style="text-align: right;">Subtotal</th>
+                    </tr>
+                    </thead>
+                    <tbody id="modalDetallesProductos">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="totales-factura">
+                <table>
+                    <tr>
+                        <td><strong>Subtotal:</strong></td>
+                        <td style="text-align: right;"><span id="modalSubtotal"></span></td>
+                    </tr>
+                    <tr id="filaDescuento" style="display: none;">
+                        <td><strong>Descuento:</strong></td>
+                        <td style="text-align: right; color: #D32F2F;">-<span id="modalDescuento"></span></td>
+                    </tr>
+                    <tr id="filaImpuesto" style="display: none;">
+                        <td><strong>Impuesto:</strong></td>
+                        <td style="text-align: right;"><span id="modalImpuesto"></span></td>
+                    </tr>
+                    <tr class="total-final">
+                        <td><strong>TOTAL:</strong></td>
+                        <td style="text-align: right;"><strong><span id="modalTotal"></span></strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="modal-acciones">
+                <button class="btn-modal btn-imprimir" onclick="imprimirFactura()">
+                    <i class="fas fa-print"></i> Imprimir
+                </button>
+                <button class="btn-modal btn-cerrar-modal" onclick="cerrarModalFactura()">
+                    <i class="fas fa-times"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function abrirModal(idFactura) {
+        console.log('Abriendo modal para factura:', idFactura);
+
+        var modal = document.getElementById('modalFactura');
+        if (!modal) {
+            alert('ERROR: Modal no encontrado');
+            return;
+        }
+
+        fetch('/private/detalle/' + idFactura + '/json')
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Error HTTP: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(function(factura) {
+                if (factura.error) {
+                    alert('Error: ' + factura.error);
+                    return;
+                }
+
+
+                document.getElementById('modalNumeroFactura').textContent = factura.numeroFactura || 'N/A';
+                document.getElementById('modalClienteNombre').textContent = factura.clienteNombre || 'N/A';
+                document.getElementById('modalClienteDocumento').textContent = factura.clienteDocumento || 'N/A';
+                document.getElementById('modalClienteCorreo').textContent = factura.clienteCorreo || 'N/A';
+                document.getElementById('modalClienteDireccion').textContent = factura.clienteDireccion || 'N/A';
+                document.getElementById('modalClienteTelefono').textContent = factura.clienteTelefono || 'N/A';
+
+
+                document.getElementById('modalFechaEmision').textContent = factura.fechaEmision || 'N/A';
+                document.getElementById('modalMetodoPago').textContent = factura.metodoPago || 'N/A';
+
+
+                var estado = factura.estadoFactura || 'PENDIENTE';
+                var badgeClass = 'badge-' + estado.toLowerCase();
+                document.getElementById('modalEstado').innerHTML = '<span class="badge-estado ' + badgeClass + '">' + estado + '</span>';
+
+
+                var detallesHtml = '';
+                if (factura.detalles && factura.detalles.length > 0) {
+                    for (var i = 0; i < factura.detalles.length; i++) {
+                        var det = factura.detalles[i];
+                        detallesHtml += '<tr>';
+                        detallesHtml += '<td>' + (det.nombreProducto || 'N/A') + '</td>';
+                        detallesHtml += '<td>' + (det.cantidad || 0) + '</td>';
+                        detallesHtml += '<td>$' + formatNumber(det.precioUnitario || 0) + '</td>';
+                        detallesHtml += '<td style="text-align: right;">$' + formatNumber(det.subtotal || 0) + '</td>';
+                        detallesHtml += '</tr>';
+                    }
+                } else {
+                    detallesHtml = '<tr><td colspan="4" style="text-align: center;">No hay productos</td></tr>';
+                }
+                document.getElementById('modalDetallesProductos').innerHTML = detallesHtml;
+
+                document.getElementById('modalSubtotal').textContent = '$' + formatNumber(factura.subtotal || 0);
+                document.getElementById('modalTotal').textContent = '$' + formatNumber(factura.total || 0);
+
+                var filaDescuento = document.getElementById('filaDescuento');
+                var filaImpuesto = document.getElementById('filaImpuesto');
+
+                if (factura.descuento && factura.descuento > 0) {
+                    filaDescuento.style.display = 'table-row';
+                    document.getElementById('modalDescuento').textContent = '$' + formatNumber(factura.descuento);
+                } else {
+                    filaDescuento.style.display = 'none';
+                }
+
+                if (factura.impuesto && factura.impuesto > 0) {
+                    filaImpuesto.style.display = 'table-row';
+                    document.getElementById('modalImpuesto').textContent = '$' + formatNumber(factura.impuesto);
+                } else {
+                    filaImpuesto.style.display = 'none';
+                }
+
+                // Mostrar modal
+                modal.style.display = 'flex';
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+                alert('Error al cargar factura: ' + error.message);
+            });
+    }
+
+    function cerrarModalFactura() {
+        document.getElementById('modalFactura').style.display = 'none';
+    }
+
+    function imprimirFactura() {
+        window.print();
+    }
+
+    function formatNumber(num) {
+        return new Intl.NumberFormat('es-CO', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(num);
+    }
+
+    document.addEventListener('click', function(e) {
+        var modal = document.getElementById('modalFactura');
+        if (e.target === modal) {
+            cerrarModalFactura();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            cerrarModalFactura();
+        }
+    });
+</script>
+</body>
+</html>
