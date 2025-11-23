@@ -317,6 +317,12 @@ footer {
     gap: 20px;
 }
 
+.producto-item{
+    min-width: 230px;
+    margin: 10px;
+    max-width: 300px;
+}
+
 /* Tarjeta del producto */
 .producto-card {
     background: #fff;

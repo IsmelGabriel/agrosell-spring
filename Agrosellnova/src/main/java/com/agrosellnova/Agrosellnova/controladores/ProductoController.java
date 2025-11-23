@@ -44,6 +44,7 @@ public class ProductoController {
 
     @Autowired
     private EmailService emailService;
+
     @Autowired
     private ImgBBService imgBBService;
 
@@ -180,12 +181,8 @@ public class ProductoController {
             existente.setStock(producto.getStock());
 
             if (nuevaImagen != null && !nuevaImagen.isEmpty()) {
-                String nombreArchivo = UUID.randomUUID().toString() + "_" + nuevaImagen.getOriginalFilename();
-                String rutaAbsoluta = new File("src/main/resources/static/img/productos").getAbsolutePath();
-                Path path = Paths.get(rutaAbsoluta + File.separator + nombreArchivo);
-                Files.write(path, nuevaImagen.getBytes());
-
-                existente.setImagen("../img/productos/" + nombreArchivo);
+                String nuevaImagenUrl = imgBBService.uploadImage(nuevaImagen);
+                existente.setImagen(nuevaImagenUrl);
             }
 
             productoRepository.save(existente);
@@ -194,6 +191,8 @@ public class ProductoController {
         } catch (IOException e) {
             e.printStackTrace();
             return "redirect:/error";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
