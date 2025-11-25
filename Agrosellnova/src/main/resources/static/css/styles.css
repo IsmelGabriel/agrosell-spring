@@ -1798,6 +1798,7 @@ footer {
     }
 
     .menu-bar {
+        top: 40px;
         background-color: #1a3d4c;
         width: 100%;
         text-align: center;
