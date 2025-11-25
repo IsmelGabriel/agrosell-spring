@@ -170,10 +170,6 @@ public class ProductoController {
             // Solo delega al servicio
             productoService.guardarProducto(producto);
 
-            // enviar correo masivo a los usuarios sobre el nuevo producto
-            List<String> correos = usuarioRepository.findAllCorreosByRol("CLIENTE");
-            emailService.sendNewProductNotificationToAll(correos, nombre, precio);
-
             return "redirect:/private/gestionar_productos";
 
         } catch (Exception e) {
