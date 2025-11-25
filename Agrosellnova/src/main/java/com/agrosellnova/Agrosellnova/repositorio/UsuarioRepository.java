@@ -2,6 +2,8 @@ package com.agrosellnova.Agrosellnova.repositorio;
 
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -18,7 +20,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     boolean existsByCorreo(String correo);
     List<Usuario> findAll();
     List<Usuario> findCorreoByRol(String rol);
-    List<String> findAllCorreo(String rol);
+
+    @Query("SELECT u.correo FROM Usuario u WHERE u.rol = :rol")
+    List<String> findAllCorreosByRol(@Param("rol") String rol);
+
     long countByRol(String rol);
     long countByEstado(String estado);
     List<Usuario> findAllByOrderByIdDesc();
