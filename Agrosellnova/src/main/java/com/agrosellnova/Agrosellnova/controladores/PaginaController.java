@@ -3,11 +3,14 @@ package com.agrosellnova.Agrosellnova.controladores;
 import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.modelo.Productor;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
+import com.agrosellnova.Agrosellnova.modelo.Venta;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
+import com.agrosellnova.Agrosellnova.repositorio.VentaRepository;
 import com.agrosellnova.Agrosellnova.servicio.ProductoService;
 import com.agrosellnova.Agrosellnova.servicio.ProductorService;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioServiceImpl;
 import jakarta.servlet.http.HttpSession;
+import org.bouncycastle.math.raw.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,6 +41,10 @@ public class PaginaController {
 
     @Autowired
     private ProductoService productoService;
+
+    @Autowired
+    private VentaRepository ventaRepository;
+
 
     private final List<String> paginasRestringidas = List.of("cerrar_sesion", "api");
 
@@ -149,6 +156,29 @@ public class PaginaController {
         model.addAttribute("productosRecientes", recientes);
 
         return "public/inicio";
+    }
+
+    @GetMapping("private/perfil")
+    public String mostrarComprasPerfil(Model model, HttpSession session){
+
+        String rol =(String) session.getAttribute("rol");
+        String usuario = (String) session.getAttribute("usuario");
+        if (usuario== null ){
+            return "redirect:/public/index";
+        }
+        Usuario user =usuarioService.buscarPorNombreUsuario(usuario);
+        model.addAttribute("rol",rol);
+        model.addAttribute("user",user);
+        model.addAttribute("usuario", usuario);
+        Long id = (Long) session.getAttribute("idUsuario");
+
+        List<Venta> ultimasCompras = ventaRepository.findTop4ByComprador_NombreUsuarioOrderByIdVentaDesc(usuario);
+        model.addAttribute("ultimasCompras", ultimasCompras);
+
+        return "private/perfil";
+
+
+
     }
 
 }
