@@ -35,8 +35,7 @@ public class Reserva {
 
     @Column(name = "FECHA_RESERVA")
     private LocalDate fechaReserva;
-
-
+    
 
     public Long getIdReserva() {
         return idReserva;
