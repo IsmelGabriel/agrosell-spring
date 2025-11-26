@@ -9,60 +9,6 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"/>
     <style>
-        @media (max-width: 768px){
-
-        .modal-content {
-            width: 95%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        /* Los headers pasan de horizontal a vertical */
-        .modal-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .modal-info-img {
-        width: 100%;
-        display: flex;
-        justify-content: center; /* Centrar horizontalmente */
-        align-items: center;
-        }
-
-        .modal-info-img img {
-            max-width: 70%;
-            height: auto;
-        }
-
-        /* Calificaciones va después de la imagen */
-        .modal-info-calificacion {
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px 0;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        /* Información del campesino va después de calificación */
-        .modal-campesino {
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        /* Cantidad al final */
-        .modal-cantidad {
-            width: 100%;
-            margin-top: 15px;
-        }
-
-        /* Botón 100% del ancho */
-        .btn-confirmar {
-            width: 100%;
-            margin-top: 10px;
-        }
-        }
         /* Fondo del modal */
         .modal {
             display: none;
@@ -138,6 +84,11 @@
             margin: 4px 0;
             color: #555;
             font-size: 14px;
+        }
+
+        .informacion-calificacion {
+            display: flex;
+            flex-direction: row-reverse;
         }
 
         /* Input y botón */
@@ -219,6 +170,65 @@
         }
         @keyframes fadeOut {
             to { opacity: 0; transform: translateY(20px); }
+        }
+
+        @media (max-width: 768px){
+
+            .modal-content {
+                width: 95%;
+                max-height: 90vh;
+                overflow-y: auto;
+                padding: 20px;
+            }
+
+            /* Los headers pasan de horizontal a vertical */
+            .modal-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .modal-info-img {
+                width: 100%;
+                display: flex;
+                justify-content: center; /* Centrar horizontalmente */
+                align-items: center;
+            }
+
+            .modal-info-img img {
+                max-width: 70%;
+                height: auto;
+            }
+
+            /* Calificaciones va después de la imagen */
+            .modal-info-calificacion {
+                width: 100%;
+                margin-top: 10px;
+                padding: 10px 0;
+                border-top: 1px solid #e0e0e0;
+            }
+
+            /* Información del campesino va después de calificación */
+            .modal-campesino {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            /* Cantidad al final */
+            .modal-cantidad {
+                width: 100%;
+                margin-top: 15px;
+            }
+
+            /* Botón 100% del ancho */
+            .btn-confirmar {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .informacion-calificacion {
+                flex-direction: column; !important;
+            }
         }
 
 
@@ -353,7 +363,7 @@
                 </div>
             </div>
 
-            <div class="modal-header">
+            <div class="modal-header informacion-calificacion">
                 <div class="modal-info-calificacion">
                     <p id="modal-calificaciones">Calificación: </p>
                     <p id="modal-totalResenas">Reseñas:  0</p>
@@ -433,29 +443,29 @@
         productoSeleccionado = { id, nombre, descripcion, precio, imagen, stock };
 
         document.getElementById("modal-nombre").textContent = nombre;
-        document.getElementById("modal-descripcion").textContent = Descripción: ${descripcion};
-        document.getElementById("modal-precio").textContent = Precio: $${precio} / Kg;
-        document.getElementById("modal-stock").textContent = Stock disponible: ${stock};
+        document.getElementById("modal-descripcion").textContent = `Descripción: ${descripcion}`;
+        document.getElementById("modal-precio").textContent = `Precio: $${precio} / Kg`;
+        document.getElementById("modal-stock").textContent = `Stock disponible: ${stock}`;
         document.getElementById("modal-imagen").src = imagen;
 
-        document.getElementById("modal-productor").textContent = Nombre campesino: ${productor};
-        document.getElementById("modal-productor-correo").textContent = Contacto del campesino: ${correo};
+        document.getElementById("modal-productor").textContent = `Nombre campesino: ${productor}`;
+        document.getElementById("modal-productor-correo").textContent = `Contacto del campesino: ${correo}`;
 
         let textoCalificacion = "Sin calificación";
         if (promedio && !isNaN(promedio) && Number(promedio) > 0) {
             textoCalificacion = Number(promedio).toFixed(1);
         }
 
-        document.getElementById("modal-calificaciones").textContent = Calificación: ${textoCalificacion} 🥕;
-        document.getElementById("modal-totalResenas").textContent = Total de reseñas: ${totalResenas};
-        document.getElementById("modal-resena").textContent = Última reseña: ${ultimaResena};
-        document.getElementById("modal-finca-nombre").textContent =Nombre finca: ${nombreFinca};
-        document.getElementById("modal-productos").textContent=Productos: ${productos};
-        document.getElementById("modal-descripcion-finca").textContent= Descripcion: ${descripcionFinca}
+        document.getElementById("modal-calificaciones").textContent = `Calificación: ${textoCalificacion} 🥕`;
+        document.getElementById("modal-totalResenas").textContent = `Total de reseñas: ${totalResenas}`;
+        document.getElementById("modal-resena").textContent = `Última reseña: ${ultimaResena}`;
+        document.getElementById("modal-finca-nombre").textContent =`Nombre finca: ${nombreFinca}`;
+        document.getElementById("modal-productos").textContent=`Productos: ${productos}`;
+        document.getElementById("modal-descripcion-finca").textContent= `Descripcion: ${descripcionFinca}`
 
         document.getElementById("modal-cantidad").value = 1;
         document.getElementById("carritoModal").style.display = "flex";
-}
+    }
 
 
 
@@ -463,16 +473,24 @@
         document.getElementById("carritoModal").style.display = "none";
     }
 
+    // cerrar modal al hacer clic fuera del contenido
+    window.onclick = function(event) {
+        const modal = document.getElementById("carritoModal");
+        if (event.target === modal) {
+            cerrarModal();
+        }
+    }
+
     function confirmarAgregar() {
         let cantidad = parseInt(document.getElementById("modal-cantidad").value);
 
         if (isNaN(cantidad) || cantidad <= 0) {
-            showToast("⚠ Cantidad inválida.", "error");
+            showToast("⚠️ Cantidad inválida.", "error");
             return;
         }
 
         if (cantidad > productoSeleccionado.stock) {
-            showToast(❌ Stock insuficiente., "warning");
+            showToast(`❌ Stock insuficiente.`, "warning");
             return;
         }
 
@@ -481,7 +499,7 @@
         carrito.push(producto);
         localStorage.setItem("carrito", JSON.stringify(carrito));
 
-        showToast(${productoSeleccionado.nombre} (${cantidad} Kg) añadido al carrito. ✅, "success");
+        showToast(`${productoSeleccionado.nombre} (${cantidad} Kg) añadido al carrito. ✅`, "success");
         cerrarModal();
     }
 
@@ -490,541 +508,7 @@
         const container = document.getElementById("toast-container");
 
         const toast = document.createElement("div");
-        toast.classList.add("toast", toast-${type});
-        toast.textContent = message;
-
-        container.appendChild(toast);
-
-        // Eliminar después de 4s
-        setTimeout(() => {
-            toast.remove();
-        }, 4000);
-    }
-
-    function debounce(func, wait) {
-        let timeout;
-        return function(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func.apply(this, args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    window.addEventListener("scroll", debounce(function () {
-        const menuBar = document.querySelector(".menu-bar");
-        if (window.scrollY > 50) {
-            menuBar.classList.add("scrolled");
-        } else {
-            menuBar.classList.remove("scrolled");
-        }
-    }, 100));
-
-    const toggleButton = document.getElementById('menu-toggle');
-    const menuBar = document.getElementById('menu-bar');
-
-    toggleButton.addEventListener('click', () => {
-        menuBar.classList.toggle('active');
-    });
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Productos - Agrosell Nova</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"/>
-    <style>
-        @media (max-width: 768px){
-
-        .modal-content {
-            width: 95%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        /* Los headers pasan de horizontal a vertical */
-        .modal-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .modal-info-img {
-        width: 100%;
-        display: flex;
-        justify-content: center; /* Centrar horizontalmente */
-        align-items: center;
-        }
-
-        .modal-info-img img {
-            max-width: 70%;
-            height: auto;
-        }
-
-        /* Calificaciones va después de la imagen */
-        .modal-info-calificacion {
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px 0;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        /* Información del campesino va después de calificación */
-        .modal-campesino {
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        /* Cantidad al final */
-        .modal-cantidad {
-            width: 100%;
-            margin-top: 15px;
-        }
-
-        /* Botón 100% del ancho */
-        .btn-confirmar {
-            width: 100%;
-            margin-top: 10px;
-        }
-        }
-        /* Fondo del modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Contenedor del contenido */
-        .modal-content {
-            color: #333;
-            background: #fff;
-            padding: 25px 30px;
-            border-radius: 12px;
-            width: 700px;
-            max-width: 90%;
-            text-align: left;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        /* Sección superior (texto + imagen) */
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-        }
-
-        /* Contenedor de la información del producto */
-        .modal-info {
-            flex: 2;
-        }
-
-        .modal-info h2 {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #2E7D32;
-        }
-
-        .modal-info p {
-            margin: 4px 0;
-            color: #555;
-            font-size: 14px;
-        }
-
-        /* Imagen del producto */
-        .modal-info-img {
-            flex: 1;
-            text-align: right;
-        }
-
-        .modal-info-img img {
-            max-width: 180px;
-            max-height: 180px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-
-        .modal-info-calificacion {
-            flex: 1;
-            text-align: left;
-        }
-
-        .modal-info-calificacion p {
-            margin: 4px 0;
-            color: #555;
-            font-size: 14px;
-        }
-
-        /* Input y botón */
-        .modal-content label {
-            font-weight: 600;
-            color: #333;
-            margin-top: 10px;
-        }
-
-        .modal-content input {
-            width: 100%;
-            padding: 8px 10px;
-            margin: 5px 0 15px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .btn-confirmar {
-            background-color: #2E7D32;
-            color: #fff;
-            border: none;
-            padding: 10px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s ease;
-        }
-
-        .btn-confirmar:hover {
-            background-color: #256028;
-        }
-
-        /* Botón cerrar */
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 22px;
-            color: #333;
-            cursor: pointer;
-        }
-
-        /* Animación */
-        @keyframes fadeIn {
-            from {opacity: 0; transform: scale(0.95);}
-            to {opacity: 1; transform: scale(1);}
-        }
-        /* Contenedor de los toasts */
-        #toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        /* Estilo base */
-        .toast {
-            min-width: 250px;
-            padding: 12px 16px;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 14px;
-            animation: fadeInUp 0.4s, fadeOut 0.5s 3s forwards;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        /* Colores según tipo */
-        .toast-success { background: #28a745; }
-        .toast-error { background: #dc3545; }
-        .toast-warning { background: #ffc107; color: #000; }
-
-        /* Animaciones */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeOut {
-            to { opacity: 0; transform: translateY(20px); }
-        }
-
-
-    </style>
-</head>
-
-<body>
-<header class="top-bar">
-    <div class="header-content">
-        <img src="https://i.ibb.co/CjJWMHJ/logo.png" alt="Agrosell Nova" class="logo">
-        <h1 class="menu-title">AGROSELL NOVA</h1>
-
-        <div class="panel-option">
-            <button id="panelControl">
-                <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
-            </button>
-        </div>
-
-        <a th:href="@{/public/carrito}" class="menu-icon">
-            <i class="fas fa-shopping-cart"></i>
-        </a>
-
-        <span class="menu-notification">
-            <button id="notificationButton">
-                <!--<i class="fas fa-bell menu-icon"></i>-->
-            </button>
-        </span>
-
-        <span class="username">
-            <th:block th:if="${usuario != null}">
-                <a th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
-            </th:block>
-            <th:block th:unless="${usuario != null}">
-                <a th:href="@{/public/index}">Iniciar sesión</a>
-            </th:block>
-        </span>
-
-        <a th:href="@{/private/perfil}" class="menu-icon">
-            <i class="bi bi-person-circle" style="font-size: 30px;"></i>
-        </a>
-    </div>
-</header>
-
-<nav class="menu-bar" id="menu-bar">
-    <button class="menu-toggle" id="menu-toggle">&#9776;</button>
-    <ul id="menu-items">
-        <li><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
-        <li><a th:href="@{/public/productos}"><i class="fas fa-box"></i> Productos</a></li>
-        <li><a th:href="@{/public/reservas}"><i class="fas fa-bookmark"></i> Reservas</a></li>
-        <li><a th:href="@{/public/about_us}"><i class="fas fa-info-circle"></i> Sobre nosotros</a></li>
-        <li><a th:href="@{/public/contactanos}"><i class="fas fa-envelope"></i> Contáctanos</a></li>
-        <li><a th:href="@{/public/ayuda}"><i class="fas fa-question-circle"></i> Ayuda</a></li>
-    </ul>
-</nav>
-
-
-<main>
-    <section class="producto-titulo">
-        <h1>¡Todos los productos que buscas están aquí!</h1>
-    </section>
-
-    <section class="filtra-productos">
-        <form action="/public/productos" method="get">
-            <label for="nombre_producto">Producto:</label>
-            <input type="text" name="producto" id="nombre_producto"
-                   th:value="${param.producto}" placeholder="Ej: Manzanas"/>
-
-            <label for="orden">Ordenar por:</label>
-            <select name="orden" id="orden">
-                <option value="recientes" th:selected="${param.orden == 'recientes'}">Más recientes</option>
-                <option value="precio_menor" th:selected="${param.orden == 'precio_menor'}">Precio menor</option>
-                <option value="precio_mayor" th:selected="${param.orden == 'precio_mayor'}">Precio mayor</option>
-                <option value="nombre" th:selected="${param.orden == 'nombre'}">A-Z</option>
-            </select>
-
-            <button type="submit">BUSCAR PRODUCTO</button>
-        </form>
-    </section>
-
-    <section id="productos" class="productos-section">
-        <div th:each="producto : ${productos}" class="productos-imagenes">
-            <img th:src="${producto.imagen}" alt="Producto">
-            <div class="productos-texto">
-                <h3 th:text="${producto.nombre}">Nombre producto</h3>
-                <p th:text="'$' + ${#numbers.formatDecimal(producto.precio, 1, 'COMMA', '2', 'POINT')} + ' / Kg'"> Precio</p>
-                <p th:text="${producto.descripcion}">Descripcion del producto</p>
-                <a class="btn-añadir-carrito"
-                   th:attr="onclick=|agregarAlCarrito(
-                   ${producto.id},
-                   '${producto.nombre}',
-                   '${producto.descripcion}',
-                   ${producto.precio},
-                   '${producto.imagen}',
-                   ${producto.stock},
-                   '${productores[producto.id].nombre}',
-                   '${productores[producto.id].correo}',
-                   ${promedios[producto.id] != null ? promedios[producto.id] : 0},
-                   ${totalCalificaciones[producto.id] != null ? totalCalificaciones[producto.id] : 0},
-                   '${ultimaResena[producto.id]}',
-                   '${productoresInfo[producto.id].nombreFinca}',
-                   '${productoresInfo[producto.id].productos}',
-                   '${productoresInfo[producto.id].descripcion}'
-                   )|">
-                    Añadir al carrito
-                </a>
-
-            </div>
-        </div>
-        <div th:if="${#lists.isEmpty(productos)}">
-            <p>No se encontraron productos disponibles para mostrar.</p>
-        </div>
-    </section>
-
-    <!-- Contenedor de toasts -->
-    <div id="toast-container"></div>
-
-    <!-- Modal para añadir al carrito -->
-    <div id="carritoModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="cerrarModal()">&times;</span>
-
-            <div class="modal-header">
-                <div class="modal-info">
-                    <h2 id="modal-nombre">Nombre del producto</h2>
-                    <p id="modal-precio">$15.000</p>
-                    <p id="modal-stock">Stock: 25 Kg</p>
-                    <p id="modal-descripcion">Descripción del producto...</p>
-                </div>
-
-                <div class="modal-info-img">
-                    <img id="modal-imagen" src="" alt="Producto">
-                </div>
-            </div>
-
-            <div class="modal-header">
-                <div class="modal-info-calificacion">
-                    <p id="modal-calificaciones">Calificación: </p>
-                    <p id="modal-totalResenas">Reseñas:  0</p>
-                    <p id="modal-resena">Ultima reseña: Sin reseñas </p>
-                </div>
-
-                <div class="modal-info">
-                    <h2>Información del campesino</h2>
-                    <p id="modal-productor">Nombre del productor</p>
-                    <p id="modal-productor-correo">Correo del productor</p>
-                    <p id="modal-productor-info" style="font-weight: bold">Informacion extra del productor:</p>
-                    <p id="modal-finca-nombre">Nombre finca: </p>
-                    <p id="modal-productos">Productos: </p>
-                    <p id="modal-descripcion-finca">Descripcion: </p>
-                </div>
-
-
-            </div>
-
-            <label for="modal-cantidad">Cantidad (Kg):</label>
-            <input type="number" id="modal-cantidad" min="1" value="1" class="form-control">
-
-            <button class="btn-confirmar" onclick="confirmarAgregar()">Añadir al carrito</button>
-        </div>
-    </div>
-
-
-</main>
-
-<footer class="footer">
-    <div class="footer-container">
-        <div class="footer-column">
-            <h3>Enlaces rápidos</h3>
-            <ul>
-                <li><a th:href="@{/public/inicio}">Inicio</a></li>
-                <!--                <li><a th:href="@{/public/categorias}">Categorías</a></li>-->
-                <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
-                <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
-                <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
-                <li><a th:href="@{/public/404}">Error 404</a></li>
-                <li><a th:href="@{/public/500}">Error 500</a></li>
-                <li><a th:href="@{/public/dashboard}">Dashboard</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h3>Contacto</h3>
-            <p>📍 Dirección: Calle Principal #123</p>
-            <p>📞 Teléfono: +57 123 456 789</p>
-            <p>📧 Email: <a href="mailto:info@agrosellnova.com">info@agrosellnova.com</a></p>
-        </div>
-
-        <div class="footer-column">
-            <h3>Síguenos</h3>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/public/terminos}">Términos y
-            condiciones</a></p>
-    </div>
-</footer>
-
-<script>
-    document.getElementById('notificationButton').addEventListener('click', function () {
-        alert("No tienes notificaciones pendientes");
-    });
-
-    let productoSeleccionado = {};
-
-    function agregarAlCarrito(id, nombre, descripcion, precio, imagen, stock, productor, correo, promedio, totalResenas, ultimaResena, nombreFinca, productos, descripcionFinca) {
-        productoSeleccionado = { id, nombre, descripcion, precio, imagen, stock };
-
-        document.getElementById("modal-nombre").textContent = nombre;
-        document.getElementById("modal-descripcion").textContent = Descripción: ${descripcion};
-        document.getElementById("modal-precio").textContent = Precio: $${precio} / Kg;
-        document.getElementById("modal-stock").textContent = Stock disponible: ${stock};
-        document.getElementById("modal-imagen").src = imagen;
-
-        document.getElementById("modal-productor").textContent = Nombre campesino: ${productor};
-        document.getElementById("modal-productor-correo").textContent = Contacto del campesino: ${correo};
-
-        let textoCalificacion = "Sin calificación";
-        if (promedio && !isNaN(promedio) && Number(promedio) > 0) {
-            textoCalificacion = Number(promedio).toFixed(1);
-        }
-
-        document.getElementById("modal-calificaciones").textContent = Calificación: ${textoCalificacion} 🥕;
-        document.getElementById("modal-totalResenas").textContent = Total de reseñas: ${totalResenas};
-        document.getElementById("modal-resena").textContent = Última reseña: ${ultimaResena};
-        document.getElementById("modal-finca-nombre").textContent =Nombre finca: ${nombreFinca};
-        document.getElementById("modal-productos").textContent=Productos: ${productos};
-        document.getElementById("modal-descripcion-finca").textContent= Descripcion: ${descripcionFinca}
-
-        document.getElementById("modal-cantidad").value = 1;
-        document.getElementById("carritoModal").style.display = "flex";
-}
-
-
-
-    function cerrarModal() {
-        document.getElementById("carritoModal").style.display = "none";
-    }
-
-    function confirmarAgregar() {
-        let cantidad = parseInt(document.getElementById("modal-cantidad").value);
-
-        if (isNaN(cantidad) || cantidad <= 0) {
-            showToast("⚠ Cantidad inválida.", "error");
-            return;
-        }
-
-        if (cantidad > productoSeleccionado.stock) {
-            showToast(❌ Stock insuficiente., "warning");
-            return;
-        }
-
-        const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-        const producto = { ...productoSeleccionado, cantidad };
-        carrito.push(producto);
-        localStorage.setItem("carrito", JSON.stringify(carrito));
-
-        showToast(${productoSeleccionado.nombre} (${cantidad} Kg) añadido al carrito. ✅, "success");
-        cerrarModal();
-    }
-
-
-    function showToast(message, type = "success") {
-        const container = document.getElementById("toast-container");
-
-        const toast = document.createElement("div");
-        toast.classList.add("toast", toast-${type});
+        toast.classList.add("toast", `toast-${type}`);
         toast.textContent = message;
 
         container.appendChild(toast);
