@@ -75,7 +75,6 @@
         <table border="1">
             <thead>
             <tr>
-                <th>ID Venta</th>
                 <th>Cliente</th>
                 <th>Vendedor</th>
                 <th>Producto</th>
@@ -86,7 +85,6 @@
             </thead>
             <tbody>
             <tr th:each="venta : ${ventas}">
-                <td th:text="${venta.idVenta}">1</td>
                 <td th:text="${venta.comprador.nombreUsuario}">cliente123</td>
                 <td th:text="${venta.vendedor.nombreUsuario}">vendedor456</td>
                 <td th:text="${venta.producto.nombre}">Papa</td>

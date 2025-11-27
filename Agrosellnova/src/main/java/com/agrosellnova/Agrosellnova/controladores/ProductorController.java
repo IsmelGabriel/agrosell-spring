@@ -25,10 +25,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/private")
@@ -63,6 +61,15 @@ public class ProductorController {
             }
         }
         return idUsuario;
+    }
+    private String obtenerEmailUsuarioPorId(Integer idUsuario) {
+        if (idUsuario != null) {
+            Optional<Usuario> usuario = usuarioRepository.findById(idUsuario.longValue());
+            if (usuario.isPresent()) {
+                return usuario.get().getCorreo();
+            }
+        }
+        return "Sin correo";
     }
 
     @GetMapping("/ser_productor")
@@ -218,12 +225,23 @@ public class ProductorController {
             return p2.getFechaRegistro().compareTo(p1.getFechaRegistro());
         });
 
+        Map<Long, String> productorEmails = new HashMap<>();
+        for (Productor productor : productores) {
+            String email = obtenerEmailUsuarioPorId(productor.getIdUsuario());
+            productorEmails.put(productor.getIdProductor(), email);
+        }
+        // Después de crear el Map
+        System.out.println("=== DEBUG ===");
+        System.out.println("Productores: " + productores.size());
+        System.out.println("ProductorEmails Map: " + productorEmails);
+        System.out.println("ProductorEmails size: " + productorEmails.size());
 
         long pendientes = productorService.contarPorEstado(Productor.EstadoSolicitud.Pendiente);
         long aprobados = productorService.contarPorEstado(Productor.EstadoSolicitud.Aprobado);
         long rechazados = productorService.contarPorEstado(Productor.EstadoSolicitud.Rechazado);
 
         model.addAttribute("productores", productores);
+        model.addAttribute("productorEmails", productorEmails);
         model.addAttribute("estadoFiltro", estado);
         model.addAttribute("terminoBusqueda", buscar);
         model.addAttribute("cantidadPendientes", pendientes);
@@ -354,14 +372,14 @@ public class ProductorController {
         document.add(fecha);
         document.add(new Paragraph(" "));
 
-        PdfPTable table = new PdfPTable(8);
+        PdfPTable table = new PdfPTable(7);
         table.setWidthPercentage(100);
 
-        float[] columnWidths = {1f, 2f, 1.5f, 2f, 2.5f, 1.5f, 1.5f, 1f};
+        float[] columnWidths = { 2f, 1.5f, 2f, 2.5f, 1.5f, 1.5f, 1f};
         table.setWidths(columnWidths);
         int rowIndex = 0;
         Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
-        addCellToTable(table, "ID", headerFont, true, rowIndex);
+
         addCellToTable(table, "Producto", headerFont, true, rowIndex);
         addCellToTable(table, "Descripcion", headerFont, true, rowIndex);
         addCellToTable(table, "Precio", headerFont, true, rowIndex);
@@ -373,7 +391,7 @@ public class ProductorController {
         Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 8);
 
         for (Producto producto : productos) {
-            addCellToTable(table, String.valueOf(producto.getId()), dataFont, false, rowIndex);
+
             addCellToTable(table, producto.getNombre() != null ? producto.getNombre() : "", dataFont, false, rowIndex);
             addCellToTable(table, producto.getDescripcion() != null ? producto.getDescripcion() : "", dataFont, false, rowIndex);
             addCellToTable(table, String.valueOf(producto.getPrecio()), dataFont, false, rowIndex);

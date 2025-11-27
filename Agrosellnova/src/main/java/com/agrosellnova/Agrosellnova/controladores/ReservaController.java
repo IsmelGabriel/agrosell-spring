@@ -258,16 +258,15 @@ public class ReservaController {
         document.add(new Paragraph(" "));
 
         // 📌 Tabla con columnas
-        PdfPTable table = new PdfPTable(9);
+        PdfPTable table = new PdfPTable(8);
         table.setWidthPercentage(100);
 
-        float[] columnWidths = {1f, 2f, 2f, 3f, 2.5f, 1.5f, 2f, 2f, 2f};
+        float[] columnWidths = { 2f, 2f, 3f, 2.5f, 1.5f, 2f, 2f, 2f};
         table.setWidths(columnWidths);
 
         int rowIndex = 0;
         Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
 
-        addCellToTable(table, "ID", headerFont, true, rowIndex);
         addCellToTable(table, "Usuario", headerFont, true, rowIndex);
         addCellToTable(table, "Documento", headerFont, true, rowIndex);
         addCellToTable(table, "Teléfono", headerFont, true, rowIndex);
@@ -282,7 +281,6 @@ public class ReservaController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         for (Reserva reserva : reservas) {
-            addCellToTable(table, String.valueOf(reserva.getIdReserva()), dataFont, false, rowIndex);
             addCellToTable(table, reserva.getUsuarioCliente() != null ? reserva.getUsuarioCliente() : "", dataFont, false, rowIndex);
             addCellToTable(table, reserva.getUsuarioDocumento() != null ? reserva.getUsuarioDocumento() : "", dataFont, false, rowIndex);
             addCellToTable(table, reserva.getUsuarioTelefono() != null ? reserva.getUsuarioTelefono() : "", dataFont, false, rowIndex);
@@ -335,16 +333,15 @@ public class ReservaController {
         document.add(new Paragraph(" "));
 
         // 📌 Tabla con columnas
-        PdfPTable table = new PdfPTable(8);
+        PdfPTable table = new PdfPTable(7);
         table.setWidthPercentage(100);
 
-        float[] columnWidths = {1f, 2f, 2f, 3f, 2.5f, 1.5f, 2f, 2f};
+        float[] columnWidths = { 2f, 2f, 3f, 2.5f, 1.5f, 2f, 2f};
         table.setWidths(columnWidths);
 
         int rowIndex = 0;
         Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
 
-        addCellToTable(table, "ID", headerFont, true, rowIndex);
         addCellToTable(table, "Documento", headerFont, true, rowIndex);
         addCellToTable(table, "Teléfono", headerFont, true, rowIndex);
         addCellToTable(table, "Correo", headerFont, true, rowIndex);
@@ -357,7 +354,6 @@ public class ReservaController {
         Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 9);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         for (Reserva reserva : reservas) {
-            addCellToTable(table, String.valueOf(reserva.getIdReserva()), dataFont, false, rowIndex);
             addCellToTable(table, reserva.getUsuarioDocumento() != null ? reserva.getUsuarioDocumento() : "", dataFont, false, rowIndex);
             addCellToTable(table, reserva.getUsuarioTelefono() != null ? reserva.getUsuarioTelefono() : "", dataFont, false, rowIndex);
             addCellToTable(table, reserva.getUsuarioCorreo() != null ? reserva.getUsuarioCorreo() : "", dataFont, false, rowIndex);

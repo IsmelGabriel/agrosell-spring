@@ -105,9 +105,10 @@
                     </div>
                 </td>
                 <td th:text="${productor.nombreFinca}">Finca Ejemplo</td>
-                <td>
-                    <span th:text="${productor.idUsuario}">ID Usuario</span>
-                    <div class="antiguedad" th:text="'ID: ' + ${productor.idUsuario}"></div>
+
+                <td th:with="email=${productorEmails[productor.idProductor]}">
+                    <span th:text="${email ?: 'Sin correo'}">Email Usuario</span>
+                    <div class="antiguedad" th:text="${'Email: ' + (email ?: 'Sin correo')}"></div>
                 </td>
                 <td th:text="${productor.ubicacion}">Ubicación</td>
                 <td th:text="${productor.tipoProduccion}">Tipo</td>
@@ -135,7 +136,7 @@
                             th:data-descripcion="${productor.descripcion}"
                             th:data-estado="${productor.estadoSolicitud}"
                             th:data-fecha="${#temporals.format(productor.fechaRegistro, 'dd/MM/yyyy HH:mm')}"
-                            th:data-usuario="${productor.idUsuario}">
+                            th:data-usuario="${productorEmails[productor.idProductor]}">
                         Ver más
                     </button>
                 </td>
@@ -162,7 +163,7 @@
                     <span id="modalFinca"></span>
                 </div>
                 <div class="info-item">
-                    <strong>ID Usuario:</strong><br>
+                    <strong>Email Usuario:</strong><br>
                     <span id="modalUsuario"></span>
                 </div>
                 <div class="info-item">

@@ -104,14 +104,13 @@ public class VentaController {
         document.add(fecha);
         document.add(new Paragraph(" "));
 
-        PdfPTable table = new PdfPTable(7);
+        PdfPTable table = new PdfPTable(6);
         table.setWidthPercentage(100);
 
-        float[] columnWidths = {1f, 2f, 1.5f, 2f, 2.5f, 1.5f, 1.5f};
+        float[] columnWidths = {2f, 1.5f, 2f, 2.5f, 1.5f, 1.5f};
         table.setWidths(columnWidths);
         int rowIndex = 0;
         Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
-        addCellToTable(table, "ID", headerFont, true, rowIndex);
         addCellToTable(table, "Producto", headerFont, true, rowIndex);
         addCellToTable(table, "Cantidad", headerFont, true, rowIndex);
         addCellToTable(table, "Precio Und", headerFont, true, rowIndex);
@@ -123,7 +122,6 @@ public class VentaController {
         Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 8);
 
         for (Venta venta : ventas ) {
-            addCellToTable(table, venta.getIdVenta() != null ? String.valueOf(venta.getIdVenta()) : "", dataFont, false, rowIndex);
             addCellToTable(table, (venta.getProducto() != null && venta.getProducto().getNombre() != null) ? venta.getProducto().getNombre() : "", dataFont, false, rowIndex);
             addCellToTable(table, venta.getCantidadKg() != null ? String.valueOf(venta.getCantidadKg()) : "", dataFont, false, rowIndex);
             addCellToTable(table, String.valueOf(venta.getProducto().getPrecio()), dataFont, false, rowIndex);
@@ -181,14 +179,13 @@ public class VentaController {
         document.add(fecha);
         document.add(new Paragraph(" "));
 
-        PdfPTable table = new PdfPTable(7);
+        PdfPTable table = new PdfPTable(6);
         table.setWidthPercentage(100);
 
-        float[] columnWidths = {1f, 2f, 1.5f, 2f, 2.5f, 1.5f, 1.5f};
+        float[] columnWidths = {2f, 1.5f, 2f, 2.5f, 1.5f, 1.5f};
         table.setWidths(columnWidths);
         int rowIndex = 0;
         Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
-        addCellToTable(table, "ID", headerFont, true, rowIndex);
         addCellToTable(table, "Comprador", headerFont, true, rowIndex);
         addCellToTable(table, "Vendedor", headerFont, true, rowIndex);
         addCellToTable(table, "Producto", headerFont, true, rowIndex);
@@ -200,7 +197,6 @@ public class VentaController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         for (Venta venta : ventas) {
-            addCellToTable(table, String.valueOf(venta.getIdVenta()), dataFont, false, rowIndex);
             addCellToTable(table, (venta.getComprador() != null && venta.getComprador().getNombreUsuario() != null) ? venta.getComprador().getNombreUsuario() : "", dataFont, false, rowIndex);
             addCellToTable(table, (venta.getVendedor() != null && venta.getVendedor().getNombreUsuario() != null) ? venta.getVendedor().getNombreUsuario() : "", dataFont, false, rowIndex);
             addCellToTable(table, (venta.getProducto() != null && venta.getProducto().getNombre() != null) ? venta.getProducto().getNombre() : "", dataFont, false, rowIndex);
@@ -244,14 +240,13 @@ public class VentaController {
         document.add(fecha);
         document.add(new Paragraph(" "));
 
-        PdfPTable table = new PdfPTable(6);
+        PdfPTable table = new PdfPTable(5);
         table.setWidthPercentage(100);
 
-        float[] columnWidths = {1f, 2f, 1.5f, 2f, 2.5f, 1.5f};
+        float[] columnWidths = { 2f, 1.5f, 2f, 2.5f, 1.5f};
         table.setWidths(columnWidths);
         int rowIndex = 0;
         Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
-        addCellToTable(table, "ID", headerFont, true, rowIndex);
         addCellToTable(table, "Vendedor", headerFont, true, rowIndex);
         addCellToTable(table, "Producto", headerFont, true, rowIndex);
         addCellToTable(table, "Cantidad", headerFont, true, rowIndex);
@@ -262,7 +257,6 @@ public class VentaController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         for (Venta venta : ventas) {
-            addCellToTable(table, String.valueOf(venta.getIdVenta()), dataFont, false, rowIndex);
             addCellToTable(table, (venta.getVendedor() != null && venta.getVendedor().getNombreUsuario() != null) ? venta.getVendedor().getNombreUsuario() : "", dataFont, false, rowIndex);
             addCellToTable(table, (venta.getProducto() != null && venta.getProducto().getNombre() != null) ? venta.getProducto().getNombre() : "", dataFont, false, rowIndex);
             addCellToTable(table, venta.getCantidadKg() != null ? String.valueOf(venta.getCantidadKg()) : "", dataFont, false, rowIndex);

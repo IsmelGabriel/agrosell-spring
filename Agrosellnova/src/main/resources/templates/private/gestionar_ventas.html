@@ -72,7 +72,6 @@
         <table border="1">
             <thead>
             <tr>
-                <th>ID Venta</th>
                 <th>Producto</th>
                 <th>Cantidad (Kg)</th>
                 <th>Precio Unitario</th>
@@ -83,7 +82,6 @@
             </thead>
             <tbody>
             <tr th:each="venta : ${listaVentas}">
-                <td th:text="${venta.idVenta}">1</td>
                 <td th:text="${venta.producto.nombre}">Arroz</td>
                 <td th:text="${venta.cantidadKg}">10</td>
                 <td th:text="${venta.producto.precio}">3500</td>
