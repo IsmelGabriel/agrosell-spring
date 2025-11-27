@@ -71,6 +71,7 @@
             <li th:if="${rol == 'cliente'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
             <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}"><i class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
             <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
+            <li th:if="${rol == 'cliente'}"><a th:href="@{/private/mis-facturas}"><i class="fas fa-file-invoice-dollar"></i> Mis Facturas</a></li>
             <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_pqrs}"><i class="fas fa-question-circle"></i> Gestionar PQRS's</a></li>
             <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver Productos</a></li>
             <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}"><i class="fas fa-plus-circle"></i> Realizar Reserva</a></li>
@@ -89,7 +90,6 @@
                 <h3>Información del Usuario</h3>
 
                 <div th:if="${user != null}">
-                    <p><strong>ID:</strong> <span th:text="${user.id}">ID</span></p>
                     <p><strong>Nombre:</strong> <span th:text="${user.nombre}">Nombre</span></p>
                     <p><strong>Usuario:</strong> <span th:text="${user.nombreUsuario}">Usuario</span></p>
                     <p><strong>Email:</strong> <span th:text="${user.correo}">Correo</span></p>

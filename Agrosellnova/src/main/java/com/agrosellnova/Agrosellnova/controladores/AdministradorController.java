@@ -103,14 +103,13 @@ public class AdministradorController {
         document.add(fecha);
         document.add(new Paragraph(" "));
 
-        PdfPTable table = new PdfPTable(9);
+        PdfPTable table = new PdfPTable(8);
         table.setWidthPercentage(100);
 
-        float[] columnWidths = {1f, 2f, 1.5f, 2f, 2.5f, 1.5f, 1.5f, 1f, 1f};
+        float[] columnWidths = { 2f, 1.5f, 2f, 2.5f, 1.5f, 1.5f, 1f, 1f};
         table.setWidths(columnWidths);
         int rowIndex = 0;
         Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
-        addCellToTable(table, "ID", headerFont, true, rowIndex);
         addCellToTable(table, "Nombre", headerFont, true, rowIndex);
         addCellToTable(table, "Documento", headerFont, true, rowIndex);
         addCellToTable(table, "Ubicación", headerFont, true, rowIndex);
@@ -123,7 +122,6 @@ public class AdministradorController {
         Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 8);
 
         for (Usuario usuario : usuarios) {
-            addCellToTable(table, String.valueOf(usuario.getId()), dataFont, false, rowIndex);
             addCellToTable(table, usuario.getNombre() != null ? usuario.getNombre() : "", dataFont, false, rowIndex);
             addCellToTable(table, usuario.getDocumento() != null ? usuario.getDocumento() : "", dataFont, false, rowIndex);
             addCellToTable(table, usuario.getDireccion() != null ? usuario.getDireccion() : "", dataFont, false, rowIndex);
