@@ -2,8 +2,10 @@ package com.agrosellnova.Agrosellnova.controladores;
 
 import com.agrosellnova.Agrosellnova.modelo.Calificaciones;
 import com.agrosellnova.Agrosellnova.modelo.Producto;
+import com.agrosellnova.Agrosellnova.modelo.Productor;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
+import com.agrosellnova.Agrosellnova.repositorio.ProductorRepository;
 import com.agrosellnova.Agrosellnova.repositorio.UsuarioRepository;
 import com.agrosellnova.Agrosellnova.servicio.*;
 import jakarta.servlet.http.HttpSession;
@@ -45,6 +47,12 @@ public class ProductoController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private ImgBBService imgBBService;
+
+    @Autowired
+    private ProductorRepository productorRepository;
+
     @GetMapping("/public/productos")
     public String mostrarProductos(
             @RequestParam(name = "producto", required = false) String nombre,
@@ -64,6 +72,7 @@ public class ProductoController {
         }
 
         Map<Long, Usuario> productores= new HashMap<>();
+        Map<Long, Productor>productoresInfo= new HashMap<>();
         Map<Long, Double >promedios=new HashMap<>();
         Map<Long, List<Calificaciones>>resenas=new HashMap<>();
         Map<Long, Long >totalCalificaciones=new HashMap<>();
@@ -72,13 +81,21 @@ public class ProductoController {
         for (Producto p : productos)
         {
             Usuario prod=usuarioRepository.findByNombreUsuario(p.getUsuarioCampesino());
-            if (prod!= null)
+            Productor productorInfo = productorRepository.findAllByIdUsuario(prod.getId().intValue()).stream().findFirst().orElse(null);
+            if (prod != null)
             {
                 productores.put(p.getId(),prod);
             }
+
+            if (productorInfo != null)
+            {
+                productoresInfo.put(p.getId(),productorInfo);
+            }
+
             promedios.put(p.getId(),calificacionesService.ObtenerPromedioByProducto(p.getId()));
             resenas.put(p.getId(),calificacionesService.listarPorProductoId(p.getId()));
             totalCalificaciones.put(p.getId(),calificacionesService.contarCalificacionesPorProducto(p.getId()));
+
 
             List<Calificaciones> lista = calificacionesService.listarPorProductoId(p.getId());
             resenas.put(p.getId(), lista);
@@ -96,6 +113,8 @@ public class ProductoController {
         model.addAttribute("resenas",resenas);
         model.addAttribute("totalCalificaciones",totalCalificaciones);
         model.addAttribute("ultimaResena", ultimaResena);
+        model.addAttribute("productoresInfo", productoresInfo);
+
 
         return "public/productos";
 
@@ -135,17 +154,11 @@ public class ProductoController {
             @RequestParam("stock") int stock
     ) {
         try {
-            String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
-            String rutaAbsoluta = new File("src/main/resources/static/img/productos").getAbsolutePath();
-
-            Files.createDirectories(Paths.get(rutaAbsoluta));
-            Path path = Paths.get(rutaAbsoluta, nombreArchivo);
-            Files.write(path, imagen.getBytes());
-            String rutaRelativa = "../img/productos/" + nombreArchivo;
+            String imagenUrl = imgBBService.uploadImage(imagen);
 
             Producto producto = new Producto();
             producto.setUsuarioCampesino(nombreUsuario);
-            producto.setImagen(rutaRelativa);
+            producto.setImagen(imagenUrl);
             producto.setNombre(nombre);
             producto.setPrecio(precio);
             producto.setDescripcion(descripcion);
@@ -184,12 +197,8 @@ public class ProductoController {
             existente.setStock(producto.getStock());
 
             if (nuevaImagen != null && !nuevaImagen.isEmpty()) {
-                String nombreArchivo = UUID.randomUUID().toString() + "_" + nuevaImagen.getOriginalFilename();
-                String rutaAbsoluta = new File("src/main/resources/static/img/productos").getAbsolutePath();
-                Path path = Paths.get(rutaAbsoluta + File.separator + nombreArchivo);
-                Files.write(path, nuevaImagen.getBytes());
-
-                existente.setImagen("../img/productos/" + nombreArchivo);
+                String nuevaImagenUrl = imgBBService.uploadImage(nuevaImagen);
+                existente.setImagen(nuevaImagenUrl);
             }
 
             productoRepository.save(existente);
@@ -198,6 +207,8 @@ public class ProductoController {
         } catch (IOException e) {
             e.printStackTrace();
             return "redirect:/error";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

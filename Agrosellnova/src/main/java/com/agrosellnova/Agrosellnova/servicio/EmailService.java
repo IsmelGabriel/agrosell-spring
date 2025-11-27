@@ -89,7 +89,10 @@ public class EmailService {
     @Async("taskExecutor")
     public void sendNewProductNotificationToAll(List<String> correos, String productName, Double price) {
         for (String correo : correos) {
-            sendNewProductNotification(correo, productName, price);
+            if (!correo.contains("@agrosell")) {
+                sendNewProductNotification(correo, productName, price);
+                System.out.printf("Email de nuevo producto enviado a: %s%n", correo);
+            }
         }
     }
 

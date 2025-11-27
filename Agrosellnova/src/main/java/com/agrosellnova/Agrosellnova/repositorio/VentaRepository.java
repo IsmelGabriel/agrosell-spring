@@ -24,6 +24,8 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
     List<Venta> findByProducto_NombreContainingIgnoreCase(String producto);
     List<Venta> findByFechaVenta(LocalDate fecha);
     List<Venta> findTop4ByOrderByIdVentaDesc();
+    List<Venta> findTop4ByComprador_NombreUsuarioOrderByIdVentaDesc(String nombreUsuario);
+
 
     @Query("SELECT COALESCE(SUM(v.totalVenta), 0) FROM Venta v")
     Double totalVentas();

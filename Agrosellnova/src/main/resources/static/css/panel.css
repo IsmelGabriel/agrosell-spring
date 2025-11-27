@@ -149,7 +149,7 @@ header.Bienvenido {
     color: #2E7D32;
     margin-bottom: 25px;
 }
-
+/*Tabla de panel*/
 table {
     width: 100%;
     border-collapse: collapse;
@@ -169,7 +169,7 @@ td {
     font-size: 14px;
     border-bottom: 1px solid #ddd;
 }
-
+/*no se*/
 th {
     padding: 10px 8px;
     text-align: left;

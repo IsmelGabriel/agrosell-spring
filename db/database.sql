@@ -21,53 +21,53 @@ USE `agrosell`;
 DROP TABLE IF EXISTS `calificaciones`;
 
 CREATE TABLE `calificaciones` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `producto_id` int(11) DEFAULT NULL,
-  `usuario_id` bigint(20) DEFAULT NULL,
-  `comentario` varchar(255) DEFAULT NULL,
-  `calificacion` int(11) DEFAULT NULL,
-  `fecha_creacion` date DEFAULT NULL,
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `producto_id` INT(11) DEFAULT NULL,
+  `usuario_id` BIGINT(20) DEFAULT NULL,
+  `comentario` VARCHAR(255) DEFAULT NULL,
+  `calificacion` INT(11) DEFAULT NULL,
+  `fecha_creacion` DATE DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_calificacion_producto` (`producto_id`),
   CONSTRAINT `fk_calificacion_producto` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`ID_PRODUCTO`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=INNODB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Table structure for table `consultas_sipsa` */
 
 DROP TABLE IF EXISTS `consultas_sipsa`;
 
 CREATE TABLE `consultas_sipsa` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `cantidad_kg` double DEFAULT NULL,
-  `ciudad` varchar(255) DEFAULT NULL,
-  `codigo_producto` int(11) DEFAULT NULL,
-  `fecha_captura` datetime(6) DEFAULT NULL,
-  `fecha_consulta` datetime(6) DEFAULT NULL,
-  `fuente` varchar(255) DEFAULT NULL,
-  `precio_promedio` double DEFAULT NULL,
-  `producto` varchar(255) DEFAULT NULL,
-  `tipo_consulta` varchar(255) DEFAULT NULL,
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `cantidad_kg` DOUBLE DEFAULT NULL,
+  `ciudad` VARCHAR(255) DEFAULT NULL,
+  `codigo_producto` INT(11) DEFAULT NULL,
+  `fecha_captura` DATETIME(6) DEFAULT NULL,
+  `fecha_consulta` DATETIME(6) DEFAULT NULL,
+  `fuente` VARCHAR(255) DEFAULT NULL,
+  `precio_promedio` DOUBLE DEFAULT NULL,
+  `producto` VARCHAR(255) DEFAULT NULL,
+  `tipo_consulta` VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Table structure for table `facturas` */
 
 DROP TABLE IF EXISTS `facturas`;
 
 CREATE TABLE `facturas` (
-  `id_factura` bigint(20) NOT NULL AUTO_INCREMENT,
-  `numero_factura` bigint(20) NOT NULL,
-  `ID_USUARIO` int(11) NOT NULL,
-  `id_pago` int(11) NOT NULL,
-  `fecha_emision` datetime DEFAULT current_timestamp(),
-  `subtotal` decimal(10,2) NOT NULL,
-  `descuento` decimal(10,2) DEFAULT 0.00,
-  `impuesto` decimal(10,2) DEFAULT 0.00,
-  `total` double DEFAULT NULL,
-  `estado_factura` enum('emitida','pagada','anulada') DEFAULT 'emitida',
-  `detalle` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`detalle`)),
-  `fecha` date DEFAULT NULL,
-  `id_reserva` bigint(20) DEFAULT NULL,
+  `id_factura` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `numero_factura` BIGINT(20) NOT NULL,
+  `ID_USUARIO` INT(11) NOT NULL,
+  `id_pago` INT(11) NOT NULL,
+  `fecha_emision` DATETIME DEFAULT CURRENT_TIMESTAMP(),
+  `subtotal` DECIMAL(10,2) NOT NULL,
+  `descuento` DECIMAL(10,2) DEFAULT 0.00,
+  `impuesto` DECIMAL(10,2) DEFAULT 0.00,
+  `total` DOUBLE DEFAULT NULL,
+  `estado_factura` ENUM('emitida','pagada','anulada') DEFAULT 'emitida',
+  `detalle` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`detalle`)),
+  `fecha` DATE DEFAULT NULL,
+  `id_reserva` BIGINT(20) DEFAULT NULL,
   PRIMARY KEY (`id_factura`),
   UNIQUE KEY `numero_factura` (`numero_factura`),
   KEY `fk_facturas_usuario` (`ID_USUARIO`),
@@ -76,283 +76,314 @@ CREATE TABLE `facturas` (
   CONSTRAINT `FK9fcidtcs4sx1jex4t0ytr9txc` FOREIGN KEY (`id_reserva`) REFERENCES `reservas` (`id_reservas`),
   CONSTRAINT `fk_facturas_pagos` FOREIGN KEY (`id_pago`) REFERENCES `pagos` (`id_pago`),
   CONSTRAINT `fk_facturas_usuario` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuarios` (`ID_USUARIO`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Table structure for table `inventario` */
 
 DROP TABLE IF EXISTS `inventario`;
 
 CREATE TABLE `inventario` (
-  `ID_inventario` int(11) NOT NULL AUTO_INCREMENT,
-  `ID_producto` int(11) NOT NULL,
-  `Nombre_producto` varchar(120) NOT NULL,
-  `productor` varchar(120) NOT NULL,
-  `Precio` decimal(10,0) NOT NULL,
-  `Fecha_cosecha` date NOT NULL,
-  `Peso_kg` decimal(10,0) NOT NULL,
-  `stock` int(11) NOT NULL,
-  `Descripcion` varchar(100) NOT NULL,
-  `Numero_referencia` varchar(120) NOT NULL,
+  `ID_inventario` INT(11) NOT NULL AUTO_INCREMENT,
+  `ID_producto` INT(11) NOT NULL,
+  `Nombre_producto` VARCHAR(120) NOT NULL,
+  `productor` VARCHAR(120) NOT NULL,
+  `Precio` DECIMAL(10,0) NOT NULL,
+  `Fecha_cosecha` DATE NOT NULL,
+  `Peso_kg` DECIMAL(10,0) NOT NULL,
+  `stock` INT(11) NOT NULL,
+  `Descripcion` VARCHAR(100) NOT NULL,
+  `Numero_referencia` VARCHAR(120) NOT NULL,
   PRIMARY KEY (`ID_inventario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Table structure for table `metodo_pago` */
 
 DROP TABLE IF EXISTS `metodo_pago`;
 
 CREATE TABLE `metodo_pago` (
-  `id_metodo` int(11) NOT NULL AUTO_INCREMENT,
-  `metodo` varchar(50) NOT NULL,
+  `id_metodo` INT(11) NOT NULL AUTO_INCREMENT,
+  `metodo` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id_metodo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Table structure for table `ofertas_productos` */
 
 DROP TABLE IF EXISTS `ofertas_productos`;
 
 CREATE TABLE `ofertas_productos` (
-  `ID_OFERTA_PRODUCTO` int(11) NOT NULL AUTO_INCREMENT,
-  `USUARIO_CAMPESINO` varchar(50) NOT NULL,
-  `FECHA_INICIO_OFERTA` date NOT NULL,
-  `FECHA_FIN_OFERTA` date NOT NULL,
-  `ID_PRODUCTO` int(11) NOT NULL,
-  `precio_oferta` decimal(10,2) NOT NULL,
-  `descripcion_oferta` text NOT NULL,
+  `ID_OFERTA_PRODUCTO` INT(11) NOT NULL AUTO_INCREMENT,
+  `USUARIO_CAMPESINO` VARCHAR(50) NOT NULL,
+  `FECHA_INICIO_OFERTA` DATE NOT NULL,
+  `FECHA_FIN_OFERTA` DATE NOT NULL,
+  `ID_PRODUCTO` INT(11) NOT NULL,
+  `precio_oferta` DECIMAL(10,2) NOT NULL,
+  `descripcion_oferta` TEXT NOT NULL,
   PRIMARY KEY (`ID_OFERTA_PRODUCTO`),
   KEY `idx_ID_PRODUCTO` (`ID_PRODUCTO`),
   CONSTRAINT `fk_ID_PRODUCTO` FOREIGN KEY (`ID_PRODUCTO`) REFERENCES `producto` (`ID_PRODUCTO`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `pagos` */
 
 DROP TABLE IF EXISTS `pagos`;
 
 CREATE TABLE `pagos` (
-  `id_pago` int(20) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) DEFAULT NULL,
-  `correo` varchar(255) DEFAULT NULL,
-  `telefono` varchar(255) DEFAULT NULL,
-  `metodo_pago` varchar(255) DEFAULT NULL,
-  `direccion` varchar(255) DEFAULT NULL,
-  `fecha_emision` date DEFAULT NULL,
+  `id_pago` INT(20) NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(255) DEFAULT NULL,
+  `correo` VARCHAR(255) DEFAULT NULL,
+  `telefono` VARCHAR(255) DEFAULT NULL,
+  `metodo_pago` VARCHAR(255) DEFAULT NULL,
+  `direccion` VARCHAR(255) DEFAULT NULL,
+  `fecha_emision` DATE DEFAULT NULL,
   PRIMARY KEY (`id_pago`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Table structure for table `pqrs` */
 
 DROP TABLE IF EXISTS `pqrs`;
 
 CREATE TABLE `pqrs` (
-  `id_pqrs` bigint(20) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) NOT NULL,
-  `correo` varchar(255) NOT NULL,
-  `telefono` varchar(255) DEFAULT NULL,
-  `tipo` varchar(255) NOT NULL,
-  `estado` enum('PENDIENTE','RESUELTO') DEFAULT 'PENDIENTE',
-  `mensaje` varchar(1000) DEFAULT NULL,
-  `respuesta` varchar(1000) DEFAULT NULL,
+  `id_pqrs` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(255) NOT NULL,
+  `correo` VARCHAR(255) NOT NULL,
+  `telefono` VARCHAR(255) DEFAULT NULL,
+  `tipo` VARCHAR(255) NOT NULL,
+  `estado` ENUM('PENDIENTE','RESUELTO') DEFAULT 'PENDIENTE',
+  `mensaje` VARCHAR(1000) DEFAULT NULL,
+  `respuesta` VARCHAR(1000) DEFAULT NULL,
   PRIMARY KEY (`id_pqrs`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=INNODB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `privilegio` */
 
 DROP TABLE IF EXISTS `privilegio`;
 
 CREATE TABLE `privilegio` (
-  `ID_PRIVILEGIO` int(11) NOT NULL AUTO_INCREMENT,
-  `DESCRIPCION` varchar(100) NOT NULL,
+  `ID_PRIVILEGIO` INT(11) NOT NULL AUTO_INCREMENT,
+  `DESCRIPCION` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`ID_PRIVILEGIO`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `privilegio_has_usuarios` */
 
 DROP TABLE IF EXISTS `privilegio_has_usuarios`;
 
 CREATE TABLE `privilegio_has_usuarios` (
-  `privilegio_ID_privilegio` int(11) NOT NULL,
-  `usuarios_ID_USUARIO` int(11) NOT NULL,
+  `privilegio_ID_privilegio` INT(11) NOT NULL,
+  `usuarios_ID_USUARIO` INT(11) NOT NULL,
   PRIMARY KEY (`privilegio_ID_privilegio`,`usuarios_ID_USUARIO`),
   KEY `fk_privilegio_has_usuarios_usuarios` (`usuarios_ID_USUARIO`),
   CONSTRAINT `fk_privilegio_has_usuarios_privilegio` FOREIGN KEY (`privilegio_ID_privilegio`) REFERENCES `privilegio` (`ID_PRIVILEGIO`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_privilegio_has_usuarios_usuarios` FOREIGN KEY (`usuarios_ID_USUARIO`) REFERENCES `usuarios` (`ID_USUARIO`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `producto` */
 
 DROP TABLE IF EXISTS `producto`;
 
 CREATE TABLE `producto` (
-  `ID_PRODUCTO` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario_campesino` varchar(255) DEFAULT NULL,
-  `PRODUCTO_IMAGEN` varchar(255) NOT NULL,
-  `nombre_producto` varchar(255) DEFAULT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
-  `precio` double DEFAULT NULL,
-  `peso_kg` double DEFAULT NULL,
-  `STOCK` int(11) NOT NULL,
-  `FECHA_COSECHA` date DEFAULT NULL,
-  `estado` varchar(255) DEFAULT NULL,
+  `ID_PRODUCTO` INT(11) NOT NULL AUTO_INCREMENT,
+  `usuario_campesino` VARCHAR(255) DEFAULT NULL,
+  `PRODUCTO_IMAGEN` VARCHAR(255) NOT NULL,
+  `nombre_producto` VARCHAR(255) DEFAULT NULL,
+  `descripcion` VARCHAR(255) DEFAULT NULL,
+  `precio` DOUBLE DEFAULT NULL,
+  `peso_kg` DOUBLE DEFAULT NULL,
+  `STOCK` INT(11) NOT NULL,
+  `FECHA_COSECHA` DATE DEFAULT NULL,
+  `estado` VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (`ID_PRODUCTO`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=INNODB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `productores` */
 
 DROP TABLE IF EXISTS `productores`;
 
 CREATE TABLE `productores` (
-  `id_productor` bigint(20) NOT NULL AUTO_INCREMENT,
-  `id_usuario` int(11) NOT NULL,
-  `nombre_finca` varchar(255) DEFAULT NULL,
-  `ubicacion` varchar(255) NOT NULL,
-  `area_cultivo` decimal(38,2) DEFAULT NULL,
-  `tipo_produccion` enum('Agrícola','Pecuaria','Mixta') NOT NULL,
-  `productos` varchar(255) DEFAULT NULL,
-  `años_experiencia` int(11) DEFAULT NULL,
-  `capacidad_produccion` decimal(38,2) DEFAULT NULL,
-  `contacto_comercial` varchar(255) DEFAULT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
-  `estado_solicitud` enum('Pendiente','Aprobado','Rechazado') DEFAULT 'Pendiente',
-  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
-  `fecha_actualizacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `id_productor` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `id_usuario` INT(11) NOT NULL,
+  `nombre_finca` VARCHAR(255) DEFAULT NULL,
+  `ubicacion` VARCHAR(255) NOT NULL,
+  `area_cultivo` DECIMAL(38,2) DEFAULT NULL,
+  `tipo_produccion` ENUM('Agrícola','Pecuaria','Mixta') NOT NULL,
+  `productos` VARCHAR(255) DEFAULT NULL,
+  `años_experiencia` INT(11) DEFAULT NULL,
+  `capacidad_produccion` DECIMAL(38,2) DEFAULT NULL,
+  `contacto_comercial` VARCHAR(255) DEFAULT NULL,
+  `descripcion` VARCHAR(255) DEFAULT NULL,
+  `estado_solicitud` ENUM('Pendiente','Aprobado','Rechazado') DEFAULT 'Pendiente',
+  `fecha_registro` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  `fecha_actualizacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
   PRIMARY KEY (`id_productor`),
   KEY `id_usuario` (`id_usuario`),
   CONSTRAINT `productores_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`ID_USUARIO`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=INNODB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `resenas` */
 
 DROP TABLE IF EXISTS `resenas`;
 
 CREATE TABLE `resenas` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `usuario` varchar(255) DEFAULT NULL,
-  `correo` varchar(255) DEFAULT NULL,
-  `puntuacion` int(11) DEFAULT NULL,
-  `comentario` varchar(1000) DEFAULT NULL,
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `usuario` VARCHAR(255) DEFAULT NULL,
+  `correo` VARCHAR(255) DEFAULT NULL,
+  `puntuacion` INT(11) DEFAULT NULL,
+  `comentario` VARCHAR(1000) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=INNODB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `reservas` */
 
 DROP TABLE IF EXISTS `reservas`;
 
 CREATE TABLE `reservas` (
-  `id_reservas` bigint(20) NOT NULL AUTO_INCREMENT,
-  `usuario_cliente` varchar(255) DEFAULT NULL,
-  `usuario_documento` varchar(255) DEFAULT NULL,
-  `usuario_telefono` varchar(255) DEFAULT NULL,
-  `usuario_correo` varchar(255) DEFAULT NULL,
-  `producto` varchar(255) DEFAULT NULL,
-  `cantidad_kg` double DEFAULT NULL,
-  `metodo_pago` varchar(255) DEFAULT NULL,
-  `FECHA_RESERVA` date DEFAULT NULL,
+  `id_reservas` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `usuario_cliente` VARCHAR(255) DEFAULT NULL,
+  `usuario_documento` VARCHAR(255) DEFAULT NULL,
+  `usuario_telefono` VARCHAR(255) DEFAULT NULL,
+  `usuario_correo` VARCHAR(255) DEFAULT NULL,
+  `producto` VARCHAR(255) DEFAULT NULL,
+  `cantidad_kg` DOUBLE DEFAULT NULL,
+  `metodo_pago` VARCHAR(255) DEFAULT NULL,
+  `FECHA_RESERVA` DATE DEFAULT NULL,
   PRIMARY KEY (`id_reservas`),
   KEY `fk_reservas_producto` (`producto`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=INNODB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `roles` */
 
 DROP TABLE IF EXISTS `roles`;
 
 CREATE TABLE `roles` (
-  `ID_ROL` int(11) NOT NULL AUTO_INCREMENT,
-  `NOMBRE_ROL` enum('administrador','cliente','productor') NOT NULL,
+  `ID_ROL` INT(11) NOT NULL AUTO_INCREMENT,
+  `NOMBRE_ROL` ENUM('administrador','cliente','productor') NOT NULL,
   PRIMARY KEY (`ID_ROL`),
   UNIQUE KEY `NOMBRE_ROL` (`NOMBRE_ROL`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=INNODB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `sipsa_abastecimiento` */
 
 DROP TABLE IF EXISTS `sipsa_abastecimiento`;
 
 CREATE TABLE `sipsa_abastecimiento` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `codigo_producto` int(11) DEFAULT NULL,
-  `producto` varchar(255) NOT NULL,
-  `fuente` varchar(500) DEFAULT NULL,
-  `cantidad_toneladas` double DEFAULT NULL,
-  `fecha_mes_inicio` datetime DEFAULT NULL,
-  `fecha_consulta` datetime NOT NULL DEFAULT current_timestamp(),
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `codigo_producto` INT(11) DEFAULT NULL,
+  `producto` VARCHAR(255) NOT NULL,
+  `fuente` VARCHAR(500) DEFAULT NULL,
+  `cantidad_toneladas` DOUBLE DEFAULT NULL,
+  `fecha_mes_inicio` DATETIME DEFAULT NULL,
+  `fecha_consulta` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=147247 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=INNODB AUTO_INCREMENT=147247 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Table structure for table `sipsa_datos_mensuales` */
 
 DROP TABLE IF EXISTS `sipsa_datos_mensuales`;
 
 CREATE TABLE `sipsa_datos_mensuales` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `codigo_producto` int(11) DEFAULT NULL,
-  `producto` varchar(255) NOT NULL,
-  `fuente` varchar(500) DEFAULT NULL,
-  `promedio_kg` double DEFAULT NULL,
-  `minimo_kg` double DEFAULT NULL,
-  `maximo_kg` double DEFAULT NULL,
-  `fecha_mes_inicio` datetime DEFAULT NULL,
-  `fecha_consulta` datetime NOT NULL DEFAULT current_timestamp(),
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `codigo_producto` INT(11) DEFAULT NULL,
+  `producto` VARCHAR(255) NOT NULL,
+  `fuente` VARCHAR(500) DEFAULT NULL,
+  `promedio_kg` DOUBLE DEFAULT NULL,
+  `minimo_kg` DOUBLE DEFAULT NULL,
+  `maximo_kg` DOUBLE DEFAULT NULL,
+  `fecha_mes_inicio` DATETIME DEFAULT NULL,
+  `fecha_consulta` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=205147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=INNODB AUTO_INCREMENT=205147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Table structure for table `sipsa_datos_semanales` */
 
 DROP TABLE IF EXISTS `sipsa_datos_semanales`;
 
 CREATE TABLE `sipsa_datos_semanales` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `codigo_producto` int(11) DEFAULT NULL,
-  `producto` varchar(255) NOT NULL,
-  `fuente` varchar(500) DEFAULT NULL,
-  `promedio_kg` double DEFAULT NULL,
-  `minimo_kg` double DEFAULT NULL,
-  `maximo_kg` double DEFAULT NULL,
-  `fecha_inicio_semana` datetime DEFAULT NULL,
-  `fecha_consulta` datetime NOT NULL DEFAULT current_timestamp(),
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `codigo_producto` INT(11) DEFAULT NULL,
+  `producto` VARCHAR(255) NOT NULL,
+  `fuente` VARCHAR(500) DEFAULT NULL,
+  `promedio_kg` DOUBLE DEFAULT NULL,
+  `minimo_kg` DOUBLE DEFAULT NULL,
+  `maximo_kg` DOUBLE DEFAULT NULL,
+  `fecha_inicio_semana` DATETIME DEFAULT NULL,
+  `fecha_consulta` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=243771 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=INNODB AUTO_INCREMENT=243771 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Table structure for table `usuarios` */
 
 DROP TABLE IF EXISTS `usuarios`;
 
 CREATE TABLE `usuarios` (
-  `ID_USUARIO` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) NOT NULL,
-  `usuario` varchar(255) NOT NULL,
-  `documento` varchar(255) DEFAULT NULL,
-  `DIRECCION` varchar(255) DEFAULT NULL,
-  `correo` varchar(255) NOT NULL,
-  `metodo_pago` varchar(255) DEFAULT NULL,
-  `FECHA_NACIMIENTO` date DEFAULT NULL,
-  `rol` varchar(255) NOT NULL,
-  `roles_ID_roles` int(11) NOT NULL DEFAULT 2,
-  `CONTRASEÑA` varchar(255) NOT NULL,
-  `estado` varchar(255) DEFAULT 'Habilitado',
+  `ID_USUARIO` INT(11) NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(255) NOT NULL,
+  `usuario` VARCHAR(255) NOT NULL,
+  `documento` VARCHAR(255) DEFAULT NULL,
+  `DIRECCION` VARCHAR(255) DEFAULT NULL,
+  `correo` VARCHAR(255) NOT NULL,
+  `metodo_pago` VARCHAR(255) DEFAULT NULL,
+  `FECHA_NACIMIENTO` DATE DEFAULT NULL,
+  `rol` VARCHAR(255) NOT NULL,
+  `roles_ID_roles` INT(11) NOT NULL DEFAULT 2,
+  `CONTRASEÑA` VARCHAR(255) NOT NULL,
+  `estado` VARCHAR(255) DEFAULT 'Habilitado',
   PRIMARY KEY (`ID_USUARIO`),
   UNIQUE KEY `CORREO` (`correo`),
   UNIQUE KEY `USUARIO` (`usuario`),
   KEY `roles_ID_roles` (`roles_ID_roles`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=INNODB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `ventas` */
 
 DROP TABLE IF EXISTS `ventas`;
 
 CREATE TABLE `ventas` (
-  `id_venta` bigint(20) NOT NULL AUTO_INCREMENT,
-  `ID_Producto` int(11) NOT NULL,
-  `cantidad_kg` double DEFAULT NULL,
-  `FECHA_VENTA` date NOT NULL,
-  `total_venta` double DEFAULT NULL,
-  `usuarios_ID_USUARIO` int(11) NOT NULL,
-  `usuarios_id_vendedor` bigint(20) DEFAULT NULL,
-  `facturas_id_factura` bigint(20) DEFAULT NULL,
+  `id_venta` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `ID_Producto` INT(11) NOT NULL,
+  `cantidad_kg` DOUBLE DEFAULT NULL,
+  `FECHA_VENTA` DATE NOT NULL,
+  `total_venta` DOUBLE DEFAULT NULL,
+  `usuarios_ID_USUARIO` INT(11) NOT NULL,
+  `usuarios_id_vendedor` BIGINT(20) DEFAULT NULL,
+  `facturas_id_factura` BIGINT(20) DEFAULT NULL,
   PRIMARY KEY (`id_venta`),
   KEY `fk_ventas_producto` (`ID_Producto`),
   KEY `fk_ventas_cliente` (`usuarios_ID_USUARIO`),
   KEY `fk_ventas_vendedor` (`usuarios_id_vendedor`),
   CONSTRAINT `fk_ventas_cliente` FOREIGN KEY (`usuarios_ID_USUARIO`) REFERENCES `usuarios` (`ID_USUARIO`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_ventas_producto` FOREIGN KEY (`ID_Producto`) REFERENCES `producto` (`ID_PRODUCTO`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=INNODB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE factura (
+    id_factura BIGINT AUTO_INCREMENT PRIMARY KEY,
+    numero_factura VARCHAR(50) UNIQUE NOT NULL,
+    ID_USUARIO BIGINT NOT NULL,
+    id_pago BIGINT NOT NULL,
+    fecha_emision DATE NOT NULL,
+    subtotal DOUBLE NOT NULL,
+    descuento DOUBLE DEFAULT 0.0,
+    impuesto DOUBLE DEFAULT 0.0,
+    total DOUBLE NOT NULL,
+    estado_factura VARCHAR(20) NOT NULL DEFAULT 'PENDIENTE',
+    detalle TEXT,
+    fecha DATE,
+    id_reserva BIGINT
+);
+CREATE TABLE detalle_factura (
+    id_detalle BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id_factura BIGINT NOT NULL,
+    ID_PRODUCTO BIGINT NOT NULL,
+    nombre_producto VARCHAR(255) NOT NULL,
+    cantidad DOUBLE NOT NULL,
+    precio_unitario DOUBLE NOT NULL,
+    subtotal DOUBLE NOT NULL
+);
+CREATE INDEX idx_factura_usuario ON factura(ID_USUARIO);
+CREATE INDEX idx_factura_numero ON factura(numero_factura);
+CREATE INDEX idx_factura_estado ON factura(estado_factura);
+CREATE INDEX idx_factura_fecha ON factura(fecha_emision);
+CREATE INDEX idx_detalle_factura ON detalle_factura(id_factura);
+CREATE INDEX idx_detalle_producto ON detalle_factura(ID_PRODUCTO);
 
 /* Trigger structure for table `usuarios` */
 

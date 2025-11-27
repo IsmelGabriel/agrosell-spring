@@ -4,6 +4,7 @@ import com.agrosellnova.Agrosellnova.modelo.Producto;
 import com.agrosellnova.Agrosellnova.modelo.Reserva;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
 import com.agrosellnova.Agrosellnova.repositorio.ProductoRepository;
+import com.agrosellnova.Agrosellnova.servicio.ImgBBService;
 import com.agrosellnova.Agrosellnova.servicio.ProductoService;
 import com.agrosellnova.Agrosellnova.servicio.ReservaService;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
@@ -53,6 +54,9 @@ public class ReservaController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private ImgBBService imgBBService;
 
     @GetMapping("/public/reservas")
     public String mostrarProductosReservables(HttpSession session, Model model) {
@@ -193,24 +197,19 @@ public class ReservaController {
             HttpSession session
     ) {
         try {
-            // 📌 Obtener usuario de la sesión
+            // Obtener usuario de la sesión
             String nombreUsuario = (String) session.getAttribute("usuario");
             if (nombreUsuario == null) {
                 return "redirect:/public/index";
             }
 
-            // 📂 Guardar la imagen
-            String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
-            String rutaAbsoluta = new File("Agrosellnova/src/main/resources/static/img").getAbsolutePath();
-            Files.createDirectories(Paths.get(rutaAbsoluta));
-            Path path = Paths.get(rutaAbsoluta, nombreArchivo);
-            Files.write(path, imagen.getBytes());
-            String rutaRelativa = "../img/" + nombreArchivo;
+            // Guardar la imagen
+            String imagenUrl = imgBBService.uploadImage(imagen);
 
-            // 📝 Crear el producto
+            // Crear el producto
             Producto producto = new Producto();
             producto.setUsuarioCampesino(nombreUsuario);
-            producto.setImagen(rutaRelativa);
+            producto.setImagen(imagenUrl);
             producto.setNombre(nombre);
             producto.setPrecio(precio);
             producto.setDescripcion(descripcion);
@@ -221,7 +220,7 @@ public class ReservaController {
 
             productoRepository.save(producto);
 
-            return "redirect:/private/gestionar_productos?success";
+            return "redirect:/private/gestionar_productos";
 
         } catch (Exception e) {
             e.printStackTrace();
