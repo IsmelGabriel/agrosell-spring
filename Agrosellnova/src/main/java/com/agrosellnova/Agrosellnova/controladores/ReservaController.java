@@ -77,7 +77,8 @@ public class ReservaController {
         // Verificar si hay usuario en sesión
         String usuario = (String) session.getAttribute("usuario");
         if (usuario == null) {
-            redirectAttributes.addFlashAttribute("error", "Debes iniciar sesión para reservar un producto.");
+            session.setAttribute("reservaPendiente", true);
+            session.setAttribute("idProductoReserva", idProducto);
             return "redirect:/public/index"; // redirige al login
         }
 
