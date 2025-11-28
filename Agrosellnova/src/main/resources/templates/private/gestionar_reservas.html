@@ -38,9 +38,12 @@
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_reservas}"><i class="fas fa-calendar-alt"></i> Gestionar Reservas</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_compra}"><i class="fas fa-shopping-cart"></i> Gestionar Compras</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/mis-facturas}"><i class="fas fa-file-invoice-dollar"></i> Mis Facturas</a></li>
+                <li th:if="${rol == 'cliente'}"><a th:href="@{/private/gestionar_pqrs}"><i class="fas fa-question-circle"></i> Gestionar PQRS's</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/productos}"><i class="fas fa-carrot"></i> Ver Productos</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}"><i class="fas fa-plus-circle"></i> Realizar Reserva</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/ser_productor}"><i class="fas fa-tractor"></i> Ser Productor</a></li>
+
                 <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </div>
@@ -54,7 +57,6 @@
                     <input type="text" name="valor" placeholder="Buscar..." class="filtro-input">
                     <select name="criterio" class="filtro-select">
                         <option value="">Selecciona un criterio</option>
-                        <option value="id">ID de Reserva</option>
                         <option value="producto">Producto</option>
                         <option value="fecha">Fecha (YYYY-MM-DD)</option>
                     </select>
@@ -73,7 +75,6 @@
         <table border="1">
             <thead>
             <tr>
-                <th>ID Reserva</th>
                 <th>Documento</th>
                 <th>Teléfono</th>
                 <th>Correo</th>
@@ -86,7 +87,6 @@
             </thead>
             <tbody>
             <tr th:each="reserva : ${listaReservas}">
-                <td th:text="${reserva.idReserva}"></td>
                 <td th:text="${reserva.usuarioDocumento}"></td>
                 <td th:text="${reserva.usuarioTelefono}"></td>
                 <td th:text="${reserva.usuarioCorreo}"></td>

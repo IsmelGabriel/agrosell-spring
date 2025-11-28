@@ -75,7 +75,6 @@
         <table border="1">
             <thead>
             <tr>
-                <th>ID Reserva</th>
                 <th>Usuario</th>
                 <th>Documento</th>
                 <th>Teléfono</th>
@@ -88,7 +87,6 @@
             </thead>
             <tbody>
             <tr th:each="reserva : ${reservas}">
-                <td th:text="${reserva.idReserva}">1</td>
                 <td th:text="${reserva.usuarioCliente}">usuario123</td>
                 <td th:text="${reserva.usuarioDocumento}">12345678</td>
                 <td th:text="${reserva.usuarioTelefono}">3001234567</td>

@@ -30,6 +30,7 @@ public class FacturaController {
     @GetMapping("/mis-facturas")
     public String listarMisFacturas(HttpSession session, Model model) {
         String nombreUsuario = (String) session.getAttribute("usuario");
+        String rol = (String) session.getAttribute("rol");
 
         if (nombreUsuario == null) {
             return "redirect:/public/index";
@@ -39,6 +40,7 @@ public class FacturaController {
         List<Factura> facturas = facturaService.listarPorUsuario(usuario);
 
         model.addAttribute("facturas", facturas);
+        model.addAttribute("rol", rol);
         model.addAttribute("usuario", usuario);
 
         return "private/mis_facturas";
