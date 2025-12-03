@@ -40,11 +40,26 @@ public class LoginController {
             System.out.println("Rol en sesión: " + session.getAttribute("rol"));
 
             Pqrs pqrsTemp = (Pqrs) session.getAttribute("pqrsTemp");
+            Boolean pagoPendiente = (Boolean) session.getAttribute("pagoPendiente");
+            Boolean reservaPendiente = (Boolean) session.getAttribute("reservaPendiente");
+            Long idProductoReserva = (Long) session.getAttribute("idProductoReserva");
+
             if (pqrsTemp != null) {
                 pqrsTemp.setNombre(usuarioAutenticado.getNombreUsuario());
                 pqrsService.guardar(pqrsTemp);
                 session.removeAttribute("pqrsTemp");
                 return "redirect:/public/pqrs_exitosa";
+            }
+
+            if (reservaPendiente != null && reservaPendiente && idProductoReserva != null) {
+                session.removeAttribute("reservaPendiente");
+                session.removeAttribute("idProductoReserva");
+                return "redirect:/formulario_reserva?id=" + idProductoReserva;
+            }
+
+            if (pagoPendiente != null && pagoPendiente) {
+                session.removeAttribute("pagoPendiente");
+                return "redirect:/forms/formulario_pago";
             }
 
             return "redirect:/public/inicio";

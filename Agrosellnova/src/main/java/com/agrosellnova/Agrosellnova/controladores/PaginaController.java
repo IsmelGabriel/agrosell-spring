@@ -107,11 +107,13 @@ public class PaginaController {
         String rol = (String) session.getAttribute("rol");
 
         if (usuario == null || rol == null) {
+            session.setAttribute("pagoPendiente", true);
             return "redirect:/public/index";
         }
 
         Usuario comprador = usuarioService.buscarPorNombreUsuario(usuario);
         if (comprador == null) {
+            session.setAttribute("pagoPendiente", true);
             return "redirect:/public/index";
         }
 
@@ -156,6 +158,11 @@ public class PaginaController {
         model.addAttribute("productosRecientes", recientes);
 
         return "public/inicio";
+    }
+
+    @GetMapping("")
+    public String redirigirRaiz() {
+        return "redirect:/public/inicio";
     }
 
     @GetMapping("private/perfil")
