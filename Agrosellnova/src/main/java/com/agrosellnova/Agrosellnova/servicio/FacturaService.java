@@ -27,7 +27,7 @@ public class FacturaService {
     @Autowired
     private ProductoRepository productoRepository;
 
-    // Generar número de factura automático
+
     public String generarNumeroFactura() {
         List<Factura> ultimaFactura = facturaRepository.findTopByOrderByIdFacturaDesc();
 
@@ -42,7 +42,7 @@ public class FacturaService {
         return "FAC-" + LocalDate.now().getYear() + "-" + String.format("%05d", consecutivo);
     }
 
-    // Crear factura desde un carrito de compras
+
     @Transactional
     public Factura crearFacturaDesdeCarrito(Usuario usuario, Pago pago, List<Map<String, Object>> carrito) {
         Factura factura = new Factura();
@@ -53,10 +53,13 @@ public class FacturaService {
         factura.setFecha(LocalDate.now());
         factura.setEstadoFactura("PAGADA");
 
+        if ("Efectivo".equals(pago.getMetodoPago()))
+        {
+            factura.setEstadoFactura("PENDIENTE");
+        }
         double subtotalTotal = 0.0;
         List<DetalleFactura> detalles = new ArrayList<>();
 
-        // Calcular subtotal y crear detalles primero
         for (Map<String, Object> item : carrito) {
             Long idProducto = Long.valueOf(item.get("id").toString());
             Double cantidad = Double.valueOf(item.get("cantidad").toString());
@@ -78,17 +81,16 @@ public class FacturaService {
             }
         }
 
-        // Establecer todos los valores de la factura ANTES de guardar
         factura.setSubtotal(subtotalTotal);
         factura.setDescuento(0.0);
         factura.setImpuesto(0.0);
         factura.setTotal(subtotalTotal);
         factura.setDetalle("Factura generada automáticamente - Compra de productos");
 
-        // Guardar la factura completa
+
         factura = facturaRepository.save(factura);
 
-        // Guardar los detalles con la factura ya persistida
+
         for (DetalleFactura detalle : detalles) {
             detalle.setFactura(factura);
             detalleFacturaRepository.save(detalle);
@@ -97,43 +99,43 @@ public class FacturaService {
         return factura;
     }
 
-    // Guardar factura
+
     @Transactional
     public Factura guardarFactura(Factura factura) {
         return facturaRepository.save(factura);
     }
 
-    // Buscar factura por ID
+
     public Optional<Factura> buscarPorId(Long id) {
         return facturaRepository.findById(id);
     }
 
-    // Buscar factura por número
+
     public Optional<Factura> buscarPorNumero(String numeroFactura) {
         return facturaRepository.findByNumeroFactura(numeroFactura);
     }
 
-    // Listar todas las facturas
+
     public List<Factura> listarTodas() {
         return facturaRepository.findAll();
     }
 
-    // Listar facturas de un usuario
+
     public List<Factura> listarPorUsuario(Usuario usuario) {
         return facturaRepository.findByUsuarioOrderByFechaEmisionDesc(usuario);
     }
 
-    // Listar facturas por estado
+
     public List<Factura> listarPorEstado(String estado) {
         return facturaRepository.findByEstadoFactura(estado);
     }
 
-    // Listar facturas de un usuario por estado
+
     public List<Factura> listarPorUsuarioYEstado(Usuario usuario, String estado) {
         return facturaRepository.findByUsuarioAndEstadoFactura(usuario, estado);
     }
 
-    // Cambiar estado de factura
+
     @Transactional
     public Factura cambiarEstado(Long idFactura, String nuevoEstado) {
         Optional<Factura> facturaOpt = facturaRepository.findById(idFactura);
@@ -147,7 +149,7 @@ public class FacturaService {
         return null;
     }
 
-    // Anular factura
+
     @Transactional
     public boolean anularFactura(Long idFactura) {
         Optional<Factura> facturaOpt = facturaRepository.findById(idFactura);
@@ -162,22 +164,22 @@ public class FacturaService {
         return false;
     }
 
-    // Buscar facturas por rango de fechas
+
     public List<Factura> buscarPorRangoFechas(LocalDate fechaInicio, LocalDate fechaFin) {
         return facturaRepository.findByFechaEmisionBetween(fechaInicio, fechaFin);
     }
 
-    // Obtener detalles de una factura
+
     public List<DetalleFactura> obtenerDetalles(Long idFactura) {
         return detalleFacturaRepository.findByFacturaId(idFactura);
     }
 
-    // Contar facturas por estado
+
     public Long contarPorEstado(String estado) {
         return facturaRepository.countByEstadoFactura(estado);
     }
 
-    // Eliminar factura
+
     @Transactional
     public boolean eliminarFactura(Long idFactura) {
         if (facturaRepository.existsById(idFactura)) {

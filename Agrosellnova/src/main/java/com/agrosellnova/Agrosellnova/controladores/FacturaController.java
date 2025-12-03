@@ -4,10 +4,15 @@ package com.agrosellnova.Agrosellnova.controladores;
 import com.agrosellnova.Agrosellnova.modelo.Factura;
 import com.agrosellnova.Agrosellnova.modelo.DetalleFactura;
 import com.agrosellnova.Agrosellnova.modelo.Usuario;
+import com.agrosellnova.Agrosellnova.servicio.FacturaPDFService;
 import com.agrosellnova.Agrosellnova.servicio.FacturaService;
 import com.agrosellnova.Agrosellnova.servicio.UsuarioService;
+import com.itextpdf.text.DocumentException;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +30,9 @@ public class FacturaController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private FacturaPDFService facturaPdfService;
 
 
     @GetMapping("/mis-facturas")
@@ -50,8 +58,7 @@ public class FacturaController {
     @GetMapping("/detalle/{id}/json")
     @ResponseBody
     public Map<String, Object> obtenerDetalleFacturaJson(@PathVariable Long id, HttpSession session) {
-        System.out.println("========================================");
-        System.out.println("ENDPOINT JSON LLAMADO - ID: " + id);
+
 
         String nombreUsuario = (String) session.getAttribute("usuario");
         Map<String, Object> response = new HashMap<>();
@@ -62,7 +69,7 @@ public class FacturaController {
             return response;
         }
 
-        System.out.println("Usuario autenticado: " + nombreUsuario);
+
 
         Usuario usuario = usuarioService.buscarPorNombreUsuario(nombreUsuario);
         if (usuario == null) {
@@ -75,7 +82,7 @@ public class FacturaController {
 
         if (facturaOpt.isPresent()) {
             Factura factura = facturaOpt.get();
-            System.out.println("Factura encontrada: " + factura.getNumeroFactura());
+
 
 
             if (!factura.getUsuario().getId().equals(usuario.getId())) {
@@ -85,7 +92,7 @@ public class FacturaController {
             }
 
             List<DetalleFactura> detalles = facturaService.obtenerDetalles(id);
-            System.out.println("Detalles encontrados: " + detalles.size());
+
 
             response.put("numeroFactura", factura.getNumeroFactura());
             response.put("clienteNombre", factura.getUsuario().getNombre());
@@ -114,13 +121,11 @@ public class FacturaController {
             response.put("detalles", detallesSimple);
 
             response.put("success", true);
-            System.out.println("Respuesta generada exitosamente");
-            System.out.println("========================================");
+
             return response;
         }
 
-        System.out.println("ERROR: Factura no encontrada con ID: " + id);
-        System.out.println("========================================");
+
         response.put("error", "Factura no encontrada");
         return response;
     }
@@ -203,7 +208,7 @@ public class FacturaController {
                                    @RequestParam(value = "numeroFactura", required = false) String numeroFactura,
                                    HttpSession session, Model model) {
         String nombreUsuario = (String) session.getAttribute("usuario");
-
+        String rol = (String) session.getAttribute("rol");
         if (nombreUsuario == null) {
             return "redirect:/public/index";
         }
@@ -231,35 +236,127 @@ public class FacturaController {
 
         model.addAttribute("facturas", facturas);
         model.addAttribute("usuario", usuario);
-
+        model.addAttribute("rol", rol);
         return "private/mis_facturas";
     }
 
 
-    @GetMapping("/descargar/{id}")
-    public String descargarFactura(@PathVariable Long id, HttpSession session, Model model) {
+    @GetMapping("/descargar/{id}/pdf")
+    public ResponseEntity<byte[]> descargarFacturaPdf(@PathVariable Long id, HttpSession session) {
+
+
         String nombreUsuario = (String) session.getAttribute("usuario");
 
         if (nombreUsuario == null) {
-            return "redirect:/public/index";
+            System.out.println("ERROR: Usuario no autenticado");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        Usuario usuario = usuarioService.buscarPorNombreUsuario(nombreUsuario);
-        Optional<Factura> facturaOpt = facturaService.buscarPorId(id);
+        try {
+            Optional<Factura> facturaOpt = facturaService.buscarPorId(id);
 
-        if (facturaOpt.isPresent()) {
+            if (!facturaOpt.isPresent()) {
+                System.out.println("ERROR: Factura no encontrada");
+                return ResponseEntity.notFound().build();
+            }
+
             Factura factura = facturaOpt.get();
+
+            Usuario usuario = usuarioService.buscarPorNombreUsuario(nombreUsuario);
+
+            if (usuario == null) {
+                System.out.println("ERROR: Usuario no encontrado en BD");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
 
 
             if (!factura.getUsuario().getId().equals(usuario.getId())) {
-                return "redirect:/private/mis-facturas";
+                System.out.println("ERROR: No autorizado - Factura no pertenece al usuario");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
 
-            // TODO: Implementar generación de PDF
-            model.addAttribute("mensaje", "Función de descarga en desarrollo");
-            return "redirect:/private/detalle/" + id;
+            byte[] pdfBytes = facturaPdfService.generarFacturaPdf(factura);
+
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDisposition(
+                    ContentDisposition.builder("attachment")
+                            .filename("factura-" + factura.getNumeroFactura() + ".pdf")
+                            .build()
+            );
+            headers.setContentLength(pdfBytes.length);
+
+
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+
+        } catch (DocumentException | IOException e) {
+            System.out.println("ERROR CRÍTICO al generar PDF: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(("Error al generar PDF: " + e.getMessage()).getBytes());
+        } catch (Exception e) {
+            System.out.println("ERROR INESPERADO: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(("Error inesperado: " + e.getMessage()).getBytes());
+        }
+    }
+    @GetMapping("/exportar/facturas/pdf")
+    public ResponseEntity<byte[]> exportarTodasFacturasPdf(HttpSession session) {
+        String nombreUsuario = (String) session.getAttribute("usuario");
+
+        if (nombreUsuario == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        return "redirect:/private/mis-facturas";
+        try {
+            Usuario usuario = usuarioService.buscarPorNombreUsuario(nombreUsuario);
+
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+
+            List<Factura> facturas = facturaService.listarPorUsuario(usuario);
+
+            for (int i = 0; i < Math.min(facturas.size(), 3); i++) {
+                Factura f = facturas.get(i);
+                System.out.println("Factura " + (i+1) + ": " + f.getNumeroFactura() +
+                        ", Fecha: " + f.getFechaEmision() +
+                        ", Tipo: " + (f.getFechaEmision() != null ? f.getFechaEmision().getClass().getName() : "NULL"));
+            }
+
+            byte[] pdfBytes = facturaPdfService.generarReporteFacturas(facturas, usuario);
+
+
+            String fechaActual = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            String filename = "facturas-" + usuario.getNombre().replaceAll("\\s+", "-") + "-" + fechaActual + ".pdf";
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDisposition(
+                    ContentDisposition.builder("attachment")
+                            .filename(filename)
+                            .build()
+            );
+            headers.setContentLength(pdfBytes.length);
+            headers.setCacheControl("no-cache, no-store, must-revalidate");
+            headers.setPragma("no-cache");
+            headers.setExpires(0);
+
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+
+        } catch (DocumentException | IOException e) {
+            System.out.println("ERROR al generar reporte PDF: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(("Error al generar reporte: " + e.getMessage()).getBytes());
+        } catch (Exception e) {
+            System.out.println("ERROR inesperado: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(("Error inesperado: " + e.getMessage()).getBytes());
+        }
     }
 }
