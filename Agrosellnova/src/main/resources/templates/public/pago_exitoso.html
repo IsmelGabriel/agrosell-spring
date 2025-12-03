@@ -26,8 +26,8 @@
     <p>Los detalles de la compra y la factura han sido enviados a su correo.</p>
 
     <div class="acciones-exitoso">
-        <a th:href="@{/private/detalle/{id}(id=${factura.idFactura})}" class="btn-exitoso btn-ver-factura">
-            <i class="fas fa-file-invoice"></i> Ver factura completa
+        <a th:href="@{/private/descargar/{id}/pdf(id=${factura.idFactura})}" class="btn-exitoso btn-ver-factura">
+            <i class="fas fa-file-invoice"></i> Descargar factura
         </a>
         <a th:href="@{/private/mis-facturas}" class="btn-exitoso btn-mis-facturas">
             <i class="fas fa-list"></i> Mis facturas

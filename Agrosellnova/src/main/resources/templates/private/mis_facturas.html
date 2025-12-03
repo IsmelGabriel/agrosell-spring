@@ -256,6 +256,16 @@
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/public/reservas}"><i class="fas fa-plus-circle"></i> Realizar Reserva</a></li>
                 <li th:if="${rol == 'cliente'}"><a th:href="@{/private/ser_productor}"><i class="fas fa-tractor"></i> Ser Productor</a></li>
 
+                <li th:if="${rol == 'productor'}"><a th:href="@{/public/inicio}"><i class="fas fa-home"></i> Inicio</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/panel_control}"><i class="fas fa-person"></i> Mi informacion</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/ofertar_producto}"><i class="fas fa-seedling"></i> Publicar Producto</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/reservar_producto}"><i class="fas fa-seedling"></i>Ofertar proximos a salir</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_productos}"><i class="fas fa-boxes"></i> Gestionar Productos</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_ventas}"><i class="fas fa-cash-register"></i> Gestionar Ventas</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/informacion_mercados}" class="active"><i class="fas fa-chart-line"></i> Informacion mercado</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/mis-facturas}"><i class="fas fa-file-invoice-dollar"></i> Mis Facturas</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/gestionar_pqrs}"><i class="fas fa-question-circle"></i> Gestionar PQRS's</a></li>
+                <li th:if="${rol == 'productor'}"><a th:href="@{/private/buenas_practicas}"><i class="fas fa-leaf"></i>Buenas Prácticas</a></li>
                 <li><a th:href="@{/public/cerrar_sesion}"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
             </ul>
         </div>
@@ -281,7 +291,7 @@
                 <button type="submit" class="filtro-btn">Filtrar</button>
             </form>
 
-            <form th:action="@{/private/export/facturas}" method="get">
+            <form th:action="@{/private/exportar/facturas/pdf}" method="get">
                 <button type="submit" class="export-btn">
                     <i class="fas fa-file-pdf"></i> Exportar PDF
                 </button>
@@ -396,6 +406,9 @@
                 <button class="btn-modal btn-imprimir" onclick="imprimirFactura()">
                     <i class="fas fa-print"></i> Imprimir
                 </button>
+                <button class="btn-modal btn-descargar" onclick="descargarPdfDesdeModal()">
+                    <i class="fas fa-download"></i> Descargar PDF
+                </button>
                 <button class="btn-modal btn-cerrar-modal" onclick="cerrarModalFactura()">
                     <i class="fas fa-times"></i> Cerrar
                 </button>
@@ -405,119 +418,179 @@
 </div>
 
 <script>
+    let facturaIdActual = null;
+        function abrirModal(idFactura) {
+            console.log('Abriendo modal para factura:', idFactura);
 
-    function abrirModal(idFactura) {
-        console.log('Abriendo modal para factura:', idFactura);
+            facturaIdActual = idFactura;
 
-        var modal = document.getElementById('modalFactura');
-        if (!modal) {
-            alert('ERROR: Modal no encontrado');
+            var modal = document.getElementById('modalFactura');
+            if (!modal) {
+                alert('ERROR: Modal no encontrado');
+                return;
+            }
+
+            fetch('/private/detalle/' + idFactura + '/json')
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('Error HTTP: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(function(factura) {
+                    if (factura.error) {
+                        alert('Error: ' + factura.error);
+                        return;
+                    }
+
+
+                    document.getElementById('modalNumeroFactura').textContent = factura.numeroFactura || 'N/A';
+                    document.getElementById('modalClienteNombre').textContent = factura.clienteNombre || 'N/A';
+                    document.getElementById('modalClienteDocumento').textContent = factura.clienteDocumento || 'N/A';
+                    document.getElementById('modalClienteCorreo').textContent = factura.clienteCorreo || 'N/A';
+                    document.getElementById('modalClienteDireccion').textContent = factura.clienteDireccion || 'N/A';
+                    document.getElementById('modalClienteTelefono').textContent = factura.clienteTelefono || 'N/A';
+
+
+                    document.getElementById('modalFechaEmision').textContent = factura.fechaEmision || 'N/A';
+                    document.getElementById('modalMetodoPago').textContent = factura.metodoPago || 'N/A';
+
+
+                    var estado = factura.estadoFactura || 'PENDIENTE';
+                    var badgeClass = 'badge-' + estado.toLowerCase();
+                    document.getElementById('modalEstado').innerHTML = '<span class="badge-estado ' + badgeClass + '">' + estado + '</span>';
+
+
+                    var detallesHtml = '';
+                    if (factura.detalles && factura.detalles.length > 0) {
+                        for (var i = 0; i < factura.detalles.length; i++) {
+                            var det = factura.detalles[i];
+                            detallesHtml += '<tr>';
+                            detallesHtml += '<td>' + (det.nombreProducto || 'N/A') + '</td>';
+                            detallesHtml += '<td>' + (det.cantidad || 0) + '</td>';
+                            detallesHtml += '<td>$' + formatNumber(det.precioUnitario || 0) + '</td>';
+                            detallesHtml += '<td style="text-align: right;">$' + formatNumber(det.subtotal || 0) + '</td>';
+                            detallesHtml += '</tr>';
+                        }
+                    } else {
+                        detallesHtml = '<tr><td colspan="4" style="text-align: center;">No hay productos</td></tr>';
+                    }
+                    document.getElementById('modalDetallesProductos').innerHTML = detallesHtml;
+
+                    document.getElementById('modalSubtotal').textContent = '$' + formatNumber(factura.subtotal || 0);
+                    document.getElementById('modalTotal').textContent = '$' + formatNumber(factura.total || 0);
+
+                    var filaDescuento = document.getElementById('filaDescuento');
+                    var filaImpuesto = document.getElementById('filaImpuesto');
+
+                    if (factura.descuento && factura.descuento > 0) {
+                        filaDescuento.style.display = 'table-row';
+                        document.getElementById('modalDescuento').textContent = '$' + formatNumber(factura.descuento);
+                    } else {
+                        filaDescuento.style.display = 'none';
+                    }
+
+                    if (factura.impuesto && factura.impuesto > 0) {
+                        filaImpuesto.style.display = 'table-row';
+                        document.getElementById('modalImpuesto').textContent = '$' + formatNumber(factura.impuesto);
+                    } else {
+                        filaImpuesto.style.display = 'none';
+                    }
+
+                    // Mostrar modal
+                    modal.style.display = 'flex';
+                })
+                .catch(function(error) {
+                    console.error('Error:', error);
+                    alert('Error al cargar factura: ' + error.message);
+                });
+        }
+    function descargarPdf(idFactura) {
+        console.log('Descargando PDF para factura ID:', idFactura);
+
+
+        if (!idFactura || isNaN(idFactura)) {
+            alert('ID de factura inválido');
             return;
         }
-
-        fetch('/private/detalle/' + idFactura + '/json')
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error('Error HTTP: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(function(factura) {
-                if (factura.error) {
-                    alert('Error: ' + factura.error);
-                    return;
-                }
-
-
-                document.getElementById('modalNumeroFactura').textContent = factura.numeroFactura || 'N/A';
-                document.getElementById('modalClienteNombre').textContent = factura.clienteNombre || 'N/A';
-                document.getElementById('modalClienteDocumento').textContent = factura.clienteDocumento || 'N/A';
-                document.getElementById('modalClienteCorreo').textContent = factura.clienteCorreo || 'N/A';
-                document.getElementById('modalClienteDireccion').textContent = factura.clienteDireccion || 'N/A';
-                document.getElementById('modalClienteTelefono').textContent = factura.clienteTelefono || 'N/A';
-
-
-                document.getElementById('modalFechaEmision').textContent = factura.fechaEmision || 'N/A';
-                document.getElementById('modalMetodoPago').textContent = factura.metodoPago || 'N/A';
-
-
-                var estado = factura.estadoFactura || 'PENDIENTE';
-                var badgeClass = 'badge-' + estado.toLowerCase();
-                document.getElementById('modalEstado').innerHTML = '<span class="badge-estado ' + badgeClass + '">' + estado + '</span>';
-
-
-                var detallesHtml = '';
-                if (factura.detalles && factura.detalles.length > 0) {
-                    for (var i = 0; i < factura.detalles.length; i++) {
-                        var det = factura.detalles[i];
-                        detallesHtml += '<tr>';
-                        detallesHtml += '<td>' + (det.nombreProducto || 'N/A') + '</td>';
-                        detallesHtml += '<td>' + (det.cantidad || 0) + '</td>';
-                        detallesHtml += '<td>$' + formatNumber(det.precioUnitario || 0) + '</td>';
-                        detallesHtml += '<td style="text-align: right;">$' + formatNumber(det.subtotal || 0) + '</td>';
-                        detallesHtml += '</tr>';
-                    }
-                } else {
-                    detallesHtml = '<tr><td colspan="4" style="text-align: center;">No hay productos</td></tr>';
-                }
-                document.getElementById('modalDetallesProductos').innerHTML = detallesHtml;
-
-                document.getElementById('modalSubtotal').textContent = '$' + formatNumber(factura.subtotal || 0);
-                document.getElementById('modalTotal').textContent = '$' + formatNumber(factura.total || 0);
-
-                var filaDescuento = document.getElementById('filaDescuento');
-                var filaImpuesto = document.getElementById('filaImpuesto');
-
-                if (factura.descuento && factura.descuento > 0) {
-                    filaDescuento.style.display = 'table-row';
-                    document.getElementById('modalDescuento').textContent = '$' + formatNumber(factura.descuento);
-                } else {
-                    filaDescuento.style.display = 'none';
-                }
-
-                if (factura.impuesto && factura.impuesto > 0) {
-                    filaImpuesto.style.display = 'table-row';
-                    document.getElementById('modalImpuesto').textContent = '$' + formatNumber(factura.impuesto);
-                } else {
-                    filaImpuesto.style.display = 'none';
-                }
-
-                // Mostrar modal
-                modal.style.display = 'flex';
-            })
-            .catch(function(error) {
-                console.error('Error:', error);
-                alert('Error al cargar factura: ' + error.message);
-            });
+        mostrarMensajeDescarga();
+        window.location.href = '/private/descargar/' + idFactura + '/pdf';
     }
 
-    function cerrarModalFactura() {
-        document.getElementById('modalFactura').style.display = 'none';
+    function descargarPdfDesdeModal() {
+        if (facturaIdActual) {
+            console.log('Descargando desde modal, ID:', facturaIdActual);
+            descargarPdf(facturaIdActual);
+        } else {
+            alert('No se puede identificar la factura. Por favor, cierre y vuelva a abrir el modal.');
+        }
     }
 
-    function imprimirFactura() {
-        window.print();
+    function mostrarMensajeDescarga() {
+        const mensaje = document.createElement('div');
+        mensaje.id = 'mensajeDescarga';
+        mensaje.innerHTML = `
+            <div style="
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                z-index: 9999;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            ">
+                <i class="fas fa-download"></i> Descargando factura...
+            </div>
+        `;
+        document.body.appendChild(mensaje);
+
+        setTimeout(() => {
+            const msg = document.getElementById('mensajeDescarga');
+            if (msg) msg.remove();
+        }, 3000);
     }
 
-    function formatNumber(num) {
-        return new Intl.NumberFormat('es-CO', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }).format(num);
-    }
-
-    document.addEventListener('click', function(e) {
-        var modal = document.getElementById('modalFactura');
-        if (e.target === modal) {
-            cerrarModalFactura();
+    window.addEventListener('error', function(e) {
+        if (e.target.tagName === 'A' && e.target.href.includes('/descargar/')) {
+            console.error('Error al descargar PDF:', e);
+            alert('Error al descargar el PDF. Por favor, intente nuevamente.');
         }
     });
 
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            cerrarModalFactura();
+
+    function verPdf(idFactura) {
+        window.open('/private/ver/' + idFactura + '/pdf', '_blank');
+    }
+
+        function cerrarModalFactura() {
+            document.getElementById('modalFactura').style.display = 'none';
         }
-    });
+
+        function imprimirFactura() {
+            window.print();
+        }
+
+        function formatNumber(num) {
+            return new Intl.NumberFormat('es-CO', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(num);
+        }
+
+        document.addEventListener('click', function(e) {
+            var modal = document.getElementById('modalFactura');
+            if (e.target === modal) {
+                cerrarModalFactura();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                cerrarModalFactura();
+            }
+        });
 </script>
 </body>
 </html>

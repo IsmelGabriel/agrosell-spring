@@ -79,7 +79,7 @@ public class PagoController {
                 }
             }
 
-            // Registrar pago en la tabla "pago"
+
             Pago pago = new Pago();
             pago.setNombre(comprador.getNombre());
             pago.setCorreo(comprador.getCorreo());
@@ -92,7 +92,7 @@ public class PagoController {
 
             Factura factura = facturaService.crearFacturaDesdeCarrito(comprador, pago, carrito);
 
-            // Pasar la factura al modelo para mostrarla
+
             model.addAttribute("mensaje", "¡Pago exitoso! Gracias por tu compra.");
             model.addAttribute("factura", factura);
             model.addAttribute("numeroFactura", factura.getNumeroFactura());
