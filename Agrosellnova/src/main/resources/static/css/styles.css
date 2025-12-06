@@ -1588,28 +1588,21 @@ footer {
     color: #333;
 }
 
-/* Header */
-.mapa-header {
-    background: linear-gradient(90deg, #006400, #228b22);
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.mapa-titulo {
-    margin: 0;
-    font-size: 28px;
-    font-weight: 600;
-    letter-spacing: 1px;
+/* Contenedor */
+.body-mapa {
+    font-family: "Segoe UI", Arial, sans-serif;
+    margin-top: 50px;
+    padding: 0;
+    background-color: #f4f6f8;
+    color: #333;
 }
 
 /* Contenedor */
 .mapa-contenedor {
-    padding: 40px 24px;
+    padding: 40px 20px;
     max-width: 1100px;
-    min-width: 450px;
     margin: 0 auto;
+    width: 100%;
 }
 
 /* Lista principal */
@@ -1620,17 +1613,17 @@ footer {
 }
 
 .mapa-item {
-    margin: 20px 0;
+    margin: 18px 0;
     background: #fff;
     border-radius: 12px;
     overflow: hidden;
-    transition: all 0.25s ease-in-out;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
 }
 
 .mapa-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Enlaces */
@@ -1642,17 +1635,17 @@ footer {
     align-items: center;
     padding: 18px 20px;
     font-size: 16px;
-    transition: color 0.2s;
+    gap: 10px;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 .mapa-enlace:hover {
-    background-color: #f0fff0;
+    background-color: #eaffea;
     color: #228B22;
 }
 
 /* Iconos */
 .mapa-icono {
-    margin-right: 10px;
     font-size: 18px;
     color: #228B22;
 }
@@ -1661,7 +1654,7 @@ footer {
 .mapa-sublista {
     list-style: none;
     margin: 0;
-    padding: 8px 20px 16px 48px;
+    padding: 10px 25px 16px 55px;
     border-left: 3px solid #e0e0e0;
     background-color: #fafafa;
 }
@@ -1673,19 +1666,7 @@ footer {
 .mapa-subitem .mapa-enlace {
     font-size: 14px;
     padding: 10px 12px;
-}
-
-.mapa-footer {
-    background: #006400;
-    color: #fff;
-    text-align: center;
-    padding: 14px;
-    margin-top: 40px;
-}
-
-.mapa-pie {
-    margin: 0;
-    font-size: 14px;
+    gap: 8px;
 }
 
 /* SECCION PERFIL.PHP */
@@ -1941,31 +1922,21 @@ footer {
 
 
     /* Pagina mapa del sitio */
-
     .mapa-contenedor {
-        width: 95%;
         padding: 20px 12px;
     }
 
     .mapa-enlace {
-        font-size: 16px;
-        padding: 14px 16px;
+        font-size: 15px;
+        padding: 15px;
     }
 
     .mapa-sublista {
-        padding: 8px 16px 14px 32px;
+        padding: 10px 15px 15px 35px;
     }
 
     .mapa-subitem .mapa-enlace {
         font-size: 13px;
-    }
-
-    .cuadro-pago h2{
-        margin-top: 100px;
-    }
-
-    .form-reserva h2 {
-        margin-top: 100px;
     }
 
 }

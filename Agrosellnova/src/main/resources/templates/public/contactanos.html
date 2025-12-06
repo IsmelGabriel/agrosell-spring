@@ -4,11 +4,212 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contáctanos - Agrosell Nova</title>
+
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== HERO ===== */
+        /* Hero */
+        .contact-hero {
+            position: relative;
+            width: 100%;
+            height: 45vh;
+            margin-top: 60px;
+            background-image: url("/img/campo10.jpg");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Capa oscura */
+        .contact-hero .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+        }
+
+        /* Contenido */
+        .hero-content {
+            position: relative;
+            color: #fff;
+            padding: 0 25px;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ===== CONTACTO ===== */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #ffffff;
+        }
+
+        .wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 30px;
+            margin-right: -30px;
+            z-index: 1;
+        }
+
+        .card {
+            background: #fff;
+            border: 2px solid #dcdcdc;
+            padding: 25px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+            width: 200px;
+        }
+
+        .card img {
+            width: 40px;
+            margin-bottom: 10px;
+        }
+
+        .card h4 {
+            margin: 5px 0 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #2d6a4f;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Caja general */
+        .contact-box {
+            background: #d8f3dc;
+            padding: 40px;
+            border-radius: 12px;
+            width: 60%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            margin: 0 auto;
+        }
+
+        /* Título */
+        .contact-box h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 600;
+            color: #1b4332;
+            margin-bottom: 25px;
+        }
+
+        /* Contenedor del mapa */
+        .map-container {
+            width: 100%;
+            height: 380px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+        }
+
+        /* Mapa adaptado */
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Responsive */
+        @media(max-width: 900px){
+            .contact-box { width: 90%; }
+
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .contact-box {
+                width: 90%;
+                left: 0;
+            }
+            .info-cards {
+                margin-right: 0;
+            }
+        }
+
+        @media(max-width: 600px){
+            .map-container { height: 280px; }
+
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .btn {
+            background: #2d6a4f;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: .2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #1b4332;
+        }
+
+        @media (max-width: 768px) {
+            .contact-hero {
+                height: 35vh;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+                letter-spacing: 1px;
+            }
+
+            .hero-content p {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
 </head>
 
+<body>
 
 <header class="top-bar">
     <div class="header-content">
@@ -21,14 +222,10 @@
             </button>
         </div>
 
-        <a th:href="@{/public/carrito}" class="menu-icon">
-            <i class="fas fa-shopping-cart"></i>
-        </a>
+        <a th:href="@{/public/carrito}" class="menu-icon"><i class="fas fa-shopping-cart"></i></a>
 
         <span class="menu-notification">
-            <button id="notificationButton">
-                <!--<i class="fas fa-bell menu-icon"></i>-->
-            </button>
+            <button id="notificationButton"></button>
         </span>
 
         <span class="username">
@@ -58,227 +255,17 @@
     </ul>
 </nav>
 
-
-<body>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contáctanos - Agrosell Nova</title>
-
-    <style>
-        /* ======== SECCIÓN HERO ======== */
-        .contact-hero {
-            position: relative;
-            width: 100%;
-            height: 45vh;
-             background-image: url("/img/campo10.jpg");
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .contact-hero .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.45);
-        }
-
-        .hero-content {
-            position: relative;
-            color: #fff;
-            z-index: 2;
-            padding: 0 20px;
-        }
-
-        .hero-content h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            letter-spacing: 3px;
-        }
-
-        .hero-content p {
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-    </style>
-</head>
-
-<body>
-
-<!-- ======== HERO DE CONTACTO ======== -->
 <section class="contact-hero">
     <div class="overlay"></div>
     <div class="hero-content">
         <h1>CONTÁCTANOS</h1>
-        <p>Estamos listos para ayudarte. Cuéntanos tu necesidad y trabajemos juntos
-            en una solución que impulse tu proyecto.</p>
+        <p>Estamos listos para ayudarte. Cuéntanos tu necesidad y trabajemos juntos.</p>
     </div>
 </section>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contáctanos</title>
-
-    <!-- Fuente Poppins (más cuadrada y moderna) -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <style>
-        body{
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #ffffff;
-        }
-
-        .wrapper{
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-top: 60px;
-            position: relative;
-        }
-
-        .container{
-            width: 100%;
-            max-width: 1100px;
-            display: flex;
-            gap: 10px; /* MÁS PEGADITOS */
-            justify-content: flex-start;
-            align-items: flex-start;
-            position: relative;
-        }
-
-        /* --- Tarjetas de información --- */
-        .info-cards{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px; /* MÁS PEGADITOS */
-            z-index: 10;
-            margin-right: -30px; /* SE MONTAN SOBRE EL FORMULARIO */
-            margin-top: 30px;
-        }
-
-        .card{
-            background: #ffffff;
-            border: 2px solid #dcdcdc;
-            padding: 25px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-            width: 200px;
-        }
-
-        .card img{
-            width: 40px;
-            margin-bottom: 10px;
-        }
-
-        .card h4{
-            margin: 5px 0 10px 0;
-            font-size: 16px;
-            font-weight: bold;
-            color: #2d6a4f;
-        }
-
-        .card p{
-            margin: 0;
-            font-size: 14px;
-            color: #333;
-        }
-
-        /* --- Formulario --- */
-        .contact-box{
-            background: #d8f3dc;
-            padding: 50px;
-            border-radius: 10px;
-            width: 60%;
-            box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-            position: relative;
-            left: -15px; /* PARA QUE LOS CUADROS SE MONTEN UN POCO MÁS */
-        }
-
-        /* TÍTULO DEL FORMULARIO CENTRADO Y CUADRADO */
-        .contact-box h2{
-            margin-top: 0;
-            font-size: 30px;
-            font-family: 'Poppins', sans-serif;  /* letra más cuadrada */
-            color: #1b4332;
-            margin-bottom: 25px;
-            text-align: center; /* CENTRADO */
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-
-        .contact-box input, .contact-box textarea{
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 2px solid #95d5b2;
-            border-radius: 5px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .contact-box input:focus,
-        .contact-box textarea:focus{
-            border-color: #52b788;
-        }
-
-        .contact-box textarea{
-            height: 120px;
-            resize: none;
-        }
-
-        .btn{
-            background: #2d6a4f;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 15px;
-            transition: .2s;
-            width: 100%;
-        }
-
-        .btn:hover{
-            background: #1b4332;
-        }
-
-        @media(max-width: 900px){
-            .container{
-                flex-direction: column;
-                align-items: center;
-            }
-            .contact-box{ width: 90%; left: 0; }
-            .info-cards{ grid-template-columns: 1fr 1fr; margin-right: 0; }
-        }
-
-        @media(max-width: 600px){
-            .info-cards{ grid-template-columns: 1fr; }
-        }
-    </style>
-</head>
-<body>
 
 <div class="wrapper">
     <div class="container">
 
-        <!-- Tarjetas de información -->
         <div class="info-cards">
             <div class="card">
                 <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png">
@@ -291,7 +278,7 @@
                 <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png">
                 <h4>NÚMERO DE TELÉFONO</h4>
                 <p>324-654-5487</p>
-                <p>888-0123-4567 (llamada gratuita)</p>
+                <p> Línea gratuita: 888-0123-4567</p>
             </div>
 
             <div class="card">
@@ -307,25 +294,19 @@
             </div>
         </div>
 
-        <!-- Formulario -->
         <div class="contact-box">
-            <h2>Contáctenos</h2>
+            <h2>Ubícanos</h2>
 
-            <form action="#" method="POST">
-                <input type="text" placeholder="Ingrese su nombre" required>
-                <input type="email" placeholder="Ingrese un correo válido" required>
-                <textarea placeholder="Escriba su mensaje"></textarea>
-
-                <button class="btn" type="submit">ENVIAR</button>
-            </form>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d351.4918708718625!2d-74.06284934520033!3d4.651649770733342!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9a45d66a83a7%3A0x1f94d872e1550245!2sAgencia%20P%C3%BAblica%20de%20Empleo%20SENA%20Bogot%C3%A1!5e0!3m2!1ses!2sco!4v1764978616141!5m2!1ses!2sco"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
         </div>
 
     </div>
 </div>
-
-</body>
-</html>
-
 
 <footer class="footer">
     <div class="footer-container">
@@ -333,7 +314,6 @@
             <h3>Enlaces rápidos</h3>
             <ul>
                 <li><a th:href="@{/public/inicio}">Inicio</a></li>
-<!--                <li><a th:href="@{/public/categorias}">Categorías</a></li>-->
                 <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
                 <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
                 <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
@@ -360,15 +340,16 @@
             </div>
         </div>
     </div>
+
     <div class="footer-bottom">
-        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y condiciones</a></p>
+        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados.
+            <a th:href="@{/terminos}">Términos y condiciones</a></p>
     </div>
 </footer>
 
 <script>
 
     (function () {
-        'use strict';
         var forms = document.querySelectorAll('.needs-validation');
         Array.prototype.slice.call(forms).forEach(function (form) {
             form.addEventListener('submit', function (event) {
@@ -387,23 +368,16 @@
 
     function debounce(func, wait) {
         let timeout;
-        return function(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func.apply(this, args);
-            };
+        return function (...args) {
             clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
+            timeout = setTimeout(() => func.apply(this, args), wait);
         };
     }
 
     window.addEventListener("scroll", debounce(function () {
         const menuBar = document.querySelector(".menu-bar");
-        if (window.scrollY > 50) {
-            menuBar.classList.add("scrolled");
-        } else {
-            menuBar.classList.remove("scrolled");
-        }
+        if (window.scrollY > 50) menuBar.classList.add("scrolled");
+        else menuBar.classList.remove("scrolled");
     }, 100));
 
     const toggleButton = document.getElementById('menu-toggle');

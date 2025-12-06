@@ -6,11 +6,45 @@
     <title>Agrosell Nova - Mapa del sitio</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css">
 </head>
 <body class="body-mapa">
 <!-- Encabezado -->
-<header class="mapa-header">
-    <h1 class="mapa-titulo">Mapa del Sitio</h1>
+<header class="top-bar">
+    <div class="header-content">
+        <img src="https://i.ibb.co/CjJWMHJ/logo.png" alt="Agrosell Nova" class="logo">
+        <h1 class="menu-title">AGROSELL NOVA</h1>
+
+        <div class="panel-option">
+            <button id="panelControl">
+                <a th:href="@{/private/panel_control}" class="menu-icon"><i class="fa fa-cog"></i></a>
+            </button>
+        </div>
+
+        <a th:href="@{/public/carrito}" class="menu-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </a>
+
+        <span class="menu-notification">
+            <button id="notificationButton">
+            <!--<i class="fas fa-bell menu-icon"></i>-->
+            </button>
+        </span>
+
+        <span class="username">
+            <th:block th:if="${usuario != null}">
+                <a th:text="${usuario}" th:href="@{/public/cerrar_sesion}"></a>
+            </th:block>
+            <th:block th:unless="${usuario != null}">
+                <a th:href="@{/public/index}">Iniciar sesión</a>
+            </th:block>
+        </span>
+
+        <a th:href="@{/private/perfil}" class="menu-icon">
+            <i class="bi bi-person-circle" style="font-size: 30px;"></i>
+        </a>
+    </div>
 </header>
 
 <!-- Contenido principal -->
@@ -27,13 +61,16 @@
                 <a th:href="@{/public/productos}" class="mapa-enlace"><i class="fas fa-box mapa-icono"></i>Productos</a>
                 <ul class="mapa-sublista">
                     <li class="mapa-subitem">
-                        <a th:href="@{/public/productos#categoria-frutas}" class="mapa-enlace"><i class="fas fa-apple-alt mapa-icono"></i>Frutas</a>
+                        <a th:href="@{/public/productos#categoria-frutas}" class="mapa-enlace"><i
+                                class="fas fa-apple-alt mapa-icono"></i>Frutas</a>
                     </li>
                     <li class="mapa-subitem">
-                        <a th:href="@{/public/productos#categoria-verduras}" class="mapa-enlace"><i class="fas fa-carrot mapa-icono"></i>Verduras</a>
+                        <a th:href="@{/public/productos#categoria-verduras}" class="mapa-enlace"><i
+                                class="fas fa-carrot mapa-icono"></i>Verduras</a>
                     </li>
                     <li class="mapa-subitem">
-                        <a th:href="@{/public/productos#categoria-granos}" class="mapa-enlace"><i class="fas fa-seedling mapa-icono"></i>Granos</a>
+                        <a th:href="@{/public/productos#categoria-granos}" class="mapa-enlace"><i
+                                class="fas fa-seedling mapa-icono"></i>Granos</a>
                     </li>
                 </ul>
             </li>
@@ -41,10 +78,8 @@
                 <a th:href="@{/public/reservas}" class="mapa-enlace"><i class="fas fa-bookmark mapa-icono"></i>Reservas</a>
             </li>
             <li class="mapa-item">
-                <a th:href="@{/public/categorias}" class="mapa-enlace"><i class="fas fa-list mapa-icono"></i>Categorías</a>
-            </li>
-            <li class="mapa-item">
-                <a th:href="@{/public/about_us}" class="mapa-enlace"><i class="fas fa-info-circle mapa-icono"></i>Sobre nosotros</a>
+                <a th:href="@{/public/about_us}" class="mapa-enlace"><i class="fas fa-info-circle mapa-icono"></i>Sobre
+                    nosotros</a>
             </li>
             <li class="mapa-item">
                 <a th:href="@{/public/contactanos}" class="mapa-enlace"><i class="fas fa-envelope mapa-icono"></i>Contáctanos</a>
@@ -57,8 +92,73 @@
 </main>
 
 <!-- Pie de página -->
-<footer class="mapa-footer">
-    <p class="mapa-pie">&copy; 2024 Agrosell Nova. Todos los derechos reservados.</p>
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>Enlaces rápidos</h3>
+            <ul>
+                <li><a th:href="@{/public/inicio}">Inicio</a></li>
+                <!--                <li><a th:href="@{/public/categorias}">Categorías</a></li>-->
+                <li><a th:href="@{/public/contactanos}">Contáctanos</a></li>
+                <li><a th:href="@{/public/about_us}">Sobre nosotros</a></li>
+                <li><a th:href="@{/public/mapa}">Mapa del sitio</a></li>
+                <li><a th:href="@{/public/404}">Error 404</a></li>
+                <li><a th:href="@{/public/500}">Error 500</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Contacto</h3>
+            <p>📍 Dirección: Calle Principal #123</p>
+            <p>📞 Teléfono: +57 123 456 789</p>
+            <p>📧 Email: <a href="mailto:info@agrosellnova.com">info@agrosellnova.com</a></p>
+        </div>
+
+        <div class="footer-column">
+            <h3>Síguenos</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Agrosell Nova. Todos los derechos reservados. <a th:href="@{/terminos}">Términos y
+            condiciones</a></p>
+    </div>
 </footer>
+
+<script>
+    function debounce(func, wait) {
+        let timeout;
+        return function (...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func.apply(this, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    window.addEventListener("scroll", debounce(function () {
+        const menuBar = document.querySelector(".menu-bar");
+        if (window.scrollY > 50) {
+            menuBar.classList.add("scrolled");
+        } else {
+            menuBar.classList.remove("scrolled");
+        }
+    }, 100));
+
+    const toggleButton = document.getElementById('menu-toggle');
+    const menuBar = document.getElementById('menu-bar');
+
+    toggleButton.addEventListener('click', () => {
+        menuBar.classList.toggle('active');
+    });
+</script>
+
 </body>
 </html>
