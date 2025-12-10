@@ -104,7 +104,7 @@ public class ReservaController {
         model.addAttribute("reserva", reserva);
         model.addAttribute("producto", producto);
 
-        return "/forms/formulario_reserva";
+        return "forms/formulario_reserva";
     }
 
 
