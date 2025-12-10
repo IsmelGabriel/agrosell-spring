@@ -35,9 +35,9 @@ public class LoginController {
             session.setAttribute("idUsuario", usuarioAutenticado.getId());
             session.setAttribute("usuario", usuarioAutenticado.getNombreUsuario());
             session.setAttribute("rol", usuarioAutenticado.getRol());
-            System.out.println("Inicio de sesión exitoso:");
-            System.out.println("Nombre de usuario en sesión: " + session.getAttribute("usuario"));
-            System.out.println("Rol en sesión: " + session.getAttribute("rol"));
+//            System.out.println("Inicio de sesión exitoso:");
+//            System.out.println("Nombre de usuario en sesión: " + session.getAttribute("usuario"));
+//            System.out.println("Rol en sesión: " + session.getAttribute("rol"));
 
             Pqrs pqrsTemp = (Pqrs) session.getAttribute("pqrsTemp");
             Boolean pagoPendiente = (Boolean) session.getAttribute("pagoPendiente");

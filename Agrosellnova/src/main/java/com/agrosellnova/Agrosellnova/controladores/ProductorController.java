@@ -231,10 +231,10 @@ public class ProductorController {
             productorEmails.put(productor.getIdProductor(), email);
         }
         // Después de crear el Map
-        System.out.println("=== DEBUG ===");
-        System.out.println("Productores: " + productores.size());
-        System.out.println("ProductorEmails Map: " + productorEmails);
-        System.out.println("ProductorEmails size: " + productorEmails.size());
+//        System.out.println("=== DEBUG ===");
+//        System.out.println("Productores: " + productores.size());
+//        System.out.println("ProductorEmails Map: " + productorEmails);
+//        System.out.println("ProductorEmails size: " + productorEmails.size());
 
         long pendientes = productorService.contarPorEstado(Productor.EstadoSolicitud.Pendiente);
         long aprobados = productorService.contarPorEstado(Productor.EstadoSolicitud.Aprobado);
