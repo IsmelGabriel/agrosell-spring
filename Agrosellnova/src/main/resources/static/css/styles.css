@@ -789,6 +789,7 @@ footer {
 }
 
 .login-info label {
+    font-weight: bold;
     display: block;
     text-align: left;
     margin-bottom: 5px;
@@ -1546,7 +1547,6 @@ footer {
 }
 
 .recuperar-contraseña-formulario {
-    font-weight: bold;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1577,6 +1577,7 @@ footer {
     transform: scale(1.1);
     text-decoration: none;
     color: white;
+    font-weight: bold;
 }
 
 /* SECCION DE MAPA_SITIO.HTML */
