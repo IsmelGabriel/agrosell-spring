@@ -108,11 +108,15 @@ public class FacturaPDFService {
 
         // Estado
         String estado = factura.getEstadoFactura() != null ? factura.getEstadoFactura() : "PENDIENTE";
-        Paragraph estadoParrafo = new Paragraph("Estado: " + estado, normalFont);
+        Font estadoFont = new Font(normalFont);
+        Paragraph estadoParrafo = new Paragraph();
+        estadoParrafo.add(new Chunk("Estado: ", normalFont));
+
         BaseColor estadoColor = obtenerColorEstado(estado);
         if (estadoColor != null) {
-            estadoParrafo.getFont().setColor(estadoColor);
+            estadoFont.setColor(estadoColor);
         }
+        estadoParrafo.add(new Chunk(estado, estadoFont));
         celdaFactura.addElement(estadoParrafo);
 
         infoTable.addCell(celdaFactura);
@@ -505,13 +509,13 @@ public class FacturaPDFService {
             resumenHeader.setPadding(8);
             resumenTable.addCell(resumenHeader);
 
-            // Subtítulos
+
             resumenTable.addCell(new PdfPCell(new Paragraph("Estado", normalBoldFont)));
             resumenTable.addCell(new PdfPCell(new Paragraph("Cantidad", normalBoldFont)));
             resumenTable.addCell(new PdfPCell(new Paragraph("Total", normalBoldFont)));
             resumenTable.addCell(new PdfPCell(new Paragraph("%", normalBoldFont)));
 
-            // Filas del resumen
+
             for (Map.Entry<String, Integer> entry : conteoEstados.entrySet()) {
                 String estado = entry.getKey();
                 int cantidad = entry.getValue();

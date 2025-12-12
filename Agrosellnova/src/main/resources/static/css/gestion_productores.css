@@ -235,3 +235,10 @@
             padding: 8px 15px;
             font-size: 13px;
         }
+        @media(max-width:768px)
+        .info-table{
+            overflow-x:auto;
+            -webkit-overflow-scrolling:touch;
+
+
+        }
